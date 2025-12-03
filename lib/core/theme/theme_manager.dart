@@ -1,0 +1,142 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:med_rent/core/constants/color_manager.dart';
+
+class ThemeManager {
+  static ThemeData lightTheme = ThemeData(
+    useMaterial3: true,
+    brightness: Brightness.light,
+    scaffoldBackgroundColor: ColorManager.background,
+
+    colorScheme: const ColorScheme.light(
+      primary: ColorManager.darkBlue,
+      onPrimary: ColorManager.white,
+      secondary: ColorManager.secondary,
+      onSecondary: ColorManager.black,
+      background: ColorManager.background,
+      onBackground: ColorManager.black,
+      surface: ColorManager.white,
+      onSurface: ColorManager.black,
+      error: ColorManager.error,
+      onError: ColorManager.white,
+    ),
+
+    /// TEXT THEME
+    textTheme: TextTheme(
+      displayLarge: GoogleFonts.inter(
+        color: ColorManager.black,
+        fontSize: 32.sp,
+        fontWeight: FontWeight.bold,
+      ),
+      headlineLarge: GoogleFonts.inter(
+        color: ColorManager.darkBlue,
+        fontSize: 22.sp,
+        fontWeight: FontWeight.w700,
+      ),
+      headlineMedium: GoogleFonts.inter(
+        color: ColorManager.black,
+        fontSize: 20.sp,
+        fontWeight: FontWeight.w600,
+      ),
+      bodyLarge: GoogleFonts.roboto(
+        color: ColorManager.black,
+        fontWeight: FontWeight.w400,
+        fontSize: 16.sp,
+      ),
+      bodyMedium: GoogleFonts.inter(color: ColorManager.greyText, fontSize: 14),
+      labelLarge: GoogleFonts.inter(
+        color: ColorManager.white,
+        fontSize: 16.sp,
+        fontWeight: FontWeight.bold,
+      ),
+      labelSmall: GoogleFonts.inter(color: ColorManager.greyText, fontSize: 11),
+    ),
+
+    /// APPBAR
+    appBarTheme: AppBarTheme(
+      backgroundColor: ColorManager.background,
+      elevation: 0,
+      centerTitle: true,
+      titleTextStyle: GoogleFonts.inter(
+        color: ColorManager.darkBlue,
+        fontSize: 20.sp,
+        fontWeight: FontWeight.bold,
+      ),
+      iconTheme: IconThemeData(color: ColorManager.black),
+    ),
+
+    /// BUTTON TYPES
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: ColorManager.darkBlue,
+        foregroundColor: ColorManager.white,
+        padding: REdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        textStyle: GoogleFonts.inter(
+          fontWeight: FontWeight.bold,
+          fontSize: 16.sp,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+      ),
+    ),
+
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        foregroundColor: ColorManager.darkBlue,
+        padding: REdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        side: BorderSide(color: ColorManager.darkBlue, width: 1.4.w),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+      ),
+    ),
+
+    /// TEXT FORM FIELD DECORATION
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: ColorManager.lightWhite,
+      contentPadding: REdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.r),
+        borderSide: BorderSide.none,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.r),
+        borderSide: BorderSide.none,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.r),
+        borderSide: BorderSide(color: ColorManager.secondary, width: 2.w),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.r),
+        borderSide: const BorderSide(color: ColorManager.error),
+      ),
+      hintStyle: GoogleFonts.inter(color: ColorManager.greyText),
+      labelStyle: GoogleFonts.inter(color: ColorManager.greyText),
+    ),
+
+    /// CARD THEME
+    cardTheme: CardThemeData(
+      color: ColorManager.white,
+      margin: REdgeInsets.all(8),
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.r),
+        side: BorderSide(color: ColorManager.lightWhite, width: 1.w),
+      ),
+    ),
+
+    /// BOTTOM NAVIGATION
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: ColorManager.white,
+      selectedItemColor: ColorManager.darkBlue,
+      unselectedItemColor: ColorManager.greyText,
+      showSelectedLabels: true,
+      showUnselectedLabels: true,
+      elevation: 5,
+    ),
+  );
+}
