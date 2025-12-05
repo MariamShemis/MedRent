@@ -37,20 +37,33 @@ class ThemeManager {
       headlineMedium: GoogleFonts.inter(
         color: ColorManager.black,
         fontSize: 20.sp,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w500,
       ),
-      bodyLarge: GoogleFonts.roboto(
-        color: ColorManager.black,
+      bodyLarge: GoogleFonts.poppins(
+        color: ColorManager.secondary,
         fontWeight: FontWeight.w400,
         fontSize: 16.sp,
       ),
-      bodyMedium: GoogleFonts.inter(color: ColorManager.greyText, fontSize: 14),
-      labelLarge: GoogleFonts.inter(
-        color: ColorManager.white,
+      bodyMedium: GoogleFonts.inter(
+        color: ColorManager.greyText,
         fontSize: 16.sp,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w500,
       ),
-      labelSmall: GoogleFonts.inter(color: ColorManager.greyText, fontSize: 11),
+      labelLarge: GoogleFonts.inter(
+        color: ColorManager.black,
+        fontSize: 18.sp,
+        fontWeight: FontWeight.w500,
+      ),
+      labelSmall: GoogleFonts.inter(
+        color: ColorManager.black,
+        fontWeight: FontWeight.w400,
+        fontSize: 14.sp,
+      ),
+      titleMedium: GoogleFonts.inter(
+        color: ColorManager.black,
+        fontWeight: FontWeight.bold,
+        fontSize: 20.sp,
+      ),
     ),
 
     /// APPBAR
