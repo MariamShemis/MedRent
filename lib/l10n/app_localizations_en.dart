@@ -1,0 +1,160 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for English (`en`).
+class AppLocalizationsEn extends AppLocalizations {
+  AppLocalizationsEn([String locale = 'en']) : super(locale);
+
+  @override
+  String get welcomeTo => 'Welcome to';
+
+  @override
+  String get medRent => 'MedRent';
+
+  @override
+  String get logInToYourExistingAccountOrCreateANewOne => 'Log in to your existing account or create a new one';
+
+  @override
+  String get logIn => 'Log in';
+
+  @override
+  String get signUp => 'Sign up';
+
+  @override
+  String get welcomeBack => 'Welcome back!';
+
+  @override
+  String get welcome => 'Welcome!';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get enterYourEmail => 'Enter your email';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get confirmPassword => 'Confirm password';
+
+  @override
+  String get enterYourName => 'Enter your name';
+
+  @override
+  String get rememberMe => 'Remember me';
+
+  @override
+  String get forgetPassword => 'Forget Password';
+
+  @override
+  String get orContinueWith => 'Or continue with';
+
+  @override
+  String get dontHaveAnAccount => 'Don\'t have an account?';
+
+  @override
+  String get alreadyHaveAccount => 'Already have an account?';
+
+  @override
+  String get pleaseEnterYourEmailToReceiveAConfirmationCodeToSetANewPassword => 'Please enter your email to receive a confirmation code to set a new password';
+
+  @override
+  String get continueBtn => 'Continue';
+
+  @override
+  String get verification => 'Verification';
+
+  @override
+  String get verificationCode => 'Verification Code';
+
+  @override
+  String get typeTheVerificationCodeWeHaveSentYou => 'Type the verification code we have sent you';
+
+  @override
+  String get youDidntReceiveAnyCode => 'You didn’t receive any code?';
+
+  @override
+  String get resendCode => 'Resend code';
+
+  @override
+  String get verify => 'Verify';
+
+  @override
+  String get createNewPassword => 'Create new password';
+
+  @override
+  String get newPassword => 'New Password';
+
+  @override
+  String get pleaseWriteYourNewPassword => 'Please write your new password';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String get skip => 'Skip';
+
+  @override
+  String get bookTheNearestHospitalEasily => 'Book the nearest hospital easily';
+
+  @override
+  String get locateYourAreaAndFindTheBestAndNearestHospitalsInAFewSimpleSteps => 'Locate your area and find the best and nearest hospitals in a few simple steps.';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get rentMedicalEquipmentAnytime => 'Rent Medical Equipment Anytime';
+
+  @override
+  String get chooseTheRightDeviceSeeTheDetailsAndBookItImmediatelyWithDeliveryToYourDoorstep => 'Choose the right device, see the details, and book it immediately with delivery to your doorstep.';
+
+  @override
+  String get smartAssistantForYourSymptoms => 'Smart Assistant for Your Symptoms';
+
+  @override
+  String get enterYourSymptomsAndTheSmartAssistantWillGuideYouToTheAppropriateSectionForYourCondition => 'Enter your symptoms and the smart assistant will guide you to the appropriate section for your condition.';
+
+  @override
+  String get getStarted => 'Get Started';
+
+  @override
+  String get find => 'Find';
+
+  @override
+  String get rent => 'Rent';
+
+  @override
+  String get medicalEquipment => 'Medical Equipment';
+
+  @override
+  String get searchForEquipmentLikeWheelchair => 'Search for equipment like \'wheelchair\' ..';
+
+  @override
+  String get filters => 'Filters';
+
+  @override
+  String get clearAll => 'Clear all';
+
+  @override
+  String get category => 'Category';
+
+  @override
+  String get dailyRentalRate => 'Daily Rental Rate';
+
+  @override
+  String get availability => 'Availability';
+
+  @override
+  String get showAvailableOnly => 'Show available only';
+
+  @override
+  String get viewDetails => 'View Details';
+}
