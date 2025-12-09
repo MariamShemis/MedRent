@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/core/constants/assets_manager.dart';
 import 'package:med_rent/features/auth/presentation/view/verification_screen.dart';
+import 'package:med_rent/features/auth/presentation/widgets/custom_auth_text_field.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -18,7 +18,12 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back_ios),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios),
+        ),
         centerTitle: false,
         title: Align(
           alignment: Alignment.centerRight,
@@ -48,7 +53,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     SizedBox(height: 8.h),
-                
+
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
@@ -63,28 +68,11 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     SizedBox(height: 32.h),
                     SizedBox(
                       width: double.infinity,
-                      child: TextFormField(
+                      child: CustomAuthTextFormField(
                         controller: emailController,
-                        style: TextStyle(color: Colors.black),
-                        cursorColor: Colors.black,
+                        labelText: 'Email',
+                        hintText: 'Enter your email',
                         keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Color(0xFFFFFFFF),
-                          labelText: 'Email',
-                          labelStyle: Theme.of(context).textTheme.labelLarge,
-                          hintText: 'Enter your email',
-                          hintStyle: Theme.of(context).textTheme.bodyMedium!
-                              .copyWith(color: Color(0xFF676767)),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF000000)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                
-                            borderSide: BorderSide(color: Color(0xFF676767)),
-                          ),
-                        ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Email required";
@@ -95,9 +83,41 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                           return null;
                         },
                       ),
+                      //  TextFormField(
+                      //   controller: emailController,
+                      //   style: TextStyle(color: Colors.black),
+                      //   cursorColor: Colors.black,
+                      //   keyboardType: TextInputType.emailAddress,
+                      //   decoration: InputDecoration(
+                      //     filled: true,
+                      //     fillColor: Color(0xFFFFFFFF),
+                      //     labelText: 'Email',
+                      //     labelStyle: Theme.of(context).textTheme.labelLarge,
+                      //     hintText: 'Enter your email',
+                      //     hintStyle: Theme.of(context).textTheme.bodyMedium!
+                      //         .copyWith(color: Color(0xFF676767)),
+                      //     enabledBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(color: Color(0xFF000000)),
+                      //     ),
+                      //     focusedBorder: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(8),
+
+                      //       borderSide: BorderSide(color: Color(0xFF676767)),
+                      //     ),
+                      //   ),
+                      //   validator: (value) {
+                      //     if (value == null || value.isEmpty) {
+                      //       return "Email required";
+                      //     }
+                      //     if (!value.contains('@')) {
+                      //       return 'Enter a valid email ';
+                      //     }
+                      //     return null;
+                      //   },
+                      // ),
                     ),
                     SizedBox(height: 32.h),
-                
+
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -109,7 +129,9 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                 builder: (context) => VerificationScreen(),
                               ),
                             );
+                           
                           }
+                           
                         },
                         child: Text('Continue'),
                       ),

@@ -9,6 +9,8 @@ class ImageAssets {
   static const String onboarding3 = '${_base}onboarding3.png';
   static const String forgetPassword =
       '${_base}forgetpassword.png';
+        static const String done =
+      '${_base}done.png';
 }
 
 class IconAssets {

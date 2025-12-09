@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/features/auth/presentation/view/forget_password_screen.dart';
 import 'package:med_rent/features/auth/presentation/view/register_screen.dart';
+import 'package:med_rent/features/auth/presentation/widgets/custom_auth_text_field.dart';
 import 'package:med_rent/features/auth/presentation/widgets/social%20_category.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -13,7 +14,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
-  bool obscure = true;
   bool isChecked = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -29,7 +29,12 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back_ios),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios),
+        ),
         centerTitle: false,
         title: Align(
           alignment: Alignment.centerRight,
@@ -56,87 +61,117 @@ class _LoginScreenState extends State<LoginScreen> {
                     'Welcome back!',
                     style: Theme.of(
                       context,
-                    ).textTheme.headlineSmall!.copyWith(fontSize: 25),
+                    ).textTheme.headlineMedium!.copyWith(fontSize: 24),
                   ),
                   SizedBox(height: 40.h),
                   SizedBox(
                     width: double.infinity,
-                    child: TextFormField(
-                      controller: emailController,
-                      style: TextStyle(color: Colors.black),
-                      cursorColor: Colors.black,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Color(0xFFFFFFFF),
-                        labelText: 'Email',
-                        labelStyle: Theme.of(context).textTheme.labelLarge,
-                        hintText: 'Enter your email',
-                        hintStyle: Theme.of(context).textTheme.bodyMedium!
-                            .copyWith(color: Color(0xFF676767)),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF000000)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
+                     child:CustomAuthTextFormField(
+                    controller: emailController,
+                    labelText: 'Email',
+                    hintText: 'Enter your email',
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Email required";
+                      }
+                      if (!value.contains('@')) {
+                        return 'Enter a valid email ';
+                      }
+                      return null;
+                    },
+                  ), 
+                    // TextFormField(
+                    //   controller: emailController,
+                    //   style: TextStyle(color: Colors.black),
+                    //   cursorColor: Colors.black,
+                    //   keyboardType: TextInputType.emailAddress,
+                    //   decoration: InputDecoration(
+                    //     filled: true,
+                    //     fillColor: Color(0xFFFFFFFF),
+                    //     labelText: 'Email',
+                    //     labelStyle: Theme.of(context).textTheme.labelLarge,
+                    //     hintText: 'Enter your email',
+                    //     hintStyle: Theme.of(context).textTheme.bodyMedium!
+                    //         .copyWith(color: Color(0xFF676767)),
+                    //     enabledBorder: OutlineInputBorder(
+                    //       borderSide: BorderSide(color: Color(0xFF000000)),
+                    //     ),
+                    //     focusedBorder: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(8),
 
-                          borderSide: BorderSide(color: Color(0xFF676767)),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Email required";
-                        }
-                        if (!value.contains('@')) {
-                          return 'Enter a valid email ';
-                        }
-                        return null;
-                      },
-                    ),
+                    //       borderSide: BorderSide(color: Color(0xFF676767)),
+                    //     ),
+                    //   ),
+                    //   validator: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return "Email required";
+                    //     }
+                    //     if (!value.contains('@')) {
+                    //       return 'Enter a valid email ';
+                    //     }
+                    //     return null;
+                    //   },
+                    // ),
                   ),
                   SizedBox(height: 32.h),
                   SizedBox(
                     width: double.infinity,
-                    child: TextFormField(
-                      controller: passwordController,
-                      style: TextStyle(color: Colors.black),
-                      cursorColor: Colors.black,
-                      obscureText: obscure,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Color(0xFFFFFFFF),
-                        labelText: 'Password',
-                        labelStyle: Theme.of(context).textTheme.labelLarge,
-                        hintText: '******',
-                        hintStyle: Theme.of(context).textTheme.bodyMedium!
-                            .copyWith(color: Color(0xFF676767)),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF000000)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Color(0xFF676767)),
-                        ),
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              obscure = !obscure;
-                            });
-                          },
-                          icon: Icon(
-                            obscure ? Icons.visibility_off : Icons.visibility,
-                          ),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Password required";
-                        } if (value.length < 8) {
-    return 'Password must be at least 8 characters long';
-  }
-                        return null;
-                      },
-                    ),
+                   child:CustomAuthTextFormField(
+                    controller: passwordController,
+                    labelText: 'Password',
+                    hintText: '******',
+                    isPassword: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Password required";
+                      }
+                      if (value.length < 8) {
+                        return 'Password must be at least 8 characters long';
+                      }
+                      return null;
+                    },
+                  ),
+  // TextFormField(
+  //                     controller: passwordController,
+  //                     style: TextStyle(color: Colors.black),
+  //                     cursorColor: Colors.black,
+  //                     obscureText: obscure,
+  //                     decoration: InputDecoration(
+  //                       filled: true,
+  //                       fillColor: Color(0xFFFFFFFF),
+  //                       labelText: 'Password',
+  //                       labelStyle: Theme.of(context).textTheme.labelLarge,
+  //                       hintText: '******',
+  //                       hintStyle: Theme.of(context).textTheme.bodyMedium!
+  //                           .copyWith(color: Color(0xFF676767)),
+  //                       enabledBorder: OutlineInputBorder(
+  //                         borderSide: BorderSide(color: Color(0xFF000000)),
+  //                       ),
+  //                       focusedBorder: OutlineInputBorder(
+  //                         borderRadius: BorderRadius.circular(8),
+  //                         borderSide: BorderSide(color: Color(0xFF676767)),
+  //                       ),
+  //                       suffixIcon: IconButton(
+  //                         onPressed: () {
+  //                           setState(() {
+  //                             obscure = !obscure;
+  //                           });
+  //                         },
+  //                         icon: Icon(
+  //                           obscure ? Icons.visibility_off : Icons.visibility,
+  //                         ),
+  //                       ),
+  //                     ),
+  //                     validator: (value) {
+  //                       if (value == null || value.isEmpty) {
+  //                         return "Password required";
+  //                       } if (value.length < 8) {
+  //   return 'Password must be at least 8 characters long';
+  // }
+  //                       return null;
+  //                     },
+  //                   ),
                   ),
                   SizedBox(height: 8.h),
                   Row(

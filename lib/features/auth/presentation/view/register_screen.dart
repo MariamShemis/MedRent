@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/features/auth/presentation/view/login_screen.dart';
+import 'package:med_rent/features/auth/presentation/widgets/custom_auth_text_field.dart';
 import 'package:med_rent/features/auth/presentation/widgets/social%20_category.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -12,7 +13,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
-  bool obscure = true;
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -32,7 +33,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back_ios),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios),
+        ),
         centerTitle: false,
         title: Align(
           alignment: Alignment.centerRight,
@@ -43,7 +49,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ).textTheme.labelLarge!.copyWith(fontSize: 20),
           ),
         ),
-      
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -56,38 +61,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
 
                 children: [
-                  SizedBox(height: 35.h),
+                  SizedBox(height: 30.h),
                   Text(
-                    'Welcome back!',
+                    'Welcome!',
                     style: Theme.of(
                       context,
-                    ).textTheme.headlineSmall!.copyWith(fontSize: 25),
+                    ).textTheme.headlineMedium!.copyWith(fontSize: 24),
                   ),
-                  SizedBox(height: 35.h),
+                  SizedBox(height: 30.h),
                   SizedBox(
                     width: double.infinity,
-                    child: TextFormField(
+                    child: CustomAuthTextFormField(
                       controller: emailController,
-                      style: TextStyle(color: Colors.black),
-                      cursorColor: Colors.black,
+                      labelText: 'Email',
+                      hintText: 'Enter your email',
                       keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Color(0xFFFFFFFF),
-                        labelText: 'Email',
-                        labelStyle: Theme.of(context).textTheme.labelLarge,
-                        hintText: 'Enter your email',
-                        hintStyle: Theme.of(context).textTheme.bodyMedium!
-                            .copyWith(color: Color(0xFF676767)),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF000000)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-
-                          borderSide: BorderSide(color: Color(0xFF676767)),
-                        ),
-                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Email required";
@@ -98,75 +86,92 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         return null;
                       },
                     ),
+                    // TextFormField(
+                    //   controller: emailController,
+                    //   style: TextStyle(color: Colors.black),
+                    //   cursorColor: Colors.black,
+                    //   keyboardType: TextInputType.emailAddress,
+                    //   decoration: InputDecoration(
+                    //     filled: true,
+                    //     fillColor: Color(0xFFFFFFFF),
+                    //     labelText: 'Email',
+                    //     labelStyle: Theme.of(context).textTheme.labelLarge,
+                    //     hintText: 'Enter your email',
+                    //     hintStyle: Theme.of(context).textTheme.bodyMedium!
+                    //         .copyWith(color: Color(0xFF676767)),
+                    //     enabledBorder: OutlineInputBorder(
+                    //       borderSide: BorderSide(color: Color(0xFF000000)),
+                    //     ),
+                    //     focusedBorder: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(8),
+
+                    //       borderSide: BorderSide(color: Color(0xFF676767)),
+                    //     ),
+                    //   ),
+                    //   validator: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return "Email required";
+                    //     }
+                    //     if (!value.contains('@')) {
+                    //       return 'Enter a valid email ';
+                    //     }
+                    //     return null;
+                    //   },
+                    // ),
                   ),
-                  SizedBox(height: 27.h),
+                  SizedBox(height: 22.h),
                   SizedBox(
                     width: double.infinity,
-                    child: TextFormField(
+                    child: CustomAuthTextFormField(
                       controller: nameController,
-                      style: TextStyle(color: Colors.black),
-                      cursorColor: Colors.black,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Color(0xFFFFFFFF),
-                        labelText: 'Name',
-                        labelStyle: Theme.of(context).textTheme.labelLarge,
-                        hintText: 'Enter your name',
-                        hintStyle: Theme.of(context).textTheme.bodyMedium!
-                            .copyWith(color: Color(0xFF676767)),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF000000)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-
-                          borderSide: BorderSide(color: Color(0xFF676767)),
-                        ),
-                      ),
+                      labelText: 'Name',
+                      hintText: 'Enter your name',
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Name required";
                         }
-
                         return null;
                       },
                     ),
+                    // TextFormField(
+                    //   controller: nameController,
+                    //   style: TextStyle(color: Colors.black),
+                    //   cursorColor: Colors.black,
+                    //   keyboardType: TextInputType.emailAddress,
+                    //   decoration: InputDecoration(
+                    //     filled: true,
+                    //     fillColor: Color(0xFFFFFFFF),
+                    //     labelText: 'Name',
+                    //     labelStyle: Theme.of(context).textTheme.labelLarge,
+                    //     hintText: 'Enter your name',
+                    //     hintStyle: Theme.of(context).textTheme.bodyMedium!
+                    //         .copyWith(color: Color(0xFF676767)),
+                    //     enabledBorder: OutlineInputBorder(
+                    //       borderSide: BorderSide(color: Color(0xFF000000)),
+                    //     ),
+                    //     focusedBorder: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(8),
+
+                    //       borderSide: BorderSide(color: Color(0xFF676767)),
+                    //     ),
+                    //   ),
+                    //   validator: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return "Name required";
+                    //     }
+
+                    //     return null;
+                    //   },
+                    // ),
                   ),
-                  SizedBox(height: 27.h),
+                  SizedBox(height: 22.h),
                   SizedBox(
                     width: double.infinity,
-                    child: TextFormField(
+                    child: CustomAuthTextFormField(
                       controller: passwordController,
-                      style: TextStyle(color: Colors.black),
-                      cursorColor: Colors.black,
-                      obscureText: obscure,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Color(0xFFFFFFFF),
-                        labelText: 'Password',
-                        labelStyle: Theme.of(context).textTheme.labelLarge,
-                        hintText: '******',
-                        hintStyle: Theme.of(context).textTheme.bodyMedium!
-                            .copyWith(color: Color(0xFF676767)),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF000000)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Color(0xFF676767)),
-                        ),
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              obscure = !obscure;
-                            });
-                          },
-                          icon: Icon(
-                            obscure ? Icons.visibility_off : Icons.visibility,
-                          ),
-                        ),
-                      ),
+                      labelText: 'Password',
+                      hintText: '******',
+                      isPassword: true,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Password required";
@@ -174,41 +179,53 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         return null;
                       },
                     ),
+                    // TextFormField(
+                    //   controller: passwordController,
+                    //   style: TextStyle(color: Colors.black),
+                    //   cursorColor: Colors.black,
+                    //   obscureText: obscurePassword,
+                    //   decoration: InputDecoration(
+                    //     filled: true,
+                    //     fillColor: Color(0xFFFFFFFF),
+                    //     labelText: 'Password',
+                    //     labelStyle: Theme.of(context).textTheme.labelLarge,
+                    //     hintText: '******',
+                    //     hintStyle: Theme.of(context).textTheme.bodyMedium!
+                    //         .copyWith(color: Color(0xFF676767)),
+                    //     enabledBorder: OutlineInputBorder(
+                    //       borderSide: BorderSide(color: Color(0xFF000000)),
+                    //     ),
+                    //     focusedBorder: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(8),
+                    //       borderSide: BorderSide(color: Color(0xFF676767)),
+                    //     ),
+                    //     suffixIcon: IconButton(
+                    //       onPressed: () {
+                    //         setState(() {
+                    //           obscurePassword = !obscurePassword;
+                    //         });
+                    //       },
+                    //       icon: Icon(
+                    //         obscurePassword ? Icons.visibility_off : Icons.visibility,
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   validator: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return "Password required";
+                    //     }
+                    //     return null;
+                    //   },
+                    // ),
                   ),
-                  SizedBox(height: 27.h),
+                  SizedBox(height: 22.h),
                   SizedBox(
                     width: double.infinity,
-                    child: TextFormField(
+                    child: CustomAuthTextFormField(
                       controller: confirmPasswordController,
-                      style: TextStyle(color: Colors.black),
-                      cursorColor: Colors.black,
-                      obscureText: obscure,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Color(0xFFFFFFFF),
-                        labelText: 'Confirm Password',
-                        labelStyle: Theme.of(context).textTheme.labelLarge,
-                        hintText: '******',
-                        hintStyle: Theme.of(context).textTheme.bodyMedium!
-                            .copyWith(color: Color(0xFF676767)),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF000000)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Color(0xFF676767)),
-                        ),
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              obscure = !obscure;
-                            });
-                          },
-                          icon: Icon(
-                            obscure ? Icons.visibility_off : Icons.visibility,
-                          ),
-                        ),
-                      ),
+                      labelText: 'Confirm Password',
+                      hintText: '******',
+                      isPassword: true,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Confirm Password required";
@@ -219,8 +236,49 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         return null;
                       },
                     ),
+                    // TextFormField(
+                    //   controller: confirmPasswordController,
+                    //   style: TextStyle(color: Colors.black),
+                    //   cursorColor: Colors.black,
+                    //   obscureText: obscurePasswordConfirm,
+                    //   decoration: InputDecoration(
+                    //     filled: true,
+                    //     fillColor: Color(0xFFFFFFFF),
+                    //     labelText: 'Confirm Password',
+                    //     labelStyle: Theme.of(context).textTheme.labelLarge,
+                    //     hintText: '******',
+                    //     hintStyle: Theme.of(context).textTheme.bodyMedium!
+                    //         .copyWith(color: Color(0xFF676767)),
+                    //     enabledBorder: OutlineInputBorder(
+                    //       borderSide: BorderSide(color: Color(0xFF000000)),
+                    //     ),
+                    //     focusedBorder: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(8),
+                    //       borderSide: BorderSide(color: Color(0xFF676767)),
+                    //     ),
+                    //     suffixIcon: IconButton(
+                    //       onPressed: () {
+                    //         setState(() {
+                    //           obscurePasswordConfirm = !obscurePasswordConfirm;
+                    //         });
+                    //       },
+                    //       icon: Icon(
+                    //         obscurePasswordConfirm ? Icons.visibility_off : Icons.visibility,
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   validator: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return "Confirm Password required";
+                    //     }
+                    //     if (value != passwordController.text) {
+                    //       return "Passwords don't match";
+                    //     }
+                    //     return null;
+                    //   },
+                    // ),
                   ),
-                  SizedBox(height: 33.h),
+                  SizedBox(height: 28.h),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -230,7 +288,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: Text("Sign Up"),
                     ),
                   ),
-                  SizedBox(height: 35.h),
+                  SizedBox(height: 30.h),
                   Row(
                     children: [
                       Expanded(
@@ -248,7 +306,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 35.h),
+                  SizedBox(height: 30.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -276,7 +334,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 35.h),
+                  SizedBox(height: 30.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
