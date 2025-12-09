@@ -28,8 +28,11 @@ abstract class RoutesManager {
       case AppRoutes.login:
         {
           return CupertinoPageRoute(builder: (context) => LoginScreen());
+      
         }
-    }
+    
+
+      }
     return null;
   }
 }
