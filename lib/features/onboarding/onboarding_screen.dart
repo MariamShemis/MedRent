@@ -4,6 +4,7 @@ import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/features/onboarding/model/onboarding_model.dart';
 import 'package:med_rent/features/onboarding/widgets/page_item_onboarding.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -16,7 +17,7 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   late PageController _pageController;
   int currentPage = 0;
-  late final List<dynamic> onboardingList = OnboardingModel.onboardings;
+  late final List<dynamic> onboardingList = OnboardingModel.getOnboarding(context);
   late final int lastPageIndex = onboardingList.length - 1;
 
   @override
@@ -58,6 +59,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     final isFirstPage = currentPage == 0;
     final isLastPage = currentPage == lastPageIndex;
     return Scaffold(
@@ -84,7 +86,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     TextButton(
                       onPressed: skipOnboarding,
                       child: Text(
-                        "Skip",
+                        appLocalizations.skip,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: ColorManager.secondary,
                         ),
@@ -125,7 +127,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               SizedBox(height: 80.h),
               ElevatedButton(
                 onPressed: goToNextPage,
-                child: Text(isLastPage ? "Get Started" : "Next"),
+                child: Text(isLastPage ? appLocalizations.getStarted : appLocalizations.next),
               ),
             ],
           ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/features/auth/presentation/view/forget_password_screen.dart';
 import 'package:med_rent/features/auth/presentation/view/register_screen.dart';
 import 'package:med_rent/features/auth/presentation/widgets/social%20_category.dart';
@@ -132,7 +131,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Password required";
-                        }
+                        } if (value.length < 8) {
+    return 'Password must be at least 8 characters long';
+  }
                         return null;
                       },
                     ),

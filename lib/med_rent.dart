@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/core/routes/route_generator.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
 import 'core/routes/app_routes.dart';
 import 'core/theme/theme_manager.dart';
 
@@ -18,6 +19,9 @@ class MedRent extends StatelessWidget {
         onGenerateRoute:RoutesManager.router,
         initialRoute:AppRoutes.splash,
         theme: ThemeManager.lightTheme,
+        locale: Locale("en"),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
       ),
 
     );

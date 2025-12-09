@@ -43,6 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ).textTheme.labelLarge!.copyWith(fontSize: 20),
           ),
         ),
+      
       ),
       body: SafeArea(
         child: SingleChildScrollView(
