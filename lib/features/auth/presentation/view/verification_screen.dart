@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/features/auth/presentation/view/new_password_screen.dart';
 import 'package:med_rent/features/auth/presentation/widgets/pin_field.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
 
 class VerificationScreen extends StatefulWidget {
   const VerificationScreen({super.key});
@@ -45,6 +46,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -54,20 +56,23 @@ class _VerificationScreenState extends State<VerificationScreen> {
           icon: Icon(Icons.arrow_back_ios),
         ),
         centerTitle: false,
-        title: Align(
-          alignment: Alignment.centerRight,
-          child: Text(
-            "Verification",
-            style: Theme.of(
-              context,
-            ).textTheme.labelLarge!.copyWith(fontSize: 20),
+        actions: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              appLocalizations.verification,
+              style: Theme.of(
+                context,
+              ).textTheme.labelLarge!.copyWith(fontSize: 20.sp),
+            ),
           ),
-        ),
+          SizedBox(width: 20.w),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: REdgeInsets.symmetric(horizontal: 20),
             child: Form(
               key: formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -76,17 +81,17 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 children: [
                   SizedBox(height: 40.h),
                   Text(
-                    'Verification Code',
+                    appLocalizations.verificationCode,
                     style: Theme.of(
                       context,
-                    ).textTheme.headlineMedium!.copyWith(fontSize: 20),
+                    ).textTheme.headlineMedium!.copyWith(fontSize: 20.sp),
                   ),
                   SizedBox(height: 10.h),
                   Text(
-                    'Type the verification code we have sent you',
+                    appLocalizations.typeTheVerificationCodeWeHaveSentYou,
                     style: Theme.of(
                       context,
-                    ).textTheme.bodyMedium!.copyWith(fontSize: 14),
+                    ).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
                     textAlign: TextAlign.center,
                     maxLines: 2,
                   ),
@@ -124,10 +129,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "You didn't receive any code? ",
+                        "${appLocalizations.youDidntReceiveAnyCode}? ",
                         style: Theme.of(
                           context,
-                        ).textTheme.bodyMedium!.copyWith(fontSize: 14),
+                        ).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
@@ -137,9 +142,12 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         ),
                         onPressed: () {},
                         child: Text(
-                          'Resend code',
+                          appLocalizations.resendCode,
                           style: Theme.of(context).textTheme.displayLarge!
-                              .copyWith(fontSize: 14, color: Color(0xFF031B4E)),
+                              .copyWith(
+                                fontSize: 14.sp,
+                                color: Color(0xFF031B4E),
+                              ),
                         ),
                       ),
                     ],
@@ -152,17 +160,15 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         if (formKey.currentState!.validate()) {
                           String code = getVerificationCode();
                           print('$code');
-                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => NewPasswordScreen(),
-                              ),
-                            );
-
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NewPasswordScreen(),
+                            ),
+                          );
                         }
-                        
                       },
-                      child: Text('Verify'),
+                      child: Text(appLocalizations.verify),
                     ),
                   ),
                 ],

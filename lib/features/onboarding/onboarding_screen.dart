@@ -95,14 +95,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ],
               ),
               SizedBox(height: 50.h),
-              Expanded(  
-               // height: 350.h,
+              Expanded(
                 child: PageView.builder(
                   controller: _pageController,
                   itemCount: onboardingList.length,
                   onPageChanged: (value) {
                     setState(() {
-                      currentPage = value; // مهم جدا
+                      currentPage = value;
                     });
                   },
                   itemBuilder: (context, index) {

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:med_rent/core/routes/app_routes.dart';
+import 'package:med_rent/core/utils/validators/validators.dart';
 import 'package:med_rent/features/auth/presentation/view/forget_password_screen.dart';
 import 'package:med_rent/features/auth/presentation/view/register_screen.dart';
 import 'package:med_rent/features/auth/presentation/widgets/custom_auth_text_field.dart';
 import 'package:med_rent/features/auth/presentation/widgets/social%20_category.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isChecked = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
   @override
   void dispose() {
     emailController.dispose();
@@ -27,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -36,20 +41,23 @@ class _LoginScreenState extends State<LoginScreen> {
           icon: Icon(Icons.arrow_back_ios),
         ),
         centerTitle: false,
-        title: Align(
-          alignment: Alignment.centerRight,
-          child: Text(
-            "Log in",
-            style: Theme.of(
-              context,
-            ).textTheme.labelLarge!.copyWith(fontSize: 20),
+        actions: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              appLocalizations.logIn,
+              style: Theme.of(
+                context,
+              ).textTheme.labelLarge!.copyWith(fontSize: 20.sp),
+            ),
           ),
-        ),
+          SizedBox(width: 20.w),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: REdgeInsets.symmetric(horizontal: 20),
             child: Form(
               key: formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -58,120 +66,32 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   SizedBox(height: 40.h),
                   Text(
-                    'Welcome back!',
+                    appLocalizations.welcomeBack,
                     style: Theme.of(
                       context,
-                    ).textTheme.headlineMedium!.copyWith(fontSize: 24),
+                    ).textTheme.headlineMedium!.copyWith(fontSize: 24.sp),
                   ),
                   SizedBox(height: 40.h),
                   SizedBox(
                     width: double.infinity,
-                     child:CustomAuthTextFormField(
-                    controller: emailController,
-                    labelText: 'Email',
-                    hintText: 'Enter your email',
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Email required";
-                      }
-                      if (!value.contains('@')) {
-                        return 'Enter a valid email ';
-                      }
-                      return null;
-                    },
-                  ), 
-                    // TextFormField(
-                    //   controller: emailController,
-                    //   style: TextStyle(color: Colors.black),
-                    //   cursorColor: Colors.black,
-                    //   keyboardType: TextInputType.emailAddress,
-                    //   decoration: InputDecoration(
-                    //     filled: true,
-                    //     fillColor: Color(0xFFFFFFFF),
-                    //     labelText: 'Email',
-                    //     labelStyle: Theme.of(context).textTheme.labelLarge,
-                    //     hintText: 'Enter your email',
-                    //     hintStyle: Theme.of(context).textTheme.bodyMedium!
-                    //         .copyWith(color: Color(0xFF676767)),
-                    //     enabledBorder: OutlineInputBorder(
-                    //       borderSide: BorderSide(color: Color(0xFF000000)),
-                    //     ),
-                    //     focusedBorder: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(8),
-
-                    //       borderSide: BorderSide(color: Color(0xFF676767)),
-                    //     ),
-                    //   ),
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return "Email required";
-                    //     }
-                    //     if (!value.contains('@')) {
-                    //       return 'Enter a valid email ';
-                    //     }
-                    //     return null;
-                    //   },
-                    // ),
+                    child: CustomAuthTextFormField(
+                      controller: emailController,
+                      labelText: appLocalizations.email,
+                      hintText: appLocalizations.enterYourEmail,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (val) => AppValidators.validateEmail(context, val),
+                    ),
                   ),
                   SizedBox(height: 32.h),
                   SizedBox(
                     width: double.infinity,
-                   child:CustomAuthTextFormField(
-                    controller: passwordController,
-                    labelText: 'Password',
-                    hintText: '******',
-                    isPassword: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Password required";
-                      }
-                      if (value.length < 8) {
-                        return 'Password must be at least 8 characters long';
-                      }
-                      return null;
-                    },
-                  ),
-  // TextFormField(
-  //                     controller: passwordController,
-  //                     style: TextStyle(color: Colors.black),
-  //                     cursorColor: Colors.black,
-  //                     obscureText: obscure,
-  //                     decoration: InputDecoration(
-  //                       filled: true,
-  //                       fillColor: Color(0xFFFFFFFF),
-  //                       labelText: 'Password',
-  //                       labelStyle: Theme.of(context).textTheme.labelLarge,
-  //                       hintText: '******',
-  //                       hintStyle: Theme.of(context).textTheme.bodyMedium!
-  //                           .copyWith(color: Color(0xFF676767)),
-  //                       enabledBorder: OutlineInputBorder(
-  //                         borderSide: BorderSide(color: Color(0xFF000000)),
-  //                       ),
-  //                       focusedBorder: OutlineInputBorder(
-  //                         borderRadius: BorderRadius.circular(8),
-  //                         borderSide: BorderSide(color: Color(0xFF676767)),
-  //                       ),
-  //                       suffixIcon: IconButton(
-  //                         onPressed: () {
-  //                           setState(() {
-  //                             obscure = !obscure;
-  //                           });
-  //                         },
-  //                         icon: Icon(
-  //                           obscure ? Icons.visibility_off : Icons.visibility,
-  //                         ),
-  //                       ),
-  //                     ),
-  //                     validator: (value) {
-  //                       if (value == null || value.isEmpty) {
-  //                         return "Password required";
-  //                       } if (value.length < 8) {
-  //   return 'Password must be at least 8 characters long';
-  // }
-  //                       return null;
-  //                     },
-  //                   ),
+                    child: CustomAuthTextFormField(
+                      controller: passwordController,
+                      labelText: appLocalizations.password,
+                      hintText: '******',
+                      isPassword: true,
+                      validator: (val) => AppValidators.validatePassword(context, val),
+                    ),
                   ),
                   SizedBox(height: 8.h),
                   Row(
@@ -181,8 +101,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SizedBox(
-                            height: 20,
-                            width: 20,
+                            height: 20.h,
+                            width: 20.w,
                             child: Checkbox(
                               value: isChecked,
                               onChanged: (value) {
@@ -201,14 +121,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(width: 4.0),
                       Text(
-                        'Remember me',
+                        appLocalizations.rememberMe,
                         style: Theme.of(
                           context,
-                        ).textTheme.labelLarge!.copyWith(fontSize: 15),
+                        ).textTheme.labelLarge!.copyWith(fontSize: 15.sp),
                       ),
-                      SizedBox(width: 10),
+                      SizedBox(width: 30.w),
                       TextButton(
                         style: TextButton.styleFrom(
                           minimumSize: Size.zero,
@@ -224,9 +143,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
                         },
                         child: Text(
-                          'Forget Password?',
+                          appLocalizations.forget_password_,
                           style: Theme.of(context).textTheme.labelLarge!
-                              .copyWith(fontSize: 15, color: Color(0xFF031B4E)),
+                              .copyWith(
+                                fontSize: 15.sp,
+                                color: Color(0xFF031B4E),
+                              ),
                         ),
                       ),
                     ],
@@ -236,9 +158,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        if (formKey.currentState!.validate()) {}
+                        if (formKey.currentState!.validate()) {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            AppRoutes.mainLayout,
+                          );
+                        }
                       },
-                      child: Text('Log in'),
+                      child: Text(appLocalizations.logIn),
                     ),
                   ),
                   SizedBox(height: 40.h),
@@ -248,9 +175,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Divider(thickness: 1, color: Color(0xFF676767)),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        padding: REdgeInsets.symmetric(horizontal: 10),
                         child: Text(
-                          'Or continue with',
+                          appLocalizations.orContinueWith,
                           style: TextStyle(color: Color(0xFF140601)),
                         ),
                       ),
@@ -259,8 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ],
                   ),
-
-                  const SizedBox(height: 40),
+                  SizedBox(height: 40.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -270,16 +196,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           print("Facebook clicked");
                         },
                       ),
-
-                      const SizedBox(width: 20),
+                      SizedBox(width: 20.h),
                       SocialImage(
                         asset: "assets/images/google.png",
                         onTap: () {
                           print("Google Sign-In ");
                         },
                       ),
-
-                      const SizedBox(width: 20),
+                      SizedBox(width: 20.w),
                       SocialImage(
                         asset: 'assets/images/twitter.png',
                         onTap: () {
@@ -293,10 +217,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Don't have an account? ",
+                        "${appLocalizations.dontHaveAnAccount} ",
                         style: Theme.of(
                           context,
-                        ).textTheme.labelLarge!.copyWith(fontSize: 14),
+                        ).textTheme.labelLarge!.copyWith(fontSize: 14.sp),
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
@@ -313,9 +237,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
                         },
                         child: Text(
-                          'Sign up',
+                          appLocalizations.signUp,
                           style: Theme.of(context).textTheme.displayLarge!
-                              .copyWith(fontSize: 14, color: Color(0xFF031B4E)),
+                              .copyWith(
+                                fontSize: 14.sp,
+                                color: Color(0xFF031B4E),
+                              ),
                         ),
                       ),
                     ],

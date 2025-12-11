@@ -14,6 +14,7 @@
   "enterYourName": "Enter your name",
   "rememberMe": "Remember me",
   "forgetPassword": "Forget Password",
+  "forget_password_": "Forget Password ?",
   "orContinueWith": "Or continue with",
   "dontHaveAnAccount": "Don't have an account?",
   "alreadyHaveAccount": "Already have an account?",
@@ -48,5 +49,23 @@
   "dailyRentalRate": "Daily Rental Rate",
   "availability": "Availability",
   "showAvailableOnly": "Show available only",
-  "viewDetails": "View Details"
+  "viewDetails": "View Details",
+  "the_password_has_been_changed": "View The password has been changed.",
+  "this_field_is_required": "this field is required",
+  "enter_valid_email": "enter valid email",
+  "strong_password_please": "strong password please",
+  "same_password": "same password",
+  "enter_valid_username": "enter valid username",
+  "enter_numbers_only": "enter numbers only",
+  "enter_value_must_be_11_digit_including_country_code_or_10_without_it": "enter value must be 11 digit including country code or 10 without it",
+  "passwords_dont_match": "Passwords don't match",
+  "hi": "Hi",
+  "how_can_we_help_you_today": "How can we help you today?",
+  "search_for_hospitals_or_equipment": "Search for hospitals or equipment",
+  "enableLocation": "Enable Location",
+  "searchNow": "Search Now",
+  "browseNow": "Browse Now",
+  "startChat": "Start Chat",
+  "confirmLocation": "Confirm location"
+
 }

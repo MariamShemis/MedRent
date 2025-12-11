@@ -54,6 +54,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forgetPassword => 'Forget Password';
 
   @override
+  String get forget_password_ => 'Forget Password ?';
+
+  @override
   String get orContinueWith => 'Or continue with';
 
   @override
@@ -157,4 +160,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewDetails => 'View Details';
+
+  @override
+  String get the_password_has_been_changed => 'View The password has been changed.';
+
+  @override
+  String get this_field_is_required => 'this field is required';
+
+  @override
+  String get enter_valid_email => 'enter valid email';
+
+  @override
+  String get strong_password_please => 'strong password please';
+
+  @override
+  String get same_password => 'same password';
+
+  @override
+  String get enter_valid_username => 'enter valid username';
+
+  @override
+  String get enter_numbers_only => 'enter numbers only';
+
+  @override
+  String get enter_value_must_be_11_digit_including_country_code_or_10_without_it => 'enter value must be 11 digit including country code or 10 without it';
+
+  @override
+  String get passwords_dont_match => 'Passwords don\'t match';
+
+  @override
+  String get hi => 'Hi';
+
+  @override
+  String get how_can_we_help_you_today => 'How can we help you today?';
+
+  @override
+  String get search_for_hospitals_or_equipment => 'Search for hospitals or equipment';
+
+  @override
+  String get enableLocation => 'Enable Location';
+
+  @override
+  String get searchNow => 'Search Now';
+
+  @override
+  String get browseNow => 'Browse Now';
+
+  @override
+  String get startChat => 'Start Chat';
+
+  @override
+  String get confirmLocation => 'Confirm location';
 }

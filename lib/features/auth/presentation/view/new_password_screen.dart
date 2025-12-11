@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:med_rent/core/utils/validators/validators.dart';
 import 'package:med_rent/features/auth/presentation/view/done_screen.dart';
 import 'package:med_rent/features/auth/presentation/widgets/custom_auth_text_field.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
 
 class NewPasswordScreen extends StatefulWidget {
   const NewPasswordScreen({super.key});
@@ -25,6 +28,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -34,78 +38,68 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
           icon: Icon(Icons.arrow_back_ios),
         ),
         centerTitle: false,
-        title: Align(
-          alignment: Alignment.centerRight,
-          child: Text(
-            "Create new password",
-            style: Theme.of(
-              context,
-            ).textTheme.labelLarge!.copyWith(fontSize: 18),
+        actions: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              appLocalizations.createNewPassword,
+              style: Theme.of(
+                context,
+              ).textTheme.labelLarge!.copyWith(fontSize: 18.sp),
+            ),
           ),
-        ),
+          SizedBox(width: 20.w),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: REdgeInsets.symmetric(horizontal: 20),
             child: Form(
               key: formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 40),
+                  SizedBox(height: 40.h),
                   Text(
-                    'New Password',
+                    appLocalizations.newPassword,
                     style: Theme.of(
                       context,
                     ).textTheme.headlineMedium!.copyWith(fontSize: 20),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 10.h),
                   Text(
-                    'Please write your new password',
+                    appLocalizations.pleaseWriteYourNewPassword,
                     style: Theme.of(
                       context,
                     ).textTheme.bodyMedium!.copyWith(fontSize: 14),
                     textAlign: TextAlign.center,
                     maxLines: 2,
                   ),
-                  SizedBox(height: 40),
+                  SizedBox(height: 40.h),
                   SizedBox(
                     width: double.infinity,
                     child: CustomAuthTextFormField(
                       controller: newpasswordController,
-                      labelText: 'New Password',
+                      labelText: appLocalizations.newPassword,
                       hintText: '******',
                       isPassword: true,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Password required";
-                        }
-                        return null;
-                      },
+                      validator: (val) => AppValidators.validatePassword(context, val),
                     ),
                   ),
-                  SizedBox(height: 32),
+                  SizedBox(height: 32.h),
                   SizedBox(
                     width: double.infinity,
                     child: CustomAuthTextFormField(
                       controller: confirmPasswordController,
-                      labelText: 'Confirm Password',
+                      labelText: appLocalizations.confirmPassword,
                       hintText: '******',
                       isPassword: true,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Confirm Password required";
-                        }
-                        if (value != newpasswordController.text) {
-                          return "Passwords don't match";
-                        }
-                        return null;
-                      },
+                      validator: (val) => AppValidators.validateConfirmPassword(context, val, newpasswordController.text),
                     ),
                   ),
-                  SizedBox(height: 40),
+                  SizedBox(height: 40.h),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -119,7 +113,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                           );
                         }
                       },
-                      child: Text("Confirm"),
+                      child: Text(appLocalizations.confirm),
                     ),
                   ),
                 ],

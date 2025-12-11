@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:med_rent/core/utils/validators/validators.dart';
 import 'package:med_rent/features/auth/presentation/view/login_screen.dart';
 import 'package:med_rent/features/auth/presentation/widgets/custom_auth_text_field.dart';
 import 'package:med_rent/features/auth/presentation/widgets/social%20_category.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -19,6 +21,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
+
   @override
   void dispose() {
     emailController.dispose();
@@ -31,6 +34,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -40,20 +44,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
           icon: Icon(Icons.arrow_back_ios),
         ),
         centerTitle: false,
-        title: Align(
-          alignment: Alignment.centerRight,
-          child: Text(
-            "Sign up",
-            style: Theme.of(
-              context,
-            ).textTheme.labelLarge!.copyWith(fontSize: 20),
+        actions: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              appLocalizations.signUp,
+              style: Theme.of(
+                context,
+              ).textTheme.labelLarge!.copyWith(fontSize: 20.sp),
+            ),
           ),
-        ),
+          SizedBox(width: 20.w),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: REdgeInsets.symmetric(horizontal: 20),
             child: Form(
               key: formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -63,220 +70,53 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 children: [
                   SizedBox(height: 30.h),
                   Text(
-                    'Welcome!',
+                    '${appLocalizations.welcome}',
                     style: Theme.of(
                       context,
-                    ).textTheme.headlineMedium!.copyWith(fontSize: 24),
+                    ).textTheme.headlineMedium!.copyWith(fontSize: 24.sp),
                   ),
                   SizedBox(height: 30.h),
                   SizedBox(
                     width: double.infinity,
                     child: CustomAuthTextFormField(
                       controller: emailController,
-                      labelText: 'Email',
-                      hintText: 'Enter your email',
+                      labelText: appLocalizations.email,
+                      hintText: appLocalizations.enterYourEmail,
                       keyboardType: TextInputType.emailAddress,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Email required";
-                        }
-                        if (!value.contains('@')) {
-                          return 'Enter a valid email ';
-                        }
-                        return null;
-                      },
+                      validator: (val) => AppValidators.validateEmail(context, val),
                     ),
-                    // TextFormField(
-                    //   controller: emailController,
-                    //   style: TextStyle(color: Colors.black),
-                    //   cursorColor: Colors.black,
-                    //   keyboardType: TextInputType.emailAddress,
-                    //   decoration: InputDecoration(
-                    //     filled: true,
-                    //     fillColor: Color(0xFFFFFFFF),
-                    //     labelText: 'Email',
-                    //     labelStyle: Theme.of(context).textTheme.labelLarge,
-                    //     hintText: 'Enter your email',
-                    //     hintStyle: Theme.of(context).textTheme.bodyMedium!
-                    //         .copyWith(color: Color(0xFF676767)),
-                    //     enabledBorder: OutlineInputBorder(
-                    //       borderSide: BorderSide(color: Color(0xFF000000)),
-                    //     ),
-                    //     focusedBorder: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(8),
-
-                    //       borderSide: BorderSide(color: Color(0xFF676767)),
-                    //     ),
-                    //   ),
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return "Email required";
-                    //     }
-                    //     if (!value.contains('@')) {
-                    //       return 'Enter a valid email ';
-                    //     }
-                    //     return null;
-                    //   },
-                    // ),
                   ),
                   SizedBox(height: 22.h),
                   SizedBox(
                     width: double.infinity,
                     child: CustomAuthTextFormField(
                       controller: nameController,
-                      labelText: 'Name',
-                      hintText: 'Enter your name',
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Name required";
-                        }
-                        return null;
-                      },
+                      labelText: appLocalizations.name,
+                      hintText: appLocalizations.enterYourEmail,
+                      validator: (val) => AppValidators.validateUsername(context, val),
                     ),
-                    // TextFormField(
-                    //   controller: nameController,
-                    //   style: TextStyle(color: Colors.black),
-                    //   cursorColor: Colors.black,
-                    //   keyboardType: TextInputType.emailAddress,
-                    //   decoration: InputDecoration(
-                    //     filled: true,
-                    //     fillColor: Color(0xFFFFFFFF),
-                    //     labelText: 'Name',
-                    //     labelStyle: Theme.of(context).textTheme.labelLarge,
-                    //     hintText: 'Enter your name',
-                    //     hintStyle: Theme.of(context).textTheme.bodyMedium!
-                    //         .copyWith(color: Color(0xFF676767)),
-                    //     enabledBorder: OutlineInputBorder(
-                    //       borderSide: BorderSide(color: Color(0xFF000000)),
-                    //     ),
-                    //     focusedBorder: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(8),
-
-                    //       borderSide: BorderSide(color: Color(0xFF676767)),
-                    //     ),
-                    //   ),
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return "Name required";
-                    //     }
-
-                    //     return null;
-                    //   },
-                    // ),
                   ),
                   SizedBox(height: 22.h),
                   SizedBox(
                     width: double.infinity,
                     child: CustomAuthTextFormField(
                       controller: passwordController,
-                      labelText: 'Password',
+                      labelText: appLocalizations.password,
                       hintText: '******',
                       isPassword: true,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Password required";
-                        }
-                        return null;
-                      },
+                      validator: (val) => AppValidators.validatePassword(context, val),
                     ),
-                    // TextFormField(
-                    //   controller: passwordController,
-                    //   style: TextStyle(color: Colors.black),
-                    //   cursorColor: Colors.black,
-                    //   obscureText: obscurePassword,
-                    //   decoration: InputDecoration(
-                    //     filled: true,
-                    //     fillColor: Color(0xFFFFFFFF),
-                    //     labelText: 'Password',
-                    //     labelStyle: Theme.of(context).textTheme.labelLarge,
-                    //     hintText: '******',
-                    //     hintStyle: Theme.of(context).textTheme.bodyMedium!
-                    //         .copyWith(color: Color(0xFF676767)),
-                    //     enabledBorder: OutlineInputBorder(
-                    //       borderSide: BorderSide(color: Color(0xFF000000)),
-                    //     ),
-                    //     focusedBorder: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(8),
-                    //       borderSide: BorderSide(color: Color(0xFF676767)),
-                    //     ),
-                    //     suffixIcon: IconButton(
-                    //       onPressed: () {
-                    //         setState(() {
-                    //           obscurePassword = !obscurePassword;
-                    //         });
-                    //       },
-                    //       icon: Icon(
-                    //         obscurePassword ? Icons.visibility_off : Icons.visibility,
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return "Password required";
-                    //     }
-                    //     return null;
-                    //   },
-                    // ),
                   ),
                   SizedBox(height: 22.h),
                   SizedBox(
                     width: double.infinity,
                     child: CustomAuthTextFormField(
                       controller: confirmPasswordController,
-                      labelText: 'Confirm Password',
+                      labelText: appLocalizations.confirmPassword,
                       hintText: '******',
                       isPassword: true,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Confirm Password required";
-                        }
-                        if (value != passwordController.text) {
-                          return "Passwords don't match";
-                        }
-                        return null;
-                      },
+                      validator: (val) => AppValidators.validateConfirmPassword(context, val , passwordController.text),
                     ),
-                    // TextFormField(
-                    //   controller: confirmPasswordController,
-                    //   style: TextStyle(color: Colors.black),
-                    //   cursorColor: Colors.black,
-                    //   obscureText: obscurePasswordConfirm,
-                    //   decoration: InputDecoration(
-                    //     filled: true,
-                    //     fillColor: Color(0xFFFFFFFF),
-                    //     labelText: 'Confirm Password',
-                    //     labelStyle: Theme.of(context).textTheme.labelLarge,
-                    //     hintText: '******',
-                    //     hintStyle: Theme.of(context).textTheme.bodyMedium!
-                    //         .copyWith(color: Color(0xFF676767)),
-                    //     enabledBorder: OutlineInputBorder(
-                    //       borderSide: BorderSide(color: Color(0xFF000000)),
-                    //     ),
-                    //     focusedBorder: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(8),
-                    //       borderSide: BorderSide(color: Color(0xFF676767)),
-                    //     ),
-                    //     suffixIcon: IconButton(
-                    //       onPressed: () {
-                    //         setState(() {
-                    //           obscurePasswordConfirm = !obscurePasswordConfirm;
-                    //         });
-                    //       },
-                    //       icon: Icon(
-                    //         obscurePasswordConfirm ? Icons.visibility_off : Icons.visibility,
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return "Confirm Password required";
-                    //     }
-                    //     if (value != passwordController.text) {
-                    //       return "Passwords don't match";
-                    //     }
-                    //     return null;
-                    //   },
-                    // ),
                   ),
                   SizedBox(height: 28.h),
                   SizedBox(
@@ -285,7 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       onPressed: () {
                         if (formKey.currentState!.validate()) {}
                       },
-                      child: Text("Sign Up"),
+                      child: Text(appLocalizations.signUp),
                     ),
                   ),
                   SizedBox(height: 30.h),
@@ -295,9 +135,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: Divider(thickness: 1, color: Color(0xFF676767)),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        padding: REdgeInsets.symmetric(horizontal: 10),
                         child: Text(
-                          'Or continue with',
+                          appLocalizations.orContinueWith,
                           style: TextStyle(color: Color(0xFF140601)),
                         ),
                       ),
@@ -316,16 +156,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           print("Facebook clicked");
                         },
                       ),
-
-                      const SizedBox(width: 20),
+                      SizedBox(width: 20.w),
                       SocialImage(
                         asset: "assets/images/google.png",
                         onTap: () {
                           print("Google Sign-In ");
                         },
                       ),
-
-                      const SizedBox(width: 20),
+                      SizedBox(width: 20.w),
                       SocialImage(
                         asset: 'assets/images/twitter.png',
                         onTap: () {
@@ -339,10 +177,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Already have account? ",
+                        appLocalizations.alreadyHaveAccount,
                         style: Theme.of(
                           context,
-                        ).textTheme.labelLarge!.copyWith(fontSize: 14),
+                        ).textTheme.labelLarge!.copyWith(fontSize: 14.sp),
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
@@ -359,9 +197,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           );
                         },
                         child: Text(
-                          'Log in ',
+                          appLocalizations.logIn,
                           style: Theme.of(context).textTheme.displayLarge!
-                              .copyWith(fontSize: 14, color: Color(0xFF031B4E)),
+                              .copyWith(
+                                fontSize: 14.sp,
+                                color: Color(0xFF031B4E),
+                              ),
                         ),
                       ),
                     ],
