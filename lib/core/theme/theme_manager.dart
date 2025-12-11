@@ -54,6 +54,11 @@ class ThemeManager {
         fontSize: 18.sp,
         fontWeight: FontWeight.w500,
       ),
+      labelMedium: GoogleFonts.inter(
+        color: ColorManager.black,
+        fontSize: 16.sp,
+        fontWeight: FontWeight.w500,
+      ),
       labelSmall: GoogleFonts.inter(
         color: ColorManager.black,
         fontWeight: FontWeight.w400,
@@ -144,12 +149,13 @@ class ThemeManager {
 
     /// BOTTOM NAVIGATION
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: ColorManager.white,
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: ColorManager.background,
       selectedItemColor: ColorManager.darkBlue,
       unselectedItemColor: ColorManager.greyText,
-      showSelectedLabels: true,
-      showUnselectedLabels: true,
-      elevation: 5,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      elevation: 10,
     ),
   );
 }

@@ -9,13 +9,13 @@ class PageItemOnboarding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Image.asset(model.image),
         SizedBox(height: 32.h,),
         Text(model.name , style: Theme.of(context).textTheme.headlineMedium,),
-        SizedBox(height: 10.h,),
-        Text(model.description , style: Theme.of(context).textTheme.bodyMedium,),
+        SizedBox(height: 20.h,),
+        Text(model.description , style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center,),
       ],
     );
   }

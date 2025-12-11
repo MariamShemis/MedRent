@@ -185,6 +185,12 @@ abstract class AppLocalizations {
   /// **'Forget Password'**
   String get forgetPassword;
 
+  /// No description provided for @forget_password_.
+  ///
+  /// In en, this message translates to:
+  /// **'Forget Password ?'**
+  String get forget_password_;
+
   /// No description provided for @orContinueWith.
   ///
   /// In en, this message translates to:
@@ -394,6 +400,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View Details'**
   String get viewDetails;
+
+  /// No description provided for @the_password_has_been_changed.
+  ///
+  /// In en, this message translates to:
+  /// **'View The password has been changed.'**
+  String get the_password_has_been_changed;
+
+  /// No description provided for @this_field_is_required.
+  ///
+  /// In en, this message translates to:
+  /// **'this field is required'**
+  String get this_field_is_required;
+
+  /// No description provided for @enter_valid_email.
+  ///
+  /// In en, this message translates to:
+  /// **'enter valid email'**
+  String get enter_valid_email;
+
+  /// No description provided for @strong_password_please.
+  ///
+  /// In en, this message translates to:
+  /// **'strong password please'**
+  String get strong_password_please;
+
+  /// No description provided for @same_password.
+  ///
+  /// In en, this message translates to:
+  /// **'same password'**
+  String get same_password;
+
+  /// No description provided for @enter_valid_username.
+  ///
+  /// In en, this message translates to:
+  /// **'enter valid username'**
+  String get enter_valid_username;
+
+  /// No description provided for @enter_numbers_only.
+  ///
+  /// In en, this message translates to:
+  /// **'enter numbers only'**
+  String get enter_numbers_only;
+
+  /// No description provided for @enter_value_must_be_11_digit_including_country_code_or_10_without_it.
+  ///
+  /// In en, this message translates to:
+  /// **'enter value must be 11 digit including country code or 10 without it'**
+  String get enter_value_must_be_11_digit_including_country_code_or_10_without_it;
+
+  /// No description provided for @passwords_dont_match.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords don\'t match'**
+  String get passwords_dont_match;
+
+  /// No description provided for @hi.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi'**
+  String get hi;
+
+  /// No description provided for @how_can_we_help_you_today.
+  ///
+  /// In en, this message translates to:
+  /// **'How can we help you today?'**
+  String get how_can_we_help_you_today;
+
+  /// No description provided for @search_for_hospitals_or_equipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for hospitals or equipment'**
+  String get search_for_hospitals_or_equipment;
+
+  /// No description provided for @enableLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Location'**
+  String get enableLocation;
+
+  /// No description provided for @searchNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Now'**
+  String get searchNow;
+
+  /// No description provided for @browseNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse Now'**
+  String get browseNow;
+
+  /// No description provided for @startChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Chat'**
+  String get startChat;
+
+  /// No description provided for @confirmLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm location'**
+  String get confirmLocation;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
