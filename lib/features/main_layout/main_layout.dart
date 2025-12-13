@@ -28,6 +28,7 @@ class _MainLayoutState extends State<MainLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       bottomNavigationBar: _buildBottomAppBar(),
       body: _pages[selectedIndex],
     );
@@ -37,6 +38,7 @@ class _MainLayoutState extends State<MainLayout> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(25.r),
       child: BottomNavigationBar(
+        backgroundColor: Colors.transparent,
         type: BottomNavigationBarType.fixed,
         currentIndex: selectedIndex,
         onTap: _onTap,

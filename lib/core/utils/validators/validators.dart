@@ -15,16 +15,17 @@ class AppValidators {
     }
     return null;
   }
-
-  static String? validatePassword(BuildContext context, String? val) {
+  static String?  validatePassword(BuildContext context ,  String? val){
     final t = AppLocalizations.of(context)!;
-    RegExp passwordRegex = RegExp(r'^(?=.*[a-zA-Z])(?=.*[0-9])');
+    RegExp regExp = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
     if (val == null || val.isEmpty) {
       return t.this_field_is_required;
-    } else if (val.length < 8 || !passwordRegex.hasMatch(val)) {
+    }
+    if(!regExp.hasMatch(val)){
       return t.strong_password_please;
     }
     return null;
+
   }
 
   static String? validateConfirmPassword(BuildContext context, String? val, String? password) {
