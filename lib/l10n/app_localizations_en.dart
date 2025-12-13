@@ -162,7 +162,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewDetails => 'View Details';
 
   @override
-  String get the_password_has_been_changed => 'View The password has been changed.';
+  String get the_password_has_been_changed => 'The password has been changed.';
 
   @override
   String get this_field_is_required => 'this field is required';

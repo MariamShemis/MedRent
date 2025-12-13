@@ -404,7 +404,7 @@ abstract class AppLocalizations {
   /// No description provided for @the_password_has_been_changed.
   ///
   /// In en, this message translates to:
-  /// **'View The password has been changed.'**
+  /// **'The password has been changed.'**
   String get the_password_has_been_changed;
 
   /// No description provided for @this_field_is_required.
