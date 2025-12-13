@@ -66,6 +66,23 @@
   "searchNow": "Search Now",
   "browseNow": "Browse Now",
   "startChat": "Start Chat",
+  "yourLocation": "Your Location",
+  "enable_location_to_find_hospitals_near_you": "Enable location to find hospitals near you",
+  "try_ourServices": "Try our Services",
+  "hospitalSearch": "Hospital Search",
+  "find_hospitals_by_specialty_location_and_rating": "Find hospitals by specialty, location, and rating",
+  "equipmentRental": "Equipment Rental",
+  "rent_or_purchase_medical_devices_and_equipment": "Rent or purchase medical devices and equipment",
+  "aIAssistant": "AI Assistant",
+  "tips_for_better_health": "Tips for better health",
+  "balancedMeals": "Balanced Meals",
+  "stayHydrated": "Stay Hydrated ",
+  "include_proteins_vegetables_fruits_and_whole_grains_in_every_meal" : "Include proteins, vegetables ,fruits, and whole grains in every meal",
+  "drink_at_least_8_glasses_of_water_a_day_to_keep_your_body_and_skin_healthy": "Drink at least 8 glasses of water a day to keep your body and skin healthy",
+  "getEnoughSleep": "Get Enough Sleep",
+  "try_to_sleep_7_8_hours_per_night_to_improve_your_focus_and_overall_health": "Try to sleep 7-8 hours per night to improve your focus, and overall health",
+  "exerciseRegularly": "Exercise Regularly",
+  "aim_for_at_least_30_minutes_for_physical_activity_daily_to_stay_fit": "Aim for at least 30 minutes for physical activity daily to stay fit",
   "confirmLocation": "Confirm location"
 
 }

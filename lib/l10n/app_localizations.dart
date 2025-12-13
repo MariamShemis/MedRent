@@ -497,6 +497,108 @@ abstract class AppLocalizations {
   /// **'Start Chat'**
   String get startChat;
 
+  /// No description provided for @yourLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Location'**
+  String get yourLocation;
+
+  /// No description provided for @enable_location_to_find_hospitals_near_you.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable location to find hospitals near you'**
+  String get enable_location_to_find_hospitals_near_you;
+
+  /// No description provided for @try_ourServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Try our Services'**
+  String get try_ourServices;
+
+  /// No description provided for @hospitalSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Hospital Search'**
+  String get hospitalSearch;
+
+  /// No description provided for @find_hospitals_by_specialty_location_and_rating.
+  ///
+  /// In en, this message translates to:
+  /// **'Find hospitals by specialty, location, and rating'**
+  String get find_hospitals_by_specialty_location_and_rating;
+
+  /// No description provided for @equipmentRental.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment Rental'**
+  String get equipmentRental;
+
+  /// No description provided for @rent_or_purchase_medical_devices_and_equipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Rent or purchase medical devices and equipment'**
+  String get rent_or_purchase_medical_devices_and_equipment;
+
+  /// No description provided for @aIAssistant.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Assistant'**
+  String get aIAssistant;
+
+  /// No description provided for @tips_for_better_health.
+  ///
+  /// In en, this message translates to:
+  /// **'Tips for better health'**
+  String get tips_for_better_health;
+
+  /// No description provided for @balancedMeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Balanced Meals'**
+  String get balancedMeals;
+
+  /// No description provided for @stayHydrated.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay Hydrated '**
+  String get stayHydrated;
+
+  /// No description provided for @include_proteins_vegetables_fruits_and_whole_grains_in_every_meal.
+  ///
+  /// In en, this message translates to:
+  /// **'Include proteins, vegetables ,fruits, and whole grains in every meal'**
+  String get include_proteins_vegetables_fruits_and_whole_grains_in_every_meal;
+
+  /// No description provided for @drink_at_least_8_glasses_of_water_a_day_to_keep_your_body_and_skin_healthy.
+  ///
+  /// In en, this message translates to:
+  /// **'Drink at least 8 glasses of water a day to keep your body and skin healthy'**
+  String get drink_at_least_8_glasses_of_water_a_day_to_keep_your_body_and_skin_healthy;
+
+  /// No description provided for @getEnoughSleep.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Enough Sleep'**
+  String get getEnoughSleep;
+
+  /// No description provided for @try_to_sleep_7_8_hours_per_night_to_improve_your_focus_and_overall_health.
+  ///
+  /// In en, this message translates to:
+  /// **'Try to sleep 7-8 hours per night to improve your focus, and overall health'**
+  String get try_to_sleep_7_8_hours_per_night_to_improve_your_focus_and_overall_health;
+
+  /// No description provided for @exerciseRegularly.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercise Regularly'**
+  String get exerciseRegularly;
+
+  /// No description provided for @aim_for_at_least_30_minutes_for_physical_activity_daily_to_stay_fit.
+  ///
+  /// In en, this message translates to:
+  /// **'Aim for at least 30 minutes for physical activity daily to stay fit'**
+  String get aim_for_at_least_30_minutes_for_physical_activity_daily_to_stay_fit;
+
   /// No description provided for @confirmLocation.
   ///
   /// In en, this message translates to:

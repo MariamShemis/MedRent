@@ -5,7 +5,8 @@ import 'package:med_rent/core/constants/color_manager.dart';
 
 class ThemeManager {
   static ThemeData lightTheme = ThemeData(
-    useMaterial3: true,
+    primaryColor: ColorManager.darkBlue,
+    useMaterial3: false,
     brightness: Brightness.light,
     scaffoldBackgroundColor: ColorManager.background,
 
@@ -28,6 +29,11 @@ class ThemeManager {
         color: ColorManager.black,
         fontSize: 32.sp,
         fontWeight: FontWeight.bold,
+      ),
+      displaySmall: GoogleFonts.inter(
+        color: ColorManager.white,
+        fontSize: 14.sp,
+        fontWeight: FontWeight.w500,
       ),
       headlineLarge: GoogleFonts.inter(
         color: ColorManager.darkBlue,
@@ -114,7 +120,7 @@ class ThemeManager {
     /// TEXT FORM FIELD DECORATION
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: ColorManager.lightWhite,
+      fillColor: ColorManager.lightBlue,
       contentPadding: REdgeInsets.symmetric(horizontal: 16, vertical: 14),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10.r),
@@ -143,19 +149,19 @@ class ThemeManager {
       elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.r),
-        side: BorderSide(color: ColorManager.lightWhite, width: 1.w),
+        side: BorderSide(color: ColorManager.lightBlue, width: 1.w),
       ),
     ),
 
     /// BOTTOM NAVIGATION
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
-      backgroundColor: ColorManager.background,
+      backgroundColor: Colors.transparent,
       selectedItemColor: ColorManager.darkBlue,
       unselectedItemColor: ColorManager.greyText,
       showSelectedLabels: false,
       showUnselectedLabels: false,
-      elevation: 10,
+      elevation: 0,
     ),
   );
 }

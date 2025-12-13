@@ -7,14 +7,17 @@ class ImageAssets {
   static const String onboarding1 = '${_base}onboarding1.png';
   static const String onboarding2 = '${_base}onboarding2.png';
   static const String onboarding3 = '${_base}onboarding3.png';
-  static const String forgetPassword =
-      '${_base}forgetpassword.png';
-        static const String done =
-      '${_base}done.png';
+  static const String forgetPassword = '${_base}forgetpassword.png';
+  static const String done = '${_base}done.png';
+  static const String hospitalImage = '${_base}hospital_image.png';
 }
 
 class IconAssets {
-  static const String base = 'assets/icons/';
+  static const String _base = 'assets/icons/';
+  static const String iconRunning = '${_base}running_image.png';
+  static const String iconSalad = '${_base}salad.png';
+  static const String iconSnooze = '${_base}snooze.png';
+  static const String iconWater = '${_base}Vector.png';
 }
 
 class LottieAssets {
