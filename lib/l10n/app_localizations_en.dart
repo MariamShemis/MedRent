@@ -210,5 +210,56 @@ class AppLocalizationsEn extends AppLocalizations {
   String get startChat => 'Start Chat';
 
   @override
+  String get yourLocation => 'Your Location';
+
+  @override
+  String get enable_location_to_find_hospitals_near_you => 'Enable location to find hospitals near you';
+
+  @override
+  String get try_ourServices => 'Try our Services';
+
+  @override
+  String get hospitalSearch => 'Hospital Search';
+
+  @override
+  String get find_hospitals_by_specialty_location_and_rating => 'Find hospitals by specialty, location, and rating';
+
+  @override
+  String get equipmentRental => 'Equipment Rental';
+
+  @override
+  String get rent_or_purchase_medical_devices_and_equipment => 'Rent or purchase medical devices and equipment';
+
+  @override
+  String get aIAssistant => 'AI Assistant';
+
+  @override
+  String get tips_for_better_health => 'Tips for better health';
+
+  @override
+  String get balancedMeals => 'Balanced Meals';
+
+  @override
+  String get stayHydrated => 'Stay Hydrated ';
+
+  @override
+  String get include_proteins_vegetables_fruits_and_whole_grains_in_every_meal => 'Include proteins, vegetables ,fruits, and whole grains in every meal';
+
+  @override
+  String get drink_at_least_8_glasses_of_water_a_day_to_keep_your_body_and_skin_healthy => 'Drink at least 8 glasses of water a day to keep your body and skin healthy';
+
+  @override
+  String get getEnoughSleep => 'Get Enough Sleep';
+
+  @override
+  String get try_to_sleep_7_8_hours_per_night_to_improve_your_focus_and_overall_health => 'Try to sleep 7-8 hours per night to improve your focus, and overall health';
+
+  @override
+  String get exerciseRegularly => 'Exercise Regularly';
+
+  @override
+  String get aim_for_at_least_30_minutes_for_physical_activity_daily_to_stay_fit => 'Aim for at least 30 minutes for physical activity daily to stay fit';
+
+  @override
   String get confirmLocation => 'Confirm location';
 }

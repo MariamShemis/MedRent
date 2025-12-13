@@ -40,7 +40,7 @@ class _CustomAuthTextFormFieldState extends State<CustomAuthTextFormField> {
       width: double.infinity,
       child: TextFormField(
         controller: widget.controller,
-        style: const TextStyle(color: Colors.black),
+        style:  Theme.of(context).textTheme.bodyMedium!.copyWith(color: const Color(0xFF000000)),
         cursorColor: Colors.black,
         keyboardType: widget.keyboardType,
         obscureText: widget.isPassword ? _obscureText : false,
