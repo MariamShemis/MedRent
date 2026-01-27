@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/core/utils/validators/validators.dart';
 import 'package:med_rent/features/auth/presentation/view/login_screen.dart';
 import 'package:med_rent/features/auth/presentation/widgets/custom_auth_text_field.dart';
-import 'package:med_rent/features/auth/presentation/widgets/social%20_category.dart';
+import 'package:med_rent/features/auth/presentation/widgets/social_category.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
 
 class RegisterScreen extends StatefulWidget {
