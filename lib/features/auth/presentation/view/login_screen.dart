@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/core/utils/validators/validators.dart';
-import 'package:med_rent/features/auth/data/cubit/login_cubit.dart';
+import 'package:med_rent/features/auth/data/cubit/auth_cubit.dart';
 import 'package:med_rent/features/auth/presentation/view/forget_password_screen.dart';
 import 'package:med_rent/features/auth/presentation/view/register_screen.dart';
 import 'package:med_rent/features/auth/presentation/widgets/custom_auth_text_field.dart';
@@ -35,13 +35,13 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return BlocProvider(
-      create: (context) => LoginCubit(),
+      create: (context) => AuthCubit(),
 
-      child: BlocConsumer<LoginCubit, LoginState>(
+      child: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
-          if (state is LoginSuccess) {
+          if (state is AuthSuccess) {
             Navigator.pushReplacementNamed(context, AppRoutes.mainLayout);
-          } else if (state is LoginFailure) {
+          } else if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.errorMessage),
@@ -179,17 +179,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: state is LoginLoading
+                            onPressed: state is AuthLoading
                                 ? null
                                 : () {
                                     if (formKey.currentState!.validate()) {
-                                      context.read<LoginCubit>().loginCubit(
+                                      context.read<AuthCubit>().loginCubit(
                                         email: emailController.text,
                                         password: passwordController.text,
                                       );
                                     }
                                   },
-                            child: state is LoginLoading
+                            child: state is AuthLoading
                                 ? const CircularProgressIndicator(
                                     color: Colors.white,
                                   )
