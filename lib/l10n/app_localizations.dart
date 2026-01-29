@@ -604,6 +604,498 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Confirm location'**
   String get confirmLocation;
+
+  /// No description provided for @findHospital.
+  ///
+  /// In en, this message translates to:
+  /// **'Find Hospital'**
+  String get findHospital;
+
+  /// No description provided for @search_by_location_or_hospital_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by location or hospital name'**
+  String get search_by_location_or_hospital_name;
+
+  /// No description provided for @bookNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Book now'**
+  String get bookNow;
+
+  /// No description provided for @hospitalDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Hospital details'**
+  String get hospitalDetails;
+
+  /// No description provided for @departments.
+  ///
+  /// In en, this message translates to:
+  /// **'Departments'**
+  String get departments;
+
+  /// No description provided for @about.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
+
+  /// No description provided for @patientReviews.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient Reviews'**
+  String get patientReviews;
+
+  /// No description provided for @booking.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking'**
+  String get booking;
+
+  /// No description provided for @scheduleYour_booking.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule Your booking'**
+  String get scheduleYour_booking;
+
+  /// No description provided for @availableDoctors.
+  ///
+  /// In en, this message translates to:
+  /// **'Available Doctors'**
+  String get availableDoctors;
+
+  /// No description provided for @bookAppointment.
+  ///
+  /// In en, this message translates to:
+  /// **'Book Appointment'**
+  String get bookAppointment;
+
+  /// No description provided for @payment.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment'**
+  String get payment;
+
+  /// No description provided for @appointmentSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Appointment Summary'**
+  String get appointmentSummary;
+
+  /// No description provided for @date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get date;
+
+  /// No description provided for @time.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get time;
+
+  /// No description provided for @consultationFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Consultation Fee'**
+  String get consultationFee;
+
+  /// No description provided for @total.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get total;
+
+  /// No description provided for @patientInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient Information'**
+  String get patientInformation;
+
+  /// No description provided for @fullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get fullName;
+
+  /// No description provided for @enter_Your_full_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Your full name'**
+  String get enter_Your_full_name;
+
+  /// No description provided for @emailAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Address'**
+  String get emailAddress;
+
+  /// No description provided for @contactNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Number'**
+  String get contactNumber;
+
+  /// No description provided for @enter_Your_phone_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Your phone number'**
+  String get enter_Your_phone_number;
+
+  /// No description provided for @phoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number'**
+  String get phoneNumber;
+
+  /// No description provided for @paymentMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Method'**
+  String get paymentMethod;
+
+  /// No description provided for @cardNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Card Number'**
+  String get cardNumber;
+
+  /// No description provided for @expiryDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Expiry Date'**
+  String get expiryDate;
+
+  /// No description provided for @cVV.
+  ///
+  /// In en, this message translates to:
+  /// **'CVV'**
+  String get cVV;
+
+  /// No description provided for @confirm_Pay.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm & Pay '**
+  String get confirm_Pay;
+
+  /// No description provided for @the_process_was_successful.
+  ///
+  /// In en, this message translates to:
+  /// **'The process was successful.'**
+  String get the_process_was_successful;
+
+  /// No description provided for @back_to_home.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to home'**
+  String get back_to_home;
+
+  /// No description provided for @productDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Product Details'**
+  String get productDetails;
+
+  /// No description provided for @rentalPricing.
+  ///
+  /// In en, this message translates to:
+  /// **'Rental Pricing'**
+  String get rentalPricing;
+
+  /// No description provided for @perDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Per Day'**
+  String get perDay;
+
+  /// No description provided for @perWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Per Week'**
+  String get perWeek;
+
+  /// No description provided for @reviews.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviews'**
+  String get reviews;
+
+  /// No description provided for @specification.
+  ///
+  /// In en, this message translates to:
+  /// **'Specification'**
+  String get specification;
+
+  /// No description provided for @usageNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Usage Notes'**
+  String get usageNotes;
+
+  /// No description provided for @checkAvailability.
+  ///
+  /// In en, this message translates to:
+  /// **'Check Availability'**
+  String get checkAvailability;
+
+  /// No description provided for @userReviews.
+  ///
+  /// In en, this message translates to:
+  /// **'User Reviews'**
+  String get userReviews;
+
+  /// No description provided for @rentNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Rent Now'**
+  String get rentNow;
+
+  /// No description provided for @confirmYourRental.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Your Rental'**
+  String get confirmYourRental;
+
+  /// No description provided for @rentalSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Rental Summary'**
+  String get rentalSummary;
+
+  /// No description provided for @rentalPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Rental Period'**
+  String get rentalPeriod;
+
+  /// No description provided for @startDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Date'**
+  String get startDate;
+
+  /// No description provided for @endDate.
+  ///
+  /// In en, this message translates to:
+  /// **'End Date'**
+  String get endDate;
+
+  /// No description provided for @rentalFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Rental Fee'**
+  String get rentalFee;
+
+  /// No description provided for @insuranceFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Insurance Fee'**
+  String get insuranceFee;
+
+  /// No description provided for @taxes_Fee.
+  ///
+  /// In en, this message translates to:
+  /// **'Taxes & Fee'**
+  String get taxes_Fee;
+
+  /// No description provided for @totalCost.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Cost'**
+  String get totalCost;
+
+  /// No description provided for @saveCardForFutureRentals.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Card For Future Rentals'**
+  String get saveCardForFutureRentals;
+
+  /// No description provided for @deliveryAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery Address'**
+  String get deliveryAddress;
+
+  /// No description provided for @streetAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Street Address'**
+  String get streetAddress;
+
+  /// No description provided for @enteryouraddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your address'**
+  String get enteryouraddress;
+
+  /// No description provided for @apartment_Suite_etc_Optional.
+  ///
+  /// In en, this message translates to:
+  /// **'Apartment,Suite, etc.(Optional)'**
+  String get apartment_Suite_etc_Optional;
+
+  /// No description provided for @sSL_SecuredPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'SSL Secured Payment'**
+  String get sSL_SecuredPayment;
+
+  /// No description provided for @confirmRental.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Rental'**
+  String get confirmRental;
+
+  /// No description provided for @byClicking_ConfirmRental_You_agree_to_our.
+  ///
+  /// In en, this message translates to:
+  /// **'By Clicking “Confirm Rental”,You agree to our'**
+  String get byClicking_ConfirmRental_You_agree_to_our;
+
+  /// No description provided for @termsOfService.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms Of Service'**
+  String get termsOfService;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// No description provided for @myRentals.
+  ///
+  /// In en, this message translates to:
+  /// **'My Rentals'**
+  String get myRentals;
+
+  /// No description provided for @search_by_equipment_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by equipment name'**
+  String get search_by_equipment_name;
+
+  /// No description provided for @aI_MedicalAssistant.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Medical Assistant'**
+  String get aI_MedicalAssistant;
+
+  /// No description provided for @describe_your_symptoms_and_let_our_smart_assistant_guide_you_to_the_right_department_or_nearby_hospitals.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe your symptoms and let our smart assistant guide you to the right department or nearby hospitals.'**
+  String get describe_your_symptoms_and_let_our_smart_assistant_guide_you_to_the_right_department_or_nearby_hospitals;
+
+  /// No description provided for @describeYourSymptoms.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe Your Symptoms'**
+  String get describeYourSymptoms;
+
+  /// No description provided for @e_g_I_have_a_sharp_headache_and_feel_dizzy.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., I have a sharp headache and feel dizzy ...'**
+  String get e_g_I_have_a_sharp_headache_and_feel_dizzy;
+
+  /// No description provided for @analyzeSymptoms.
+  ///
+  /// In en, this message translates to:
+  /// **'Analyze Symptoms'**
+  String get analyzeSymptoms;
+
+  /// No description provided for @your_input_is_processed_securely.
+  ///
+  /// In en, this message translates to:
+  /// **'Your input is processed securely.'**
+  String get your_input_is_processed_securely;
+
+  /// No description provided for @cardiology.
+  ///
+  /// In en, this message translates to:
+  /// **'Cardiology'**
+  String get cardiology;
+
+  /// No description provided for @based_on_your_symptoms_this_department_is_the_most_relevant_for_a_consultation.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on your symptoms, this department is the most relevant for a consultation.'**
+  String get based_on_your_symptoms_this_department_is_the_most_relevant_for_a_consultation;
+
+  /// No description provided for @suggestedActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested Actions'**
+  String get suggestedActions;
+
+  /// No description provided for @seek_medical_attention_within_hours.
+  ///
+  /// In en, this message translates to:
+  /// **'Seek medical attention within 24 hours.'**
+  String get seek_medical_attention_within_hours;
+
+  /// No description provided for @monitor_any_changes_in_your_breathing.
+  ///
+  /// In en, this message translates to:
+  /// **'Monitor any changes in your breathing.'**
+  String get monitor_any_changes_in_your_breathing;
+
+  /// No description provided for @avoid_heavy_physical_activity.
+  ///
+  /// In en, this message translates to:
+  /// **'Avoid heavy physical activity.'**
+  String get avoid_heavy_physical_activity;
+
+  /// No description provided for @howtoUse.
+  ///
+  /// In en, this message translates to:
+  /// **'How to Use'**
+  String get howtoUse;
+
+  /// No description provided for @describe_symptoms_in_everyday_language.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe symptoms in everyday language.'**
+  String get describe_symptoms_in_everyday_language;
+
+  /// No description provided for @include_duration_severity_or_other_notes.
+  ///
+  /// In en, this message translates to:
+  /// **'Include duration, severity, or other notes.'**
+  String get include_duration_severity_or_other_notes;
+
+  /// No description provided for @this_is_a_guidance_tool_not_a_diagnosis.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a guidance tool, not a diagnosis.'**
+  String get this_is_a_guidance_tool_not_a_diagnosis;
+
+  /// No description provided for @nearbyHospitals.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearby Hospitals'**
+  String get nearbyHospitals;
+
+  /// No description provided for @miles_away.
+  ///
+  /// In en, this message translates to:
+  /// **'miles away'**
+  String get miles_away;
+
+  /// No description provided for @this_tool_provides_general_guidance_and_does_not_replace_professional_medical_diagnosis.
+  ///
+  /// In en, this message translates to:
+  /// **'This tool provides general guidance and does not replace professional medical diagnosis.'**
+  String get this_tool_provides_general_guidance_and_does_not_replace_professional_medical_diagnosis;
+
+  /// No description provided for @and.
+  ///
+  /// In en, this message translates to:
+  /// **'And'**
+  String get and;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

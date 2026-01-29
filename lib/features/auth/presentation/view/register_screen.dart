@@ -142,8 +142,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         SizedBox(height: 22.h),
                         CustomAuthTextFormField(
                           controller: _phoneController,
-                          labelText: 'Phone Number',
-                          hintText: '010XXXXXXXX',
+                          labelText: appLocalizations.phoneNumber,
+                          hintText: appLocalizations.enter_Your_phone_number,
                           keyboardType: TextInputType.phone,
                           validator: (val) =>
                               AppValidators.validatePhoneNumber(context, val),
