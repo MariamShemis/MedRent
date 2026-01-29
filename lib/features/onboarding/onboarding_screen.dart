@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
+import 'package:med_rent/core/service/session_service.dart';
 import 'package:med_rent/features/onboarding/model/onboarding_model.dart';
 import 'package:med_rent/features/onboarding/widgets/page_item_onboarding.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
@@ -42,7 +43,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void skipOnboarding() {
-    Navigator.pushReplacementNamed(context, AppRoutes.startScreen);
+    _completeOnboarding();
   }
 
   void goToNextPage() {
@@ -52,16 +53,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         curve: Curves.easeInOut,
       );
     } else {
-      Navigator.pushReplacementNamed(context, AppRoutes.startScreen);
+      _completeOnboarding();
     }
   }
 
+  Future<void> _completeOnboarding() async {
+    await SessionService.markOnboardingCompleted();
+    Navigator.pushReplacementNamed(context, AppRoutes.startScreen);
+  }
 
   @override
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     final isFirstPage = currentPage == 0;
     final isLastPage = currentPage == lastPageIndex;
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -126,7 +132,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               SizedBox(height: 80.h),
               ElevatedButton(
                 onPressed: goToNextPage,
-                child: Text(isLastPage ? appLocalizations.getStarted : appLocalizations.next),
+                child: Text(
+                    isLastPage ? appLocalizations.getStarted : appLocalizations.next
+                ),
               ),
             ],
           ),
