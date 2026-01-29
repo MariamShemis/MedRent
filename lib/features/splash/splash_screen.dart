@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:med_rent/core/constants/assets_manager.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
+import 'package:med_rent/core/service/session_service.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -38,10 +39,7 @@ class SplashScreen extends StatelessWidget {
                     .animate(
                   delay: 3000.ms,
                   onComplete: (controller) {
-                    Future.delayed(const Duration(milliseconds: 500), () {
-                      Navigator.pushReplacementNamed(
-                          context, AppRoutes.onBoarding);
-                    });
+                    _checkAndNavigate(context);
                   },
                 )
                     .fadeIn(duration: 800.ms)
@@ -52,5 +50,23 @@ class SplashScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _checkAndNavigate(BuildContext context) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    final launchState = await SessionService.getAppLaunchState();
+
+    switch (launchState) {
+      case AppLaunchState.authenticated:
+        Navigator.pushReplacementNamed(context, AppRoutes.mainLayout);
+        break;
+      case AppLaunchState.needsAuth:
+        Navigator.pushReplacementNamed(context, AppRoutes.startScreen);
+        break;
+      case AppLaunchState.needsOnboarding:
+        Navigator.pushReplacementNamed(context, AppRoutes.onBoarding);
+        break;
+    }
   }
 }
