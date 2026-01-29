@@ -134,7 +134,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         CustomAuthTextFormField(
                           controller: _emailController,
                           labelText: appLocalizations.email,
-                          hintText: 'example@email.com',
+                          hintText: appLocalizations.enterYourEmail ,
                           keyboardType: TextInputType.emailAddress,
                           validator: (val) =>
                               AppValidators.validateEmail(context, val),
