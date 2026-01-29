@@ -31,10 +31,12 @@ class CustomContainerTips extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Image.asset(iconImage , height: 25.h, width: 25.w,),
-              Text(
-                title,
-                style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                  color: isColorBlue ? ColorManager.white : ColorManager.black,
+              Expanded(
+                child: Text(
+                  title,
+                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                    color: isColorBlue ? ColorManager.white : ColorManager.black,
+                  ),
                 ),
               ),
             ],

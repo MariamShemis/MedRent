@@ -2,18 +2,49 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/assets_manager.dart';
+import 'package:med_rent/core/service/session_service.dart';
 import 'package:med_rent/core/widgets/custom_search_text_field.dart';
 import 'package:med_rent/features/main_layout/home/presentation/widgets/custom_container_service.dart';
 import 'package:med_rent/features/main_layout/home/presentation/widgets/custom_container_tips.dart';
 import 'package:med_rent/features/main_layout/home/presentation/widgets/custom_hospital_location.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
+
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
+  String? _userName;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    try {
+      final userName = await SessionService.getUserName();
+      setState(() {
+        _userName = userName ?? 'User';
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _userName = 'User';
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+    
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -24,17 +55,31 @@ class HomeTab extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text(
-                      "${appLocalizations.hi}, Shrouk",
-                      style: Theme.of(context).textTheme.labelMedium,
-                    ),
-                    SizedBox(width: 4.w),
-                    Icon(
-                      Icons.waving_hand_sharp,
-                      textDirection: TextDirection.ltr,
-                      color: Colors.amber.withValues(alpha: 0.5),
-                    ),
-                    Spacer(),
+                    if (_isLoading)
+                      Container(
+                        width: 100.w,
+                        height: 20.h,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      )
+                    else
+                      Row(
+                        children: [
+                          Text(
+                            "${appLocalizations.hi}, $_userName",
+                            style: Theme.of(context).textTheme.labelMedium,
+                          ),
+                          SizedBox(width: 4.w),
+                          Icon(
+                            Icons.waving_hand_sharp,
+                            textDirection: TextDirection.ltr,
+                            color: Colors.amber.withAlpha(128),
+                          ),
+                        ],
+                      ),
+                    const Spacer(),
                     IconButton(
                       onPressed: () {},
                       icon: Icon(
@@ -48,9 +93,9 @@ class HomeTab extends StatelessWidget {
                 SizedBox(height: 5.h),
                 Text(
                   appLocalizations.how_can_we_help_you_today,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(fontSize: 14.sp),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontSize: 14.sp,
+                  ),
                 ),
                 SizedBox(height: 16.h),
                 CustomSearchTextField(

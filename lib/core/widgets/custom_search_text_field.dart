@@ -3,14 +3,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 
 class CustomSearchTextField extends StatelessWidget {
-  const CustomSearchTextField({super.key, required this.hintText, required this.iconPrefix , this.onChanged});
+  const CustomSearchTextField({
+    super.key,
+    required this.hintText,
+    this.iconPrefix,
+    this.onChanged,
+    this.maxLines = 1,
+    this.isDarkColor = false,
+  });
+
   final String hintText;
-  final IconData iconPrefix;
+  final IconData? iconPrefix;
+  final int maxLines;
+  final bool isDarkColor;
   final void Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      maxLines: maxLines,
       style: Theme.of(context).textTheme.labelSmall,
       onChanged: onChanged,
       decoration: InputDecoration(
@@ -19,18 +30,27 @@ class CustomSearchTextField extends StatelessWidget {
           fontSize: 14.sp,
           fontWeight: FontWeight.w400,
         ),
-        prefixIcon: Icon(iconPrefix , color: ColorManager.greyText,),
+        prefixIcon: isDarkColor ? null : Icon(iconPrefix, color: ColorManager.greyText),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.r),
-          borderSide: BorderSide(width: 1, color: ColorManager.secondary.withValues(alpha: 0.5)),
+          borderSide: BorderSide(
+            width: 1,
+            color: isDarkColor? ColorManager.darkBlue: ColorManager.secondary.withValues(alpha: 0.5),
+          ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.r),
-          borderSide: BorderSide(width: 1 , color: ColorManager.secondary.withValues(alpha: 0.5)),
+          borderSide: BorderSide(
+            width: 1,
+            color: isDarkColor? ColorManager.darkBlue: ColorManager.secondary.withValues(alpha: 0.5),
+          ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.r),
-          borderSide: BorderSide(width: 1 , color: ColorManager.secondary.withValues(alpha: 0.5)),
+          borderSide: BorderSide(
+            width: 1,
+            color: isDarkColor? ColorManager.darkBlue: ColorManager.secondary.withValues(alpha: 0.5),
+          ),
         ),
       ),
     );

@@ -262,4 +262,250 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get confirmLocation => 'Confirm location';
+
+  @override
+  String get findHospital => 'Find Hospital';
+
+  @override
+  String get search_by_location_or_hospital_name => 'Search by location or hospital name';
+
+  @override
+  String get bookNow => 'Book now';
+
+  @override
+  String get hospitalDetails => 'Hospital details';
+
+  @override
+  String get departments => 'Departments';
+
+  @override
+  String get about => 'About';
+
+  @override
+  String get patientReviews => 'Patient Reviews';
+
+  @override
+  String get booking => 'Booking';
+
+  @override
+  String get scheduleYour_booking => 'Schedule Your booking';
+
+  @override
+  String get availableDoctors => 'Available Doctors';
+
+  @override
+  String get bookAppointment => 'Book Appointment';
+
+  @override
+  String get payment => 'Payment';
+
+  @override
+  String get appointmentSummary => 'Appointment Summary';
+
+  @override
+  String get date => 'Date';
+
+  @override
+  String get time => 'Time';
+
+  @override
+  String get consultationFee => 'Consultation Fee';
+
+  @override
+  String get total => 'Total';
+
+  @override
+  String get patientInformation => 'Patient Information';
+
+  @override
+  String get fullName => 'Full Name';
+
+  @override
+  String get enter_Your_full_name => 'Enter Your full name';
+
+  @override
+  String get emailAddress => 'Email Address';
+
+  @override
+  String get contactNumber => 'Contact Number';
+
+  @override
+  String get enter_Your_phone_number => 'Enter Your phone number';
+
+  @override
+  String get phoneNumber => 'Phone number';
+
+  @override
+  String get paymentMethod => 'Payment Method';
+
+  @override
+  String get cardNumber => 'Card Number';
+
+  @override
+  String get expiryDate => 'Expiry Date';
+
+  @override
+  String get cVV => 'CVV';
+
+  @override
+  String get confirm_Pay => 'Confirm & Pay ';
+
+  @override
+  String get the_process_was_successful => 'The process was successful.';
+
+  @override
+  String get back_to_home => 'Back to home';
+
+  @override
+  String get productDetails => 'Product Details';
+
+  @override
+  String get rentalPricing => 'Rental Pricing';
+
+  @override
+  String get perDay => 'Per Day';
+
+  @override
+  String get perWeek => 'Per Week';
+
+  @override
+  String get reviews => 'Reviews';
+
+  @override
+  String get specification => 'Specification';
+
+  @override
+  String get usageNotes => 'Usage Notes';
+
+  @override
+  String get checkAvailability => 'Check Availability';
+
+  @override
+  String get userReviews => 'User Reviews';
+
+  @override
+  String get rentNow => 'Rent Now';
+
+  @override
+  String get confirmYourRental => 'Confirm Your Rental';
+
+  @override
+  String get rentalSummary => 'Rental Summary';
+
+  @override
+  String get rentalPeriod => 'Rental Period';
+
+  @override
+  String get startDate => 'Start Date';
+
+  @override
+  String get endDate => 'End Date';
+
+  @override
+  String get rentalFee => 'Rental Fee';
+
+  @override
+  String get insuranceFee => 'Insurance Fee';
+
+  @override
+  String get taxes_Fee => 'Taxes & Fee';
+
+  @override
+  String get totalCost => 'Total Cost';
+
+  @override
+  String get saveCardForFutureRentals => 'Save Card For Future Rentals';
+
+  @override
+  String get deliveryAddress => 'Delivery Address';
+
+  @override
+  String get streetAddress => 'Street Address';
+
+  @override
+  String get enteryouraddress => 'Enter your address';
+
+  @override
+  String get apartment_Suite_etc_Optional => 'Apartment,Suite, etc.(Optional)';
+
+  @override
+  String get sSL_SecuredPayment => 'SSL Secured Payment';
+
+  @override
+  String get confirmRental => 'Confirm Rental';
+
+  @override
+  String get byClicking_ConfirmRental_You_agree_to_our => 'By Clicking “Confirm Rental”,You agree to our';
+
+  @override
+  String get termsOfService => 'Terms Of Service';
+
+  @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get myRentals => 'My Rentals';
+
+  @override
+  String get search_by_equipment_name => 'Search by equipment name';
+
+  @override
+  String get aI_MedicalAssistant => 'AI Medical Assistant';
+
+  @override
+  String get describe_your_symptoms_and_let_our_smart_assistant_guide_you_to_the_right_department_or_nearby_hospitals => 'Describe your symptoms and let our smart assistant guide you to the right department or nearby hospitals.';
+
+  @override
+  String get describeYourSymptoms => 'Describe Your Symptoms';
+
+  @override
+  String get e_g_I_have_a_sharp_headache_and_feel_dizzy => 'e.g., I have a sharp headache and feel dizzy ...';
+
+  @override
+  String get analyzeSymptoms => 'Analyze Symptoms';
+
+  @override
+  String get your_input_is_processed_securely => 'Your input is processed securely.';
+
+  @override
+  String get cardiology => 'Cardiology';
+
+  @override
+  String get based_on_your_symptoms_this_department_is_the_most_relevant_for_a_consultation => 'Based on your symptoms, this department is the most relevant for a consultation.';
+
+  @override
+  String get suggestedActions => 'Suggested Actions';
+
+  @override
+  String get seek_medical_attention_within_hours => 'Seek medical attention within 24 hours.';
+
+  @override
+  String get monitor_any_changes_in_your_breathing => 'Monitor any changes in your breathing.';
+
+  @override
+  String get avoid_heavy_physical_activity => 'Avoid heavy physical activity.';
+
+  @override
+  String get howtoUse => 'How to Use';
+
+  @override
+  String get describe_symptoms_in_everyday_language => 'Describe symptoms in everyday language.';
+
+  @override
+  String get include_duration_severity_or_other_notes => 'Include duration, severity, or other notes.';
+
+  @override
+  String get this_is_a_guidance_tool_not_a_diagnosis => 'This is a guidance tool, not a diagnosis.';
+
+  @override
+  String get nearbyHospitals => 'Nearby Hospitals';
+
+  @override
+  String get miles_away => 'miles away';
+
+  @override
+  String get this_tool_provides_general_guidance_and_does_not_replace_professional_medical_diagnosis => 'This tool provides general guidance and does not replace professional medical diagnosis.';
+
+  @override
+  String get and => 'And';
 }

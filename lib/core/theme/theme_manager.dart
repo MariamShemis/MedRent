@@ -55,6 +55,11 @@ class ThemeManager {
         fontSize: 16.sp,
         fontWeight: FontWeight.w500,
       ),
+      bodySmall: GoogleFonts.inter(
+        color: ColorManager.greyText,
+        fontSize: 12.sp,
+        fontWeight: FontWeight.w400,
+      ),
       labelLarge: GoogleFonts.inter(
         color: ColorManager.black,
         fontSize: 18.sp,
@@ -69,6 +74,11 @@ class ThemeManager {
         color: ColorManager.black,
         fontWeight: FontWeight.w400,
         fontSize: 14.sp,
+      ),
+      titleLarge:  GoogleFonts.inter(
+        color: ColorManager.secondary,
+        fontWeight: FontWeight.bold,
+        fontSize: 24.sp,
       ),
       titleMedium: GoogleFonts.inter(
         color: ColorManager.black,
