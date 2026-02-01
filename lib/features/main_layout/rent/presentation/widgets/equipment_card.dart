@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/features/main_layout/rent/model/equipment.dart';
+import 'package:med_rent/features/main_layout/rent/data/models/equipment_model.dart';
 
 class EquipmentCard extends StatelessWidget {
   final EquipmentModel equipment;
@@ -27,8 +28,9 @@ class EquipmentCard extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(8.72.r)),
                 child: Image.network(
-                  equipment.image,
-                  fit: BoxFit.contain,
+                  equipment.imageUrl,
+                  fit: BoxFit.contain, 
+                  errorBuilder: (context, error, stackTrace) => Icon(Icons.broken_image , size: 50.sp , color: Colors.grey,),
                 ),
               ),
             ),
@@ -78,7 +80,7 @@ class EquipmentCard extends StatelessWidget {
 
                   // السعر
                   Text(
-                    "From \$${equipment.price.toInt()}/day",
+                    "From \$${equipment.pricePerDay.toInt()}/day",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12.sp,
