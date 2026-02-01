@@ -1096,6 +1096,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'And'**
   String get and;
+
+  /// No description provided for @oxygen.
+  ///
+  /// In en, this message translates to:
+  /// **'Oxygen'**
+  String get oxygen;
+
+  /// No description provided for @wheelchairs.
+  ///
+  /// In en, this message translates to:
+  /// **'Wheelchairs'**
+  String get wheelchairs;
+
+  /// No description provided for @hospitalBeds.
+  ///
+  /// In en, this message translates to:
+  /// **'Hospital Beds'**
+  String get hospitalBeds;
+
+  /// No description provided for @walkersAndCanes.
+  ///
+  /// In en, this message translates to:
+  /// **'Walkers & Canes'**
+  String get walkersAndCanes;
+
+  /// No description provided for @patientLifts.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient Lifts'**
+  String get patientLifts;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

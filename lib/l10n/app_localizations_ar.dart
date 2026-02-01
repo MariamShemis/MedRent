@@ -508,4 +508,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get and => 'و';
+
+  @override
+  String get oxygen => 'Oxygen';
+
+  @override
+  String get wheelchairs => 'Wheelchairs';
+
+  @override
+  String get hospitalBeds => 'Hospital Beds';
+
+  @override
+  String get walkersAndCanes => 'Walkers & Canes';
+
+  @override
+  String get patientLifts => 'Patient Lifts';
 }
