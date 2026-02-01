@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
-import 'package:med_rent/features/main_layout/rent/model/equipment.dart';
 import 'package:med_rent/features/main_layout/rent/data/models/equipment_model.dart';
 
 class EquipmentCard extends StatelessWidget {
