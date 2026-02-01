@@ -85,6 +85,11 @@ class ThemeManager {
         fontWeight: FontWeight.bold,
         fontSize: 20.sp,
       ),
+      titleSmall: GoogleFonts.inter(
+        fontSize: 10.sp,
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+      ),
     ),
 
     /// APPBAR
@@ -95,7 +100,7 @@ class ThemeManager {
       titleTextStyle: GoogleFonts.inter(
         color: ColorManager.darkBlue,
         fontSize: 20.sp,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w500,
       ),
       iconTheme: IconThemeData(color: ColorManager.black),
     ),

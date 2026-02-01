@@ -4,6 +4,7 @@ import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/features/auth/data/cubit/auth_cubit.dart';
 import 'package:med_rent/features/auth/presentation/view/login_screen.dart';
 import 'package:med_rent/features/auth/presentation/view/register_screen.dart';
+import 'package:med_rent/features/equipment%20details/presentation/view/equipment_details.dart';
 import 'package:med_rent/features/main_layout/main_layout.dart';
 import 'package:med_rent/features/onboarding/onboarding_screen.dart';
 import 'package:med_rent/features/splash/splash_screen.dart';
@@ -46,6 +47,11 @@ abstract class RoutesManager {
         {
           return CupertinoPageRoute(builder: (context) => MainLayout());
         }
+        case AppRoutes.equipmentDetails:
+        {
+          return CupertinoPageRoute(builder: (context) => EquipmentDetails());
+        }
+
     }
     return null;
   }
