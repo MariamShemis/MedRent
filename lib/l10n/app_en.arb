@@ -165,5 +165,10 @@
   "nearbyHospitals" : "Nearby Hospitals" ,
   "miles_away" : "miles away" ,
   "this_tool_provides_general_guidance_and_does_not_replace_professional_medical_diagnosis" : "This tool provides general guidance and does not replace professional medical diagnosis." ,
-  "and" : "And"
+  "and" : "And",
+  "oxygen": "Oxygen",
+  "wheelchairs": "Wheelchairs",
+  "hospitalBeds": "Hospital Beds",
+  "walkersAndCanes": "Walkers & Canes",
+  "patientLifts": "Patient Lifts"
 }
