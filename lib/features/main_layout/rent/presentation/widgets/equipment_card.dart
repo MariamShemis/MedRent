@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
+import 'package:med_rent/core/routes/app_routes.dart';
+import 'package:med_rent/features/main_layout/rent/model/equipment.dart';
 import 'package:med_rent/features/main_layout/rent/data/models/equipment_model.dart';
 
 class EquipmentCard extends StatelessWidget {
@@ -12,14 +14,14 @@ class EquipmentCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: ColorManager.white,
-        borderRadius: BorderRadius.circular(8.72.r), 
-        border: Border.all(color: const Color(0xFFC0C0C0), width: 0.55.w), 
+        borderRadius: BorderRadius.circular(8.72.r),
+        border: Border.all(color: const Color(0xFFC0C0C0), width: 0.55.w),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            flex: 5, 
+            flex: 5,
             child: Container(
               width: double.infinity,
               padding: EdgeInsets.all(4.w),
@@ -33,14 +35,14 @@ class EquipmentCard extends StatelessWidget {
               ),
             ),
           ),
-          
+
           Expanded(
             flex: 6,
             child: Container(
               width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
               decoration: BoxDecoration(
-                color: ColorManager.lightBlue.withOpacity(0.2),
+                color: ColorManager.lightBlue.withOpacity(0.6),
                 borderRadius: BorderRadius.vertical(bottom: Radius.circular(8.72.r)),
               ),
               child: Column(
@@ -57,7 +59,7 @@ class EquipmentCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  
+
                   Row(
                     children: [
                       Wrap(
@@ -75,7 +77,7 @@ class EquipmentCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  
+
                   // السعر
                   Text(
                     "From \$${equipment.pricePerDay.toInt()}/day",
@@ -85,13 +87,15 @@ class EquipmentCard extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
-                  
+
                   // الزرار
                   SizedBox(
                     width: double.infinity,
                     height: 28.h,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, AppRoutes.equipmentDetails);
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: ColorManager.darkBlue,
                         shape: RoundedRectangleBorder(
