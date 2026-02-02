@@ -19,7 +19,7 @@ class MedRent extends StatelessWidget {
         onGenerateRoute:RoutesManager.router,
         initialRoute:AppRoutes.splash,
         theme: ThemeManager.lightTheme,
-        locale: Locale("ar"),
+        locale: Locale("en"),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
       ),
