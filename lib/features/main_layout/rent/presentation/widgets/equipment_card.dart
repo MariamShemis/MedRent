@@ -5,6 +5,7 @@ import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/features/equipment%20details/presentation/view_model/rating_summary.dart';
 import 'package:med_rent/features/main_layout/rent/data/models/equipment_model.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
 
 class EquipmentCard extends StatelessWidget {
   final EquipmentModel equipment;
@@ -14,6 +15,7 @@ class EquipmentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     final average = ratingSummary?.average ?? equipment.rating;
     final count = ratingSummary?.count ?? equipment.reviewsCount;
     return Container(
@@ -87,7 +89,7 @@ class EquipmentCard extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        "($count ${count == 1 ? 'Review' : 'Reviews'})",
+                        "($count ${count == 1 ? "${appLocalizations.review}" : "${appLocalizations.reviews}"})",
                         style: TextStyle(
                           fontSize: 8.sp,
                           color: Colors.grey.shade600,
@@ -96,7 +98,7 @@ class EquipmentCard extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    "From \$${equipment.pricePerDay.toInt()}/day",
+                    "${appLocalizations.from} \$${equipment.pricePerDay.toInt()}/${appLocalizations.day}",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12.sp,
@@ -122,7 +124,7 @@ class EquipmentCard extends StatelessWidget {
                         padding: EdgeInsets.zero,
                       ),
                       child: Text(
-                        "View Details",
+                        appLocalizations.viewDetails,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 10.sp,
