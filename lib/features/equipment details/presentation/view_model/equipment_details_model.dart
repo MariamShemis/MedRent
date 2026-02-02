@@ -17,12 +17,20 @@ class EquipmentDetailsModel {
 
   factory EquipmentDetailsModel.fromJson(Map<String, dynamic> json) {
     return EquipmentDetailsModel(
-      equipmentId: json['equipmentId'],
-      name: json['name'],
-      description: json['description'],
-      availability: json['availability'],
-      pricePerDay: json['pricePerDay'].toDouble(),
-      imageUrl: json['imageUrl'],
+      equipmentId: json['equipmentId'] ?? 0,
+      name: json['name'] ?? '',
+      description: json['description'] ?? '',
+      availability: json['availability'] ?? false,
+      pricePerDay: (json['pricePerDay'] as num).toDouble(),
+      imageUrl: _formatImageUrl(json['imageUrl']),
     );
+  }
+
+  static String _formatImageUrl(String? imageUrl) {
+    if (imageUrl == null || imageUrl.isEmpty) {
+      return '';
+    }
+    String formattedUrl = imageUrl.replaceAll('\\', '/');
+    return "http://graduationprojectapi.somee.com$formattedUrl";
   }
 }

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
+import 'package:med_rent/features/equipment%20details/data/cubit/equipment_details_cubit.dart';
+import 'package:med_rent/features/equipment%20details/data/data_sources/equipment_details_data_source.dart';
 import 'package:med_rent/features/equipment%20details/presentation/widgets/custom_card_item_details.dart';
 import 'package:med_rent/features/equipment%20details/presentation/widgets/custom_description_specification.dart';
 import 'package:med_rent/features/equipment%20details/presentation/widgets/custom_item_price_details.dart';
@@ -9,8 +13,18 @@ import 'package:med_rent/features/equipment%20details/presentation/widgets/user_
 import 'package:med_rent/l10n/app_localizations.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../data/cubit/equipment_details_state.dart'
+    show
+        EquipmentDetailsState,
+        EquipmentDetailsInitial,
+        EquipmentDetailsLoading,
+        EquipmentDetailsError,
+        EquipmentDetailsLoaded;
+
 class EquipmentDetails extends StatefulWidget {
-  const EquipmentDetails({super.key});
+  final int equipmentId;
+
+  const EquipmentDetails({super.key, required this.equipmentId});
 
   @override
   State<EquipmentDetails> createState() => _EquipmentDetailsState();
@@ -19,315 +33,477 @@ class EquipmentDetails extends StatefulWidget {
 class _EquipmentDetailsState extends State<EquipmentDetails> {
   late PageController _pageController;
   DateTime focusedDay = DateTime.now();
-  DateTime? selectedDay;
-
-  final List<DateTime> occupiedDays = [
-    DateTime(2025, 11, 18),
-    DateTime(2025, 11, 19),
-    DateTime(2025, 11, 20),
-    DateTime(2025, 11, 21),
-    DateTime(2025, 11, 22),
-    DateTime(2025, 11, 23),
-  ];
+  List<DateTime> selectedDays = [];
+  bool _isCalendarInitialized = false;
+  bool _isSelectionModeActive = false;
 
   @override
   void initState() {
     super.initState();
-    focusedDay = occupiedDays.first;
     _pageController = PageController();
+    focusedDay = DateTime.now();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
     _pageController.dispose();
+    super.dispose();
+  }
+
+  void _initializeCalendar(EquipmentDetailsLoaded state) {
+    if (mounted && !_isCalendarInitialized) {
+      setState(() {
+        final bookedDates = state.availability.bookedDates;
+        if (bookedDates.isNotEmpty) {
+          bookedDates.sort();
+          focusedDay = bookedDates.first;
+        }
+        _isCalendarInitialized = true;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
         leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(Icons.arrow_back_ios, color: Colors.black, size: 20.sp),
         ),
-        title: Text(appLocalizations.productDetails),
+        title: Text(
+          appLocalizations.productDetails,
+          style: TextStyle(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true,
       ),
-      body: Padding(
-        padding: REdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomCardItemDetails(
-                image:
-                    "https://images.pexels.com/photos/35842222/pexels-photo-35842222.jpeg",
-              ),
-              SizedBox(height: 16.h),
-              Text(
-                "Electric wheelchair",
-                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 8.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.star, color: Colors.amber, size: 20.sp),
-                      Icon(Icons.star, color: Colors.amber, size: 20.sp),
-                      Icon(Icons.star, color: Colors.amber, size: 20.sp),
-                      Icon(Icons.star, color: Colors.amber, size: 20.sp),
-                      Icon(Icons.star_border, color: Colors.grey, size: 20.sp),
-                    ],
-                  ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    "(120 ${appLocalizations.reviews})",
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16.h),
-              Text(
-                appLocalizations.rentalPricing,
-                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 8.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: CustomItemPriceDetails(
-                      isColorDark: false,
-                      textPer: appLocalizations.perDay,
-                      textPrice: "100.00 LE",
-                    ),
-                  ),
-                  SizedBox(width: 20.w),
-                  Expanded(
-                    child: CustomItemPriceDetails(
-                      isColorDark: true,
-                      textPer: appLocalizations.perWeek,
-                      textPrice: "700.00 LE",
-                      textSavePrice: "Save 15%",
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16.h),
-              Center(
-                child: Text(
-                  appLocalizations.specification,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              SizedBox(height: 10.h),
-              CustomDescriptionSpecification(
-                text1: "Motor Power: 250–300W dual-motor",
-                text2: "Battery Range: 15–25 km per full charge",
-                text3: "Max Speed: 6 km/h",
-                text4: "Climbing Ability: Up to 10–12° incline",
-              ),
-              SizedBox(height: 25.h),
-              Text(
-                appLocalizations.checkAvailability,
-                style: Theme.of(
-                  context,
-                ).textTheme.headlineLarge!.copyWith(fontSize: 18.sp),
-              ),
-              SizedBox(height: 16.h),
-              Container(
-                padding: EdgeInsets.all(16.r),
-                decoration: BoxDecoration(
-                  color: ColorManager.lightBlue,
-                  borderRadius: BorderRadius.circular(20.r),
-                ),
-                child: _buildCalendar(),
-              ),
-              SizedBox(height: 16.h),
-              Text(
-                appLocalizations.userReviews,
-                style: Theme.of(
-                  context,
-                ).textTheme.headlineLarge!.copyWith(fontSize: 18.sp),
-              ),
-              SizedBox(height: 16.h),
-              UserReview(
-                rating: "4.5",
-                ratingReview: "Based on 120 reviews",
-                listRatingStar: List.generate(
-                  5,
-                  (index) => Icon(
-                    index < 4 ? Icons.star : Icons.star_border,
-                    color: Colors.amber,
-                    size: 16.sp,
-                  ),
-                ),
-                ratingBar: Column(
+      body: BlocProvider<EquipmentDetailsCubit>(
+        create: (context) =>
+            EquipmentDetailsCubit(dataSource: EquipmentDetailsDataSource()),
+        child: BlocBuilder<EquipmentDetailsCubit, EquipmentDetailsState>(
+          builder: (context, state) {
+            if (state is EquipmentDetailsInitial) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.read<EquipmentDetailsCubit>().fetchEquipmentDetails(
+                  widget.equipmentId,
+                );
+              });
+            }
+
+            if (state is EquipmentDetailsLoading) {
+              return Center(
+                child: CircularProgressIndicator(color: ColorManager.darkBlue),
+              );
+            }
+
+            if (state is EquipmentDetailsError) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _ratingBar(5, 0.6),
-                    SizedBox(height: 5.h,),
-                    _ratingBar(4, 0.24),
-                    SizedBox(height: 5.h,),
-                    _ratingBar(3, 0.10),
-                    SizedBox(height: 5.h,),
-                    _ratingBar(2, 0.04),
-                    SizedBox(height: 5.h,),
-                    _ratingBar(1, 0.02),
+                    Icon(Icons.error, size: 50.sp, color: Colors.red),
+                    SizedBox(height: 16.h),
+                    Text(state.message, style: TextStyle(fontSize: 16.sp)),
+                    SizedBox(height: 20.h),
+                    ElevatedButton(
+                      onPressed: () {
+                        context
+                            .read<EquipmentDetailsCubit>()
+                            .refreshEquipmentDetails(widget.equipmentId);
+                      },
+                      child: Text('Retry', style: TextStyle(fontSize: 14.sp)),
+                    ),
                   ],
                 ),
-                userTitle1: "Ahmed L.",
-                userTitle2: "ALi A.",
-                userDescription1:
-                    "Comfortable and easy-to-control electric wheelchair with great performance, though the battery life could be slightly better.",
-                userDescription2:
-                    "Good electric wheelchair with decent comfort and control, but the battery and build quality could be improved.",
-                userStarRating1: [
-                  Icon(Icons.star, color: Colors.amber, size: 16.sp),
-                  Icon(Icons.star, color: Colors.amber, size: 16.sp),
-                  Icon(Icons.star, color: Colors.amber, size: 16.sp),
-                  Icon(Icons.star, color: Colors.amber, size: 16.sp),
-                  Icon(Icons.star_border, color: Colors.grey, size: 16.sp),
-                ],
-                userStarRating2: [
-                  Icon(Icons.star, color: Colors.amber, size: 16.sp),
-                  Icon(Icons.star, color: Colors.amber, size: 16.sp),
-                  Icon(Icons.star, color: Colors.amber, size: 16.sp),
-                  Icon(Icons.star, color: Colors.amber, size: 16.sp),
-                  Icon(Icons.star_border, color: Colors.grey, size: 16.sp),
-                ],
-              ),
-              SizedBox(height: 16.h),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(Icons.calendar_month),
-                      SizedBox(width: 10.w),
-                      Text("Rent Now"),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+              );
+            }
+
+            if (state is EquipmentDetailsLoaded) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                _initializeCalendar(state);
+              });
+              return _buildLoadedUI(context, state, appLocalizations);
+            }
+
+            return const SizedBox();
+          },
         ),
       ),
     );
   }
 
-  Widget _buildCalendar() {
+  Widget _buildLoadedUI(
+    BuildContext context,
+    EquipmentDetailsLoaded state,
+    AppLocalizations appLocalizations,
+  ) {
+    final equipment = state.equipment;
+    final reviews = state.reviews;
+    final ratingSummary = state.ratingSummary;
+    final availability = state.availability;
+
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomCardItemDetails(image: equipment.imageUrl),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  equipment.name,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.labelLarge!.copyWith(fontWeight: FontWeight.w800),
+                ),
+                SizedBox(height: 8.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: List.generate(
+                        5,
+                        (index) => Icon(
+                          Iconsax.star1,
+                          size: 22.sp,
+                          color: index < ratingSummary.average.floor()
+                              ? Colors.amber
+                              : Colors.grey.shade300,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      "(${ratingSummary.count} ${appLocalizations.reviews})",
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20.h),
+                Text(
+                  appLocalizations.rentalPricing,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.labelLarge!.copyWith(fontWeight: FontWeight.w800),
+                ),
+                SizedBox(height: 12.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: CustomItemPriceDetails(
+                        isColorDark: false,
+                        textPer: appLocalizations.perDay,
+                        textPrice: "${equipment.pricePerDay} LE",
+                      ),
+                    ),
+                    SizedBox(width: 16.w),
+                    Expanded(
+                      child: CustomItemPriceDetails(
+                        isColorDark: true,
+                        textPer: appLocalizations.perWeek,
+                        textPrice:
+                            "${(equipment.pricePerDay * 7 * (1 - _calculateSmartDiscount(equipment.pricePerDay) / 100)).toStringAsFixed(2)} LE",
+                        textSavePrice:
+                            "Save ${_calculateSmartDiscount(equipment.pricePerDay).toStringAsFixed(0)}%",
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 24.h),
+                Center(
+                  child: Text(
+                    appLocalizations.specification,
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 12.h),
+                CustomDescriptionSpecification(text1: equipment.description),
+                SizedBox(height: 24.h),
+                Text(
+                  appLocalizations.checkAvailability,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.labelLarge!.copyWith(fontWeight: FontWeight.w800),
+                ),
+                SizedBox(height: 16.h),
+                Container(
+                  padding: EdgeInsets.all(16.r),
+                  decoration: BoxDecoration(
+                    color: ColorManager.lightBlue,
+                    borderRadius: BorderRadius.circular(16.r),
+                  ),
+                  child: _buildCalendar(availability.bookedDates),
+                ),
+                SizedBox(height: 24.h),
+                Text(
+                  appLocalizations.userReviews,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.headlineLarge!.copyWith(fontSize: 18.sp),
+                ),
+                SizedBox(height: 16.h),
+                UserReview(
+                  rating: ratingSummary.average.toStringAsFixed(1),
+                  ratingReview: "Based on ${ratingSummary.count} reviews",
+                  reviews: reviews,
+                  ratingSummary: ratingSummary,
+                ),
+                SizedBox(height: 24.h),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorManager.darkBlue,
+                      padding: EdgeInsets.symmetric(vertical: 16.h),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                    ),
+                    onPressed: () {
+                      // if (selectedDays.isNotEmpty && _isSelectionModeActive) {
+                      //   ScaffoldMessenger.of(context).showSnackBar(
+                      //     SnackBar(
+                      //       content: Text('You selected ${selectedDays.length} days for rental'),
+                      //       backgroundColor: Colors.green,
+                      //     ),
+                      //   );
+                      // } else {
+                      //   ScaffoldMessenger.of(context).showSnackBar(
+                      //     SnackBar(
+                      //       content: Text('Please select dates first'),
+                      //       backgroundColor: Colors.orange,
+                      //     ),
+                      //   );
+                      // }
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.calendar_month, color: Colors.white),
+                        SizedBox(width: 10.w),
+                        Text(appLocalizations.rentNow),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 32.h),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCalendar(List<DateTime> bookedDates) {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 10.h),
+          padding: EdgeInsets.only(bottom: 16.h),
           child: Row(
             children: [
               Row(
                 children: [
                   IconButton(
-                    constraints: const BoxConstraints(),
+                    constraints: BoxConstraints(),
                     padding: EdgeInsets.zero,
                     onPressed: () => _pageController.previousPage(
-                      duration: const Duration(milliseconds: 300),
+                      duration: Duration(milliseconds: 300),
                       curve: Curves.easeInOut,
                     ),
                     icon: Icon(
                       Icons.chevron_left,
-                      size: 24.sp,
+                      size: 20.sp,
                       color: Colors.black54,
                     ),
                   ),
                   Text(
                     "${_getMonthName(focusedDay.month)} ${focusedDay.year}",
-                    style: Theme.of(context).textTheme.titleSmall,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleSmall!.copyWith(fontSize: 11.sp),
                   ),
                   IconButton(
-                    constraints: const BoxConstraints(),
+                    constraints: BoxConstraints(),
                     padding: EdgeInsets.zero,
                     onPressed: () => _pageController.nextPage(
-                      duration: const Duration(milliseconds: 300),
+                      duration: Duration(milliseconds: 300),
                       curve: Curves.easeInOut,
                     ),
                     icon: Icon(
                       Icons.chevron_right,
-                      size: 24.sp,
+                      size: 20.sp,
                       color: Colors.black54,
                     ),
                   ),
                 ],
               ),
-              const Spacer(),
+              Spacer(),
               _buildLegendItem(ColorManager.green, "Available"),
-              SizedBox(width: 8.w),
-              _buildLegendItem(ColorManager.lightRed, "occupied"),
-              SizedBox(width: 8.w),
-              _buildLegendItem(ColorManager.lightGrey, "Selected"),
+              SizedBox(width: 4.h),
+              _buildLegendItem(ColorManager.lightRed, "Occupied"),
+              SizedBox(width: 4.h),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _isSelectionModeActive = !_isSelectionModeActive;
+                    if (!_isSelectionModeActive) {
+                      selectedDays.clear();
+                    }
+                  });
+                },
+                child: Row(
+                  children: [
+                    Container(
+                      width: 12.r,
+                      height: 12.r,
+                      decoration: BoxDecoration(
+                        color: _isSelectionModeActive
+                            ? ColorManager.secondary.withValues(alpha: 0.8)
+                            : ColorManager.greyText,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    SizedBox(width: 8.w),
+                    Text(
+                      "Selected",
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 9.sp,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
         TableCalendar(
           onCalendarCreated: (controller) => _pageController = controller,
-          firstDay: DateTime.utc(2020, 1, 1),
-          lastDay: DateTime.utc(2030, 12, 31),
+          firstDay: DateTime.now().subtract(Duration(days: 365)),
+          lastDay: DateTime.now().add(Duration(days: 365)),
           focusedDay: focusedDay,
           calendarFormat: CalendarFormat.month,
           startingDayOfWeek: StartingDayOfWeek.monday,
           headerVisible: false,
-          rowHeight: 45.h,
+          rowHeight: 42.h,
+          daysOfWeekHeight: 30.h,
           onPageChanged: (focused) {
             setState(() {
               focusedDay = focused;
             });
           },
-          daysOfWeekStyle: DaysOfWeekStyle(
-            weekdayStyle: GoogleFonts.inter(
-              fontSize: 13.sp,
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-            weekendStyle: GoogleFonts.inter(
-              fontSize: 13.sp,
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          selectedDayPredicate: (day) => isSameDay(selectedDay, day),
-          onDaySelected: (selected, focused) {
+          selectedDayPredicate: (day) {
+            return selectedDays.any(
+              (selectedDay) => isSameDay(selectedDay, day),
+            );
+          },
+          onDaySelected: (selectedDay, focusedDay) {
             setState(() {
-              selectedDay = selected;
-              focusedDay = focused;
+              bool isOccupied = bookedDates.any(
+                (d) => isSameDay(d, selectedDay),
+              );
+              bool isPast = selectedDay.isBefore(
+                DateTime.now().subtract(Duration(days: 1)),
+              );
+
+              if (_isSelectionModeActive && !isOccupied && !isPast) {
+                if (selectedDays.any((d) => isSameDay(d, selectedDay))) {
+                  selectedDays.removeWhere((d) => isSameDay(d, selectedDay));
+                } else {
+                  selectedDays.add(selectedDay);
+                }
+              } else if (isOccupied) {
+                _showOccupiedMessage();
+              } else if (isPast) {
+                _showPastDateMessage();
+              } else if (!_isSelectionModeActive) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Activate "Selected" mode to choose dates'),
+                    backgroundColor: Colors.blue,
+                  ),
+                );
+              }
+              this.focusedDay = focusedDay;
             });
           },
           calendarBuilders: CalendarBuilders(
-            defaultBuilder: (context, day, focusedDay) => _dayCell(day),
+            defaultBuilder: (context, day, focusedDay) =>
+                _dayCell(day, bookedDates),
             selectedBuilder: (context, day, focusedDay) =>
-                _dayCell(day, isSelected: true),
+                _dayCell(day, bookedDates, isSelected: true),
             todayBuilder: (context, day, focusedDay) =>
-                _dayCell(day, isToday: true),
+                _dayCell(day, bookedDates, isToday: true),
             outsideBuilder: (context, day, focusedDay) =>
-                _dayCell(day, isOutside: true),
+                _dayCell(day, bookedDates, isOutside: true),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _dayCell(
+    DateTime day,
+    List<DateTime> bookedDates, {
+    bool isSelected = false,
+    bool isToday = false,
+    bool isOutside = false,
+  }) {
+    bool isOccupied = bookedDates.any((d) => isSameDay(d, day));
+    bool isPast = day.isBefore(DateTime.now().subtract(Duration(days: 1)));
+    bool isSelectedDate = selectedDays.any((d) => isSameDay(d, day));
+
+    Color bgColor;
+    Color textColor;
+    FontWeight fontWeight = FontWeight.normal;
+
+    if (isSelectedDate && _isSelectionModeActive) {
+      bgColor = ColorManager.secondary.withValues(alpha: 0.8);
+      textColor = Colors.white;
+      fontWeight = FontWeight.bold;
+    } else if (isOccupied) {
+      bgColor = ColorManager.lightRed;
+      textColor = ColorManager.black;
+      fontWeight = FontWeight.bold;
+    } else if (isPast) {
+      bgColor = Colors.transparent;
+      textColor = Colors.grey.shade400;
+    } else if (isOutside) {
+      bgColor = Colors.transparent;
+      textColor = Colors.grey.shade300;
+    } else {
+      bgColor = Colors.transparent;
+      textColor = Colors.black;
+    }
+
+    return Container(
+      margin: EdgeInsets.all(7.r),
+      padding: EdgeInsets.all(0.r),
+      decoration: BoxDecoration(color: bgColor, shape: BoxShape.circle),
+      alignment: Alignment.center,
+      child: Text(
+        day.day.toString(),
+        style: GoogleFonts.inter(
+          fontSize: 14.sp,
+          fontWeight: fontWeight,
+          color: textColor,
+        ),
+      ),
     );
   }
 
@@ -353,88 +529,49 @@ class _EquipmentDetailsState extends State<EquipmentDetails> {
     return Row(
       children: [
         Container(
-          width: 10.r,
-          height: 10.r,
+          width: 12.r,
+          height: 12.r,
           decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
-        SizedBox(width: 4.w),
+        SizedBox(width: 6.w),
         Text(
           text,
           style: Theme.of(context).textTheme.bodySmall!.copyWith(
-            fontSize: 9.sp,
             fontWeight: FontWeight.bold,
+            fontSize: 9.sp,
           ),
-          // TextStyle(
-          //   fontSize: 9.sp,
-          //   color: Colors.black54,
-          //   fontWeight: FontWeight.w600,
-          // ),
         ),
       ],
     );
   }
 
-  Widget _dayCell(
-    DateTime day, {
-    bool isSelected = false,
-    bool isToday = false,
-    bool isOutside = false,
-  }) {
-    bool isOccupied = occupiedDays.any((d) => isSameDay(d, day));
-
-    Color bgColor;
-    Color textColor;
-
-    if (isSelected) {
-      bgColor = ColorManager.lightGrey;
-      textColor = Colors.black;
-    } else if (isOccupied) {
-      bgColor = ColorManager.lightRed;
-      textColor = Colors.black;
-    } else if (isOutside) {
-      bgColor = Colors.transparent;
-      textColor = Colors.grey.withOpacity(0.5);
-    } else {
-      bgColor = Colors.transparent;
-      textColor = Colors.black;
-    }
-
-    return Container(
-      margin: EdgeInsets.all(5.r),
-      decoration: BoxDecoration(color: bgColor, shape: BoxShape.circle),
-      alignment: Alignment.center,
-      child: Text(
-        day.day.toString(),
-        style: GoogleFonts.inter(
-          fontSize: 13.sp,
-          fontWeight: FontWeight.w800,
-          color: textColor,
-        ),
+  void _showOccupiedMessage() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('This date is already occupied'),
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 2),
       ),
     );
   }
 
-  Widget _ratingBar(int star, double value) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Text(star.toString(), style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 13.sp)),
-        SizedBox(width: 8.w),
-        Expanded(
-          child: LinearProgressIndicator(
-            borderRadius: BorderRadius.circular(16.r),
-            value: value,
-            backgroundColor: Colors.grey.shade300,
-            valueColor: AlwaysStoppedAnimation(ColorManager.darkBlue),
-            minHeight: 10.h,
-          ),
-        ),
-        SizedBox(width: 8.w),
-        Text(
-          "${(value * 100).toInt()}%",
-          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 13.sp),
-        ),
-      ],
+  void _showPastDateMessage() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Cannot select past dates'),
+        backgroundColor: Colors.orange,
+        duration: Duration(seconds: 2),
+      ),
     );
+  }
+
+  double _calculateSmartDiscount(double dailyPrice) {
+    double maxDiscount = 25.0;
+    double minDiscount = 10.0;
+    double maxPrice = 500.0;
+    double discount =
+        maxDiscount - ((dailyPrice / maxPrice) * (maxDiscount - minDiscount));
+
+    return discount.clamp(minDiscount, maxDiscount);
   }
 }

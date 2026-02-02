@@ -19,15 +19,21 @@ class EquipmentGrid extends StatelessWidget {
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemCount: state.equipments.length,
-
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 12.w,
               mainAxisSpacing: 12.h,
               childAspectRatio: 0.65,
             ),
-            itemBuilder: (context, index) =>
-                EquipmentCard(equipment: state.equipments[index]),
+            itemBuilder: (context, index) {
+              final equipment = state.equipments[index];
+              final ratingSummary = state.ratingSummaries[equipment.equipmentId];
+
+              return EquipmentCard(
+                equipment: equipment,
+                ratingSummary: ratingSummary,
+              );
+            },
           );
         }
         if (state is EquipmentError) {
