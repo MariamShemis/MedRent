@@ -1,17 +1,17 @@
-class EquipmentAvailability {
-  final List<String> bookedDates;
+class AvailabilityModel {
+  final List<DateTime> bookedDates;
 
-  EquipmentAvailability({
+  AvailabilityModel({
     required this.bookedDates,
   });
 
-  factory EquipmentAvailability.fromJson(Map<String, dynamic> json) {
-    return EquipmentAvailability(
-      bookedDates: List<String>.from(json['bookedDates']),
-    );
-  }
-
-  List<DateTime> get bookedDatesAsDateTime {
-    return bookedDates.map((date) => DateTime.parse(date)).toList();
+  factory AvailabilityModel.fromJson(Map<String, dynamic> json) {
+    List<DateTime> dates = [];
+    if (json['bookedDates'] != null && json['bookedDates'] is List) {
+      dates = (json['bookedDates'] as List)
+          .map((date) => DateTime.parse(date))
+          .toList();
+    }
+    return AvailabilityModel(bookedDates: dates);
   }
 }
