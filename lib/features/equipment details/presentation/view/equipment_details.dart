@@ -205,7 +205,7 @@ class _EquipmentDetailsState extends State<EquipmentDetails> {
                       child: CustomItemPriceDetails(
                         isColorDark: false,
                         textPer: appLocalizations.perDay,
-                        textPrice: "${equipment.pricePerDay} LE",
+                        textPrice: "${equipment.pricePerDay} ${appLocalizations.lE}",
                       ),
                     ),
                     SizedBox(width: 16.w),
@@ -214,9 +214,9 @@ class _EquipmentDetailsState extends State<EquipmentDetails> {
                         isColorDark: true,
                         textPer: appLocalizations.perWeek,
                         textPrice:
-                            "${(equipment.pricePerDay * 7 * (1 - _calculateSmartDiscount(equipment.pricePerDay) / 100)).toStringAsFixed(2)} LE",
+                            "${(equipment.pricePerDay * 7 * (1 - _calculateSmartDiscount(equipment.pricePerDay) / 100)).toStringAsFixed(2)} ${appLocalizations.lE}",
                         textSavePrice:
-                            "Save ${_calculateSmartDiscount(equipment.pricePerDay).toStringAsFixed(0)}%",
+                            "${appLocalizations.save} ${_calculateSmartDiscount(equipment.pricePerDay).toStringAsFixed(0)}%",
                       ),
                     ),
                   ],
@@ -258,7 +258,7 @@ class _EquipmentDetailsState extends State<EquipmentDetails> {
                 SizedBox(height: 16.h),
                 UserReview(
                   rating: ratingSummary.average.toStringAsFixed(1),
-                  ratingReview: "Based on ${ratingSummary.count} reviews",
+                  ratingReview: "${appLocalizations.based_on} ${ratingSummary.count} ${appLocalizations.reviews}",
                   reviews: reviews,
                   ratingSummary: ratingSummary,
                 ),
@@ -310,6 +310,7 @@ class _EquipmentDetailsState extends State<EquipmentDetails> {
   }
 
   Widget _buildCalendar(List<DateTime> bookedDates) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Column(
       children: [
         Padding(
@@ -353,9 +354,9 @@ class _EquipmentDetailsState extends State<EquipmentDetails> {
                 ],
               ),
               Spacer(),
-              _buildLegendItem(ColorManager.green, "Available"),
+              _buildLegendItem(ColorManager.green, appLocalizations.available),
               SizedBox(width: 4.h),
-              _buildLegendItem(ColorManager.lightRed, "Occupied"),
+              _buildLegendItem(ColorManager.lightRed, appLocalizations.occupied),
               SizedBox(width: 4.h),
               GestureDetector(
                 onTap: () {
@@ -380,7 +381,7 @@ class _EquipmentDetailsState extends State<EquipmentDetails> {
                     ),
                     SizedBox(width: 8.w),
                     Text(
-                      "Selected",
+                      appLocalizations.selected,
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 9.sp,
