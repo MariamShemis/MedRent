@@ -213,7 +213,7 @@ class _PriceRateState extends State<PriceRate> {
                           ),
                         ),
                         Text(
-                          "Selected: \$${currentRange.start.toInt()} - \$${currentRange.end.toInt()}",
+                          "${appLocalizations.selected}: \$${currentRange.start.toInt()} - \$${currentRange.end.toInt()}",
                           style: TextStyle(
                             color: ColorManager.darkBlue,
                             fontWeight: FontWeight.bold,
