@@ -523,4 +523,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get patientLifts => 'Patient Lifts';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get from => 'From';
+
+  @override
+  String get available => 'Available';
+
+  @override
+  String get occupied => 'Occupied';
+
+  @override
+  String get selected => 'Selected';
+
+  @override
+  String get day => 'day';
+
+  @override
+  String get lE => 'LE';
+
+  @override
+  String get review => 'Review';
+
+  @override
+  String get based_on => 'Based on';
 }

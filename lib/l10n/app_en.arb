@@ -170,5 +170,14 @@
   "wheelchairs": "Wheelchairs",
   "hospitalBeds": "Hospital Beds",
   "walkersAndCanes": "Walkers & Canes",
-  "patientLifts": "Patient Lifts"
+  "patientLifts": "Patient Lifts",
+  "save" : "Save",
+  "from" : "From",
+  "available" : "Available",
+  "occupied" : "Occupied",
+  "selected" : "Selected",
+  "day" : "day",
+  "lE" : "LE",
+  "review" : "Review",
+  "based_on" : "Based on"
 }

@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
+import 'package:med_rent/features/equipment%20details/presentation/view_model/rating_summary.dart';
 import 'package:med_rent/features/main_layout/rent/data/models/equipment_model.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
 
 class EquipmentCard extends StatelessWidget {
   final EquipmentModel equipment;
-  const EquipmentCard({super.key, required this.equipment});
+  final RatingSummaryModel? ratingSummary;
+
+  const EquipmentCard({super.key, required this.equipment, this.ratingSummary});
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+    final average = ratingSummary?.average ?? equipment.rating;
+    final count = ratingSummary?.count ?? equipment.reviewsCount;
     return Container(
       decoration: BoxDecoration(
         color: ColorManager.white,
@@ -25,11 +33,14 @@ class EquipmentCard extends StatelessWidget {
               width: double.infinity,
               padding: EdgeInsets.all(4.w),
               child: ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(8.72.r)),
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(8.72.r),
+                ),
                 child: Image.network(
                   equipment.imageUrl,
-                  fit: BoxFit.contain, 
-                  errorBuilder: (context, error, stackTrace) => Icon(Icons.broken_image , size: 50.sp , color: Colors.grey,),
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) =>
+                      Icon(Icons.broken_image, size: 50.sp, color: Colors.grey),
                 ),
               ),
             ),
@@ -42,7 +53,9 @@ class EquipmentCard extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
               decoration: BoxDecoration(
                 color: ColorManager.lightBlue.withOpacity(0.6),
-                borderRadius: BorderRadius.vertical(bottom: Radius.circular(8.72.r)),
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(8.72.r),
+                ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,37 +76,45 @@ class EquipmentCard extends StatelessWidget {
                     children: [
                       Wrap(
                         spacing: 1.w,
-                        children: List.generate(5, (index) => Icon(
-                          Icons.star,
-                          size: 12.sp,
-                          color: index < equipment.rating ? Colors.amber : Colors.grey.shade400,
-                        )),
+                        children: List.generate(
+                          5,
+                              (index) => Icon(
+                                Iconsax.star1,
+                                size: 12.sp,
+                            color: index < average.floor()
+                                ? Colors.amber
+                                : Colors.grey.shade400,
+                          ),
+                        ),
                       ),
-                      SizedBox(width: 4.w),
+                      Spacer(),
                       Text(
-                        "(${equipment.reviewsCount} Reviews)",
-                        style: TextStyle(fontSize: 8.sp, color: Colors.grey.shade600),
+                        "($count ${count == 1 ? "${appLocalizations.review}" : "${appLocalizations.reviews}"})",
+                        style: TextStyle(
+                          fontSize: 8.sp,
+                          color: Colors.grey.shade600,
+                        ),
                       ),
                     ],
                   ),
-
-                  // السعر
                   Text(
-                    "From \$${equipment.pricePerDay.toInt()}/day",
+                    "${appLocalizations.from} \$${equipment.pricePerDay.toInt()}/${appLocalizations.day}",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12.sp,
                       color: Colors.black,
                     ),
                   ),
-
-                  // الزرار
                   SizedBox(
                     width: double.infinity,
                     height: 28.h,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, AppRoutes.equipmentDetails);
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes.equipmentDetails,
+                          arguments: equipment.equipmentId,
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: ColorManager.darkBlue,
@@ -103,7 +124,7 @@ class EquipmentCard extends StatelessWidget {
                         padding: EdgeInsets.zero,
                       ),
                       child: Text(
-                        "View Details",
+                        appLocalizations.viewDetails,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 10.sp,

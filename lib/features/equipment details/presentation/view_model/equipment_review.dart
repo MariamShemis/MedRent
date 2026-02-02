@@ -1,28 +1,24 @@
-class EquipmentReview {
-  final int reviewId;
-  final String userId;
-  final String userName;
-  final int rating;
+class ReviewModel {
+  final String? userName;
   final String comment;
-  final DateTime reviewDate;
+  final double rating;
+  final DateTime? createdAt;
 
-  EquipmentReview({
-    required this.reviewId,
-    required this.userId,
-    required this.userName,
-    required this.rating,
+  ReviewModel({
+    this.userName,
     required this.comment,
-    required this.reviewDate,
+    required this.rating,
+    this.createdAt,
   });
 
-  factory EquipmentReview.fromJson(Map<String, dynamic> json) {
-    return EquipmentReview(
-      reviewId: json['reviewId'],
-      userId: json['userId'],
-      userName: json['userName'],
-      rating: json['rating'],
-      comment: json['comment'],
-      reviewDate: DateTime.parse(json['reviewDate']),
+  factory ReviewModel.fromJson(Map<String, dynamic> json) {
+    return ReviewModel(
+      userName: json['userName'] ?? 'Anonymous',
+      comment: json['comment'] ?? '',
+      rating: (json['rating'] as num).toDouble(),
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'])
+          : null,
     );
   }
 }
