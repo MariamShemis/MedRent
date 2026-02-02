@@ -17,7 +17,7 @@ class CustomCardItemDetails extends StatelessWidget {
         padding: REdgeInsets.all(16.0),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(16.r),
-            child: Image.network(image ,fit: BoxFit.contain,  )),
+            child: Image.network(image ,fit: BoxFit.contain, width: double.infinity, )),
       ),
     );
   }
