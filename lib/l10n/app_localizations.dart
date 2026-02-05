@@ -923,11 +923,11 @@ abstract class AppLocalizations {
   /// **'Street Address'**
   String get streetAddress;
 
-  /// No description provided for @enteryouraddress.
+  /// No description provided for @enter_your_address.
   ///
   /// In en, this message translates to:
   /// **'Enter your address'**
-  String get enteryouraddress;
+  String get enter_your_address;
 
   /// No description provided for @apartment_Suite_etc_Optional.
   ///
@@ -1180,6 +1180,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Based on'**
   String get based_on;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
+  /// No description provided for @editProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get editProfile;
+
+  /// No description provided for @personalInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Information'**
+  String get personalInformation;
+
+  /// No description provided for @myBooking.
+  ///
+  /// In en, this message translates to:
+  /// **'My Booking'**
+  String get myBooking;
+
+  /// No description provided for @contactUs.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get contactUs;
+
+  /// No description provided for @notificationSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Settings'**
+  String get notificationSettings;
+
+  /// No description provided for @log_out.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get log_out;
+
+  /// No description provided for @date_ofBirth.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of Birth'**
+  String get date_ofBirth;
+
+  /// No description provided for @gender.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender'**
+  String get gender;
+
+  /// No description provided for @male.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get male;
+
+  /// No description provided for @female.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get female;
+
+  /// No description provided for @phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get phone;
+
+  /// No description provided for @saveChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get saveChanges;
+
+  /// No description provided for @choose_which_notifications_you_would_like_to_receive_You_can_update_these_settings_at_any_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose which notifications you would like to receive. You can update these settings at any time.'**
+  String get choose_which_notifications_you_would_like_to_receive_You_can_update_these_settings_at_any_time;
+
+  /// No description provided for @appointmentReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Appointment Reminders'**
+  String get appointmentReminders;
+
+  /// No description provided for @equipmentRentalAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment Rental Alerts'**
+  String get equipmentRentalAlerts;
+
+  /// No description provided for @reminders_for_upcoming_visits.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders for upcoming visits'**
+  String get reminders_for_upcoming_visits;
+
+  /// No description provided for @reminders_for_return_dates_and_rental_status.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders for return dates and rental status'**
+  String get reminders_for_return_dates_and_rental_status;
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// No description provided for @mark_all_as_read.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all as read'**
+  String get mark_all_as_read;
+
+  /// No description provided for @are_you_sure_you_want_to_log_out.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to log out'**
+  String get are_you_sure_you_want_to_log_out;
+
+  /// No description provided for @patientID.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient ID'**
+  String get patientID;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get ok;
+
+  /// No description provided for @take_a_photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get take_a_photo;
+
+  /// No description provided for @choose_from_gallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get choose_from_gallery;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

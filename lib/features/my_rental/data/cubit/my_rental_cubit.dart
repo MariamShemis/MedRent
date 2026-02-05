@@ -6,7 +6,12 @@ import 'package:med_rent/features/my_rental/data/models/rental_model.dart';
 class MyRentalCubit extends Cubit<MyRentalState> {
   final MyRentalDataSource dataSource;
 
+  final int itemsPerPage = 2;
+
   List<RentalModel> _allRentals = [];
+  List<RentalModel> _filteredRentals = [];
+
+  int _currentPage = 0;
 
   MyRentalCubit({required this.dataSource}) : super(MyRentalInitial());
 
@@ -14,33 +19,54 @@ class MyRentalCubit extends Cubit<MyRentalState> {
     emit(MyRentalLoading());
 
     try {
-      final rentals = await dataSource.getUserRentals();
-      _allRentals = rentals;
-      emit(MyRentalLoaded(rentals: rentals));
+      _allRentals = await dataSource.getUserRentals();
+      _filteredRentals = _allRentals;
+      _currentPage = 0;
+      _emitPage();
     } catch (e) {
       emit(MyRentalError(e.toString()));
     }
   }
 
   void searchRentals(String query) {
+    _currentPage = 0;
+
     if (query.isEmpty) {
-      emit(MyRentalLoaded(rentals: _allRentals));
-      return;
+      _filteredRentals = _allRentals;
+    } else {
+      _filteredRentals = _allRentals.where((rental) {
+        return rental.equipmentName
+            .toLowerCase()
+            .contains(query.toLowerCase());
+      }).toList();
     }
 
-    final filtered = _allRentals.where((rental) {
-      return rental.equipmentName
-          .toLowerCase()
-          .contains(query.toLowerCase());
-    }).toList();
-
-    emit(MyRentalLoaded(
-      rentals: filtered,
-      searchQuery: query,
-    ));
+    _emitPage(searchQuery: query);
   }
 
-  void clearSearch() {
-    emit(MyRentalLoaded(rentals: _allRentals));
+  void changePage(int page) {
+    _currentPage = page;
+    _emitPage(searchQuery: state.searchQuery);
+  }
+
+  void _emitPage({String? searchQuery}) {
+    final totalPages =
+    (_filteredRentals.length / itemsPerPage).ceil().clamp(1, 999);
+
+    final start = _currentPage * itemsPerPage;
+    final end = (start + itemsPerPage > _filteredRentals.length)
+        ? _filteredRentals.length
+        : start + itemsPerPage;
+
+    final visibleRentals = _filteredRentals.sublist(start, end);
+
+    emit(
+      MyRentalLoaded(
+        rentals: visibleRentals,
+        currentPage: _currentPage,
+        totalPages: totalPages,
+        searchQuery: searchQuery,
+      ),
+    );
   }
 }
