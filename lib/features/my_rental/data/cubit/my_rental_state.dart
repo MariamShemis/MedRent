@@ -5,12 +5,16 @@ class MyRentalState {
   final bool isLoading;
   final String? error;
   final String? searchQuery;
+  final int currentPage;
+  final int totalPages;
 
   const MyRentalState({
     required this.rentals,
     this.isLoading = false,
     this.error,
     this.searchQuery,
+    this.currentPage = 0,
+    this.totalPages = 1,
   });
 }
 
@@ -26,9 +30,13 @@ class MyRentalLoaded extends MyRentalState {
   MyRentalLoaded({
     required List<RentalModel> rentals,
     String? searchQuery,
+    required int currentPage,
+    required int totalPages,
   }) : super(
     rentals: rentals,
     searchQuery: searchQuery,
+    currentPage: currentPage,
+    totalPages: totalPages,
   );
 }
 
