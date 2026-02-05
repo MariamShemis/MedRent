@@ -423,7 +423,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get streetAddress => 'Street Address';
 
   @override
-  String get enteryouraddress => 'Enter your address';
+  String get enter_your_address => 'Enter your address';
 
   @override
   String get apartment_Suite_etc_Optional => 'Apartment,Suite, etc.(Optional)';
@@ -550,4 +550,82 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get based_on => 'Based on';
+
+  @override
+  String get profile => 'Profile';
+
+  @override
+  String get editProfile => 'Edit Profile';
+
+  @override
+  String get personalInformation => 'Personal Information';
+
+  @override
+  String get myBooking => 'My Booking';
+
+  @override
+  String get contactUs => 'Contact Us';
+
+  @override
+  String get notificationSettings => 'Notification Settings';
+
+  @override
+  String get log_out => 'Log out';
+
+  @override
+  String get date_ofBirth => 'Date of Birth';
+
+  @override
+  String get gender => 'Gender';
+
+  @override
+  String get male => 'Male';
+
+  @override
+  String get female => 'Female';
+
+  @override
+  String get phone => 'Phone';
+
+  @override
+  String get saveChanges => 'Save Changes';
+
+  @override
+  String get choose_which_notifications_you_would_like_to_receive_You_can_update_these_settings_at_any_time => 'Choose which notifications you would like to receive. You can update these settings at any time.';
+
+  @override
+  String get appointmentReminders => 'Appointment Reminders';
+
+  @override
+  String get equipmentRentalAlerts => 'Equipment Rental Alerts';
+
+  @override
+  String get reminders_for_upcoming_visits => 'Reminders for upcoming visits';
+
+  @override
+  String get reminders_for_return_dates_and_rental_status => 'Reminders for return dates and rental status';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get mark_all_as_read => 'Mark all as read';
+
+  @override
+  String get are_you_sure_you_want_to_log_out => 'Are you sure you want to log out';
+
+  @override
+  String get patientID => 'Patient ID';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get take_a_photo => 'Take a photo';
+
+  @override
+  String get choose_from_gallery => 'Choose from gallery';
 }
