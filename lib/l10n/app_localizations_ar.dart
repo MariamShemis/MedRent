@@ -54,7 +54,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get forgetPassword => 'نسيت كلمة المرور';
 
   @override
-  String get forget_password_ => 'هل نسيت كلمة المرور';
+  String get forget_password_ => 'نسيت كلمة المرور';
 
   @override
   String get orContinueWith => 'أو المتابعة باستخدام';
@@ -66,7 +66,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get alreadyHaveAccount => 'لديك حساب بالفعل';
 
   @override
-  String get pleaseEnterYourEmailToReceiveAConfirmationCodeToSetANewPassword => 'يرجى إدخال بريدك الإلكتروني لاستلام رمز تأكيد لإعادة تعيين كلمة المرور';
+  String get pleaseEnterYourEmailToReceiveAConfirmationCodeToSetANewPassword => 'يرجى إدخال بريدك الإلكتروني لاستلام رمز التأكيد لتعيين كلمة مرور جديدة';
 
   @override
   String get continueBtn => 'متابعة';
@@ -78,7 +78,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get verificationCode => 'رمز التحقق';
 
   @override
-  String get typeTheVerificationCodeWeHaveSentYou => 'أدخل رمز التحقق الذي أرسلناه إليك';
+  String get typeTheVerificationCodeWeHaveSentYou => 'اكتب رمز التحقق الذي أرسلناه لك';
 
   @override
   String get youDidntReceiveAnyCode => 'لم يصلك أي رمز';
@@ -108,7 +108,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get bookTheNearestHospitalEasily => 'احجز أقرب مستشفى بسهولة';
 
   @override
-  String get locateYourAreaAndFindTheBestAndNearestHospitalsInAFewSimpleSteps => 'حدّد موقعك واعثر على أفضل وأقرب المستشفيات بخطوات بسيطة';
+  String get locateYourAreaAndFindTheBestAndNearestHospitalsInAFewSimpleSteps => 'حدد موقعك واعثر على أفضل وأقرب المستشفيات بخطوات بسيطة';
 
   @override
   String get next => 'التالي';
@@ -117,16 +117,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get rentMedicalEquipmentAnytime => 'استأجر المعدات الطبية في أي وقت';
 
   @override
-  String get chooseTheRightDeviceSeeTheDetailsAndBookItImmediatelyWithDeliveryToYourDoorstep => 'اختر الجهاز المناسب واطّلع على التفاصيل واحجزه فورًا مع التوصيل إلى باب منزلك';
+  String get chooseTheRightDeviceSeeTheDetailsAndBookItImmediatelyWithDeliveryToYourDoorstep => 'اختر الجهاز المناسب واعرض التفاصيل واحجزه فورًا مع التوصيل إلى بابك';
 
   @override
   String get smartAssistantForYourSymptoms => 'مساعد ذكي لأعراضك';
 
   @override
-  String get enterYourSymptomsAndTheSmartAssistantWillGuideYouToTheAppropriateSectionForYourCondition => 'أدخل أعراضك وسيرشدك المساعد الذكي إلى القسم المناسب لحالتك';
+  String get enterYourSymptomsAndTheSmartAssistantWillGuideYouToTheAppropriateSectionForYourCondition => 'أدخل أعراضك وسيقوم المساعد الذكي بتوجيهك للقسم المناسب لحالتك';
 
   @override
-  String get getStarted => 'ابدأ';
+  String get getStarted => 'ابدأ الآن';
 
   @override
   String get find => 'ابحث';
@@ -138,10 +138,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get medicalEquipment => 'معدات طبية';
 
   @override
-  String get searchForEquipmentLikeWheelchair => 'ابحث عن معدات مثل الكرسي المتحرك';
+  String get searchForEquipmentLikeWheelchair => 'ابحث عن معدات مثل كرسي متحرك';
 
   @override
-  String get filters => 'فلاتر';
+  String get filters => 'الفلاتر';
 
   @override
   String get clearAll => 'مسح الكل';
@@ -171,7 +171,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get enter_valid_email => 'أدخل بريدًا إلكترونيًا صحيحًا';
 
   @override
-  String get strong_password_please => 'يرجى إدخال كلمة مرور قوية';
+  String get strong_password_please => 'كلمة مرور قوية مطلوبة';
 
   @override
   String get same_password => 'نفس كلمة المرور';
@@ -183,7 +183,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get enter_numbers_only => 'أدخل أرقام فقط';
 
   @override
-  String get enter_value_must_be_11_digit_including_country_code_or_10_without_it => 'يجب إدخال 11 رقمًا مع كود الدولة أو 10 أرقام بدونه';
+  String get enter_value_must_be_11_digit_including_country_code_or_10_without_it => 'يجب إدخال 11 رقمًا مع كود الدولة أو 10 بدونه';
 
   @override
   String get passwords_dont_match => 'كلمتا المرور غير متطابقتين';
@@ -228,10 +228,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get equipmentRental => 'تأجير المعدات';
 
   @override
-  String get rent_or_purchase_medical_devices_and_equipment => 'استأجر أو اشترِ الأجهزة والمعدات الطبية';
+  String get rent_or_purchase_medical_devices_and_equipment => 'استئجار أو شراء الأجهزة والمعدات الطبية';
 
   @override
-  String get aIAssistant => 'المساعد الذكي';
+  String get aIAssistant => 'مساعد ذكي';
 
   @override
   String get tips_for_better_health => 'نصائح لصحة أفضل';
@@ -240,25 +240,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get balancedMeals => 'وجبات متوازنة';
 
   @override
-  String get stayHydrated => 'الحفاظ على شرب الماء';
+  String get stayHydrated => 'حافظ على الترطيب';
 
   @override
-  String get include_proteins_vegetables_fruits_and_whole_grains_in_every_meal => 'احرص على تضمين البروتينات والخضروات والفواكه والحبوب الكاملة في كل وجبة';
+  String get include_proteins_vegetables_fruits_and_whole_grains_in_every_meal => 'ضم البروتينات والخضروات والفواكه والحبوب الكاملة في كل وجبة';
 
   @override
   String get drink_at_least_8_glasses_of_water_a_day_to_keep_your_body_and_skin_healthy => 'اشرب ما لا يقل عن 8 أكواب ماء يوميًا للحفاظ على صحة جسمك وبشرتك';
 
   @override
-  String get getEnoughSleep => 'الحصول على قسط كافٍ من النوم';
+  String get getEnoughSleep => 'احصل على قسط كافٍ من النوم';
 
   @override
-  String get try_to_sleep_7_8_hours_per_night_to_improve_your_focus_and_overall_health => 'حاول النوم من 7 إلى 8 ساعات يوميًا لتحسين التركيز والصحة العامة';
+  String get try_to_sleep_7_8_hours_per_night_to_improve_your_focus_and_overall_health => 'حاول النوم من 7 إلى 8 ساعات ليلًا لتحسين التركيز والصحة العامة';
 
   @override
-  String get exerciseRegularly => 'ممارسة الرياضة بانتظام';
+  String get exerciseRegularly => 'مارس الرياضة بانتظام';
 
   @override
-  String get aim_for_at_least_30_minutes_for_physical_activity_daily_to_stay_fit => 'احرص على ممارسة نشاط بدني لمدة 30 دقيقة يوميًا للحفاظ على لياقتك';
+  String get aim_for_at_least_30_minutes_for_physical_activity_daily_to_stay_fit => 'استهدف 30 دقيقة على الأقل من النشاط البدني يوميًا';
 
   @override
   String get confirmLocation => 'تأكيد الموقع';
@@ -267,7 +267,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get findHospital => 'ابحث عن مستشفى';
 
   @override
-  String get search_by_location_or_hospital_name => 'ابحث حسب الموقع أو اسم المستشفى';
+  String get search_by_location_or_hospital_name => 'ابحث بالموقع أو اسم المستشفى';
 
   @override
   String get bookNow => 'احجز الآن';
@@ -279,7 +279,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get departments => 'الأقسام';
 
   @override
-  String get about => 'نبذة';
+  String get about => 'عن المستشفى';
 
   @override
   String get patientReviews => 'تقييمات المرضى';
@@ -324,7 +324,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get enter_Your_full_name => 'أدخل اسمك الكامل';
 
   @override
-  String get emailAddress => 'عنوان البريد الإلكتروني';
+  String get emailAddress => 'البريد الإلكتروني';
 
   @override
   String get contactNumber => 'رقم التواصل';
@@ -345,7 +345,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get expiryDate => 'تاريخ الانتهاء';
 
   @override
-  String get cVV => 'رمز CVV';
+  String get cVV => 'CVV';
 
   @override
   String get confirm_Pay => 'تأكيد والدفع';
@@ -369,7 +369,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get perWeek => 'للأسبوع';
 
   @override
-  String get reviews => 'المراجعات';
+  String get reviews => 'التقييمات';
 
   @override
   String get specification => 'المواصفات';
@@ -381,16 +381,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get checkAvailability => 'تحقق من التوفر';
 
   @override
-  String get userReviews => 'تقييمات المستخدمين';
+  String get userReviews => 'آراء المستخدمين';
 
   @override
   String get rentNow => 'استأجر الآن';
 
   @override
-  String get confirmYourRental => 'تأكيد الإيجار';
+  String get confirmYourRental => 'تأكيد الاستئجار';
 
   @override
-  String get rentalSummary => 'ملخص الإيجار';
+  String get rentalSummary => 'ملخص الاستئجار';
 
   @override
   String get rentalPeriod => 'مدة الإيجار';
@@ -414,7 +414,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get totalCost => 'التكلفة الإجمالية';
 
   @override
-  String get saveCardForFutureRentals => 'حفظ البطاقة للإيجارات المستقبلية';
+  String get saveCardForFutureRentals => 'حفظ البطاقة للاستخدام لاحقًا';
 
   @override
   String get deliveryAddress => 'عنوان التوصيل';
@@ -429,7 +429,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get apartment_Suite_etc_Optional => 'شقة أو جناح اختياري';
 
   @override
-  String get sSL_SecuredPayment => 'دفع آمن عبر SSL';
+  String get sSL_SecuredPayment => 'دفع آمن SSL';
 
   @override
   String get confirmRental => 'تأكيد الإيجار';
@@ -450,22 +450,22 @@ class AppLocalizationsAr extends AppLocalizations {
   String get search_by_equipment_name => 'ابحث باسم المعدة';
 
   @override
-  String get aI_MedicalAssistant => 'المساعد الطبي الذكي';
+  String get aI_MedicalAssistant => 'مساعد طبي ذكي';
 
   @override
-  String get describe_your_symptoms_and_let_our_smart_assistant_guide_you_to_the_right_department_or_nearby_hospitals => 'صف أعراضك ودع المساعد الذكي يوجّهك إلى القسم المناسب أو المستشفيات القريبة';
+  String get describe_your_symptoms_and_let_our_smart_assistant_guide_you_to_the_right_department_or_nearby_hospitals => 'صف أعراضك ودع المساعد الذكي يوجهك للقسم المناسب أو المستشفيات القريبة';
 
   @override
   String get describeYourSymptoms => 'صف أعراضك';
 
   @override
-  String get e_g_I_have_a_sharp_headache_and_feel_dizzy => 'مثال لدي صداع حاد وأشعر بالدوار';
+  String get e_g_I_have_a_sharp_headache_and_feel_dizzy => 'مثال أعاني من صداع حاد وأشعر بالدوار';
 
   @override
   String get analyzeSymptoms => 'تحليل الأعراض';
 
   @override
-  String get your_input_is_processed_securely => 'تتم معالجة مدخلاتك بشكل آمن';
+  String get your_input_is_processed_securely => 'يتم معالجة إدخالك بشكل آمن';
 
   @override
   String get cardiology => 'أمراض القلب';
@@ -480,19 +480,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get seek_medical_attention_within_hours => 'اطلب رعاية طبية خلال 24 ساعة';
 
   @override
-  String get monitor_any_changes_in_your_breathing => 'راقب أي تغيّرات في التنفس';
+  String get monitor_any_changes_in_your_breathing => 'راقب أي تغيرات في التنفس';
 
   @override
-  String get avoid_heavy_physical_activity => 'تجنّب النشاط البدني الشاق';
+  String get avoid_heavy_physical_activity => 'تجنب النشاط البدني الشاق';
 
   @override
-  String get howtoUse => 'طريقة الاستخدام';
+  String get howtoUse => 'كيفية الاستخدام';
 
   @override
   String get describe_symptoms_in_everyday_language => 'صف الأعراض بلغة بسيطة';
 
   @override
-  String get include_duration_severity_or_other_notes => 'اذكر المدة والشدة أو ملاحظات أخرى';
+  String get include_duration_severity_or_other_notes => 'اذكر المدة أو الشدة أو ملاحظات أخرى';
 
   @override
   String get this_is_a_guidance_tool_not_a_diagnosis => 'هذه أداة إرشادية وليست تشخيصًا';
@@ -501,10 +501,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get nearbyHospitals => 'مستشفيات قريبة';
 
   @override
-  String get miles_away => 'أميال بعيدًا';
+  String get miles_away => 'ميل';
 
   @override
-  String get this_tool_provides_general_guidance_and_does_not_replace_professional_medical_diagnosis => 'هذه الأداة تقدم إرشادات عامة ولا تغني عن التشخيص الطبي المتخصص';
+  String get this_tool_provides_general_guidance_and_does_not_replace_professional_medical_diagnosis => 'هذه الأداة تقدم إرشادات عامة ولا تغني عن التشخيص الطبي';
 
   @override
   String get and => 'و';
@@ -516,16 +516,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get wheelchairs => 'كراسي متحركة';
 
   @override
-  String get hospitalBeds => 'أسِرّة مستشفيات';
+  String get hospitalBeds => 'أسرة مستشفيات';
 
   @override
-  String get walkersAndCanes => 'مشايات وعكاكيز';
+  String get walkersAndCanes => 'مشايات وعكازات';
 
   @override
   String get patientLifts => 'رافعات المرضى';
 
   @override
-  String get save => 'حفظ';
+  String get save => 'خصم';
 
   @override
   String get from => 'من';
@@ -558,7 +558,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get editProfile => 'تعديل الملف الشخصي';
 
   @override
-  String get personalInformation => 'المعلومات الشخصية';
+  String get personalInformation => 'البيانات الشخصية';
 
   @override
   String get myBooking => 'حجوزاتي';
@@ -585,25 +585,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get female => 'أنثى';
 
   @override
-  String get phone => 'الهاتف';
+  String get phone => 'هاتف';
 
   @override
   String get saveChanges => 'حفظ التغييرات';
 
   @override
-  String get choose_which_notifications_you_would_like_to_receive_You_can_update_these_settings_at_any_time => 'اختر الإشعارات التي تود استلامها ويمكنك تحديث الإعدادات في أي وقت';
+  String get choose_which_notifications_you_would_like_to_receive_You_can_update_these_settings_at_any_time => 'اختر الإشعارات التي ترغب في استلامها ويمكنك تعديلها في أي وقت';
 
   @override
-  String get appointmentReminders => 'تذكير بالمواعيد';
+  String get appointmentReminders => 'تذكير المواعيد';
 
   @override
   String get equipmentRentalAlerts => 'تنبيهات تأجير المعدات';
 
   @override
-  String get reminders_for_upcoming_visits => 'تذكير بالزيارات القادمة';
+  String get reminders_for_upcoming_visits => 'تذكيرات بالزيارات القادمة';
 
   @override
-  String get reminders_for_return_dates_and_rental_status => 'تذكير بمواعيد الإرجاع وحالة الإيجار';
+  String get reminders_for_return_dates_and_rental_status => 'تذكيرات بمواعيد الإرجاع وحالة الإيجار';
 
   @override
   String get notifications => 'الإشعارات';
@@ -612,7 +612,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get mark_all_as_read => 'تحديد الكل كمقروء';
 
   @override
-  String get are_you_sure_you_want_to_log_out => 'هل أنت متأكد أنك تريد تسجيل الخروج';
+  String get are_you_sure_you_want_to_log_out => 'هل أنت متأكد من تسجيل الخروج';
 
   @override
   String get patientID => 'رقم المريض';
@@ -627,5 +627,95 @@ class AppLocalizationsAr extends AppLocalizations {
   String get take_a_photo => 'التقاط صورة';
 
   @override
-  String get choose_from_gallery => 'الاختيار من المعرض';
+  String get choose_from_gallery => 'اختيار من المعرض';
+
+  @override
+  String get january => 'يناير';
+
+  @override
+  String get february => 'فبراير';
+
+  @override
+  String get march => 'مارس';
+
+  @override
+  String get april => 'أبريل';
+
+  @override
+  String get may => 'مايو';
+
+  @override
+  String get june => 'يونيو';
+
+  @override
+  String get july => 'يوليو';
+
+  @override
+  String get august => 'أغسطس';
+
+  @override
+  String get september => 'سبتمبر';
+
+  @override
+  String get october => 'أكتوبر';
+
+  @override
+  String get november => 'نوفمبر';
+
+  @override
+  String get december => 'ديسمبر';
+
+  @override
+  String get this_date_is_already_occupied => 'هذا التاريخ محجوز بالفعل';
+
+  @override
+  String get cannot_select_past_dates => 'لا يمكن اختيار تواريخ سابقة';
+
+  @override
+  String get activate_Selected_mode_to_choose_dates => 'فعّل وضع التحديد لاختيار التواريخ';
+
+  @override
+  String get loginSuccessfully => 'تم تسجيل الدخول بنجاح';
+
+  @override
+  String get connectionTimedOut => 'انتهت مهلة الاتصال';
+
+  @override
+  String get requestCancelled => 'تم إلغاء الطلب';
+
+  @override
+  String get noInternetConnection => 'لا يوجد اتصال بالإنترنت';
+
+  @override
+  String get unexpectedError => 'خطأ غير متوقع';
+
+  @override
+  String get somethingWentWrong => 'حدث خطأ ما';
+
+  @override
+  String get serverError => 'خطأ في الخادم';
+
+  @override
+  String get serviceUnavailable => 'الخدمة غير متاحة حاليًا';
+
+  @override
+  String get invalidEmailOrPassword => 'البريد الإلكتروني أو كلمة المرور غير صحيحة';
+
+  @override
+  String get badRequest => 'طلب غير صالح';
+
+  @override
+  String get unauthorized => 'غير مصرح لك';
+
+  @override
+  String get forbidden => 'الوصول مرفوض';
+
+  @override
+  String get resourceNotFound => 'المورد غير موجود';
+
+  @override
+  String get conflict => 'تعارض في البيانات';
+
+  @override
+  String get emailAlreadyExists => 'الايميل موجود';
 }

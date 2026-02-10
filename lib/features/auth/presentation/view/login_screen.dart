@@ -34,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
       context.read<AuthCubit>().loginCubit(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
+        context: context,
       );
     }
   }
@@ -43,7 +44,6 @@ class _LoginScreenState extends State<LoginScreen> {
     final appLocalizations = AppLocalizations.of(context)!;
 
     return BlocProvider(
-      // ✅ ضع BlocProvider هنا
       create: (context) => AuthCubit(),
       child: Scaffold(
         appBar: AppBar(
@@ -57,9 +57,9 @@ class _LoginScreenState extends State<LoginScreen> {
               alignment: Alignment.centerRight,
               child: Text(
                 appLocalizations.logIn,
-                style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  fontSize: 20.sp,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.labelLarge!.copyWith(fontSize: 20.sp),
               ),
             ),
             SizedBox(width: 20.w),
@@ -77,7 +77,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (state is AuthSuccess) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Login Successfully: Welcome ${state.loginModel.name}'),
+                          content: Text(
+                            '${appLocalizations.loginSuccessfully} : ${appLocalizations.welcome} ${state.loginModel.name}',
+                          ),
                           backgroundColor: Colors.green,
                         ),
                       );
@@ -87,8 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           AppRoutes.mainLayout,
                         );
                       });
-                    }
-                    else if (state is AuthFailure) {
+                    } else if (state is AuthFailure) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(state.errorMessage),
@@ -104,9 +105,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(height: 40.h),
                         Text(
                           appLocalizations.welcomeBack,
-                          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                            fontSize: 24.sp,
-                          ),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.headlineMedium!.copyWith(fontSize: 24.sp),
                         ),
                         SizedBox(height: 40.h),
                         CustomAuthTextFormField(
@@ -154,9 +155,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 SizedBox(width: 8.w),
                                 Text(
                                   appLocalizations.rememberMe,
-                                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                                    fontSize: 15.sp,
-                                  ),
+                                  style: Theme.of(context).textTheme.labelLarge!
+                                      .copyWith(fontSize: 15.sp),
                                 ),
                               ],
                             ),
@@ -165,16 +165,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const ForgetPasswordScreen(),
+                                    builder: (context) =>
+                                        const ForgetPasswordScreen(),
                                   ),
                                 );
                               },
                               child: Text(
                                 appLocalizations.forget_password_,
-                                style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                                  fontSize: 15.sp,
-                                  color: const Color(0xFF031B4E),
-                                ),
+                                style: Theme.of(context).textTheme.labelLarge!
+                                    .copyWith(
+                                      fontSize: 15.sp,
+                                      color: const Color(0xFF031B4E),
+                                    ),
                               ),
                             ),
                           ],
@@ -187,7 +189,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ? null
                                 : () => _login(context),
                             child: state is AuthLoading
-                                ? const CircularProgressIndicator(color: Colors.white)
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
                                 : Text(appLocalizations.logIn),
                           ),
                         ),
@@ -204,7 +208,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               padding: REdgeInsets.symmetric(horizontal: 10),
                               child: Text(
                                 appLocalizations.orContinueWith,
-                                style: const TextStyle(color: Color(0xFF140601)),
+                                style: const TextStyle(
+                                  color: Color(0xFF140601),
+                                ),
                               ),
                             ),
                             Expanded(
@@ -241,9 +247,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             Text(
                               "${appLocalizations.dontHaveAnAccount} ",
-                              style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                                fontSize: 14.sp,
-                              ),
+                              style: Theme.of(
+                                context,
+                              ).textTheme.labelLarge!.copyWith(fontSize: 14.sp),
                             ),
                             TextButton(
                               onPressed: () {
@@ -254,10 +260,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               child: Text(
                                 appLocalizations.signUp,
-                                style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                                  fontSize: 14.sp,
-                                  color: const Color(0xFF031B4E),
-                                ),
+                                style: Theme.of(context).textTheme.displayLarge!
+                                    .copyWith(
+                                      fontSize: 14.sp,
+                                      color: const Color(0xFF031B4E),
+                                    ),
                               ),
                             ),
                           ],

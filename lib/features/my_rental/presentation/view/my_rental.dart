@@ -21,22 +21,29 @@ class MyRental extends StatefulWidget {
 class _MyRentalState extends State<MyRental> {
   final TextEditingController _searchController = TextEditingController();
 
-  int currentPage = 0;
-  final int itemsPerPage = 2; // كل صفحة تاخد 2 widget
+  late MyRentalCubit cubit;
+
+  @override
+  void initState() {
+    super.initState();
+    cubit = MyRentalCubit(
+      dataSource: MyRentalDataSource(),
+    )..loadRentals();
+  }
 
   @override
   void dispose() {
     _searchController.dispose();
+    cubit.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
-    return BlocProvider(
-      create: (_) => MyRentalCubit(
-        dataSource: MyRentalDataSource(),
-      )..loadRentals(),
+    final appLocalizations = AppLocalizations.of(context)!;
+
+    return BlocProvider.value(
+      value: cubit,
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -48,30 +55,20 @@ class _MyRentalState extends State<MyRental> {
         body: BlocBuilder<MyRentalCubit, MyRentalState>(
           builder: (context, state) {
             if (state.isLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-            if (state.error != null) {
-              return Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    context.read<MyRentalCubit>().loadRentals();
-                  },
-                  child: const Text('Try Again'),
-                ),
-              );
+              return const Center(child: CircularProgressIndicator());
             }
 
             final totalItems = state.rentals.length;
-            final totalPages = (totalItems / itemsPerPage).ceil();
 
-            final startIndex = currentPage * itemsPerPage;
+            final startIndex =
+                state.currentPage * cubit.itemsPerPage;
             final endIndex =
-            (startIndex + itemsPerPage > totalItems) ? totalItems : startIndex + itemsPerPage;
+            (startIndex + cubit.itemsPerPage > totalItems)
+                ? totalItems
+                : startIndex + cubit.itemsPerPage;
 
-            final paginatedRentals = state.rentals.sublist(startIndex, endIndex);
+            final paginatedRentals =
+            state.rentals.sublist(startIndex, endIndex);
 
             return Padding(
               padding: REdgeInsets.all(16),
@@ -79,22 +76,22 @@ class _MyRentalState extends State<MyRental> {
                 children: [
                   CustomSearchTextField(
                     controller: _searchController,
-                    hintText: appLocalizations.search_by_equipment_name,
+                    hintText:
+                    appLocalizations.search_by_equipment_name,
                     iconPrefix: Iconsax.search_normal,
                     onChanged: (value) {
-                      currentPage = 0;
-                      context.read<MyRentalCubit>().searchRentals(value);
+                      cubit.searchRentals(value);
                     },
                   ),
-
                   SizedBox(height: 12.h),
-
                   Expanded(
                     child: paginatedRentals.isEmpty
                         ? Center(
                       child: Text(
-                        "No data",
-                        style: TextStyle(color: ColorManager.greyText),
+                        'No data',
+                        style: TextStyle(
+                          color: ColorManager.greyText,
+                        ),
                       ),
                     )
                         : ListView.builder(
@@ -106,19 +103,17 @@ class _MyRentalState extends State<MyRental> {
                       },
                     ),
                   ),
-
-                  if (totalPages > 1) ...[
-                    SizedBox(height: 12.h),
-                    MyRentalPagination(
-                      currentPage: currentPage,
-                      totalPages: totalPages,
-                      onPageChanged: (page) {
-                        setState(() {
-                          currentPage = page;
-                        });
-                      },
+                  if (state.totalPages > 1)
+                    Padding(
+                      padding: EdgeInsets.only(top: 12.h),
+                      child: MyRentalPagination(
+                        currentPage: state.currentPage,
+                        totalPages: state.totalPages,
+                        onPageChanged: (page) {
+                          cubit.changePage(page);
+                        },
+                      ),
                     ),
-                  ],
                 ],
               ),
             );
@@ -128,4 +123,3 @@ class _MyRentalState extends State<MyRental> {
     );
   }
 }
-

@@ -13,6 +13,7 @@ class CustomCardHospital extends StatelessWidget {
     required this.onPressedElevatedButton,
     required this.onPressedOutlinedButton,
   });
+
   final String image;
   final String titleLocation;
   final String subTitleLocation;
@@ -29,10 +30,16 @@ class CustomCardHospital extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Column(
         children: [
-          Image.asset(image, width: double.infinity),
+          Image.network(
+            image,
+            width: double.infinity,
+            height: 200.h,
+            fit: BoxFit.cover,
+          ),
           Padding(
             padding: REdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   titleLocation,
@@ -62,7 +69,7 @@ class CustomCardHospital extends StatelessWidget {
                       children: [
                         Icon(Icons.star, color: Colors.yellow),
                         Text(
-                          rating.toString(),
+                          rating.toInt().toString(),
                           style: Theme.of(context).textTheme.bodyMedium!
                               .copyWith(fontWeight: FontWeight.w400),
                         ),

@@ -1,10 +1,11 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:med_rent/core/error/api_error_handler.dart';
 import 'package:med_rent/core/network/api_client.dart';
 import 'package:med_rent/features/auth/data/data_sources/auth_remote_data.dart';
 import 'package:med_rent/features/auth/data/models/login_model.dart';
 import 'package:meta/meta.dart';
-
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
@@ -14,35 +15,35 @@ class AuthCubit extends Cubit<AuthState> {
     _authRemoteData = AuthRemoteData(apiClient: ApiClient());
     _checkInitialAuth();
   }
+
   Future<void> _checkInitialAuth() async {
     try {
       final isLoggedIn = await _authRemoteData.isLoggedIn();
-      if (isLoggedIn) {
-        emit(AuthLoggedIn());
-      }
+      if (isLoggedIn) emit(AuthLoggedIn());
     } catch (e) {
-      print('Error checking initial auth: $e');
+      emit(AuthFailure(errorMessage: 'Failed to check login status'));
     }
   }
 
   Future<void> loginCubit({
     required String email,
     required String password,
+    required BuildContext context,
   }) async {
     emit(AuthLoading());
-
     try {
       final loginModel = await _authRemoteData.login(
         email: email,
         password: password,
       );
-
       emit(AuthSuccess(loginModel: loginModel));
-
-    } on ApiException catch (error) {
-      emit(AuthFailure(errorMessage: error.key));
+    } on DioException catch (error) {
+      final msg = ApiErrorHandler.handleDioError(error, context);
+      emit(AuthFailure(errorMessage: msg));
     } catch (error) {
-      emit(AuthFailure(errorMessage: 'An unexpected error occurred'));
+      emit(
+        AuthFailure(errorMessage: ApiErrorHandler.handleUnknownError(context)),
+      );
     }
   }
 
@@ -51,34 +52,34 @@ class AuthCubit extends Cubit<AuthState> {
     required String email,
     required String password,
     required String phone,
+    required BuildContext context,
   }) async {
     emit(AuthLoading());
-
     try {
-      final message = await _authRemoteData.register(
+      await _authRemoteData.register(
         name: name,
         email: email,
         password: password,
         phone: phone,
       );
-
-      emit(AuthRegisterSuccess(message: message));
-
-    } on ApiException catch (error) {
-      emit(AuthFailure(errorMessage: error.key));
+      emit(AuthRegisterSuccess(message: 'Registration successful'));
+    } on DioException catch (error) {
+      final msg = ApiErrorHandler.handleDioError(error, context);
+      emit(AuthFailure(errorMessage: msg));
     } catch (error) {
-      emit(AuthFailure(errorMessage: 'An unexpected error occurred'));
+      emit(
+        AuthFailure(errorMessage: ApiErrorHandler.handleUnknownError(context)),
+      );
     }
   }
 
-  Future<void> logoutCubit() async {
+  Future<void> logoutCubit({required BuildContext context}) async {
     emit(AuthLoading());
-
     try {
       await _authRemoteData.logout();
       emit(AuthLoggedOut());
-    } catch (e) {
-      emit(AuthFailure(errorMessage: 'Logout failed: ${e.toString()}'));
+    } catch (error) {
+      emit(AuthFailure(errorMessage: 'Logout failed: ${error.toString()}'));
     }
   }
 }

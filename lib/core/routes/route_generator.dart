@@ -64,12 +64,14 @@ abstract class RoutesManager {
         }
 
       case AppRoutes.equipmentDetails:
-        final args = settings.arguments; // استخدم settings.arguments مباشرة
+        final args = settings.arguments;
         final equipmentId = args is int ? args : 0;
         return CupertinoPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) =>
-                EquipmentDetailsCubit(dataSource: EquipmentDetailsDataSource()),
+            create: (context) => EquipmentDetailsCubit(
+              dataSource: EquipmentDetailsDataSource(),
+              context: context,
+            ),
             child: EquipmentDetails(equipmentId: equipmentId),
           ),
         );

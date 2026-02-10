@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
-import 'package:med_rent/features/equipment%20details/presentation/view_model/equipment_review.dart';
-import 'package:med_rent/features/equipment%20details/presentation/view_model/rating_summary.dart'; // ✅ إضافة
+import 'package:med_rent/features/equipment%20details/data/models/equipment_review.dart';
+import 'package:med_rent/features/equipment%20details/data/models/rating_summary.dart';
 import 'package:med_rent/features/equipment%20details/presentation/widgets/review_user_item.dart';
 
 class UserReview extends StatefulWidget {

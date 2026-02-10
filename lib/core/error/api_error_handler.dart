@@ -1,62 +1,64 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/widgets.dart';
 import 'package:med_rent/core/constants/strings_keys.dart';
 
-class ApiException implements Exception {
-  final String message;
-  final String key;
-
-  ApiException({required this.message, required this.key});
-
-  @override
-  String toString() => key; 
-}
 class ApiErrorHandler {
-   static String handleDioErrorKey(DioException error, {bool isRegister=false}) {
+  static String handleDioError(
+      DioException error,
+      BuildContext context,
+      ) {
     if (error.error is SocketException) {
-      return StringKeys.noInternetConnection;
+      return StringsKeys.noInternetConnection(context);
     }
+
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.receiveTimeout:
       case DioExceptionType.sendTimeout:
-        return StringKeys.connectionTimedOut;
+        return StringsKeys.connectionTimedOut(context);
 
       case DioExceptionType.badResponse:
-        final statusCode = error.response?.statusCode;
-         final   String key = _keyForStatus(statusCode);
+        return _messageForStatus(
+          error.response?.statusCode,
+          context,
+        );
 
-        return key;
       case DioExceptionType.cancel:
-        return StringKeys.requestCancelled;
+        return StringsKeys.requestCancelled(context);
 
       default:
-        return error.response as String;
+        return StringsKeys.unexpectedError(context);
     }
   }
 
-  static String _keyForStatus(int? statusCode) {
+  static String _messageForStatus(
+      int? statusCode,
+      BuildContext context,
+      ) {
     switch (statusCode) {
       case 400:
-        return StringKeys.invalidEmailOrPassword;
+        return StringsKeys.invalidEmailOrPassword(context);
       case 401:
-        return StringKeys.unauthorized;
+        return StringsKeys.unauthorized(context);
+      case 403:
+        return StringsKeys.forbidden(context);
       case 404:
-        return StringKeys.resourceNotFound;
+        return StringsKeys.resourceNotFound(context);
+      case 409:
+        return StringsKeys.conflict(context);
       case 500:
-        return StringKeys.serverError;
+        return StringsKeys.serverError(context);
       case 503:
-        return StringKeys.serviceUnavailable;
+        return StringsKeys.serviceUnavailable(context);
       default:
-        return StringKeys.unexpectedError;
+        return StringsKeys.unexpectedError(context);
     }
   }
 
-  static String handleStatusCodeKey(int? statusCode,  {bool isRegister=false}) {
-    return _keyForStatus(statusCode);
-  }
-
-  static String handleUnknownErrorKey(Object e) {
-    return StringKeys.unexpectedError;
+  static String handleUnknownError(
+      BuildContext context,
+      ) {
+    return StringsKeys.unexpectedError(context);
   }
 }
