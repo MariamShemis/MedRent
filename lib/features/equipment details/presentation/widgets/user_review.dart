@@ -87,21 +87,17 @@ class _UserReviewState extends State<UserReview> {
 
           if (widget.reviews.isNotEmpty) ...[
             SizedBox(height: 12.h),
-
-            Container(
-              constraints: BoxConstraints(maxHeight: 400.h),
-              child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: widget.reviews.length,
-                itemBuilder: (context, index) {
-                  final review = widget.reviews[index];
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 16.h),
-                    child: ReviewUserItem(review: review),
-                  );
-                },
-              ),
+            ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: widget.reviews.length,
+              itemBuilder: (context, index) {
+                final review = widget.reviews[index];
+                return Padding(
+                  padding: EdgeInsets.only(bottom: 16.h),
+                  child: ReviewUserItem(review: review),
+                );
+              },
             ),
           ],
         ],

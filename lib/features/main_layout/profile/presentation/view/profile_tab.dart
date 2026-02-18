@@ -98,23 +98,29 @@ class _ProfileTabState extends State<ProfileTab> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(child: Icon(Iconsax.edit_25)),
-                          Expanded(flex: 2,child: Text(appLocalizations.editProfile)),
+                          Expanded(
+                            flex: 2,
+                            child: Text(appLocalizations.editProfile),
+                          ),
                         ],
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 30.h),
+                SizedBox(height: 45.h),
                 CustomProfileContainerItem(
-                  onPressedIconArrow1: () {},
-                  onPressedIconArrow2: () {},
-                  onPressedIconArrow3: () {
+                  onPressedNotification: () {},
+                  onPressedIconMyRental: () {
                     Navigator.pushNamed(context, AppRoutes.myRental);
                   },
-                  onPressedIconArrow4: () {},
-                  onPressedIconArrowContactUs: () {},
+                  onPressedIconPersonalInformation: () {
+                    Navigator.pushNamed(context, AppRoutes.personalInformation);
+                  },
+                  onPressedIconContactUs: () {
+                    Navigator.pushNamed(context, AppRoutes.contactUs);
+                  },
                 ),
-                SizedBox(height: 10.h),
+                SizedBox(height: 35.h),
                 GestureDetector(
                   onTap: _showDialogLogOut,
                   child: Row(
@@ -207,9 +213,12 @@ class _ProfileTabState extends State<ProfileTab> {
             TextButton(
               onPressed: () async {
                 await SessionService.logout();
-                Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
+                Navigator.of(
+                  context,
+                  rootNavigator: true,
+                ).pushNamedAndRemoveUntil(
                   AppRoutes.startScreen,
-                      (route) => false,
+                  (route) => false,
                 );
               },
               child: Text(

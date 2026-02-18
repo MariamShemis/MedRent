@@ -1516,6 +1516,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Email Already Exists'**
   String get emailAlreadyExists;
+
+  /// No description provided for @we_re_here_to_help_Send_us_a_message_or_find_our_contact_information_below.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'re here to help. Send us a message or find our contact information below.'**
+  String get we_re_here_to_help_Send_us_a_message_or_find_our_contact_information_below;
+
+  /// No description provided for @send_us_a_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Send us a message'**
+  String get send_us_a_message;
+
+  /// No description provided for @subject.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get subject;
+
+  /// No description provided for @contactInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Information'**
+  String get contactInformation;
+
+  /// No description provided for @sendMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Message'**
+  String get sendMessage;
+
+  /// No description provided for @message.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get message;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

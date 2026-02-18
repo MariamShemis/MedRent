@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/widgets/custom_search_text_field.dart';
+import 'package:med_rent/features/main_layout/hospital/data/cubit/hospital_cubit.dart';
+import 'package:med_rent/features/main_layout/hospital/data/cubit/hospital_state.dart';
 import 'package:med_rent/features/main_layout/hospital/presentation/widgets/custom_card_hospital.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
 
@@ -28,17 +31,35 @@ class HospitalTab extends StatelessWidget {
               CustomSearchTextField(
                 hintText: appLocalizations.search_by_location_or_hospital_name,
                 iconPrefix: Iconsax.search_normal4,
-                onChanged: (value) {},
+                onChanged: (value) {
+                  context.read<HospitalCubit>().searchOrGetAll(value);
+                },
               ),
               SizedBox(height: 20.h),
-              CustomCardHospital(
-                image: "https://images.pexels.com/photos/35842222/pexels-photo-35842222.jpeg",
-                titleLocation: "Tanta University Hospital ",
-                subTitleLocation: "Tanta University, Tanta, Gharbia",
-                description: "Insurance info not available",
-                rating: 4,
-                onPressedElevatedButton: () {},
-                onPressedOutlinedButton: () {},
+              Expanded(
+                child: BlocBuilder<HospitalCubit, HospitalState>(
+                  builder: (context, state) {
+                    if (state is HospitalLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (state is HospitalLoaded) {
+                      return ListView.separated(
+                        separatorBuilder: (context, index) =>
+                            SizedBox(height: 20.h),
+                        itemCount: state.hospitals.length,
+                        itemBuilder: (context, index) {
+                          return CustomCardHospital(
+                            model: state.hospitals[index],
+                          );
+                        },
+                      );
+                    }
+                    if (state is HospitalError) {
+                      return Center(child: Text(state.message));
+                    }
+                    return const SizedBox();
+                  },
+                ),
               ),
             ],
           ),

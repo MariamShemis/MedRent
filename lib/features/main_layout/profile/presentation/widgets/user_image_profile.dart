@@ -33,7 +33,7 @@ class UserImageProfile extends StatelessWidget {
               borderRadius: BorderRadius.circular(20.r),
               color: ColorManager.darkBlue,
             ),
-            child: Icon(Icons.camera_alt, color: ColorManager.white, size: 20),
+            child: Icon(Icons.camera_alt_outlined, color: ColorManager.white, size: 23),
           ),
         ),
       ],

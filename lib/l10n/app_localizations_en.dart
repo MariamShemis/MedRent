@@ -718,4 +718,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emailAlreadyExists => 'Email Already Exists';
+
+  @override
+  String get we_re_here_to_help_Send_us_a_message_or_find_our_contact_information_below => 'We\'re here to help. Send us a message or find our contact information below.';
+
+  @override
+  String get send_us_a_message => 'Send us a message';
+
+  @override
+  String get subject => 'Subject';
+
+  @override
+  String get contactInformation => 'Contact Information';
+
+  @override
+  String get sendMessage => 'Send Message';
+
+  @override
+  String get message => 'Message';
 }

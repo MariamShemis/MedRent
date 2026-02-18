@@ -236,5 +236,11 @@
   "forbidden": "Access forbidden",
   "resourceNotFound": "Resource not found",
   "conflict": "Conflict occurred",
-  "emailAlreadyExists": "Email Already Exists"
+  "emailAlreadyExists": "Email Already Exists",
+  "we_re_here_to_help_Send_us_a_message_or_find_our_contact_information_below" : "We're here to help. Send us a message or find our contact information below.",
+  "send_us_a_message" : "Send us a message",
+  "subject" : "Subject",
+  "contactInformation" : "Contact Information",
+  "sendMessage" : "Send Message",
+  "message" : "Message"
 }
