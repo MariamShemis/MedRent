@@ -34,12 +34,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _register(BuildContext context) {
+    final AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     if (!_formKey.currentState!.validate()) return;
 
     if (_passwordController.text != _confirmPasswordController.text) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Passwords do not match'),
+        SnackBar(
+          content: Text(appLocalizations.passwords_dont_match),
           backgroundColor: Colors.red,
         ),
       );
@@ -51,13 +52,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       email: _emailController.text.trim(),
       password: _passwordController.text.trim(),
       phone: _phoneController.text.trim(),
+      context: context,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context)!;
-
+    final AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthRegisterSuccess) {
@@ -95,9 +96,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               alignment: Alignment.centerRight,
               child: Text(
                 appLocalizations.signUp,
-                style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  fontSize: 20.sp,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.labelLarge!.copyWith(fontSize: 20.sp),
               ),
             ),
             SizedBox(width: 20.w),
@@ -118,15 +119,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         SizedBox(height: 30.h),
                         Text(
                           appLocalizations.welcome,
-                          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                            fontSize: 24.sp,
-                          ),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.headlineMedium!.copyWith(fontSize: 24.sp),
                         ),
                         SizedBox(height: 30.h),
                         CustomAuthTextFormField(
                           controller: _nameController,
                           labelText: appLocalizations.name,
-                          hintText: 'Enter your name',
+                          hintText: appLocalizations.enterYourName,
                           validator: (val) =>
                               AppValidators.validateUsername(context, val),
                         ),
@@ -134,7 +135,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         CustomAuthTextFormField(
                           controller: _emailController,
                           labelText: appLocalizations.email,
-                          hintText: appLocalizations.enterYourEmail ,
+                          hintText: appLocalizations.enterYourEmail,
                           keyboardType: TextInputType.emailAddress,
                           validator: (val) =>
                               AppValidators.validateEmail(context, val),
@@ -178,7 +179,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ? null
                                 : () => _register(context),
                             child: state is AuthLoading
-                                ? const CircularProgressIndicator(color: Colors.white)
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
                                 : Text(appLocalizations.signUp),
                           ),
                         ),
@@ -195,7 +198,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               padding: REdgeInsets.symmetric(horizontal: 10),
                               child: Text(
                                 appLocalizations.orContinueWith,
-                                style: const TextStyle(color: Color(0xFF140601)),
+                                style: const TextStyle(
+                                  color: Color(0xFF140601),
+                                ),
                               ),
                             ),
                             Expanded(
@@ -232,9 +237,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           children: [
                             Text(
                               appLocalizations.alreadyHaveAccount,
-                              style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                                fontSize: 14.sp,
-                              ),
+                              style: Theme.of(
+                                context,
+                              ).textTheme.labelLarge!.copyWith(fontSize: 14.sp),
                             ),
                             TextButton(
                               onPressed: () {
@@ -245,10 +250,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               },
                               child: Text(
                                 appLocalizations.logIn,
-                                style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                                  fontSize: 14.sp,
-                                  color: const Color(0xFF031B4E),
-                                ),
+                                style: Theme.of(context).textTheme.displayLarge!
+                                    .copyWith(
+                                      fontSize: 14.sp,
+                                      color: const Color(0xFF031B4E),
+                                    ),
                               ),
                             ),
                           ],

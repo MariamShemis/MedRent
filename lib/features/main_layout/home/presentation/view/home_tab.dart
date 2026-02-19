@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/assets_manager.dart';
+import 'package:med_rent/core/language/cubit/app_localization_cubit.dart';
 import 'package:med_rent/core/service/session_service.dart';
 import 'package:med_rent/core/widgets/custom_search_text_field.dart';
+import 'package:med_rent/features/main_layout/home/presentation/widgets/container_language_home_tab.dart';
 import 'package:med_rent/features/main_layout/home/presentation/widgets/custom_container_service.dart';
 import 'package:med_rent/features/main_layout/home/presentation/widgets/custom_container_tips.dart';
 import 'package:med_rent/features/main_layout/home/presentation/widgets/custom_hospital_location.dart';
+import 'package:med_rent/features/main_layout/home/presentation/widgets/rtl_aware_waving_hand_icon.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
 
 class HomeTab extends StatefulWidget {
@@ -44,7 +48,7 @@ class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
-    
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -71,12 +75,8 @@ class _HomeTabState extends State<HomeTab> {
                             "${appLocalizations.hi}, $_userName",
                             style: Theme.of(context).textTheme.labelMedium,
                           ),
-                          SizedBox(width: 4.w),
-                          Icon(
-                            Icons.waving_hand_sharp,
-                            textDirection: TextDirection.ltr,
-                            color: Colors.amber.withAlpha(128),
-                          ),
+                          SizedBox(width: 7.w),
+                          RtlAwareWavingHandIcon(),
                         ],
                       ),
                     const Spacer(),
@@ -88,14 +88,26 @@ class _HomeTabState extends State<HomeTab> {
                         size: 25,
                       ),
                     ),
+                    SizedBox(width: 5.w),
+                    BlocBuilder<AppLocalizationCubit, Locale>(
+                      builder: (context, locale) {
+                        final isArabic = locale.languageCode == 'ar';
+                        return ContainerLanguageHomeTab(
+                          text: isArabic ? 'EN' : 'AR',
+                          onTap: (){
+                            context.read<AppLocalizationCubit>().toggleLanguage();
+                          },
+                        );
+                      },
+                    ),
                   ],
                 ),
                 SizedBox(height: 5.h),
                 Text(
                   appLocalizations.how_can_we_help_you_today,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontSize: 14.sp,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(fontSize: 14.sp),
                 ),
                 SizedBox(height: 16.h),
                 CustomSearchTextField(

@@ -628,4 +628,112 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get choose_from_gallery => 'Choose from gallery';
+
+  @override
+  String get january => 'January';
+
+  @override
+  String get february => 'February';
+
+  @override
+  String get march => 'March';
+
+  @override
+  String get april => 'April';
+
+  @override
+  String get may => 'May';
+
+  @override
+  String get june => 'June';
+
+  @override
+  String get july => 'July';
+
+  @override
+  String get august => 'August';
+
+  @override
+  String get september => 'September';
+
+  @override
+  String get october => 'October';
+
+  @override
+  String get november => 'November';
+
+  @override
+  String get december => 'December';
+
+  @override
+  String get this_date_is_already_occupied => 'This date is already occupied';
+
+  @override
+  String get cannot_select_past_dates => 'Cannot select past dates';
+
+  @override
+  String get activate_Selected_mode_to_choose_dates => 'Activate \"Selected\" mode to choose dates';
+
+  @override
+  String get loginSuccessfully => 'Login Successfully';
+
+  @override
+  String get connectionTimedOut => 'Connection timed out';
+
+  @override
+  String get requestCancelled => 'Request was cancelled';
+
+  @override
+  String get noInternetConnection => 'No internet connection';
+
+  @override
+  String get unexpectedError => 'Unexpected error';
+
+  @override
+  String get somethingWentWrong => 'Something went wrong';
+
+  @override
+  String get serverError => 'Server error';
+
+  @override
+  String get serviceUnavailable => 'Service unavailable';
+
+  @override
+  String get invalidEmailOrPassword => 'Invalid email or password';
+
+  @override
+  String get badRequest => 'Bad request';
+
+  @override
+  String get unauthorized => 'Unauthorized access';
+
+  @override
+  String get forbidden => 'Access forbidden';
+
+  @override
+  String get resourceNotFound => 'Resource not found';
+
+  @override
+  String get conflict => 'Conflict occurred';
+
+  @override
+  String get emailAlreadyExists => 'Email Already Exists';
+
+  @override
+  String get we_re_here_to_help_Send_us_a_message_or_find_our_contact_information_below => 'We\'re here to help. Send us a message or find our contact information below.';
+
+  @override
+  String get send_us_a_message => 'Send us a message';
+
+  @override
+  String get subject => 'Subject';
+
+  @override
+  String get contactInformation => 'Contact Information';
+
+  @override
+  String get sendMessage => 'Send Message';
+
+  @override
+  String get message => 'Message';
 }

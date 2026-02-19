@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
-import 'package:med_rent/features/equipment%20details/presentation/view_model/equipment_review.dart';
-import 'package:med_rent/features/equipment%20details/presentation/view_model/rating_summary.dart'; // ✅ إضافة
+import 'package:med_rent/features/equipment%20details/data/models/equipment_review.dart';
+import 'package:med_rent/features/equipment%20details/data/models/rating_summary.dart';
 import 'package:med_rent/features/equipment%20details/presentation/widgets/review_user_item.dart';
 
 class UserReview extends StatefulWidget {
@@ -87,21 +87,17 @@ class _UserReviewState extends State<UserReview> {
 
           if (widget.reviews.isNotEmpty) ...[
             SizedBox(height: 12.h),
-
-            Container(
-              constraints: BoxConstraints(maxHeight: 400.h),
-              child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: widget.reviews.length,
-                itemBuilder: (context, index) {
-                  final review = widget.reviews[index];
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 16.h),
-                    child: ReviewUserItem(review: review),
-                  );
-                },
-              ),
+            ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: widget.reviews.length,
+              itemBuilder: (context, index) {
+                final review = widget.reviews[index];
+                return Padding(
+                  padding: EdgeInsets.only(bottom: 16.h),
+                  child: ReviewUserItem(review: review),
+                );
+              },
             ),
           ],
         ],

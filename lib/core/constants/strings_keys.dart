@@ -1,28 +1,48 @@
-class StringKeys {
-  /// SharedPreferences
-  static const String languageKey = 'language_code';
-  static const String tokenKey = 'token';
-  static const String expireData = 'ExpireData';
+import 'package:flutter/widgets.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
 
-  /// Network error
-  static const String connectionTimedOut = 'connectionTimedOut';
-  static const String requestCancelled = 'requestCancelled';
-  static const String noInternetConnection = 'noInternetConnection';
+class StringsKeys {
+  static String connectionTimedOut(BuildContext context) =>
+      AppLocalizations.of(context)!.connectionTimedOut;
 
-  /// General error
-  static const String unexpectedError = 'unexpectedError';
-  static const String somethingWentWrong = 'somethingWentWrong';
-  static const String serverError = 'serverError';
-  static const String serviceUnavailable = 'serviceUnavailable';
+  static String requestCancelled(BuildContext context) =>
+      AppLocalizations.of(context)!.requestCancelled;
 
-  /// HTTP status code error
-  static const String invalidEmailOrPassword = 'invalidEmailOrPassword';
-  static const String badRequest = 'badRequest';
-  static const String unauthorized = 'unauthorized';
-  static const String forbidden = 'forbidden';
-  static const String resourceNotFound = 'resourceNotFound';
-  static const String conflict = 'conflict';
+  static String noInternetConnection(BuildContext context) =>
+      AppLocalizations.of(context)!.noInternetConnection;
 
+  static String unexpectedError(BuildContext context) =>
+      AppLocalizations.of(context)!.unexpectedError;
+
+  static String somethingWentWrong(BuildContext context) =>
+      AppLocalizations.of(context)!.somethingWentWrong;
+
+  static String serverError(BuildContext context) =>
+      AppLocalizations.of(context)!.serverError;
+
+  static String serviceUnavailable(BuildContext context) =>
+      AppLocalizations.of(context)!.serviceUnavailable;
+
+  static String invalidEmailOrPassword(BuildContext context) =>
+      AppLocalizations.of(context)!.invalidEmailOrPassword;
+
+  static String badRequest(BuildContext context) =>
+      AppLocalizations.of(context)!.badRequest;
+
+  static String unauthorized(BuildContext context) =>
+      AppLocalizations.of(context)!.unauthorized;
+
+  static String forbidden(BuildContext context) =>
+      AppLocalizations.of(context)!.forbidden;
+
+  static String resourceNotFound(BuildContext context) =>
+      AppLocalizations.of(context)!.resourceNotFound;
+
+  static String conflict(BuildContext context) =>
+      AppLocalizations.of(context)!.conflict;
+
+  static String emailAlreadyExists(BuildContext context) =>
+      AppLocalizations.of(context)!.emailAlreadyExists;
 
 
 }

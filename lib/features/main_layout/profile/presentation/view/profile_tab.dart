@@ -47,96 +47,96 @@ class _ProfileTabState extends State<ProfileTab> {
       body: SafeArea(
         child: Padding(
           padding: REdgeInsets.all(16.0),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Text(
+                  appLocalizations.profile,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.headlineLarge!.copyWith(fontSize: 24.sp),
+                ),
+                SizedBox(height: 10.h),
+                UserImageProfile(
+                  widgetUserImageProfile: CircleAvatar(
+                    radius: 40.r,
+                    child: Icon(Icons.person, size: 40.sp),
+                  ),
+                  onTapCamera: _showBottomSheetImage,
+                ),
+                SizedBox(height: 10.h),
+                if (_isLoading)
+                  Container(
+                    width: 100.w,
+                    height: 20.h,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  )
+                else
                   Text(
-                    appLocalizations.profile,
+                    _userName!,
                     style: Theme.of(
                       context,
-                    ).textTheme.headlineLarge!.copyWith(fontSize: 24.sp),
+                    ).textTheme.displayLarge!.copyWith(fontSize: 24.sp),
                   ),
-                  SizedBox(height: 10.h),
-                  UserImageProfile(
-                    widgetUserImageProfile: CircleAvatar(
-                      radius: 40.r,
-                      child: Icon(Icons.person, size: 40.sp),
-                    ),
-                    onTapCamera: _showBottomSheetImage,
-                  ),
-                  SizedBox(height: 14.h),
-                  if (_isLoading)
-                    Container(
-                      width: 100.w,
-                      height: 20.h,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    )
-                  else
-                    Text(
-                      _userName!,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.displayLarge!.copyWith(fontSize: 24.sp),
-                    ),
-                  SizedBox(height: 10.h),
-                  Text(
-                    "${appLocalizations.patientID} : #HE-92031",
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
-                  ),
-                  SizedBox(height: 16.h),
-                  SizedBox(
-                    width: 200,
-                    height: 45,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorManager.darkBlue,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
-                                  padding: EdgeInsets.zero,        ),
+                SizedBox(height: 14.h),
+                Text(
+                  "${appLocalizations.patientID} : #HE-92031",
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
+                ),
+                SizedBox(height: 23.h),
+                SizedBox(
+                  width: 255,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center, 
                         children: [
-                          Icon(Iconsax.edit_2 , size: 20.sp , color: Colors.white,),
-                          SizedBox(width: 8.w),
-                          Text(appLocalizations.editProfile),
+                          Expanded(child: Icon(Iconsax.edit_25)),
+                          Expanded(
+                            flex: 2,
+                            child: Text(appLocalizations.editProfile),
+                          ),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 30.h),
-                  CustomProfileContainerItem(
-                    onPressedIconArrow1: () {},
-                    onPressedIconArrow2: () {},
-                    onPressedIconArrow3: () {
-                      Navigator.pushNamed(context, AppRoutes.myRental);
-                    },
-                    onPressedIconArrow4: () {},
-                    onPressedIconArrowContactUs: () {},
+                ),
+                SizedBox(height: 45.h),
+                CustomProfileContainerItem(
+                  onPressedNotification: () {},
+                  onPressedIconMyRental: () {
+                    Navigator.pushNamed(context, AppRoutes.myRental);
+                  },
+                  onPressedIconPersonalInformation: () {
+                    Navigator.pushNamed(context, AppRoutes.personalInformation);
+                  },
+                  onPressedIconContactUs: () {
+                    Navigator.pushNamed(context, AppRoutes.contactUs);
+                  },
+                ),
+                SizedBox(height: 35.h),
+                GestureDetector(
+                  onTap: _showDialogLogOut,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Iconsax.logout, color: ColorManager.error),
+                      SizedBox(width: 8.w),
+                      Text(
+                        appLocalizations.log_out,
+                        style: Theme.of(context).textTheme.headlineMedium!
+                            .copyWith(color: ColorManager.error),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 5.h),
-                  GestureDetector(
-                    onTap: _showDialogLogOut,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Iconsax.logout, color: ColorManager.error , fontWeight: FontWeight.bold,),
-                        SizedBox(width: 8.w),
-                        Text(
-                          appLocalizations.log_out,
-                          style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontWeight: FontWeight.bold)
-                              .copyWith(color: ColorManager.error),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -192,6 +192,7 @@ class _ProfileTabState extends State<ProfileTab> {
 
   void _showDialogLogOut() {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -210,14 +211,20 @@ class _ProfileTabState extends State<ProfileTab> {
               child: Text(appLocalizations.cancel),
             ),
             TextButton(
-              onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(
+              onPressed: () async {
+                await SessionService.logout();
+                Navigator.of(
                   context,
-                  AppRoutes.login,
+                  rootNavigator: true,
+                ).pushNamedAndRemoveUntil(
+                  AppRoutes.startScreen,
                   (route) => false,
                 );
               },
-              child: Text(appLocalizations.ok),
+              child: Text(
+                appLocalizations.ok,
+                style: TextStyle(color: Colors.red),
+              ),
             ),
           ],
         );

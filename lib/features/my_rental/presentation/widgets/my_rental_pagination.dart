@@ -16,6 +16,10 @@ class MyRentalPagination extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final startPage = currentPage;
+    final endPage =
+    (startPage + 2 > totalPages) ? totalPages : startPage + 2;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -24,30 +28,29 @@ class MyRentalPagination extends StatelessWidget {
               ? () => onPageChanged(currentPage - 1)
               : null,
           child: Container(
-            padding: REdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            decoration: const BoxDecoration(
+            padding: REdgeInsets.all(10),
+            decoration: BoxDecoration(
               color: ColorManager.lightBlue,
               shape: BoxShape.circle,
             ),
-            child: const Icon(
+            child: Icon(
               Icons.arrow_back_ios,
-              color: ColorManager.darkBlue,
-              size: 20,
+              size: 18,
+              color: currentPage > 0
+                  ? ColorManager.darkBlue
+                  : ColorManager.greyText,
             ),
           ),
         ),
-
         Row(
-          children: List.generate(2, (i) {
-            int pageIndex = currentPage + i;
-            if (pageIndex >= totalPages) return const SizedBox();
-
-            bool isSelected = pageIndex == currentPage;
+          children: List.generate(endPage - startPage, (index) {
+            final pageIndex = startPage + index;
+            final isSelected = pageIndex == currentPage;
 
             return GestureDetector(
               onTap: () => onPageChanged(pageIndex),
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 26.w),
+                margin: EdgeInsets.symmetric(horizontal: 6.w),
                 padding: REdgeInsets.symmetric(
                   horizontal: 14.w,
                   vertical: 10.h,
@@ -70,21 +73,22 @@ class MyRentalPagination extends StatelessWidget {
             );
           }),
         ),
-
         GestureDetector(
           onTap: currentPage < totalPages - 1
               ? () => onPageChanged(currentPage + 1)
               : null,
           child: Container(
-            padding: REdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            decoration: const BoxDecoration(
+            padding: REdgeInsets.all(10),
+            decoration: BoxDecoration(
               color: ColorManager.lightBlue,
               shape: BoxShape.circle,
             ),
-            child: const Icon(
+            child: Icon(
               Icons.arrow_forward_ios,
-              color: ColorManager.darkBlue,
-              size: 20,
+              size: 18,
+              color: currentPage < totalPages - 1
+                  ? ColorManager.darkBlue
+                  : ColorManager.greyText,
             ),
           ),
         ),
