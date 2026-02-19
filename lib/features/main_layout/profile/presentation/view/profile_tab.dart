@@ -91,20 +91,25 @@ class _ProfileTabState extends State<ProfileTab> {
                   ),
                   SizedBox(height: 16.h),
                   SizedBox(
-                    width: 240,
+                    width: 200,
+                    height: 45,
                     child: ElevatedButton(
                       onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorManager.darkBlue,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+                                  padding: EdgeInsets.zero,        ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center, 
                         children: [
-                          Icon(Iconsax.edit_25),
-                          SizedBox(width: 5.w),
-                          Expanded(child: Text(appLocalizations.editProfile)),
+                          Icon(Iconsax.edit_2 , size: 20.sp , color: Colors.white,),
+                          SizedBox(width: 8.w),
+                          Text(appLocalizations.editProfile),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 34.h),
+                  SizedBox(height: 30.h),
                   CustomProfileContainerItem(
                     onPressedIconArrow1: () {},
                     onPressedIconArrow2: () {},
@@ -120,11 +125,11 @@ class _ProfileTabState extends State<ProfileTab> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Iconsax.logout, color: ColorManager.error),
+                        Icon(Iconsax.logout, color: ColorManager.error , fontWeight: FontWeight.bold,),
                         SizedBox(width: 8.w),
                         Text(
                           appLocalizations.log_out,
-                          style: Theme.of(context).textTheme.headlineMedium!
+                          style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontWeight: FontWeight.bold)
                               .copyWith(color: ColorManager.error),
                         ),
                       ],

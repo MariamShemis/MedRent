@@ -17,10 +17,10 @@ class CustomProfileContainerItem extends StatelessWidget {
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Card(
-      elevation: 5,
+      elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       color: ColorManager.white,
-      margin: REdgeInsets.symmetric(vertical: 16),
+      margin: REdgeInsets.symmetric(vertical: 8 , horizontal: 12),
       child: Padding(
         padding: REdgeInsets.all(10.0),
         child: Column(
@@ -31,7 +31,7 @@ class CustomProfileContainerItem extends StatelessWidget {
               text: appLocalizations.personalInformation,
               onPressedIconArrow: onPressedIconArrow1,
             ),
-            SizedBox(height: 10.h,),
+            SizedBox(height: 5.h,),
             ContainerProfileItem(
               iconPrefix: Iconsax.calendar_1,
               iconSuffixArrow: Icons.arrow_forward_ios,

@@ -18,27 +18,36 @@ class ContainerProfileItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          padding: REdgeInsets.all(6),
-          decoration: BoxDecoration(
-            color: ColorManager.lightBlue,
-            shape: BoxShape.circle,
-          ),
-          child: Icon(iconPrefix, size: 25.sp),
+    return InkWell(
+      onTap: onPressedIconArrow,
+      child: Padding(
+        padding: REdgeInsets.symmetric(vertical: 10.h), 
+        child: Row(
+          children: [
+            Container(
+              padding: REdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: ColorManager.lightBlue,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(iconPrefix, size: 22.sp, color: ColorManager.darkBlue),
+            ),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Text(
+                text,
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                  fontSize: 20.sp, 
+                  fontWeight: FontWeight.w500,
+                ),
+                maxLines: 1, 
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Icon(iconSuffixArrow, size: 16.sp, color: Colors.grey),
+          ],
         ),
-        SizedBox(width: 10.w),
-        Text(
-          text,
-          style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-            fontSize: 24,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        Spacer(),
-        IconButton(onPressed: onPressedIconArrow, icon: Icon(iconSuffixArrow)),
-      ],
+      ),
     );
   }
 }
