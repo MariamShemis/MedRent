@@ -10,6 +10,7 @@ import 'package:med_rent/features/equipment%20details/presentation/widgets/custo
 import 'package:med_rent/features/equipment%20details/presentation/widgets/custom_description_specification.dart';
 import 'package:med_rent/features/equipment%20details/presentation/widgets/custom_item_price_details.dart';
 import 'package:med_rent/features/equipment%20details/presentation/widgets/user_review.dart';
+import 'package:med_rent/features/rent_payment/presentation/view/rent_payment.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -71,11 +72,9 @@ class _EquipmentDetailsState extends State<EquipmentDetails> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: Icon(Icons.arrow_back_ios,),
+          icon: Icon(Icons.arrow_back_ios),
         ),
-        title: Text(
-          appLocalizations.productDetails,
-        ),
+        title: Text(appLocalizations.productDetails),
       ),
       body: BlocProvider<EquipmentDetailsCubit>(
         create: (context) =>
@@ -127,163 +126,173 @@ class _EquipmentDetailsState extends State<EquipmentDetails> {
               final ratingSummary = state.ratingSummary;
               final availability = state.availability;
               return SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomCardItemDetails(image: equipment.imageUrl),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              equipment.name,
-                              style: Theme.of(
-                                context,
-                              ).textTheme.labelLarge!.copyWith(fontWeight: FontWeight.w800),
-                            ),
-                            SizedBox(height: 8.h),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: List.generate(
-                                    5,
-                                        (index) => Icon(
-                                      Iconsax.star1,
-                                      size: 22.sp,
-                                      color: index < ratingSummary.average.floor()
-                                          ? Colors.amber
-                                          : Colors.grey.shade300,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  "(${ratingSummary.count} ${appLocalizations.reviews})",
-                                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 20.h),
-                            Text(
-                              appLocalizations.rentalPricing,
-                              style: Theme.of(
-                                context,
-                              ).textTheme.labelLarge!.copyWith(fontWeight: FontWeight.w800),
-                            ),
-                            SizedBox(height: 12.h),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: CustomItemPriceDetails(
-                                    isColorDark: false,
-                                    textPer: appLocalizations.perDay,
-                                    textPrice: "${equipment.pricePerDay} ${appLocalizations.lE}",
-                                  ),
-                                ),
-                                SizedBox(width: 16.w),
-                                Expanded(
-                                  child: CustomItemPriceDetails(
-                                    isColorDark: true,
-                                    textPer: appLocalizations.perWeek,
-                                    textPrice:
-                                    "${(equipment.pricePerDay * 7 * (1 - _calculateSmartDiscount(equipment.pricePerDay) / 100)).toStringAsFixed(2)} ${appLocalizations.lE}",
-                                    textSavePrice:
-                                    "${appLocalizations.save} ${_calculateSmartDiscount(equipment.pricePerDay).toStringAsFixed(0)}%",
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 24.h),
-                            Center(
-                              child: Text(
-                                appLocalizations.specification,
-                                style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 12.h),
-                            CustomDescriptionSpecification(text1: equipment.description),
-                            SizedBox(height: 24.h),
-                            Text(
-                              appLocalizations.checkAvailability,
-                              style: Theme.of(
-                                context,
-                              ).textTheme.labelLarge!.copyWith(fontWeight: FontWeight.w800),
-                            ),
-                            SizedBox(height: 16.h),
-                            Container(
-                              padding: EdgeInsets.all(16.r),
-                              decoration: BoxDecoration(
-                                color: ColorManager.lightBlue,
-                                borderRadius: BorderRadius.circular(16.r),
-                              ),
-                              child: _buildCalendar(availability.bookedDates),
-                            ),
-                            SizedBox(height: 24.h),
-                            Text(
-                              appLocalizations.userReviews,
-                              style: Theme.of(
-                                context,
-                              ).textTheme.headlineLarge!.copyWith(fontSize: 18.sp),
-                            ),
-                            SizedBox(height: 16.h),
-                            UserReview(
-                              rating: ratingSummary.average.toStringAsFixed(1),
-                              ratingReview: "${appLocalizations.based_on} ${ratingSummary.count} ${appLocalizations.reviews}",
-                              reviews: reviews,
-                              ratingSummary: ratingSummary,
-                            ),
-                            SizedBox(height: 24.h),
-                            SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: ColorManager.darkBlue,
-                                  padding: EdgeInsets.symmetric(vertical: 16.h),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12.r),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  // if (selectedDays.isNotEmpty && _isSelectionModeActive) {
-                                  //   ScaffoldMessenger.of(context).showSnackBar(
-                                  //     SnackBar(
-                                  //       content: Text('You selected ${selectedDays.length} days for rental'),
-                                  //       backgroundColor: Colors.green,
-                                  //     ),
-                                  //   );
-                                  // } else {
-                                  //   ScaffoldMessenger.of(context).showSnackBar(
-                                  //     SnackBar(
-                                  //       content: Text('Please select dates first'),
-                                  //       backgroundColor: Colors.orange,
-                                  //     ),
-                                  //   );
-                                  // }
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.calendar_month, color: Colors.white),
-                                    SizedBox(width: 10.w),
-                                    Text(appLocalizations.rentNow),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 32.h),
-                          ],
-                        ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomCardItemDetails(image: equipment.imageUrl),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.w,
+                        vertical: 16.h,
                       ),
-                    ],
-                  ),
-                );
-              }
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            equipment.name,
+                            style: Theme.of(context).textTheme.labelLarge!
+                                .copyWith(fontWeight: FontWeight.w800),
+                          ),
+                          SizedBox(height: 8.h),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: List.generate(
+                                  5,
+                                  (index) => Icon(
+                                    Iconsax.star1,
+                                    size: 22.sp,
+                                    color: index < ratingSummary.average.floor()
+                                        ? Colors.amber
+                                        : Colors.grey.shade300,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                "(${ratingSummary.count} ${appLocalizations.reviews})",
+                                style: Theme.of(context).textTheme.bodySmall!
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 20.h),
+                          Text(
+                            appLocalizations.rentalPricing,
+                            style: Theme.of(context).textTheme.labelLarge!
+                                .copyWith(fontWeight: FontWeight.w800),
+                          ),
+                          SizedBox(height: 12.h),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: CustomItemPriceDetails(
+                                  isColorDark: false,
+                                  textPer: appLocalizations.perDay,
+                                  textPrice:
+                                      "${equipment.pricePerDay} ${appLocalizations.lE}",
+                                ),
+                              ),
+                              SizedBox(width: 16.w),
+                              Expanded(
+                                child: CustomItemPriceDetails(
+                                  isColorDark: true,
+                                  textPer: appLocalizations.perWeek,
+                                  textPrice:
+                                      "${(equipment.pricePerDay * 7 * (1 - _calculateSmartDiscount(equipment.pricePerDay) / 100)).toStringAsFixed(2)} ${appLocalizations.lE}",
+                                  textSavePrice:
+                                      "${appLocalizations.save} ${_calculateSmartDiscount(equipment.pricePerDay).toStringAsFixed(0)}%",
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 24.h),
+                          Center(
+                            child: Text(
+                              appLocalizations.specification,
+                              style: Theme.of(context).textTheme.labelLarge!
+                                  .copyWith(fontWeight: FontWeight.w800),
+                            ),
+                          ),
+                          SizedBox(height: 12.h),
+                          CustomDescriptionSpecification(
+                            text1: equipment.description,
+                          ),
+                          SizedBox(height: 24.h),
+                          Text(
+                            appLocalizations.checkAvailability,
+                            style: Theme.of(context).textTheme.labelLarge!
+                                .copyWith(fontWeight: FontWeight.w800),
+                          ),
+                          SizedBox(height: 16.h),
+                          Container(
+                            padding: EdgeInsets.all(16.r),
+                            decoration: BoxDecoration(
+                              color: ColorManager.lightBlue,
+                              borderRadius: BorderRadius.circular(16.r),
+                            ),
+                            child: _buildCalendar(availability.bookedDates),
+                          ),
+                          SizedBox(height: 24.h),
+                          Text(
+                            appLocalizations.userReviews,
+                            style: Theme.of(context).textTheme.headlineLarge!
+                                .copyWith(fontSize: 18.sp),
+                          ),
+                          SizedBox(height: 16.h),
+                          UserReview(
+                            rating: ratingSummary.average.toStringAsFixed(1),
+                            ratingReview:
+                                "${appLocalizations.based_on} ${ratingSummary.count} ${appLocalizations.reviews}",
+                            reviews: reviews,
+                            ratingSummary: ratingSummary,
+                          ),
+                          SizedBox(height: 24.h),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: ColorManager.darkBlue,
+                                padding: EdgeInsets.symmetric(vertical: 16.h),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.r),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const RentPayment(),
+                                  ),
+                                );
+                                // if (selectedDays.isNotEmpty && _isSelectionModeActive) {
+                                //   ScaffoldMessenger.of(context).showSnackBar(
+                                //     SnackBar(
+                                //       content: Text('You selected ${selectedDays.length} days for rental'),
+                                //       backgroundColor: Colors.green,
+                                //     ),
+                                //   );
+                                // } else {
+                                //   ScaffoldMessenger.of(context).showSnackBar(
+                                //     SnackBar(
+                                //       content: Text('Please select dates first'),
+                                //       backgroundColor: Colors.orange,
+                                //     ),
+                                //   );
+                                // }
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.calendar_month,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(width: 10.w),
+                                  Text(appLocalizations.rentNow),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 32.h),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
 
             return const SizedBox();
           },
@@ -339,7 +348,10 @@ class _EquipmentDetailsState extends State<EquipmentDetails> {
               Spacer(),
               _buildLegendItem(ColorManager.green, appLocalizations.available),
               SizedBox(width: 4.h),
-              _buildLegendItem(ColorManager.lightRed, appLocalizations.occupied),
+              _buildLegendItem(
+                ColorManager.lightRed,
+                appLocalizations.occupied,
+              ),
               SizedBox(width: 4.h),
               GestureDetector(
                 onTap: () {
