@@ -95,7 +95,7 @@ class _ProfileTabState extends State<ProfileTab> {
                     onPressed: () {},
                     child: Center(
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center, 
                         children: [
                           Expanded(child: Icon(Iconsax.edit_25)),
                           Expanded(

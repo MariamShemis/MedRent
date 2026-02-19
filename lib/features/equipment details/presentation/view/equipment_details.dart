@@ -10,6 +10,7 @@ import 'package:med_rent/features/equipment%20details/presentation/widgets/custo
 import 'package:med_rent/features/equipment%20details/presentation/widgets/custom_item_price_details.dart';
 import 'package:med_rent/features/equipment%20details/presentation/widgets/equipment_details_calender.dart';
 import 'package:med_rent/features/equipment%20details/presentation/widgets/user_review.dart';
+import 'package:med_rent/features/rent_payment/presentation/view/rent_payment.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
 
 import '../../data/cubit/equipment_details_state.dart';
