@@ -736,4 +736,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get message => 'Message';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get selectLanguage => 'Select Language';
+
+  @override
+  String get choose_your_preferred_language_for_the_app_interface => 'Choose your preferred language for the app interface';
+
+  @override
+  String get enter_the_digit_OTP_sent_to_your_email => 'Enter the 6-digit OTP sent to your email';
+
+  @override
+  String get didnt_get_the_OTP => 'Didn’t get the OTP?';
+
+  @override
+  String get resend_OTP => 'Resend OTP';
 }

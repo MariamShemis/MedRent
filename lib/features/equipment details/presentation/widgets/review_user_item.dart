@@ -46,7 +46,7 @@ class ReviewUserItem extends StatelessWidget {
           review.comment,
             style: Theme.of(context).textTheme.bodySmall
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: 4.h),
       ],
     );
   }

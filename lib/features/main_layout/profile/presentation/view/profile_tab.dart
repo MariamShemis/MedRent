@@ -95,7 +95,7 @@ class _ProfileTabState extends State<ProfileTab> {
                     onPressed: () {},
                     child: Center(
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center, 
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(child: Icon(Iconsax.edit_25)),
                           Expanded(
@@ -107,7 +107,7 @@ class _ProfileTabState extends State<ProfileTab> {
                     ),
                   ),
                 ),
-                SizedBox(height: 45.h),
+                SizedBox(height: 43.h),
                 CustomProfileContainerItem(
                   onPressedNotification: () {},
                   onPressedIconMyRental: () {
@@ -119,8 +119,12 @@ class _ProfileTabState extends State<ProfileTab> {
                   onPressedIconContactUs: () {
                     Navigator.pushNamed(context, AppRoutes.contactUs);
                   },
+                  textLanguage: "English",
+                  onPressedLanguage: () {
+                    Navigator.pushNamed(context, AppRoutes.languageProfile);
+                  },
                 ),
-                SizedBox(height: 35.h),
+                SizedBox(height: 20.h),
                 GestureDetector(
                   onTap: _showDialogLogOut,
                   child: Row(

@@ -1552,6 +1552,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Message'**
   String get message;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @selectLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Language'**
+  String get selectLanguage;
+
+  /// No description provided for @choose_your_preferred_language_for_the_app_interface.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your preferred language for the app interface'**
+  String get choose_your_preferred_language_for_the_app_interface;
+
+  /// No description provided for @enter_the_digit_OTP_sent_to_your_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the 6-digit OTP sent to your email'**
+  String get enter_the_digit_OTP_sent_to_your_email;
+
+  /// No description provided for @didnt_get_the_OTP.
+  ///
+  /// In en, this message translates to:
+  /// **'Didn’t get the OTP?'**
+  String get didnt_get_the_OTP;
+
+  /// No description provided for @resend_OTP.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend OTP'**
+  String get resend_OTP;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

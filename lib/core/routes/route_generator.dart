@@ -10,11 +10,13 @@ import 'package:med_rent/features/equipment%20details/data/data_sources/equipmen
 import 'package:med_rent/features/equipment%20details/presentation/view/equipment_details.dart';
 import 'package:med_rent/features/hospital_details/data/data_sources/hospital_details_data_source.dart';
 import 'package:med_rent/features/hospital_details/presentation/view/hospital_details.dart';
+import 'package:med_rent/features/language/presentation/view/language_profile.dart';
 import 'package:med_rent/features/main_layout/main_layout.dart';
 import 'package:med_rent/features/my_rental/data/cubit/my_rental_cubit.dart';
 import 'package:med_rent/features/my_rental/data/data_sources/my_rental_data_source.dart';
 import 'package:med_rent/features/my_rental/presentation/view/my_rental.dart';
 import 'package:med_rent/features/onboarding/onboarding_screen.dart';
+import 'package:med_rent/features/rent_payment/presentation/view/rent_payment.dart';
 import 'package:med_rent/features/splash/splash_screen.dart';
 import 'package:med_rent/features/start_screen/start_screen.dart';
 import 'package:med_rent/features/update_profile/presentation/view/personal_information.dart';
@@ -80,6 +82,14 @@ abstract class RoutesManager {
           return CupertinoPageRoute(
             builder: (context) => PersonalInformation(),
           );
+        }
+      case AppRoutes.rentPayment:
+        {
+          return CupertinoPageRoute(builder: (context) => RentPayment());
+        }
+      case AppRoutes.languageProfile:
+        {
+          return CupertinoPageRoute(builder: (context) => LanguageProfile());
         }
       case AppRoutes.myRental:
         {

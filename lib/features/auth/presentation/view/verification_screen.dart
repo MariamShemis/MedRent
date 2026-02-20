@@ -166,7 +166,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                 ),
                                 onPressed: () {
-                                  context.read<ForgetPasswordCubit>().sendOtp(email: widget.email);
+                                  context.read<ForgetPasswordCubit>().sendOtp(
+                                    email: widget.email,
+                                    context: context,
+                                  );
                                 },
                                 child: Text(
                                   appLocalizations.resendCode,

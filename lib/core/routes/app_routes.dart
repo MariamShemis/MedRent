@@ -6,10 +6,12 @@ abstract class AppRoutes{
   static const String login = '/login';
   static const String mainLayout = '/MainLayout';
   static const String equipmentDetails = '/equipmentDetails';
+  static const String rentPayment = '/rentPayment';
   static const String myRental = '/myRental';
   static const String contactUs = '/contactUs';
   static const String hospitalDetails = '/hospitalDetails';
   static const String personalInformation = '/personalInformation';
+  static const String languageProfile = '/languageProfile';
 
 
 }
