@@ -125,15 +125,13 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                               onPressed: state is ForgotPasswordLoading
                                   ? null
                                   : () {
-                                      if (formKey.currentState!.validate()) {
-                                        context
-                                            .read<ForgetPasswordCubit>()
-                                            .sendOtp(
-                                              email: emailController.text
-                                                  .trim(),
-                                            );
-                                      }
-                                    },
+                                if (formKey.currentState!.validate()) {
+                                  context.read<ForgetPasswordCubit>().sendOtp(
+                                    email: emailController.text.trim(),
+                                    context: context,
+                                  );
+                                }
+                              },
                               child: state is ForgotPasswordLoading
                                   ? const SizedBox(
                                       height: 20,

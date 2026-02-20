@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:med_rent/core/network/api_client.dart';
 import 'package:med_rent/core/network/network_checker.dart';
@@ -9,13 +8,16 @@ import 'package:med_rent/features/auth/data/models/login_model.dart';
 class AuthRemoteData {
   final ApiClient _apiClient;
 
-  AuthRemoteData({required ApiClient apiClient}) : _apiClient = apiClient;
+  AuthRemoteData({required ApiClient apiClient})
+      : _apiClient = apiClient;
 
   Future<LoginModel> login({
     required String email,
     required String password,
   }) async {
-    final hasInternet = await NetworkChecker.hasInternetConnection();
+    final hasInternet =
+    await NetworkChecker.hasInternetConnection();
+
     if (!hasInternet) {
       throw DioException(
         requestOptions: RequestOptions(path: ''),
@@ -31,8 +33,10 @@ class AuthRemoteData {
       },
     );
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      final loginModel = LoginModel.fromJson(response.data);
+    if (response.statusCode == 200 ||
+        response.statusCode == 201) {
+      final loginModel =
+      LoginModel.fromJson(response.data);
 
       await SessionService.saveUserData(
         userId: loginModel.userId,
@@ -58,7 +62,9 @@ class AuthRemoteData {
     required String password,
     required String phone,
   }) async {
-    final hasInternet = await NetworkChecker.hasInternetConnection();
+    final hasInternet =
+    await NetworkChecker.hasInternetConnection();
+
     if (!hasInternet) {
       throw DioException(
         requestOptions: RequestOptions(path: ''),
@@ -76,7 +82,8 @@ class AuthRemoteData {
       },
     );
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 ||
+        response.statusCode == 201) {
       return;
     }
 
@@ -87,6 +94,103 @@ class AuthRemoteData {
     );
   }
 
+  Future<String> forgotPassword({
+    required String email,
+  }) async {
+    final hasInternet =
+    await NetworkChecker.hasInternetConnection();
+
+    if (!hasInternet) {
+      throw DioException(
+        requestOptions: RequestOptions(path: ''),
+        error: const SocketException('No Internet'),
+      );
+    }
+
+    final response = await _apiClient.post(
+      '/Auth/forgot-password',
+      data: {
+        "email": email,
+      },
+    );
+
+    if (response.statusCode == 200 ||
+        response.statusCode == 201) {
+      return "Success";
+    }
+
+    throw DioException(
+      requestOptions: response.requestOptions,
+      response: response,
+      type: DioExceptionType.badResponse,
+    );
+  }
+
+  Future<String> verifyCode({
+    required String email,
+    required String code,
+  }) async {
+    final hasInternet =
+    await NetworkChecker.hasInternetConnection();
+
+    if (!hasInternet) {
+      throw DioException(
+        requestOptions: RequestOptions(path: ''),
+        error: const SocketException('No Internet'),
+      );
+    }
+
+    final response = await _apiClient.post(
+      '/Auth/verify-code',
+      queryParameters: {
+        'email': email,
+        'code': code,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return "Success";
+    }
+
+    throw DioException(
+      requestOptions: response.requestOptions,
+      response: response,
+      type: DioExceptionType.badResponse,
+    );
+  }
+
+  Future<void> newPassword({
+    required String email,
+    required String newPassword,
+  }) async {
+    final hasInternet =
+    await NetworkChecker.hasInternetConnection();
+
+    if (!hasInternet) {
+      throw DioException(
+        requestOptions: RequestOptions(path: ''),
+        error: const SocketException('No Internet'),
+      );
+    }
+
+    final response = await _apiClient.post(
+      '/Auth/reset-password',
+      queryParameters: {
+        'email': email,
+        'newPassword': newPassword,
+      },
+    );
+
+    if (response.statusCode != 200 &&
+        response.statusCode != 201) {
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+        type: DioExceptionType.badResponse,
+      );
+    }
+  }
+
   Future<void> logout() async {
     await SessionService.logout();
   }
@@ -94,117 +198,4 @@ class AuthRemoteData {
   Future<bool> isLoggedIn() async {
     return SessionService.isLoggedIn();
   }
-
-  Future<String> forgotPassword({required String email}) async {
-    
-    final hasInternet = await NetworkChecker.hasInternetConnection();
-    if (!hasInternet) {
-      throw ApiException(
-        message: 'No internet connection',
-        key: StringKeys.noInternetConnection,
-      );
-    }
-
-    try {
-      final response = await _apiClient.post(
-        '/Auth/forgot-password', 
-        data: {
-          "email": email, 
-        }, 
-      );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return "A verification code has been sent to your email."; 
-      } else {
-        throw ApiException(
-          message: 'Failed to send OTP',
-          key: _handleStatusCodeKey(response.statusCode),
-        );
-      }
-    } on DioException catch (e) {
-      throw ApiException(
-        message: e.message ?? 'Dio error',
-        key: _handleDioErrorKey(e),
-      );
-    } catch (e) {
-      throw ApiException(
-        message: e.toString(),
-        key: StringKeys.unexpectedError,
-      );
-    }
-  }
-
- Future<String> verifyCode({required String email, required String code}) async {
-    final hasInternet = await NetworkChecker.hasInternetConnection();
-    if (!hasInternet) {
-      throw ApiException(
-        message: 'No internet connection',
-        key: StringKeys.noInternetConnection,
-      );
-    }
-
-    try {
-      final response = await _apiClient.post(
-        '/Auth/verify-code',
-        queryParameters: {
-          'email': email,
-          'code': code,
-        },
-      );
-
-      if (response.statusCode == 200) {
-        return "Success";
-      } else {
-        throw ApiException(
-          message: 'Invalid Code',
-          key: _handleStatusCodeKey(response.statusCode),
-        );
-      }
-    } on DioException catch (e) {
-      throw ApiException(
-        message: e.message ?? 'Dio error',
-        key: _handleDioErrorKey(e),
-      );
-    } catch (e) {
-      throw ApiException(
-        message: e.toString(),
-        key: StringKeys.unexpectedError,
-      );
-    }
-  }
-
-  Future<void> newPassword({required String email, required String newPassword}) async {
-    final hasInternet = await NetworkChecker.hasInternetConnection();
-    if (!hasInternet) {
-      throw ApiException(
-        message: 'No internet connection',
-        key: StringKeys.noInternetConnection,
-      );
-    }
-
-    try {
-      await _apiClient.post(
-        '/Auth/reset-password', 
-        queryParameters: {
-          'email': email,
-          'newPassword': newPassword,
-        },
-      );
-    } on DioException catch (e) {
-      throw ApiException(
-        message: e.message ?? 'Error resetting password',
-        key: _handleDioErrorKey(e),
-      );
-    } catch (e) {
-      throw ApiException(
-        message: e.toString(),
-        key: StringKeys.unexpectedError,
-      );
-    }
-  }
-
-
-
 }
-
-

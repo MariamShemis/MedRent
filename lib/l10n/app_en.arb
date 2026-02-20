@@ -242,5 +242,11 @@
   "subject" : "Subject",
   "contactInformation" : "Contact Information",
   "sendMessage" : "Send Message",
-  "message" : "Message"
+  "message" : "Message",
+  "language" : "Language",
+  "selectLanguage" : "Select Language",
+  "choose_your_preferred_language_for_the_app_interface" : "Choose your preferred language for the app interface",
+  "enter_the_digit_OTP_sent_to_your_email" : "Enter the 6-digit OTP sent to your email",
+  "didnt_get_the_OTP" : "Didn’t get the OTP?",
+  "resend_OTP" : "Resend OTP"
 }
