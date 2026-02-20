@@ -1,7 +1,8 @@
-import 'package:med_rent/features/equipment%20details/presentation/view_model/equipment_availability.dart';
-import 'package:med_rent/features/equipment%20details/presentation/view_model/equipment_details_model.dart';
-import 'package:med_rent/features/equipment%20details/presentation/view_model/equipment_review.dart';
-import 'package:med_rent/features/equipment%20details/presentation/view_model/rating_summary.dart';
+
+import 'package:med_rent/features/equipment%20details/data/models/equipment_availability.dart';
+import 'package:med_rent/features/equipment%20details/data/models/equipment_details_model.dart';
+import 'package:med_rent/features/equipment%20details/data/models/equipment_review.dart';
+import 'package:med_rent/features/equipment%20details/data/models/rating_summary.dart';
 
 abstract class EquipmentDetailsState {}
 

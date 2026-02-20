@@ -8,45 +8,68 @@ class ContainerProfileItem extends StatelessWidget {
     required this.iconPrefix,
     required this.iconSuffixArrow,
     required this.text,
-    required this.onPressedIconArrow,
+    this.isLanguage = false,
+    required this.onPressedIconArrow, this.textLanguage,
   });
 
   final IconData iconPrefix;
   final IconData iconSuffixArrow;
   final String text;
+  final String? textLanguage;
+  final bool isLanguage;
   final VoidCallback onPressedIconArrow;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressedIconArrow,
-      child: Padding(
-        padding: REdgeInsets.symmetric(vertical: 10.h), 
-        child: Row(
-          children: [
-            Container(
-              padding: REdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: ColorManager.lightBlue,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(iconPrefix, size: 22.sp, color: ColorManager.darkBlue),
+      borderRadius: BorderRadius.circular(16.r),
+      child: Row(
+        children: [
+          Container(
+            padding: REdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: ColorManager.lightBlue,
+              shape: BoxShape.circle,
             ),
-            SizedBox(width: 12.w),
-            Expanded(
-              child: Text(
-                text,
-                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                  fontSize: 20.sp, 
-                  fontWeight: FontWeight.w500,
+            child: Icon(iconPrefix, size: 24.sp, color: ColorManager.black),
+          ),
+          SizedBox(width: 12.w),
+          Expanded(
+            child: Text(
+              text,
+              style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                fontSize: 22.sp,
+                fontWeight: FontWeight.w500,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          isLanguage
+              ? Row(
+                  spacing: 3.sp,
+                  children: [
+                    Text(
+                      textLanguage! ,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Icon(
+                      iconSuffixArrow,
+                      size: 18.sp,
+                      color: ColorManager.darkBlue,
+                    ),
+                  ],
+                )
+              : Icon(
+                  iconSuffixArrow,
+                  size: 18.sp,
+                  color: ColorManager.darkBlue,
                 ),
-                maxLines: 1, 
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            Icon(iconSuffixArrow, size: 16.sp, color: Colors.grey),
-          ],
-        ),
+        ],
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:med_rent/features/equipment%20details/presentation/view_model/equipment_review.dart';
+import 'package:med_rent/features/equipment%20details/data/models/equipment_review.dart';
 
 class ReviewUserItem extends StatelessWidget {
   const ReviewUserItem({super.key, required this.review});
@@ -46,7 +46,7 @@ class ReviewUserItem extends StatelessWidget {
           review.comment,
             style: Theme.of(context).textTheme.bodySmall
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: 4.h),
       ],
     );
   }

@@ -6,7 +6,7 @@ class MyRentalDataSource {
   final Dio dio = Dio();
 
   MyRentalDataSource() {
-    dio.options.baseUrl = 'http://graduationprojectapi.somee.com';
+    dio.options.baseUrl = 'http://www.graduationprojectapi.somee.com';
     dio.options.connectTimeout = const Duration(seconds: 30);
     dio.options.receiveTimeout = const Duration(seconds: 30);
   }

@@ -1,4 +1,4 @@
-import 'package:med_rent/features/equipment%20details/presentation/view_model/rating_summary.dart';
+import 'package:med_rent/features/equipment%20details/data/models/rating_summary.dart';
 
 class EquipmentModel {
   final int equipmentId;
@@ -7,7 +7,7 @@ class EquipmentModel {
   final bool availability;
   final double pricePerDay;
   final String imageUrl;
-  final RatingSummaryModel ratingSummary; // ✅ بدل rating و reviewsCount
+  final RatingSummaryModel ratingSummary;
 
   EquipmentModel({
     required this.availability,
@@ -16,7 +16,7 @@ class EquipmentModel {
     required this.imageUrl,
     required this.name,
     required this.pricePerDay,
-    required this.ratingSummary, // ✅ لازم تمررها
+    required this.ratingSummary,
   });
 
   factory EquipmentModel.fromJson(Map<String, dynamic> json) {
@@ -27,11 +27,10 @@ class EquipmentModel {
       imageUrl: "http://graduationprojectapi.somee.com${json['imageUrl']?.toString().replaceAll('\\', '/')}",
       name: json['name'] ?? '',
       pricePerDay: (json['pricePerDay'] as num).toDouble(),
-      ratingSummary: RatingSummaryModel.fromJson(json['ratingSummary'] ?? {}), // ✅ من الـ API
+      ratingSummary: RatingSummaryModel.fromJson(json['ratingSummary'] ?? {}),
     );
   }
 
-  // ✅ دالة مساعدة عشان Backward compatibility
   double get rating => ratingSummary.average;
   int get reviewsCount => ratingSummary.count;
 }

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
-import 'package:med_rent/features/equipment%20details/presentation/view_model/rating_summary.dart';
+import 'package:med_rent/features/equipment%20details/data/models/rating_summary.dart';
 import 'package:med_rent/features/main_layout/rent/data/models/equipment_model.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
 

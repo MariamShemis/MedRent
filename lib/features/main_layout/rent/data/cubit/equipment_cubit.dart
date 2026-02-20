@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:med_rent/features/equipment%20details/presentation/view_model/rating_summary.dart'; // ✅ تأكد من المسار
+import 'package:med_rent/features/equipment%20details/data/models/rating_summary.dart';
 import 'package:med_rent/features/main_layout/rent/data/data_sources/equipment_data_source.dart';
 import 'package:med_rent/features/main_layout/rent/data/models/equipment_model.dart';
 import 'package:meta/meta.dart';

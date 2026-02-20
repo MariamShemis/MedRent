@@ -1336,6 +1336,258 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose from gallery'**
   String get choose_from_gallery;
+
+  /// No description provided for @january.
+  ///
+  /// In en, this message translates to:
+  /// **'January'**
+  String get january;
+
+  /// No description provided for @february.
+  ///
+  /// In en, this message translates to:
+  /// **'February'**
+  String get february;
+
+  /// No description provided for @march.
+  ///
+  /// In en, this message translates to:
+  /// **'March'**
+  String get march;
+
+  /// No description provided for @april.
+  ///
+  /// In en, this message translates to:
+  /// **'April'**
+  String get april;
+
+  /// No description provided for @may.
+  ///
+  /// In en, this message translates to:
+  /// **'May'**
+  String get may;
+
+  /// No description provided for @june.
+  ///
+  /// In en, this message translates to:
+  /// **'June'**
+  String get june;
+
+  /// No description provided for @july.
+  ///
+  /// In en, this message translates to:
+  /// **'July'**
+  String get july;
+
+  /// No description provided for @august.
+  ///
+  /// In en, this message translates to:
+  /// **'August'**
+  String get august;
+
+  /// No description provided for @september.
+  ///
+  /// In en, this message translates to:
+  /// **'September'**
+  String get september;
+
+  /// No description provided for @october.
+  ///
+  /// In en, this message translates to:
+  /// **'October'**
+  String get october;
+
+  /// No description provided for @november.
+  ///
+  /// In en, this message translates to:
+  /// **'November'**
+  String get november;
+
+  /// No description provided for @december.
+  ///
+  /// In en, this message translates to:
+  /// **'December'**
+  String get december;
+
+  /// No description provided for @this_date_is_already_occupied.
+  ///
+  /// In en, this message translates to:
+  /// **'This date is already occupied'**
+  String get this_date_is_already_occupied;
+
+  /// No description provided for @cannot_select_past_dates.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot select past dates'**
+  String get cannot_select_past_dates;
+
+  /// No description provided for @activate_Selected_mode_to_choose_dates.
+  ///
+  /// In en, this message translates to:
+  /// **'Activate \"Selected\" mode to choose dates'**
+  String get activate_Selected_mode_to_choose_dates;
+
+  /// No description provided for @loginSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Login Successfully'**
+  String get loginSuccessfully;
+
+  /// No description provided for @connectionTimedOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection timed out'**
+  String get connectionTimedOut;
+
+  /// No description provided for @requestCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Request was cancelled'**
+  String get requestCancelled;
+
+  /// No description provided for @noInternetConnection.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection'**
+  String get noInternetConnection;
+
+  /// No description provided for @unexpectedError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unexpected error'**
+  String get unexpectedError;
+
+  /// No description provided for @somethingWentWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get somethingWentWrong;
+
+  /// No description provided for @serverError.
+  ///
+  /// In en, this message translates to:
+  /// **'Server error'**
+  String get serverError;
+
+  /// No description provided for @serviceUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Service unavailable'**
+  String get serviceUnavailable;
+
+  /// No description provided for @invalidEmailOrPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email or password'**
+  String get invalidEmailOrPassword;
+
+  /// No description provided for @badRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Bad request'**
+  String get badRequest;
+
+  /// No description provided for @unauthorized.
+  ///
+  /// In en, this message translates to:
+  /// **'Unauthorized access'**
+  String get unauthorized;
+
+  /// No description provided for @forbidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Access forbidden'**
+  String get forbidden;
+
+  /// No description provided for @resourceNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Resource not found'**
+  String get resourceNotFound;
+
+  /// No description provided for @conflict.
+  ///
+  /// In en, this message translates to:
+  /// **'Conflict occurred'**
+  String get conflict;
+
+  /// No description provided for @emailAlreadyExists.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Already Exists'**
+  String get emailAlreadyExists;
+
+  /// No description provided for @we_re_here_to_help_Send_us_a_message_or_find_our_contact_information_below.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'re here to help. Send us a message or find our contact information below.'**
+  String get we_re_here_to_help_Send_us_a_message_or_find_our_contact_information_below;
+
+  /// No description provided for @send_us_a_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Send us a message'**
+  String get send_us_a_message;
+
+  /// No description provided for @subject.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get subject;
+
+  /// No description provided for @contactInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Information'**
+  String get contactInformation;
+
+  /// No description provided for @sendMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Message'**
+  String get sendMessage;
+
+  /// No description provided for @message.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get message;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @selectLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Language'**
+  String get selectLanguage;
+
+  /// No description provided for @choose_your_preferred_language_for_the_app_interface.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your preferred language for the app interface'**
+  String get choose_your_preferred_language_for_the_app_interface;
+
+  /// No description provided for @enter_the_digit_OTP_sent_to_your_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the 6-digit OTP sent to your email'**
+  String get enter_the_digit_OTP_sent_to_your_email;
+
+  /// No description provided for @didnt_get_the_OTP.
+  ///
+  /// In en, this message translates to:
+  /// **'Didn’t get the OTP?'**
+  String get didnt_get_the_OTP;
+
+  /// No description provided for @resend_OTP.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend OTP'**
+  String get resend_OTP;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
