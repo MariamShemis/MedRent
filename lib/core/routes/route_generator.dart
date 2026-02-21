@@ -4,6 +4,7 @@ import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/features/auth/data/cubit/auth_cubit.dart';
 import 'package:med_rent/features/auth/presentation/view/login_screen.dart';
 import 'package:med_rent/features/auth/presentation/view/register_screen.dart';
+import 'package:med_rent/features/auth/presentation/view/verify_register.dart';
 import 'package:med_rent/features/contact_us/presentation/view/contact_us.dart';
 import 'package:med_rent/features/equipment%20details/data/cubit/equipment_details_cubit.dart';
 import 'package:med_rent/features/equipment%20details/data/data_sources/equipment_details_data_source.dart';
@@ -35,23 +36,23 @@ abstract class RoutesManager {
           return CupertinoPageRoute(builder: (context) => OnboardingScreen());
         }
       case AppRoutes.register:
-        {
-          return CupertinoPageRoute(
-            builder: (context) => BlocProvider(
-              create: (context) => AuthCubit(),
-              child: const RegisterScreen(),
-            ),
-          );
-        }
+        return CupertinoPageRoute(
+          builder: (context) => BlocProvider(
+            create: (_) => AuthCubit(),
+            child: const RegisterScreen(),
+          ),
+        );
       case AppRoutes.startScreen:
         {
-          return CupertinoPageRoute(builder: (context) => const StartScreen());
+          return CupertinoPageRoute(
+            builder: (context) => const StartScreen(),
+          );
         }
       case AppRoutes.login:
         {
           return CupertinoPageRoute(
             builder: (context) => BlocProvider(
-              create: (context) => AuthCubit(),
+              create: (_) => AuthCubit(),
               child: const LoginScreen(),
             ),
           );
@@ -101,19 +102,20 @@ abstract class RoutesManager {
             ),
           );
         }
-
       case AppRoutes.equipmentDetails:
-        final args = settings.arguments;
-        final equipmentId = args is int ? args : 0;
-        return CupertinoPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => EquipmentDetailsCubit(
-              dataSource: EquipmentDetailsDataSource(),
-              context: context,
+        {
+          final args = settings.arguments;
+          final equipmentId = args is int ? args : 0;
+          return CupertinoPageRoute(
+            builder: (_) => BlocProvider(
+              create: (context) => EquipmentDetailsCubit(
+                dataSource: EquipmentDetailsDataSource(),
+                context: context,
+              ),
+              child: EquipmentDetails(equipmentId: equipmentId),
             ),
-            child: EquipmentDetails(equipmentId: equipmentId),
-          ),
-        );
+          );
+        }
     }
     return null;
   }

@@ -19,7 +19,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController newpasswordController = TextEditingController();
   final TextEditingController confirmPasswordController =
-      TextEditingController();
+  TextEditingController();
 
   @override
   void dispose() {
@@ -32,7 +32,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return BlocProvider(
-create: (context) => NewPasswordCubit(),
+      create: (context) => NewPasswordCubit(),
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -118,12 +118,20 @@ create: (context) => NewPasswordCubit(),
                             labelText: appLocalizations.confirmPassword,
                             hintText: '******',
                             isPassword: true,
-                            validator: (val) =>
-                                AppValidators.validateConfirmPassword(
-                                  context,
-                                  val,
-                                  newpasswordController.text,
-                                ),
+                            validator:
+                              (val) {
+                                RegExp regExp = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+                                if (val == null || val.isEmpty) {
+                                  return appLocalizations.this_field_is_required;
+                                }
+                                if(!regExp.hasMatch(val)){
+                                  return appLocalizations.strong_password_please;
+                                }
+                                if (val == newpasswordController.text) {
+                                  return "Passwords Can't Be Same";
+                                }
+                                return null;
+                              },
                           ),
                         ),
                         SizedBox(height: 40.h),
@@ -133,20 +141,20 @@ create: (context) => NewPasswordCubit(),
                             onPressed: state is NewPasswordLoading
                                 ? null
                                 : () {
-                                    if (formKey.currentState!.validate()) {
-                                      context
-                                          .read<NewPasswordCubit>()
-                                          .newPassword(
-                                            email: widget.email,
-                                            newPassword:
-                                                newpasswordController.text,
-                                          );
-                                    }
-                                  },
+                              if (formKey.currentState!.validate()) {
+                                context
+                                    .read<NewPasswordCubit>()
+                                    .newPassword(
+                                  email: widget.email,
+                                  newPassword:
+                                  newpasswordController.text,
+                                );
+                              }
+                            },
                             child: state is NewPasswordLoading
                                 ? const CircularProgressIndicator(
-                                    color: Colors.white,
-                                  )
+                              color: Colors.white,
+                            )
                                 : Text(appLocalizations.confirm),
                           ),
                         ),

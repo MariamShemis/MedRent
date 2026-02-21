@@ -100,7 +100,7 @@ class ThemeManager {
       titleTextStyle: GoogleFonts.inter(
         color: ColorManager.darkBlue,
         fontSize: 20.sp,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w700,
       ),
       iconTheme: IconThemeData(color: ColorManager.black),
     ),
