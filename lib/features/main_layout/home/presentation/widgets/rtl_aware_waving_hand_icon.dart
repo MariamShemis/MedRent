@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:med_rent/core/language/cubit/app_localization_cubit.dart';
+import 'package:med_rent/features/language/data/cubit/app_localization_cubit.dart';
 
 class RtlAwareWavingHandIcon extends StatelessWidget {
   const RtlAwareWavingHandIcon({super.key});

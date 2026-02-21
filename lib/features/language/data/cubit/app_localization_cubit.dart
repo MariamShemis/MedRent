@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:med_rent/core/language/language_service/language_service.dart';
+import 'package:med_rent/features/language/data/language_service/language_service.dart';
 
 class AppLocalizationCubit extends Cubit<Locale> {
   AppLocalizationCubit() : super(const Locale('en')) {
