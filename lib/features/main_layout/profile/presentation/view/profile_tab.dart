@@ -48,7 +48,7 @@ class _ProfileTabState extends State<ProfileTab> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: REdgeInsets.all(16.0),
+          padding: REdgeInsets.symmetric(horizontal: 16.0),
           child: Center(
             child: SingleChildScrollView(
               child: Column(
@@ -119,88 +119,51 @@ class _ProfileTabState extends State<ProfileTab> {
                     ),
                   ),
                   SizedBox(height: 30.h),
-                  CustomProfileContainerItem(
-                    onPressedIconPersonalInformation: () {},
-                    onPressedIconMyRental: () {
-                      Navigator.pushNamed(context, AppRoutes.myRental);
+                  BlocBuilder<AppLocalizationCubit, Locale>(
+                    builder: (context, locale) {
+                      final isArabic = locale.languageCode == 'ar';
+                      return CustomProfileContainerItem(
+                        onPressedNotification: () {},
+                        onPressedIconMyRental: () {
+                          Navigator.pushNamed(context, AppRoutes.myRental);
+                        },
+                        onPressedIconPersonalInformation: () async {
+                          final result = await Navigator.pushNamed(
+                            context,
+                            AppRoutes.personalInformation,
+                          );
+                          if (result == true) {
+                            _loadUserData();
+                          }
+                        },
+                        onPressedIconContactUs: () {
+                          Navigator.pushNamed(context, AppRoutes.contactUs);
+                        },
+                        textLanguage: isArabic ? "العربية" : "English",
+                        onPressedLanguage: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.languageProfile,
+                          );
+                        },
+                      );
                     },
-                    onPressedNotification: () {},
-                    onPressedLanguage: () {},
-                    onPressedIconContactUs: () {},
-                    textLanguage: "English",
                   ),
-                  // CustomProfileContainerItem(
-                  //   onPressedIconArrow1: () {},
-                  //   onPressedIconArrow2: () {},
-                  //   onPressedIconArrow3: () {
-                  //     Navigator.pushNamed(context, AppRoutes.myRental);
-                  //   },
-                  //   onPressedIc onArrow4: () {},
-                  //   onPressedIconArrowContactUs: () {},
-                  // ),
-                  // SizedBox(height: 5.h),
+                  SizedBox(height: 20.h),
                   GestureDetector(
                     onTap: _showDialogLogOut,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Iconsax.logout,
-                          color: ColorManager.error,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        Icon(Iconsax.logout, color: ColorManager.error),
                         SizedBox(width: 8.w),
                         Text(
                           appLocalizations.log_out,
                           style: Theme.of(context).textTheme.headlineMedium!
-                              .copyWith(fontWeight: FontWeight.bold)
                               .copyWith(color: ColorManager.error),
                         ),
                       ],
                     ),
-                ),
-                SizedBox(height: 40.h),
-                BlocBuilder<AppLocalizationCubit, Locale>(
-                  builder: (context, locale) {
-                    final isArabic = locale.languageCode == 'ar';
-                    return CustomProfileContainerItem(
-                      onPressedNotification: () {},
-                      onPressedIconMyRental: () {
-                        Navigator.pushNamed(context, AppRoutes.myRental);
-                      },
-                      onPressedIconPersonalInformation: () async {
-                        final result = await Navigator.pushNamed(
-                          context,
-                          AppRoutes.personalInformation,
-                        );
-                        if (result == true) {
-                          _loadUserData();
-                        }
-                      },
-                      onPressedIconContactUs: () {
-                        Navigator.pushNamed(context, AppRoutes.contactUs);
-                      },
-                      textLanguage: isArabic ? "العربية" : "English",
-                      onPressedLanguage: () {
-                        Navigator.pushNamed(context, AppRoutes.languageProfile);
-                      },
-                    );
-                  },
-                ),
-                SizedBox(height: 20.h),
-                GestureDetector(
-                  onTap: _showDialogLogOut,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Iconsax.logout, color: ColorManager.error),
-                      SizedBox(width: 8.w),
-                      Text(
-                        appLocalizations.log_out,
-                        style: Theme.of(context).textTheme.headlineMedium!
-                            .copyWith(color: ColorManager.error),
-                      ),
-                    ],
                   ),
                 ],
               ),
