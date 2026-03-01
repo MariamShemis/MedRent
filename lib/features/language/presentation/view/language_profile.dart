@@ -26,6 +26,8 @@ class _LanguageProfileState extends State<LanguageProfile> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context)!;
+    final currentLang =
+        context.watch<AppLocalizationCubit>().state.languageCode;
 
     return Scaffold(
       appBar: AppBar(
@@ -45,7 +47,6 @@ class _LanguageProfileState extends State<LanguageProfile> {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 50.h),
-
             CustomLanguageCard(
               title: "English",
               subTitle: "Default System Language",
@@ -55,9 +56,7 @@ class _LanguageProfileState extends State<LanguageProfile> {
                 setState(() => selectedLang = value);
               },
             ),
-
             SizedBox(height: 16.h),
-
             CustomLanguageCard(
               title: "العربية",
               subTitle: "Arabic",
@@ -67,13 +66,13 @@ class _LanguageProfileState extends State<LanguageProfile> {
                 setState(() => selectedLang = value);
               },
             ),
-
             SizedBox(height: 70.h),
-
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () async {
+                onPressed: selectedLang == currentLang
+                    ? null
+                    : () async {
                   await context
                       .read<AppLocalizationCubit>()
                       .changeLanguage(selectedLang!);

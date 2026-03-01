@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
@@ -20,6 +21,8 @@ import 'package:med_rent/features/onboarding/onboarding_screen.dart';
 import 'package:med_rent/features/rent_payment/presentation/view/rent_payment.dart';
 import 'package:med_rent/features/splash/splash_screen.dart';
 import 'package:med_rent/features/start_screen/start_screen.dart';
+import 'package:med_rent/features/update_profile/data/cubit/update_profile_cubit.dart';
+import 'package:med_rent/features/update_profile/data/data_sources/update_profile_data_source.dart';
 import 'package:med_rent/features/update_profile/presentation/view/personal_information.dart';
 
 import '../../features/hospital_details/data/cubit/hospital_details_cubit.dart';
@@ -81,7 +84,12 @@ abstract class RoutesManager {
       case AppRoutes.personalInformation:
         {
           return CupertinoPageRoute(
-            builder: (context) => PersonalInformation(),
+            builder: (context) => BlocProvider(
+              create: (context) => UpdateProfileCubit(
+                UpdateProfileDataSource(Dio()),
+              ),
+              child: const PersonalInformation(),
+            ),
           );
         }
       case AppRoutes.rentPayment:

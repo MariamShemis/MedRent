@@ -24,7 +24,9 @@ class CustomLanguageCard extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8.h),
       decoration: BoxDecoration(
-        color: isSelected ? ColorManager.secondary2 : ColorManager.white,
+        color: isSelected
+            ? ColorManager.secondary2.withValues(alpha: 0.6)
+            : ColorManager.white,
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(
           color: isSelected ? ColorManager.secondary : ColorManager.greyText,
@@ -35,6 +37,11 @@ class CustomLanguageCard extends StatelessWidget {
         value: languageCode,
         groupValue: selectedLanguage,
         activeColor: ColorManager.secondary,
+        radioScaleFactor: 1.5,
+        radioSide: BorderSide(
+          color: isSelected ? ColorManager.secondary : ColorManager.greyText,
+          width: 1,
+        ),
         onChanged: onChanged,
         title: Text(
           title,

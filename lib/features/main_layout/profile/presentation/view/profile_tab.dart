@@ -113,14 +113,19 @@ class _ProfileTabState extends State<ProfileTab> {
                 BlocBuilder<AppLocalizationCubit, Locale>(
                   builder: (context, locale) {
                     final isArabic = locale.languageCode == 'ar';
-
                     return CustomProfileContainerItem(
                       onPressedNotification: () {},
                       onPressedIconMyRental: () {
                         Navigator.pushNamed(context, AppRoutes.myRental);
                       },
-                      onPressedIconPersonalInformation: () {
-                        Navigator.pushNamed(context, AppRoutes.personalInformation);
+                      onPressedIconPersonalInformation: () async {
+                        final result = await Navigator.pushNamed(
+                          context,
+                          AppRoutes.personalInformation,
+                        );
+                        if (result == true) {
+                          _loadUserData();
+                        }
                       },
                       onPressedIconContactUs: () {
                         Navigator.pushNamed(context, AppRoutes.contactUs);

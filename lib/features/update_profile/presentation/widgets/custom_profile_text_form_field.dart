@@ -7,19 +7,16 @@ class CustomProfileTextFormField extends StatelessWidget {
     super.key,
     required this.controller,
     required this.hintText,
-    this.isDownArrow = false,
     this.isLightBlue = false,
     required this.keyboardType,
     this.validator,
     required this.labelName,
     this.maxLine,
   });
-
   final TextEditingController controller;
   final String hintText;
   final int? maxLine;
   final String labelName;
-  final bool isDownArrow;
   final bool isLightBlue;
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
@@ -97,12 +94,6 @@ class CustomProfileTextFormField extends StatelessWidget {
                   width: 2,
                 ),
               ),
-              suffixIcon: isDownArrow
-                  ? IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.keyboard_arrow_down_outlined, size: 35),
-                    )
-                  : null,
             ),
             validator: validator,
           ),
