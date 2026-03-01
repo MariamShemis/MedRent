@@ -29,3 +29,11 @@ class SvgAssets {
   static const String egFlag = '${_base}eg_flag.svg';
   static const String usFlag = '${_base}us_flag.svg';
 }
+
+class ApiConstants {
+  static const String baseUrl = 'http://GraduationProject.somee.com/api';
+  static const String baseImageUrl = 'http://GraduationProject.somee.com';
+  static const String profile = '$baseUrl/Profile';
+  static const String uploadImage = '$baseUrl/Profile/upload-image';
+}
+
