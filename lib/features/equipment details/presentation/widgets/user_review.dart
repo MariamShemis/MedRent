@@ -33,7 +33,7 @@ class _UserReviewState extends State<UserReview> {
         : widget.ratingSummary.count;
 
     return Container(
-      padding: EdgeInsets.all(16.r),
+      padding: REdgeInsets.symmetric(vertical: 16.h , horizontal: 20.w),
       decoration: BoxDecoration(
         color: ColorManager.lightBlue,
         borderRadius: BorderRadius.circular(16.r),
@@ -86,15 +86,15 @@ class _UserReviewState extends State<UserReview> {
           Divider(color: ColorManager.greyText, thickness: 1),
 
           if (widget.reviews.isNotEmpty) ...[
-            SizedBox(height: 12.h),
             ListView.builder(
+              padding: EdgeInsets.zero,
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: widget.reviews.length,
               itemBuilder: (context, index) {
                 final review = widget.reviews[index];
                 return Padding(
-                  padding: EdgeInsets.only(bottom: 16.h),
+                  padding: EdgeInsets.zero,
                   child: ReviewUserItem(review: review),
                 );
               },
@@ -146,16 +146,13 @@ class _UserReviewState extends State<UserReview> {
           padding: EdgeInsets.only(bottom: 6.h),
           child: Row(
             children: [
-              SizedBox(
-                width: 20.w,
-                child: Text(
-                  '$rating',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleSmall!.copyWith(fontSize: 13.sp),
-                ),
+              Text(
+                '$rating',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleSmall!.copyWith(fontSize: 13.sp),
               ),
-              SizedBox(width: 6.w),
+              SizedBox(width: 8.w),
               Expanded(
                 child: LinearProgressIndicator(
                   value: percentage,
@@ -166,7 +163,6 @@ class _UserReviewState extends State<UserReview> {
                 ),
               ),
               SizedBox(width: 4.w),
-
               Text(
                 '${(percentage * 100).toDouble().toInt().toStringAsFixed(1).trimLeft()}%',
                 style: Theme.of(

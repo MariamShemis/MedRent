@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/core/service/session_service.dart';
+import 'package:med_rent/features/language/data/cubit/app_localization_cubit.dart';
 import 'package:med_rent/features/main_layout/profile/presentation/widgets/custom_profile_container_item.dart';
 import 'package:med_rent/features/main_layout/profile/presentation/widgets/user_image_profile.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
@@ -156,6 +158,49 @@ class _ProfileTabState extends State<ProfileTab> {
                         ),
                       ],
                     ),
+                ),
+                SizedBox(height: 40.h),
+                BlocBuilder<AppLocalizationCubit, Locale>(
+                  builder: (context, locale) {
+                    final isArabic = locale.languageCode == 'ar';
+                    return CustomProfileContainerItem(
+                      onPressedNotification: () {},
+                      onPressedIconMyRental: () {
+                        Navigator.pushNamed(context, AppRoutes.myRental);
+                      },
+                      onPressedIconPersonalInformation: () async {
+                        final result = await Navigator.pushNamed(
+                          context,
+                          AppRoutes.personalInformation,
+                        );
+                        if (result == true) {
+                          _loadUserData();
+                        }
+                      },
+                      onPressedIconContactUs: () {
+                        Navigator.pushNamed(context, AppRoutes.contactUs);
+                      },
+                      textLanguage: isArabic ? "العربية" : "English",
+                      onPressedLanguage: () {
+                        Navigator.pushNamed(context, AppRoutes.languageProfile);
+                      },
+                    );
+                  },
+                ),
+                SizedBox(height: 20.h),
+                GestureDetector(
+                  onTap: _showDialogLogOut,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Iconsax.logout, color: ColorManager.error),
+                      SizedBox(width: 8.w),
+                      Text(
+                        appLocalizations.log_out,
+                        style: Theme.of(context).textTheme.headlineMedium!
+                            .copyWith(color: ColorManager.error),
+                      ),
+                    ],
                   ),
                 ],
               ),

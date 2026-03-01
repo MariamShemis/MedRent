@@ -12,6 +12,24 @@ class SessionService {
   static const String _userPhoneKey = 'user_phone';
   static const String _firstLaunchKey = 'first_launch';
 
+  static String? sessionGender;
+  static String? sessionDateOfBirth;
+  static void setSessionGender(String gender) {
+    sessionGender = gender;
+  }
+
+  static String? getSessionGender() {
+    return sessionGender;
+  }
+
+  static void setSessionDateOfBirth(String dob) {
+    sessionDateOfBirth = dob;
+  }
+
+  static String? getSessionDateOfBirth() {
+    return sessionDateOfBirth;
+  }
+
   static Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
   }
@@ -94,13 +112,8 @@ class SessionService {
     await _prefs!.setString(_userNameKey, name);
     await _prefs!.setString(_userRoleKey, role);
 
-    if (email != null && email.isNotEmpty) {
-      await _prefs!.setString(_userEmailKey, email);
-    }
-
-    if (phone != null && phone.isNotEmpty) {
-      await _prefs!.setString(_userPhoneKey, phone);
-    }
+    await _prefs!.setString(_userEmailKey, email ?? '');
+    await _prefs!.setString(_userPhoneKey, phone ?? '');
 
     if (token != null && token.isNotEmpty) {
       await setAuthToken(token);
@@ -211,7 +224,7 @@ class SessionService {
 }
 
 enum AppLaunchState {
-  authenticated,    // مسجل دخول -> main layout
-  needsAuth,        // مش مسجل -> start screen (login/register)
-  needsOnboarding,  // أول مرة -> onboarding
+  authenticated,
+  needsAuth,
+  needsOnboarding,
 }

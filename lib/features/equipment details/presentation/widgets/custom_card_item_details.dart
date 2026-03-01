@@ -23,6 +23,14 @@ class CustomCardItemDetails extends StatelessWidget {
             fit: BoxFit.contain,
             width: double.infinity,
             height: 300.h,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                height: 200.h,
+                width: double.infinity,
+                color: Colors.grey[300],
+                child: const Icon(Icons.broken_image, size: 50),
+              );
+            },
           ),
         ),
       ),

@@ -11,6 +11,12 @@ part 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   late final AuthRemoteData _authRemoteData;
 
+  // حقول مؤقتة لتخزين بيانات التسجيل
+  String? email;
+  String? name;
+  String? password;
+  String? phone;
+
   AuthCubit() : super(AuthInitial()) {
     _authRemoteData = AuthRemoteData(apiClient: ApiClient());
     _checkInitialAuth();
@@ -54,6 +60,12 @@ class AuthCubit extends Cubit<AuthState> {
     required String phone,
     required BuildContext context,
   }) async {
+    // خزّن البيانات داخل الـ Cubit
+    this.name = name;
+    this.email = email;
+    this.password = password;
+    this.phone = phone;
+
     emit(AuthLoading());
     try {
       await _authRemoteData.register(
@@ -69,6 +81,34 @@ class AuthCubit extends Cubit<AuthState> {
     } catch (error) {
       emit(
         AuthFailure(errorMessage: ApiErrorHandler.handleUnknownError(context)),
+      );
+    }
+  }
+
+  Future<void> verifyRegisterCubit({
+    required String code,
+    required BuildContext context,
+  }) async {
+    if (email == null) {
+      emit(AuthFailure(errorMessage: 'Email not found for verification'));
+      return;
+    }
+
+    emit(AuthLoading());
+    try {
+      final message = await _authRemoteData.verifyRegister(
+        email: email!,
+        code: code,
+      );
+      emit(AuthVerifyRegisterSuccess(message: message));
+    } on DioException catch (error) {
+      final msg = ApiErrorHandler.handleDioError(error, context);
+      emit(AuthFailure(errorMessage: msg));
+    } catch (error) {
+      emit(
+        AuthFailure(
+          errorMessage: ApiErrorHandler.handleUnknownError(context),
+        ),
       );
     }
   }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:med_rent/core/language/cubit/app_localization_cubit.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/core/routes/route_generator.dart';
 import 'package:med_rent/core/theme/theme_manager.dart';
+import 'package:med_rent/features/language/data/cubit/app_localization_cubit.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
 
 class MedRent extends StatelessWidget {

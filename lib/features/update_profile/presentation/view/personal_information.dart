@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
+import 'package:med_rent/core/service/session_service.dart';
 import 'package:med_rent/features/main_layout/profile/presentation/widgets/user_image_profile.dart';
+import 'package:med_rent/features/update_profile/data/cubit/update_profile_cubit.dart';
+import 'package:med_rent/features/update_profile/data/cubit/update_profile_state.dart';
+import 'package:med_rent/features/update_profile/data/models/update_profile_model.dart';
+import 'package:med_rent/features/update_profile/presentation/widgets/brith_date_field.dart';
 import 'package:med_rent/features/update_profile/presentation/widgets/custom_profile_text_form_field.dart';
 import 'package:med_rent/features/update_profile/presentation/widgets/personal_profile_gender_text.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
@@ -15,108 +21,172 @@ class PersonalInformation extends StatefulWidget {
 
 class _PersonalInformationState extends State<PersonalInformation> {
   late TextEditingController nameController;
+  late TextEditingController birthController;
+  late TextEditingController phoneController;
+  late TextEditingController emailController;
+  String? selectedGender;
+  bool isLoading = true; // علم تحميل البيانات
 
   @override
   void initState() {
-    nameController = TextEditingController();
     super.initState();
+    nameController = TextEditingController();
+    birthController = TextEditingController();
+    phoneController = TextEditingController();
+    emailController = TextEditingController();
+
+    // تأكد إن context جاهز
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadUserData();
+    });
+  }
+
+  Future<void> _loadUserData() async {
+    final appLocalizations = AppLocalizations.of(context)!;
+    final userData = await SessionService.getUserData();
+    if (userData != null) {
+      nameController.text = userData['name'] ?? '';
+      phoneController.text = userData['phone'] ?? '';
+      emailController.text = userData['email'] ?? '';
+    }
+    birthController.text = SessionService.getSessionDateOfBirth() ?? '';
+    selectedGender = SessionService.getSessionGender() ?? appLocalizations.male;
+
+    setState(() {
+      isLoading = false; // البيانات جاهزة للعرض
+    });
   }
 
   @override
   void dispose() {
     nameController.dispose();
+    birthController.dispose();
+    phoneController.dispose();
+    emailController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back_ios),
+    final appLocalizations = AppLocalizations.of(context)!;
+    if (isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+    return BlocListener<UpdateProfileCubit, UpdateProfileState>(
+      listener: (context, state) {
+        if (state is UpdateProfileSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Colors.green,
+            ),
+          );
+          Navigator.pop(context, true);
+        }
+        if (state is UpdateProfileError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.error),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back_ios),
+          ),
+          title: Text(appLocalizations.personalInformation),
         ),
-        title: Text(appLocalizations.personalInformation),
-      ),
-      body: Padding(
-        padding: REdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: UserImageProfile(
-                  widgetUserImageProfile: CircleAvatar(
-                    radius: 40.r,
-                    child: Icon(Icons.person, size: 40.sp),
+        body: Padding(
+          padding: REdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: UserImageProfile(
+                    widgetUserImageProfile: CircleAvatar(
+                      radius: 40.r,
+                      child: Icon(Icons.person, size: 40.sp),
+                    ),
+                    onTapCamera: _showBottomSheetImage,
                   ),
-                  onTapCamera: _showBottomSheetImage,
                 ),
-              ),
-              SizedBox(height: 16.h),
-              CustomProfileTextFormField(
-                controller: TextEditingController(text: "Ahmed L."),
-                hintText: appLocalizations.enterYourName,
-                keyboardType: TextInputType.name,
-                labelName: appLocalizations.name,
-              ),
-              SizedBox(height: 16.h),
-              CustomProfileTextFormField(
-                labelName: appLocalizations.date_ofBirth,
-                controller: TextEditingController(text: "1 / 12 / 1960"),
-                hintText: "enter date brith",
-                keyboardType: TextInputType.number,
-              ),
-              SizedBox(height: 16.h),
-              Text(
-                appLocalizations.gender,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium!.copyWith(color: ColorManager.darkBlue),
-              ),
-              SizedBox(height: 8.h),
-              PersonalProfileGenderText(
-                selectedLabel: appLocalizations.male,
-                menuItems: [appLocalizations.male, appLocalizations.female],
-                onChange: (value) {},
-              ),
-              // CustomProfileTextFormField(
-              //   controller: TextEditingController(text: "male"),
-              //   hintText: "enter your gender",
-              //   keyboardType: TextInputType.name,
-              //   isDownArrow: true,
-              // ),
-              SizedBox(height: 16.h),
-              CustomProfileTextFormField(
-                labelName: appLocalizations.phone,
-
-                controller: TextEditingController(text: "+20-109-966-959-7"),
-                hintText: "enter your number",
-                keyboardType: TextInputType.phone,
-              ),
-              SizedBox(height: 16.h),
-              CustomProfileTextFormField(
-                labelName: appLocalizations.email,
-
-                controller: TextEditingController(
-                  text: "marwawageeh75@gmail.com",
+                SizedBox(height: 20.h),
+                CustomProfileTextFormField(
+                  controller: nameController,
+                  hintText: appLocalizations.enterYourName,
+                  keyboardType: TextInputType.name,
+                  labelName: appLocalizations.name,
                 ),
-                hintText: "enter your email",
-                keyboardType: TextInputType.emailAddress,
-              ),
-              SizedBox(height: 29.h),
-              Padding(
-                padding: REdgeInsets.symmetric(horizontal: 8.0),
-                child: SizedBox(
+                SizedBox(height: 20.h),
+                BirthDateField(controller: birthController),
+                SizedBox(height: 20.h),
+                Text(
+                  appLocalizations.gender,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: ColorManager.darkBlue,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                PersonalProfileGenderText(
+                  selectedLabel: selectedGender ?? "",
+                  menuItems: [appLocalizations.male, appLocalizations.female],
+                  onChange: (value) {
+                    setState(() {
+                      selectedGender = value ?? appLocalizations.male;
+                      SessionService.setSessionGender(selectedGender ?? "");
+                    });
+                  },
+                ),
+                SizedBox(height: 20.h),
+                CustomProfileTextFormField(
+                  labelName: appLocalizations.phone,
+                  controller: phoneController,
+                  hintText: appLocalizations.enter_Your_phone_number,
+                  keyboardType: TextInputType.phone,
+                ),
+                SizedBox(height: 20.h),
+                CustomProfileTextFormField(
+                  labelName: appLocalizations.email,
+                  controller: emailController,
+                  hintText: appLocalizations.enterYourEmail,
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                SizedBox(height: 28.h),
+                Container(
+                  padding: REdgeInsets.symmetric(horizontal: 18),
                   width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Text(appLocalizations.saveChanges),
+                  child: BlocBuilder<UpdateProfileCubit, UpdateProfileState>(
+                    builder: (context, state) {
+                      if (state is UpdateProfileLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      return ElevatedButton(
+                        onPressed: () {
+                          context.read<UpdateProfileCubit>().updateProfile(
+                            UpdateProfileRequest(
+                              name: nameController.text,
+                              dateOfBirth: birthController.text,
+                              gender: selectedGender ?? "",
+                              phone: phoneController.text,
+                              email: emailController.text,
+                            ),
+                            context,
+                          );
+                        },
+                        child: Text(appLocalizations.saveChanges),
+                      );
+                    },
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
