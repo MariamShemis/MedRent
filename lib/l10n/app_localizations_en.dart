@@ -754,4 +754,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get resend_OTP => 'Resend OTP';
+
+  @override
+  String get aiAnalysis => 'AI Medical Analysis';
 }

@@ -1588,6 +1588,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Resend OTP'**
   String get resend_OTP;
+
+  /// No description provided for @aiAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Medical Analysis'**
+  String get aiAnalysis;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

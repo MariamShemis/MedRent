@@ -9,18 +9,14 @@ class CustomCardAiChat extends StatelessWidget {
     required this.title,
     required this.isWidget,
     this.widget,
-    this.subTitle1 = "",
-    this.subTitle2 = "",
-    this.subTitle3 = "",
+    this.subTitles = const [],
   });
 
   final Color color;
   final String title;
   final bool isWidget;
   final Widget? widget;
-  final String subTitle1;
-  final String subTitle2;
-  final String subTitle3;
+  final List<String> subTitles;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +27,7 @@ class CustomCardAiChat extends StatelessWidget {
       child: Padding(
         padding: REdgeInsets.symmetric(horizontal: 15, vertical: 20),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -56,50 +53,25 @@ class CustomCardAiChat extends StatelessWidget {
               ],
             ),
             SizedBox(height: 15.h),
-            ?isWidget
-                ? widget
+           isWidget
+                ? (widget ?? const SizedBox())
                 : Column(
-                    children: [
-                      Row(
+                    children: subTitles.map((text) => Padding(
+                      padding: EdgeInsets.only(bottom: 10.h),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start, // الأيقونة تكون فوق جنب أول سطر
                         children: [
-                          Icon(Icons.check_circle, color: Colors.green),
+                          Icon(Icons.check_circle, color: Colors.green, size: 20.sp),
                           SizedBox(width: 10.w),
-                          Text(
-                            subTitle1,
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
+                          Expanded( // مهم جداً عشان النصوص الطويلة تنزل سطر جديد
+                            child: Text(
+                              text,
+                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
+                            ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 10.h),
-                      Row(
-                        children: [
-                          Icon(Icons.check_circle, color: Colors.green),
-                          SizedBox(width: 10.w),
-                          Text(
-                            subTitle2,
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10.h),
-                      Row(
-                        children: [
-                          Icon(Icons.check_circle, color: Colors.green),
-                          SizedBox(width: 10.w),
-                          Text(
-                            subTitle3,
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10.h),
-                    ],
+                    )).toList(),
                   ),
           ],
         ),
