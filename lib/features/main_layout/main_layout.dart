@@ -1,8 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/features/main_layout/ai_chat/presentation/view/ai_chat.dart';
 import 'package:med_rent/features/main_layout/home/presentation/view/home_tab.dart';
+import 'package:med_rent/features/main_layout/hospital/data/cubit/hospital_cubit.dart';
+import 'package:med_rent/features/main_layout/hospital/data/data_sources/hospital_remote_data_source.dart';
 import 'package:med_rent/features/main_layout/hospital/presentation/view/hospital_tab.dart';
 import 'package:med_rent/features/main_layout/profile/presentation/view/profile_tab.dart';
 import 'package:med_rent/features/main_layout/rent/presentation/view/rent_tab.dart';
@@ -19,7 +23,11 @@ class _MainLayoutState extends State<MainLayout> {
 
   final List<Widget> _pages = [
     HomeTab(),
-    HospitalTab(),
+    BlocProvider(
+      create: (context) =>
+          HospitalCubit(HospitalRemoteDataSource(Dio()))..getAllHospitals(),
+      child: const HospitalTab(),
+    ),
     RentTab(),
     AiChat(),
     ProfileTab(),
@@ -48,7 +56,9 @@ class _MainLayoutState extends State<MainLayout> {
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(selectedIndex == 1 ? Iconsax.hospital5 : Iconsax.hospital),
+            icon: Icon(
+              selectedIndex == 1 ? Iconsax.hospital5 : Iconsax.hospital,
+            ),
             label: "Hospital",
           ),
           BottomNavigationBarItem(
@@ -61,7 +71,10 @@ class _MainLayoutState extends State<MainLayout> {
           ),
 
           BottomNavigationBarItem(
-            icon: Icon(selectedIndex == 4 ?Icons.person : Iconsax.user , size: selectedIndex == 4 ? 25 : 20,),
+            icon: Icon(
+              selectedIndex == 4 ? Icons.person : Iconsax.user,
+              size: selectedIndex == 4 ? 25 : 20,
+            ),
             label: "Profile",
           ),
         ],

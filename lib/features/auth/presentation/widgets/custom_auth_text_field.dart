@@ -44,6 +44,7 @@ class _CustomAuthTextFormFieldState extends State<CustomAuthTextFormField> {
         cursorColor: Colors.black,
         keyboardType: widget.keyboardType,
         obscureText: widget.isPassword ? _obscureText : false,
+        obscuringCharacter: "*",
         decoration: InputDecoration(
           filled: true,
           fillColor: const Color(0xFFFFFFFF),

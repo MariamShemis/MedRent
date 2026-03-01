@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/core/utils/validators/validators.dart';
 import 'package:med_rent/features/auth/data/cubit/auth_cubit.dart';
+import 'package:med_rent/features/auth/presentation/view/verify_register.dart';
 import 'package:med_rent/features/auth/presentation/widgets/custom_auth_text_field.dart';
 import 'package:med_rent/features/auth/presentation/widgets/social_category.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
@@ -34,12 +36,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _register(BuildContext context) {
+    final AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     if (!_formKey.currentState!.validate()) return;
 
     if (_passwordController.text != _confirmPasswordController.text) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Passwords do not match'),
+        SnackBar(
+          content: Text(appLocalizations.passwords_dont_match),
           backgroundColor: Colors.red,
         ),
       );
@@ -51,16 +54,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
       email: _emailController.text.trim(),
       password: _passwordController.text.trim(),
       phone: _phoneController.text.trim(),
+      context: context,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context)!;
-
+    final AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthRegisterSuccess) {
+          final authCubit = context.read<AuthCubit>();
+          authCubit.email = _emailController.text.trim();
+          authCubit.name = _nameController.text.trim();
+          authCubit.password = _passwordController.text.trim();
+          authCubit.phone = _phoneController.text.trim();
+
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
@@ -70,10 +79,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
           );
 
           Future.delayed(const Duration(seconds: 2), () {
-            Navigator.pushReplacementNamed(context, AppRoutes.login);
+            Navigator.push(
+              context,
+              CupertinoPageRoute(
+                builder: (context) => BlocProvider.value(
+                  value: authCubit,
+                  child: const VerifyRegister(),
+                ),
+              ),
+            );
           });
         }
-
         if (state is AuthFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -95,9 +111,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               alignment: Alignment.centerRight,
               child: Text(
                 appLocalizations.signUp,
-                style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  fontSize: 20.sp,
-                ),
+                style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 20.sp),
               ),
             ),
             SizedBox(width: 20.w),
@@ -118,26 +132,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         SizedBox(height: 30.h),
                         Text(
                           appLocalizations.welcome,
-                          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                            fontSize: 24.sp,
-                          ),
+                          style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontSize: 24.sp),
                         ),
                         SizedBox(height: 30.h),
                         CustomAuthTextFormField(
                           controller: _nameController,
                           labelText: appLocalizations.name,
-                          hintText: 'Enter your name',
-                          validator: (val) =>
-                              AppValidators.validateUsername(context, val),
+                          hintText: appLocalizations.enterYourName,
+                          validator: (val) => AppValidators.validateUsername(context, val),
                         ),
                         SizedBox(height: 22.h),
                         CustomAuthTextFormField(
                           controller: _emailController,
                           labelText: appLocalizations.email,
-                          hintText: appLocalizations.enterYourEmail ,
+                          hintText: appLocalizations.enterYourEmail,
                           keyboardType: TextInputType.emailAddress,
-                          validator: (val) =>
-                              AppValidators.validateEmail(context, val),
+                          validator: (val) => AppValidators.validateEmail(context, val),
                         ),
                         SizedBox(height: 22.h),
                         CustomAuthTextFormField(
@@ -145,8 +155,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           labelText: appLocalizations.phoneNumber,
                           hintText: appLocalizations.enter_Your_phone_number,
                           keyboardType: TextInputType.phone,
-                          validator: (val) =>
-                              AppValidators.validatePhoneNumber(context, val),
+                          validator: (val) => AppValidators.validatePhoneNumber(context, val),
                         ),
                         SizedBox(height: 22.h),
                         CustomAuthTextFormField(
@@ -154,8 +163,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           labelText: appLocalizations.password,
                           hintText: '******',
                           isPassword: true,
-                          validator: (val) =>
-                              AppValidators.validatePassword(context, val),
+                          validator: (val) => AppValidators.validatePassword(context, val),
                         ),
                         SizedBox(height: 22.h),
                         CustomAuthTextFormField(
@@ -163,20 +171,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           labelText: appLocalizations.confirmPassword,
                           hintText: '******',
                           isPassword: true,
-                          validator: (val) =>
-                              AppValidators.validateConfirmPassword(
-                                context,
-                                val,
-                                _passwordController.text,
-                              ),
+                          validator: (val) => AppValidators.validateConfirmPassword(
+                            context,
+                            val,
+                            _passwordController.text,
+                          ),
                         ),
                         SizedBox(height: 28.h),
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: state is AuthLoading
-                                ? null
-                                : () => _register(context),
+                            onPressed: state is AuthLoading ? null : () => _register(context),
                             child: state is AuthLoading
                                 ? const CircularProgressIndicator(color: Colors.white)
                                 : Text(appLocalizations.signUp),
@@ -186,10 +191,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Row(
                           children: [
                             Expanded(
-                              child: Divider(
-                                thickness: 1,
-                                color: const Color(0xFF676767),
-                              ),
+                              child: Divider(thickness: 1, color: const Color(0xFF676767)),
                             ),
                             Padding(
                               padding: REdgeInsets.symmetric(horizontal: 10),
@@ -199,10 +201,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                             Expanded(
-                              child: Divider(
-                                thickness: 1,
-                                color: const Color(0xFF676767),
-                              ),
+                              child: Divider(thickness: 1, color: const Color(0xFF676767)),
                             ),
                           ],
                         ),
@@ -210,20 +209,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SocialImage(
-                              asset: "assets/images/facebook.png",
-                              onTap: () => print("Facebook clicked"),
-                            ),
+                            SocialImage(asset: "assets/images/facebook.png", onTap: () => print("Facebook clicked")),
                             SizedBox(width: 20.w),
-                            SocialImage(
-                              asset: "assets/images/google.png",
-                              onTap: () => print("Google Sign-In"),
-                            ),
+                            SocialImage(asset: "assets/images/google.png", onTap: () => print("Google Sign-In")),
                             SizedBox(width: 20.w),
-                            SocialImage(
-                              asset: 'assets/images/twitter.png',
-                              onTap: () => print("Twitter clicked"),
-                            ),
+                            SocialImage(asset: 'assets/images/twitter.png', onTap: () => print("Twitter clicked")),
                           ],
                         ),
                         SizedBox(height: 30.h),
@@ -232,17 +222,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           children: [
                             Text(
                               appLocalizations.alreadyHaveAccount,
-                              style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                                fontSize: 14.sp,
-                              ),
+                              style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 14.sp),
                             ),
                             TextButton(
-                              onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  AppRoutes.login,
-                                );
-                              },
+                              onPressed: () => Navigator.pushReplacementNamed(context, AppRoutes.login),
                               child: Text(
                                 appLocalizations.logIn,
                                 style: Theme.of(context).textTheme.displayLarge!.copyWith(

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/core/service/session_service.dart';
+import 'package:med_rent/features/language/data/cubit/app_localization_cubit.dart';
 import 'package:med_rent/features/main_layout/profile/presentation/widgets/custom_profile_container_item.dart';
 import 'package:med_rent/features/main_layout/profile/presentation/widgets/user_image_profile.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
@@ -47,91 +49,127 @@ class _ProfileTabState extends State<ProfileTab> {
       body: SafeArea(
         child: Padding(
           padding: REdgeInsets.all(16.0),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Text(
-                    appLocalizations.profile,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.headlineLarge!.copyWith(fontSize: 24.sp),
-                  ),
-                  SizedBox(height: 10.h),
-                  UserImageProfile(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Text(
+                  appLocalizations.profile,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.headlineLarge!.copyWith(fontSize: 24.sp),
+                ),
+                SizedBox(height: 15.h),
+                Center(
+                  child: UserImageProfile(
                     widgetUserImageProfile: CircleAvatar(
                       radius: 40.r,
                       child: Icon(Icons.person, size: 40.sp),
                     ),
                     onTapCamera: _showBottomSheetImage,
                   ),
-                  SizedBox(height: 14.h),
-                  if (_isLoading)
-                    Container(
-                      width: 100.w,
-                      height: 20.h,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    )
-                  else
-                    Text(
-                      _userName!,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.displayLarge!.copyWith(fontSize: 24.sp),
+                ),
+                SizedBox(height: 18.h),
+                if (_isLoading)
+                  Container(
+                    width: 100.w,
+                    height: 20.h,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(4),
                     ),
-                  SizedBox(height: 10.h),
+                  )
+                else
                   Text(
-                    "${appLocalizations.patientID} : #HE-92031",
+                    _userName!,
+                    textAlign: TextAlign.center,
                     style: Theme.of(
                       context,
-                    ).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
+                    ).textTheme.displayLarge!.copyWith(fontSize: 24.sp),
                   ),
-                  SizedBox(height: 16.h),
-                  SizedBox(
-                    width: 240,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Iconsax.edit_25),
-                          SizedBox(width: 5.w),
-                          Expanded(child: Text(appLocalizations.editProfile)),
-                        ],
+                SizedBox(height: 14.h),
+                Text(
+                  "${appLocalizations.patientID} : #HE-92031",
+                  textAlign: TextAlign.center,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
+                ),
+                SizedBox(height: 20.h),
+                SizedBox(
+                  width: 200,
+                  height: 45,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorManager.darkBlue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
+                      padding: EdgeInsets.zero,
                     ),
-                  ),
-                  SizedBox(height: 34.h),
-                  CustomProfileContainerItem(
-                    onPressedIconArrow1: () {},
-                    onPressedIconArrow2: () {},
-                    onPressedIconArrow3: () {
-                      Navigator.pushNamed(context, AppRoutes.myRental);
-                    },
-                    onPressedIconArrow4: () {},
-                    onPressedIconArrowContactUs: () {},
-                  ),
-                  SizedBox(height: 5.h),
-                  GestureDetector(
-                    onTap: _showDialogLogOut,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Iconsax.logout, color: ColorManager.error),
-                        SizedBox(width: 8.w),
-                        Text(
-                          appLocalizations.log_out,
-                          style: Theme.of(context).textTheme.headlineMedium!
-                              .copyWith(color: ColorManager.error),
+                        Icon(
+                          Iconsax.edit_2,
+                          size: 20.sp,
+                          color: Colors.white,
                         ),
+                        SizedBox(width: 8.w),
+                        Text(appLocalizations.editProfile),
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+                SizedBox(height: 30.h),
+                BlocBuilder<AppLocalizationCubit, Locale>(
+                  builder: (context, locale) {
+                    final isArabic = locale.languageCode == 'ar';
+                    return CustomProfileContainerItem(
+                      onPressedNotification: () {},
+                      onPressedIconMyRental: () {
+                        Navigator.pushNamed(context, AppRoutes.myRental);
+                      },
+                      onPressedIconPersonalInformation: () async {
+                        final result = await Navigator.pushNamed(
+                          context,
+                          AppRoutes.personalInformation,
+                        );
+                        if (result == true) {
+                          _loadUserData();
+                        }
+                      },
+                      onPressedIconContactUs: () {
+                        Navigator.pushNamed(context, AppRoutes.contactUs);
+                      },
+                      textLanguage: isArabic ? "العربية" : "English",
+                      onPressedLanguage: () {
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes.languageProfile,
+                        );
+                      },
+                    );
+                  },
+                ),
+                SizedBox(height: 20.h),
+                GestureDetector(
+                  onTap: _showDialogLogOut,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Iconsax.logout, color: ColorManager.red , size: 26,),
+                      SizedBox(width: 8.w),
+                      Text(
+                        appLocalizations.log_out,
+                        style: Theme.of(context).textTheme.headlineMedium!
+                            .copyWith(color: ColorManager.red),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),

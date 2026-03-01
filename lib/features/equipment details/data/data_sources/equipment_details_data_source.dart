@@ -1,13 +1,15 @@
 import 'package:dio/dio.dart';
-import 'package:med_rent/features/equipment%20details/presentation/view_model/equipment_availability.dart';
-import 'package:med_rent/features/equipment%20details/presentation/view_model/equipment_details_model.dart';
-import 'package:med_rent/features/equipment%20details/presentation/view_model/equipment_review.dart';
-import 'package:med_rent/features/equipment%20details/presentation/view_model/rating_summary.dart';
+import 'package:flutter/widgets.dart';
+import 'package:med_rent/core/error/api_error_handler.dart';
+import 'package:med_rent/features/equipment%20details/data/models/equipment_availability.dart';
+import 'package:med_rent/features/equipment%20details/data/models/equipment_details_model.dart';
+import 'package:med_rent/features/equipment%20details/data/models/equipment_review.dart';
+import 'package:med_rent/features/equipment%20details/data/models/rating_summary.dart';
 
 class EquipmentDetailsDataSource {
   final Dio _dio = Dio();
 
-  Future<EquipmentDetailsModel> getEquipmentById(int id) async {
+  Future<EquipmentDetailsModel> getEquipmentById(int id, BuildContext context) async {
     try {
       final response = await _dio.get(
         'http://graduationprojectapi.somee.com/api/Equipment/$id',
@@ -20,14 +22,16 @@ class EquipmentDetailsDataSource {
       if (response.statusCode == 200) {
         return EquipmentDetailsModel.fromJson(response.data);
       } else {
-        throw Exception('Failed to load equipment: ${response.statusCode}');
+        throw Exception(ApiErrorHandler.handleUnknownError(context));
       }
-    } catch (e) {
-      throw Exception('Error fetching equipment: $e');
+    } on DioException catch (e) {
+      throw Exception(ApiErrorHandler.handleDioError(e, context));
+    } catch (_) {
+      throw Exception(ApiErrorHandler.handleUnknownError(context));
     }
   }
 
-  Future<List<ReviewModel>> getEquipmentReviews(int id) async {
+  Future<List<ReviewModel>> getEquipmentReviews(int id, BuildContext context) async {
     try {
       final response = await _dio.get(
         'http://graduationprojectapi.somee.com/api/Equipment/$id/reviews',
@@ -39,20 +43,20 @@ class EquipmentDetailsDataSource {
 
       if (response.statusCode == 200) {
         if (response.data is List) {
-          return (response.data as List)
-              .map((json) => ReviewModel.fromJson(json))
-              .toList();
+          return (response.data as List).map((json) => ReviewModel.fromJson(json)).toList();
         }
         return [];
       } else {
-        throw Exception('Failed to load reviews: ${response.statusCode}');
+        throw Exception(ApiErrorHandler.handleUnknownError(context));
       }
-    } catch (e) {
-      throw Exception('Error fetching reviews: $e');
+    } on DioException catch (e) {
+      throw Exception(ApiErrorHandler.handleDioError(e, context));
+    } catch (_) {
+      throw Exception(ApiErrorHandler.handleUnknownError(context));
     }
   }
 
-  Future<RatingSummaryModel> getRatingSummary(int id) async {
+  Future<RatingSummaryModel> getRatingSummary(int id, BuildContext context) async {
     try {
       final response = await _dio.get(
         'http://graduationprojectapi.somee.com/api/Equipment/$id/rating-summary',
@@ -65,14 +69,16 @@ class EquipmentDetailsDataSource {
       if (response.statusCode == 200) {
         return RatingSummaryModel.fromJson(response.data);
       } else {
-        throw Exception('Failed to load rating summary: ${response.statusCode}');
+        throw Exception(ApiErrorHandler.handleUnknownError(context));
       }
-    } catch (e) {
-      throw Exception('Error fetching rating summary: $e');
+    } on DioException catch (e) {
+      throw Exception(ApiErrorHandler.handleDioError(e, context));
+    } catch (_) {
+      throw Exception(ApiErrorHandler.handleUnknownError(context));
     }
   }
 
-  Future<AvailabilityModel> getEquipmentAvailability(int id) async {
+  Future<AvailabilityModel> getEquipmentAvailability(int id, BuildContext context) async {
     try {
       final response = await _dio.get(
         'http://graduationprojectapi.somee.com/api/Equipment/$id/availability',
@@ -85,28 +91,19 @@ class EquipmentDetailsDataSource {
       if (response.statusCode == 200) {
         return AvailabilityModel.fromJson(response.data);
       } else {
-        throw Exception('Failed to load availability: ${response.statusCode}');
+        throw Exception(ApiErrorHandler.handleUnknownError(context));
       }
-    } catch (e) {
-      throw Exception('Error fetching availability: $e');
+    } on DioException catch (e) {
+      throw Exception(ApiErrorHandler.handleDioError(e, context));
+    } catch (_) {
+      throw Exception(ApiErrorHandler.handleUnknownError(context));
     }
   }
 
-  Future<Map<String, dynamic>> getAllEquipmentData(int id) async {
-    try {
-      final equipment = await getEquipmentById(id);
-      final reviews = await getEquipmentReviews(id);
-      final ratingSummary = await getRatingSummary(id);
-      final availability = await getEquipmentAvailability(id);
-
-      return {
-        'equipment': equipment,
-        'reviews': reviews,
-        'ratingSummary': ratingSummary,
-        'availability': availability,
-      };
-    } catch (e) {
-      throw Exception('Failed to load all equipment data: $e');
-    }
+  String _formatImageUrl(String? imageUrl) {
+    if (imageUrl == null || imageUrl.isEmpty) return '';
+    String formattedUrl = imageUrl.replaceAll('\\', '/');
+    if (!formattedUrl.startsWith('/')) formattedUrl = '/$formattedUrl';
+    return "http://graduationprojectapi.somee.com$formattedUrl";
   }
 }

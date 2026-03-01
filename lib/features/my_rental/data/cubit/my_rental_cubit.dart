@@ -13,7 +13,8 @@ class MyRentalCubit extends Cubit<MyRentalState> {
 
   int _currentPage = 0;
 
-  MyRentalCubit({required this.dataSource}) : super(MyRentalInitial());
+  MyRentalCubit({required this.dataSource})
+      : super(MyRentalInitial());
 
   Future<void> loadRentals() async {
     emit(MyRentalLoading());
@@ -22,7 +23,7 @@ class MyRentalCubit extends Cubit<MyRentalState> {
       _allRentals = await dataSource.getUserRentals();
       _filteredRentals = _allRentals;
       _currentPage = 0;
-      _emitPage();
+      _emitState();
     } catch (e) {
       emit(MyRentalError(e.toString()));
     }
@@ -41,28 +42,21 @@ class MyRentalCubit extends Cubit<MyRentalState> {
       }).toList();
     }
 
-    _emitPage(searchQuery: query);
+    _emitState(searchQuery: query);
   }
 
   void changePage(int page) {
     _currentPage = page;
-    _emitPage(searchQuery: state.searchQuery);
+    _emitState(searchQuery: state.searchQuery);
   }
 
-  void _emitPage({String? searchQuery}) {
+  void _emitState({String? searchQuery}) {
     final totalPages =
-    (_filteredRentals.length / itemsPerPage).ceil().clamp(1, 999);
-
-    final start = _currentPage * itemsPerPage;
-    final end = (start + itemsPerPage > _filteredRentals.length)
-        ? _filteredRentals.length
-        : start + itemsPerPage;
-
-    final visibleRentals = _filteredRentals.sublist(start, end);
+    (_filteredRentals.length / itemsPerPage).ceil();
 
     emit(
       MyRentalLoaded(
-        rentals: visibleRentals,
+        rentals: _filteredRentals,
         currentPage: _currentPage,
         totalPages: totalPages,
         searchQuery: searchQuery,
@@ -70,3 +64,4 @@ class MyRentalCubit extends Cubit<MyRentalState> {
     );
   }
 }
+

@@ -1,0 +1,241 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:med_rent/core/constants/color_manager.dart';
+import 'package:med_rent/core/service/session_service.dart';
+import 'package:med_rent/features/main_layout/profile/presentation/widgets/user_image_profile.dart';
+import 'package:med_rent/features/update_profile/data/cubit/update_profile_cubit.dart';
+import 'package:med_rent/features/update_profile/data/cubit/update_profile_state.dart';
+import 'package:med_rent/features/update_profile/data/models/update_profile_model.dart';
+import 'package:med_rent/features/update_profile/presentation/widgets/brith_date_field.dart';
+import 'package:med_rent/features/update_profile/presentation/widgets/custom_profile_text_form_field.dart';
+import 'package:med_rent/features/update_profile/presentation/widgets/personal_profile_gender_text.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
+
+class PersonalInformation extends StatefulWidget {
+  const PersonalInformation({super.key});
+
+  @override
+  State<PersonalInformation> createState() => _PersonalInformationState();
+}
+
+class _PersonalInformationState extends State<PersonalInformation> {
+  late TextEditingController nameController;
+  late TextEditingController birthController;
+  late TextEditingController phoneController;
+  late TextEditingController emailController;
+  String? selectedGender;
+  bool isLoading = true; // علم تحميل البيانات
+
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController();
+    birthController = TextEditingController();
+    phoneController = TextEditingController();
+    emailController = TextEditingController();
+
+    // تأكد إن context جاهز
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadUserData();
+    });
+  }
+
+  Future<void> _loadUserData() async {
+    final appLocalizations = AppLocalizations.of(context)!;
+    final userData = await SessionService.getUserData();
+    if (userData != null) {
+      nameController.text = userData['name'] ?? '';
+      phoneController.text = userData['phone'] ?? '';
+      emailController.text = userData['email'] ?? '';
+    }
+    birthController.text = SessionService.getSessionDateOfBirth() ?? '';
+    selectedGender = SessionService.getSessionGender() ?? appLocalizations.male;
+
+    setState(() {
+      isLoading = false; // البيانات جاهزة للعرض
+    });
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    birthController.dispose();
+    phoneController.dispose();
+    emailController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context)!;
+    if (isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+    return BlocListener<UpdateProfileCubit, UpdateProfileState>(
+      listener: (context, state) {
+        if (state is UpdateProfileSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Colors.green,
+            ),
+          );
+          Navigator.pop(context, true);
+        }
+        if (state is UpdateProfileError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.error),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back_ios),
+          ),
+          title: Text(appLocalizations.personalInformation),
+        ),
+        body: Padding(
+          padding: REdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: UserImageProfile(
+                    widgetUserImageProfile: CircleAvatar(
+                      radius: 40.r,
+                      child: Icon(Icons.person, size: 40.sp),
+                    ),
+                    onTapCamera: _showBottomSheetImage,
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                CustomProfileTextFormField(
+                  controller: nameController,
+                  hintText: appLocalizations.enterYourName,
+                  keyboardType: TextInputType.name,
+                  labelName: appLocalizations.name,
+                ),
+                SizedBox(height: 20.h),
+                BirthDateField(controller: birthController),
+                SizedBox(height: 20.h),
+                Text(
+                  appLocalizations.gender,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: ColorManager.darkBlue,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                PersonalProfileGenderText(
+                  selectedLabel: selectedGender ?? "",
+                  menuItems: [appLocalizations.male, appLocalizations.female],
+                  onChange: (value) {
+                    setState(() {
+                      selectedGender = value ?? appLocalizations.male;
+                      SessionService.setSessionGender(selectedGender ?? "");
+                    });
+                  },
+                ),
+                SizedBox(height: 20.h),
+                CustomProfileTextFormField(
+                  labelName: appLocalizations.phone,
+                  controller: phoneController,
+                  hintText: appLocalizations.enter_Your_phone_number,
+                  keyboardType: TextInputType.phone,
+                ),
+                SizedBox(height: 20.h),
+                CustomProfileTextFormField(
+                  labelName: appLocalizations.email,
+                  controller: emailController,
+                  hintText: appLocalizations.enterYourEmail,
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                SizedBox(height: 28.h),
+                Container(
+                  padding: REdgeInsets.symmetric(horizontal: 18),
+                  width: double.infinity,
+                  child: BlocBuilder<UpdateProfileCubit, UpdateProfileState>(
+                    builder: (context, state) {
+                      if (state is UpdateProfileLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      return ElevatedButton(
+                        onPressed: () {
+                          context.read<UpdateProfileCubit>().updateProfile(
+                            UpdateProfileRequest(
+                              name: nameController.text,
+                              dateOfBirth: birthController.text,
+                              gender: selectedGender ?? "",
+                              phone: phoneController.text,
+                              email: emailController.text,
+                            ),
+                            context,
+                          );
+                        },
+                        child: Text(appLocalizations.saveChanges),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showBottomSheetImage() {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadiusGeometry.vertical(top: Radius.circular(16.r)),
+      ),
+      builder: (context) => Padding(
+        padding: REdgeInsets.all(30.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            InkWell(
+              onTap: () {},
+              child: Row(
+                children: [
+                  Icon(Icons.photo_camera_outlined),
+                  SizedBox(width: 10.w),
+                  Text(
+                    appLocalizations.take_a_photo,
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 20.h),
+            InkWell(
+              onTap: () {},
+              child: Row(
+                children: [
+                  Icon(Icons.photo_library_outlined),
+                  SizedBox(width: 10.w),
+                  Text(
+                    appLocalizations.choose_from_gallery,
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10.h),
+          ],
+        ),
+      ),
+    );
+  }
+}

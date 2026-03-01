@@ -10,10 +10,7 @@ import 'package:med_rent/l10n/app_localizations.dart';
 class MyRentalCard extends StatelessWidget {
   final RentalModel rental;
 
-  const MyRentalCard({
-    super.key,
-    required this.rental,
-  });
+  const MyRentalCard({super.key, required this.rental});
 
   Color _getStatusColor(String status) {
     switch (status.toLowerCase()) {
@@ -22,9 +19,10 @@ class MyRentalCard extends StatelessWidget {
       case 'pending':
         return Color(0xFFFDFF7E);
       default:
-        return ColorManager.greyText;
+        return ColorManager.lightGrey;
     }
   }
+
   Color _getStatusColorText(String status) {
     switch (status.toLowerCase()) {
       case 'active':
@@ -35,7 +33,8 @@ class MyRentalCard extends StatelessWidget {
         return ColorManager.black;
     }
   }
-  String _getStatusText(String status){
+
+  String _getStatusText(String status) {
     switch (status.toLowerCase()) {
       case 'active':
         return "Active";
@@ -46,13 +45,11 @@ class MyRentalCard extends StatelessWidget {
     }
   }
 
-
   String _getImageUrl(String imageUrl) {
     final cleanPath = imageUrl.replaceAll('\\', '/');
     final fullUrl = 'http://graduationprojectapi.somee.com$cleanPath';
     return Uri.encodeFull(fullUrl);
   }
-
 
   String _formatDate(String dateString) {
     try {
@@ -86,74 +83,75 @@ class MyRentalCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 220.h,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.r),
-                  color: Colors.white,
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12.r),
-                  child: Image.network(
-                    _getImageUrl(rental.imageUrl),
-                    fit: BoxFit.fill,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Center(
-                        child: CircularProgressIndicator(
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
-                              : null,
-                        ),
-                      );
-                    },
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        color: Colors.grey[200],
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.medical_services_outlined,
-                                size: 50.sp,
-                                color: Colors.grey[400],
-                              ),
-                              SizedBox(height: 8.h),
-                              Text(
-                                rental.equipmentName,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: Colors.grey[600],
-                                ),
-                              ),
-                            ],
+              AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.r),
+                    color: Colors.white,
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12.r),
+                    child: Image.network(
+                      _getImageUrl(rental.imageUrl),
+                      fit: BoxFit.fill,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                : null,
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: Colors.grey[200],
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.medical_services_outlined,
+                                  size: 50.sp,
+                                  color: Colors.grey[400],
+                                ),
+                                SizedBox(height: 8.h),
+                                Text(
+                                  rental.equipmentName,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
-
               SizedBox(height: 12.h),
               Text(
                 rental.equipmentName,
-                style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                  fontSize: 18.sp,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.displayLarge!.copyWith(fontSize: 18.sp),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: 8.h),
               Text(
-                'Rental Period: ${_formatDate(rental.startDate)} - ${_formatDate(rental.endDate)}',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: 14.sp,
-                ),
+                '${appLocalizations.rentalPeriod}: ${_formatDate(rental.startDate)} - ${_formatDate(rental.endDate)}',
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
                 maxLines: 2,
               ),
               SizedBox(height: 16.h),
@@ -163,12 +161,11 @@ class MyRentalCard extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.equipmentDetails , arguments: rental.rentalId
+                      AppRoutes.equipmentDetails,
+                      arguments: rental.equipmentId,
                     );
                   },
-                  child: Text(
-                    appLocalizations.viewDetails,
-                  ),
+                  child: Text(appLocalizations.viewDetails),
                 ),
               ),
             ],

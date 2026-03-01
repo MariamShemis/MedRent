@@ -56,9 +56,9 @@ class CustomItemPriceDetails extends StatelessWidget {
         ),
 
         if (textSavePrice != null && isColorDark)
-          Positioned(
+          PositionedDirectional(
             top: -20.h,
-            right: 0.w,
+            end: 13.w,
             child: Container(
               padding: REdgeInsets.all(10),
               decoration: BoxDecoration(

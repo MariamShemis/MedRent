@@ -25,5 +25,7 @@ class LottieAssets {
 }
 
 class SvgAssets {
-  static const String base = 'assets/svg/';
+  static const String _base = 'assets/svg/';
+  static const String egFlag = '${_base}eg_flag.svg';
+  static const String usFlag = '${_base}us_flag.svg';
 }

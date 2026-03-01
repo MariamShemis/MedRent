@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:med_rent/core/constants/color_manager.dart';
 
 class PinField extends StatelessWidget {
   const PinField({
@@ -6,10 +7,12 @@ class PinField extends StatelessWidget {
     required this.controller,
     required this.focusNode,
     this.nextFocusNode,
+    this.isSquare = false,
   });
   final TextEditingController controller;
   final FocusNode focusNode;
   final FocusNode? nextFocusNode;
+  final bool isSquare;
 
   @override
   Widget build(BuildContext context) {
@@ -31,23 +34,34 @@ class PinField extends StatelessWidget {
           helperStyle: TextStyle(height: 0 , fontSize: 0),
           errorStyle: TextStyle(height: 0 , fontSize: 0),
       
-          enabledBorder: OutlineInputBorder(
+          enabledBorder: isSquare ? OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Color(0xFF575655) , width: 1.5)
+          ) :  OutlineInputBorder(
             borderRadius: BorderRadius.circular(50),
             borderSide: BorderSide(color: Color(0xFF575655) , width: 2)
           ),
-          focusedBorder: OutlineInputBorder(
+          focusedBorder: isSquare ? OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: ColorManager.darkBlue , width: 1.5)
+          ) :  OutlineInputBorder(
             borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide(color: Color(0xFF031B4E) , width: 2),
+            borderSide: BorderSide(color:ColorManager.darkBlue , width: 2),
           ),
-          errorBorder: OutlineInputBorder(
+          errorBorder:isSquare ? OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.red , width: 1.5)
+          ) : OutlineInputBorder(
             borderRadius: BorderRadius.circular(50),
             borderSide: const BorderSide(color: Colors.red, width: 2),
           ),
-          focusedErrorBorder: OutlineInputBorder(
+          focusedErrorBorder: isSquare ? OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.red , width: 1.5)
+          ) : OutlineInputBorder(
             borderRadius: BorderRadius.circular(50),
             borderSide: const BorderSide(color: Colors.red, width: 2),
           ),
-          
         ),
         onChanged: (value) {
           if (value.length == 1 && nextFocusNode != null) {
