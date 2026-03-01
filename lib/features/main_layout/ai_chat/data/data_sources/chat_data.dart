@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:med_rent/features/main_layout/ai_chat/data/models/chat_response_model.dart';
 
@@ -15,7 +13,6 @@ class ChatData {
                 validateStatus: (status) => true,
 ),
       );
-      print(response.data);
 
       if (response.statusCode == 200) {
         if (response.data is Map<String, dynamic>) {

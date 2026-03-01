@@ -52,8 +52,7 @@ class _AiChatState extends State<AiChat> {
               }
             },
             builder: (context, state) {
-              final bool isLoading =
-                  state is ChatAiLoading; 
+              
               ChatResponseModel? apiData;
         
               if (state is ChatAiSuccess &&
