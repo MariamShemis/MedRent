@@ -25,6 +25,31 @@ class HospitalDetails extends StatelessWidget {
         ),
         title: Text(appLocalizations.hospitalDetails),
       ),
+      bottomNavigationBar: Container(
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(24),
+            topRight: Radius.circular(24),
+          ),
+        ),
+        child: SafeArea(
+          top: false,
+          //bottom: false,
+          child: SizedBox(
+            height: 50.h,
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {},
+              child: Text(
+                appLocalizations.bookNow,
+                style: TextStyle(fontSize: 24),
+              ),
+            ),
+          ),
+        ),
+      ),
       body: SafeArea(
         top: false,
         child: Padding(
@@ -33,17 +58,18 @@ class HospitalDetails extends StatelessWidget {
             builder: (context, state) {
               if (state is HospitalDetailsLoading) {
                 return const Center(child: CircularProgressIndicator());
-              } else if (state is HospitalDetailsLoaded) {
+              }
+              if (state is HospitalDetailsLoaded) {
                 final hospital = state.hospital;
                 return SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      HospitalDetailsHeader(
-                        model: hospital,
-                      ),
+                      HospitalDetailsHeader(model: hospital),
                       SizedBox(height: 20.h),
-                      CustomDepartmentHospitals(departments: hospital.departments),
+                      CustomDepartmentHospitals(
+                        departments: hospital.departments,
+                      ),
                       SizedBox(height: 20.h),
                       Text(
                         "${appLocalizations.about} ${hospital.name}",
@@ -52,28 +78,21 @@ class HospitalDetails extends StatelessWidget {
                       SizedBox(height: 8.h),
                       Text(
                         hospital.description ?? "",
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 18.sp),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall!.copyWith(fontSize: 18.sp),
                       ),
                       SizedBox(height: 20.h),
-                      CustomPatientReviews(
-                        reviews: state.reviews,
-                      ),
-                      SizedBox(height: 25.h),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text(appLocalizations.bookNow),
-                        ),
-                      ),
+                      CustomPatientReviews(reviews: state.reviews),
+                      SizedBox(height: 20.h),
                     ],
                   ),
                 );
-              } else if (state is HospitalDetailsError) {
-                return Center(child: Text(state.message));
-              } else {
-                return const SizedBox();
               }
+              if (state is HospitalDetailsError) {
+                return Center(child: Text(state.message));
+              }
+              return const SizedBox();
             },
           ),
         ),

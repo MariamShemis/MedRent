@@ -1,9 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/features/auth/data/cubit/auth_cubit.dart';
 import 'package:med_rent/features/auth/presentation/view/login_screen.dart';
 import 'package:med_rent/features/auth/presentation/view/register_screen.dart';
+import 'package:med_rent/features/auth/presentation/view/verify_register.dart';
 import 'package:med_rent/features/contact_us/presentation/view/contact_us.dart';
 import 'package:med_rent/features/equipment%20details/data/cubit/equipment_details_cubit.dart';
 import 'package:med_rent/features/equipment%20details/data/data_sources/equipment_details_data_source.dart';
@@ -19,6 +21,8 @@ import 'package:med_rent/features/onboarding/onboarding_screen.dart';
 import 'package:med_rent/features/rent_payment/presentation/view/rent_payment.dart';
 import 'package:med_rent/features/splash/splash_screen.dart';
 import 'package:med_rent/features/start_screen/start_screen.dart';
+import 'package:med_rent/features/update_profile/data/cubit/update_profile_cubit.dart';
+import 'package:med_rent/features/update_profile/data/data_sources/update_profile_data_source.dart';
 import 'package:med_rent/features/update_profile/presentation/view/personal_information.dart';
 
 import '../../features/hospital_details/data/cubit/hospital_details_cubit.dart';
@@ -35,23 +39,23 @@ abstract class RoutesManager {
           return CupertinoPageRoute(builder: (context) => OnboardingScreen());
         }
       case AppRoutes.register:
-        {
-          return CupertinoPageRoute(
-            builder: (context) => BlocProvider(
-              create: (context) => AuthCubit(),
-              child: const RegisterScreen(),
-            ),
-          );
-        }
+        return CupertinoPageRoute(
+          builder: (context) => BlocProvider(
+            create: (_) => AuthCubit(),
+            child: const RegisterScreen(),
+          ),
+        );
       case AppRoutes.startScreen:
         {
-          return CupertinoPageRoute(builder: (context) => const StartScreen());
+          return CupertinoPageRoute(
+            builder: (context) => const StartScreen(),
+          );
         }
       case AppRoutes.login:
         {
           return CupertinoPageRoute(
             builder: (context) => BlocProvider(
-              create: (context) => AuthCubit(),
+              create: (_) => AuthCubit(),
               child: const LoginScreen(),
             ),
           );
@@ -80,7 +84,12 @@ abstract class RoutesManager {
       case AppRoutes.personalInformation:
         {
           return CupertinoPageRoute(
-            builder: (context) => PersonalInformation(),
+            builder: (context) => BlocProvider(
+              create: (context) => UpdateProfileCubit(
+                UpdateProfileDataSource(Dio()),
+              ),
+              child: const PersonalInformation(),
+            ),
           );
         }
       case AppRoutes.rentPayment:
@@ -101,19 +110,20 @@ abstract class RoutesManager {
             ),
           );
         }
-
       case AppRoutes.equipmentDetails:
-        final args = settings.arguments;
-        final equipmentId = args is int ? args : 0;
-        return CupertinoPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => EquipmentDetailsCubit(
-              dataSource: EquipmentDetailsDataSource(),
-              context: context,
+        {
+          final args = settings.arguments;
+          final equipmentId = args is int ? args : 0;
+          return CupertinoPageRoute(
+            builder: (_) => BlocProvider(
+              create: (context) => EquipmentDetailsCubit(
+                dataSource: EquipmentDetailsDataSource(),
+                context: context,
+              ),
+              child: EquipmentDetails(equipmentId: equipmentId),
             ),
-            child: EquipmentDetails(equipmentId: equipmentId),
-          ),
-        );
+          );
+        }
     }
     return null;
   }

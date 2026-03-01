@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:med_rent/core/network/api_client.dart';
 import 'package:med_rent/core/network/network_checker.dart';
@@ -8,15 +9,13 @@ import 'package:med_rent/features/auth/data/models/login_model.dart';
 class AuthRemoteData {
   final ApiClient _apiClient;
 
-  AuthRemoteData({required ApiClient apiClient})
-      : _apiClient = apiClient;
+  AuthRemoteData({required ApiClient apiClient}) : _apiClient = apiClient;
 
   Future<LoginModel> login({
     required String email,
     required String password,
   }) async {
-    final hasInternet =
-    await NetworkChecker.hasInternetConnection();
+    final hasInternet = await NetworkChecker.hasInternetConnection();
 
     if (!hasInternet) {
       throw DioException(
@@ -27,16 +26,11 @@ class AuthRemoteData {
 
     final response = await _apiClient.post(
       '/Auth/login',
-      data: {
-        'email': email,
-        'password': password,
-      },
+      data: {'email': email, 'password': password},
     );
 
-    if (response.statusCode == 200 ||
-        response.statusCode == 201) {
-      final loginModel =
-      LoginModel.fromJson(response.data);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final loginModel = LoginModel.fromJson(response.data);
 
       await SessionService.saveUserData(
         userId: loginModel.userId,
@@ -62,8 +56,7 @@ class AuthRemoteData {
     required String password,
     required String phone,
   }) async {
-    final hasInternet =
-    await NetworkChecker.hasInternetConnection();
+    final hasInternet = await NetworkChecker.hasInternetConnection();
 
     if (!hasInternet) {
       throw DioException(
@@ -82,8 +75,7 @@ class AuthRemoteData {
       },
     );
 
-    if (response.statusCode == 200 ||
-        response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       return;
     }
 
@@ -94,11 +86,8 @@ class AuthRemoteData {
     );
   }
 
-  Future<String> forgotPassword({
-    required String email,
-  }) async {
-    final hasInternet =
-    await NetworkChecker.hasInternetConnection();
+  Future<String> forgotPassword({required String email}) async {
+    final hasInternet = await NetworkChecker.hasInternetConnection();
 
     if (!hasInternet) {
       throw DioException(
@@ -109,13 +98,10 @@ class AuthRemoteData {
 
     final response = await _apiClient.post(
       '/Auth/forgot-password',
-      data: {
-        "email": email,
-      },
+      data: {"email": email},
     );
 
-    if (response.statusCode == 200 ||
-        response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       return "Success";
     }
 
@@ -130,8 +116,7 @@ class AuthRemoteData {
     required String email,
     required String code,
   }) async {
-    final hasInternet =
-    await NetworkChecker.hasInternetConnection();
+    final hasInternet = await NetworkChecker.hasInternetConnection();
 
     if (!hasInternet) {
       throw DioException(
@@ -142,10 +127,7 @@ class AuthRemoteData {
 
     final response = await _apiClient.post(
       '/Auth/verify-code',
-      queryParameters: {
-        'email': email,
-        'code': code,
-      },
+      queryParameters: {'email': email, 'code': code},
     );
 
     if (response.statusCode == 200) {
@@ -163,8 +145,7 @@ class AuthRemoteData {
     required String email,
     required String newPassword,
   }) async {
-    final hasInternet =
-    await NetworkChecker.hasInternetConnection();
+    final hasInternet = await NetworkChecker.hasInternetConnection();
 
     if (!hasInternet) {
       throw DioException(
@@ -175,20 +156,45 @@ class AuthRemoteData {
 
     final response = await _apiClient.post(
       '/Auth/reset-password',
-      queryParameters: {
-        'email': email,
-        'newPassword': newPassword,
-      },
+      queryParameters: {'email': email, 'newPassword': newPassword},
     );
 
-    if (response.statusCode != 200 &&
-        response.statusCode != 201) {
+    if (response.statusCode != 200 && response.statusCode != 201) {
       throw DioException(
         requestOptions: response.requestOptions,
         response: response,
         type: DioExceptionType.badResponse,
       );
     }
+  }
+
+  Future<String> verifyRegister({
+    required String email,
+    required String code,
+  }) async {
+    final hasInternet = await NetworkChecker.hasInternetConnection();
+
+    if (!hasInternet) {
+      throw DioException(
+        requestOptions: RequestOptions(path: ''),
+        error: const SocketException('No Internet'),
+      );
+    }
+
+    final response = await _apiClient.post(
+      '/Auth/verify-register',
+      queryParameters: {'email': email, 'code': code},
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return response.data.toString();
+    }
+
+    throw DioException(
+      requestOptions: response.requestOptions,
+      response: response,
+      type: DioExceptionType.badResponse,
+    );
   }
 
   Future<void> logout() async {
