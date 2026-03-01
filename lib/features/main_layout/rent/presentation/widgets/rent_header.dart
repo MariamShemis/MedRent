@@ -15,25 +15,27 @@ class RentHeader extends StatelessWidget {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Column(
       children: [
-        RichText(
-          textAlign: TextAlign.center,
-          text: TextSpan(
-            style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-              fontSize: 24.sp,
-              fontWeight: FontWeight.bold,
+        Center(
+          child: RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                fontSize: 24.sp,
+                fontWeight: FontWeight.bold,
+              ),
+              children: <TextSpan>[
+                TextSpan(
+                  text: '${appLocalizations.find} ',
+                  style: TextStyle(color: ColorManager.secondary),
+                ),
+                TextSpan(text: '& '),
+                TextSpan(
+                  text: '${appLocalizations.rent} ',
+                  style: TextStyle(color: ColorManager.secondary),
+                ),
+                TextSpan(text: appLocalizations.medicalEquipment),
+              ],
             ),
-            children: <TextSpan>[
-              TextSpan(
-                text: '${appLocalizations.find} ',
-                style: TextStyle(color: ColorManager.secondary),
-              ),
-              TextSpan(text: '& '),
-              TextSpan(
-                text: '${appLocalizations.rent} ',
-                style: TextStyle(color: ColorManager.secondary),
-              ),
-              TextSpan(text: appLocalizations.medicalEquipment),
-            ],
           ),
         ),
         SizedBox(height: 12.h),

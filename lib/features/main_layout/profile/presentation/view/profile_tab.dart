@@ -48,112 +48,125 @@ class _ProfileTabState extends State<ProfileTab> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: REdgeInsets.all(16.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Text(
-                  appLocalizations.profile,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.headlineLarge!.copyWith(fontSize: 24.sp),
-                ),
-                SizedBox(height: 10.h),
-                UserImageProfile(
-                  widgetUserImageProfile: CircleAvatar(
-                    radius: 40.r,
-                    child: Icon(Icons.person, size: 40.sp),
-                  ),
-                  onTapCamera: _showBottomSheetImage,
-                ),
-                SizedBox(height: 10.h),
-                if (_isLoading)
-                  Container(
-                    width: 100.w,
-                    height: 20.h,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  )
-                else
+          padding: REdgeInsets.symmetric(horizontal: 16.0),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
                   Text(
-                    _userName!,
+                    appLocalizations.profile,
                     style: Theme.of(
                       context,
-                    ).textTheme.displayLarge!.copyWith(fontSize: 24.sp),
+                    ).textTheme.headlineLarge!.copyWith(fontSize: 24.sp),
                   ),
-                SizedBox(height: 14.h),
-                Text(
-                  "${appLocalizations.patientID} : #HE-92031",
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
-                ),
-                SizedBox(height: 23.h),
-                SizedBox(
-                  width: 255,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Center(
+                  SizedBox(height: 10.h),
+                  UserImageProfile(
+                    widgetUserImageProfile: CircleAvatar(
+                      radius: 40.r,
+                      child: Icon(Icons.person, size: 40.sp),
+                    ),
+                    onTapCamera: _showBottomSheetImage,
+                  ),
+                  SizedBox(height: 14.h),
+                  if (_isLoading)
+                    Container(
+                      width: 100.w,
+                      height: 20.h,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    )
+                  else
+                    Text(
+                      _userName!,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.displayLarge!.copyWith(fontSize: 24.sp),
+                    ),
+                  SizedBox(height: 10.h),
+                  Text(
+                    "${appLocalizations.patientID} : #HE-92031",
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
+                  ),
+                  SizedBox(height: 16.h),
+                  SizedBox(
+                    width: 200,
+                    height: 45,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorManager.darkBlue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        padding: EdgeInsets.zero,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Expanded(child: Icon(Iconsax.edit_25)),
-                          Expanded(
-                            flex: 2,
-                            child: Text(appLocalizations.editProfile),
+                          Icon(
+                            Iconsax.edit_2,
+                            size: 20.sp,
+                            color: Colors.white,
                           ),
+                          SizedBox(width: 8.w),
+                          Text(appLocalizations.editProfile),
                         ],
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 40.h),
-                BlocBuilder<AppLocalizationCubit, Locale>(
-                  builder: (context, locale) {
-                    final isArabic = locale.languageCode == 'ar';
-                    return CustomProfileContainerItem(
-                      onPressedNotification: () {},
-                      onPressedIconMyRental: () {
-                        Navigator.pushNamed(context, AppRoutes.myRental);
-                      },
-                      onPressedIconPersonalInformation: () async {
-                        final result = await Navigator.pushNamed(
-                          context,
-                          AppRoutes.personalInformation,
-                        );
-                        if (result == true) {
-                          _loadUserData();
-                        }
-                      },
-                      onPressedIconContactUs: () {
-                        Navigator.pushNamed(context, AppRoutes.contactUs);
-                      },
-                      textLanguage: isArabic ? "العربية" : "English",
-                      onPressedLanguage: () {
-                        Navigator.pushNamed(context, AppRoutes.languageProfile);
-                      },
-                    );
-                  },
-                ),
-                SizedBox(height: 20.h),
-                GestureDetector(
-                  onTap: _showDialogLogOut,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Iconsax.logout, color: ColorManager.error),
-                      SizedBox(width: 8.w),
-                      Text(
-                        appLocalizations.log_out,
-                        style: Theme.of(context).textTheme.headlineMedium!
-                            .copyWith(color: ColorManager.error),
-                      ),
-                    ],
+                  SizedBox(height: 30.h),
+                  BlocBuilder<AppLocalizationCubit, Locale>(
+                    builder: (context, locale) {
+                      final isArabic = locale.languageCode == 'ar';
+                      return CustomProfileContainerItem(
+                        onPressedNotification: () {},
+                        onPressedIconMyRental: () {
+                          Navigator.pushNamed(context, AppRoutes.myRental);
+                        },
+                        onPressedIconPersonalInformation: () async {
+                          final result = await Navigator.pushNamed(
+                            context,
+                            AppRoutes.personalInformation,
+                          );
+                          if (result == true) {
+                            _loadUserData();
+                          }
+                        },
+                        onPressedIconContactUs: () {
+                          Navigator.pushNamed(context, AppRoutes.contactUs);
+                        },
+                        textLanguage: isArabic ? "العربية" : "English",
+                        onPressedLanguage: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.languageProfile,
+                          );
+                        },
+                      );
+                    },
                   ),
-                ),
-              ],
+                  SizedBox(height: 20.h),
+                  GestureDetector(
+                    onTap: _showDialogLogOut,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Iconsax.logout, color: ColorManager.error),
+                        SizedBox(width: 8.w),
+                        Text(
+                          appLocalizations.log_out,
+                          style: Theme.of(context).textTheme.headlineMedium!
+                              .copyWith(color: ColorManager.error),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -209,7 +222,6 @@ class _ProfileTabState extends State<ProfileTab> {
 
   void _showDialogLogOut() {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
-
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -228,20 +240,14 @@ class _ProfileTabState extends State<ProfileTab> {
               child: Text(appLocalizations.cancel),
             ),
             TextButton(
-              onPressed: () async {
-                await SessionService.logout();
-                Navigator.of(
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
                   context,
-                  rootNavigator: true,
-                ).pushNamedAndRemoveUntil(
-                  AppRoutes.startScreen,
+                  AppRoutes.login,
                   (route) => false,
                 );
               },
-              child: Text(
-                appLocalizations.ok,
-                style: TextStyle(color: Colors.red),
-              ),
+              child: Text(appLocalizations.ok),
             ),
           ],
         );

@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:med_rent/features/equipment%20details/data/cubit/equipment_details_state.dart';
 import 'package:med_rent/features/equipment%20details/data/data_sources/equipment_details_data_source.dart';
-import 'package:med_rent/core/error/api_error_handler.dart';
 
 class EquipmentDetailsCubit extends Cubit<EquipmentDetailsState> {
   final EquipmentDetailsDataSource _dataSource;

@@ -247,5 +247,6 @@
   "choose_your_preferred_language_for_the_app_interface": "اختر لغتك المفضلة لواجهة التطبيق",
   "enter_the_digit_OTP_sent_to_your_email": "أدخل رمز التحقق المكون من 6 أرقام المرسل إلى بريدك الإلكتروني",
   "didnt_get_the_OTP": "لم تستلم رمز التحقق؟",
-  "resend_OTP": "إعادة إرسال رمز التحقق"
+  "resend_OTP": "إعادة إرسال رمز التحقق",
+  "aiAnalysis": "تحليل الذكاء الاصطناعي"
 }
