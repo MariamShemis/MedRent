@@ -38,7 +38,6 @@ class _AiChatState extends State<AiChat> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(appLocalizations.aI_MedicalAssistant),
-            leading: SizedBox(),
           ),
           body: BlocConsumer<ChatAiCubit, ChatAiState>(
             listener: (context, state) {
@@ -52,9 +51,7 @@ class _AiChatState extends State<AiChat> {
               }
             },
             builder: (context, state) {
-              
               ChatResponseModel? apiData;
-        
               if (state is ChatAiSuccess &&
                   state.messages.any((m) => !m.isUser)) {
                 apiData = state.messages.lastWhere((m) => !m.isUser).fullResponse;
