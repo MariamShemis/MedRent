@@ -754,4 +754,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get resend_OTP => 'إعادة إرسال رمز التحقق';
+
+  @override
+  String get aiAnalysis => 'تحليل الذكاء الاصطناعي';
 }

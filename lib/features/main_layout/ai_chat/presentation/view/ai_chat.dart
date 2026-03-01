@@ -1,140 +1,199 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/widgets/custom_search_text_field.dart';
+import 'package:med_rent/features/main_layout/ai_chat/data/cubit/chat_ai_cubit.dart';
+import 'package:med_rent/features/main_layout/ai_chat/data/data_sources/chat_data.dart';
+import 'package:med_rent/features/main_layout/ai_chat/data/models/chat_response_model.dart';
 import 'package:med_rent/features/main_layout/ai_chat/presentation/widgets/custom_card_ai_chat.dart';
 import 'package:med_rent/features/main_layout/ai_chat/presentation/widgets/custom_card_ai_nearby_hospital.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
 
-class AiChat extends StatelessWidget {
+class AiChat extends StatefulWidget {
   const AiChat({super.key});
+
+  @override
+  State<AiChat> createState() => _AiChatState();
+}
+
+class _AiChatState extends State<AiChat> {
+  final TextEditingController _symptomsController = TextEditingController();
+
+  @override
+  void dispose() {
+    _symptomsController.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: REdgeInsets.all(16.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Text(
-                    appLocalizations.aI_MedicalAssistant,
-                    style: Theme.of(context).textTheme.titleLarge,
-                    textAlign: TextAlign.center,
+
+    return BlocProvider(
+      create: (context) => ChatAiCubit(ChatData(Dio())),
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(appLocalizations.aI_MedicalAssistant),
+            centerTitle: true,
+          ),
+          body: BlocConsumer<ChatAiCubit, ChatAiState>(
+            listener: (context, state) {
+              if (state is ChatAiError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.error),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            },
+            builder: (context, state) {
+              final bool isLoading =
+                  state is ChatAiLoading; 
+              ChatResponseModel? apiData;
+        
+              if (state is ChatAiSuccess &&
+                  state.messages.any((m) => !m.isUser)) {
+                apiData = state.messages.lastWhere((m) => !m.isUser).fullResponse;
+              }
+        
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,               
+                   children: [
+                        Text(
+                          appLocalizations
+                              .describe_your_symptoms_and_let_our_smart_assistant_guide_you_to_the_right_department_or_nearby_hospitals,
+                          style: Theme.of(context).textTheme.bodySmall,
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 20.h),
+                        Text(
+                          appLocalizations.describeYourSymptoms,
+                          style: Theme.of(
+                            context,
+                          ).textTheme.headlineLarge!.copyWith(fontSize: 16.sp),
+                        ),
+                        SizedBox(height: 8.h),
+                        CustomSearchTextField(
+                          controller: _symptomsController,
+                          hintText: appLocalizations
+                              .e_g_I_have_a_sharp_headache_and_feel_dizzy,
+                          maxLines: 5,
+                          isDarkColor: true,
+                        ),
+                        SizedBox(height: 16.h),
+                  
+                        SizedBox(
+                          width: double.infinity,
+                          height: 50.h,
+                          child: ElevatedButton(
+                            onPressed: state is ChatAiLoading
+                                ? null
+                                : () {
+                                    if (_symptomsController.text.trim().isNotEmpty) {
+                                      context.read<ChatAiCubit>().sendMessage(
+                                        _symptomsController.text.trim(),
+                                      );
+                                      FocusScope.of(
+                                        context,
+                                      ).unfocus();  
+                                    }
+                                  },
+                            child: state is ChatAiLoading
+                                ? SizedBox(
+                                    height: 20.h,
+                                    width: 20.h,
+                                    child: const CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : Text(appLocalizations.analyzeSymptoms),
+                          ),
+                        ),
+                        SizedBox(height: 12.h),
+                        Center(
+                          child: Text(
+                            appLocalizations.your_input_is_processed_securely,
+                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontSize: 12.sp,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                  
+                        if (apiData != null) ...[
+                          const Divider(height: 40),
+                          CustomCardAiChat(
+                            color: ColorManager.lightBlue,
+                            title: apiData.department ?? "General Medicine",
+                            isWidget: true,
+                            widget: Text(
+                              appLocalizations
+                                  .based_on_your_symptoms_this_department_is_the_most_relevant_for_a_consultation,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
+                          CustomCardAiChat(
+                            color: ColorManager.lightBlue,
+                            title: appLocalizations.suggestedActions,
+                            isWidget: false,
+                            subTitles: apiData.suggestedActions ?? [],
+                          ),
+                          CustomCardAiChat(
+                            color: ColorManager.lightBlue,
+                            title: appLocalizations.howtoUse,
+                            isWidget: false,
+                            subTitles: [apiData.howToUse ?? ""],
+                          ),
+                          if (apiData.hospitals != null &&
+                              apiData.hospitals!.isNotEmpty)
+                            CustomCardAiChat(
+                              color: ColorManager.white,
+                              title: appLocalizations.nearbyHospitals,
+                              isWidget: true,
+                              widget: Column(
+                                children: apiData.hospitals!
+                                    .map(
+                                      (h) => Padding(
+                                        padding: EdgeInsets.only(bottom: 10.h),
+                                        child: CustomCardAiNearbyHospital(
+                                          title: h.name,
+                                          subTitle:
+                                              "${h.distance} ${appLocalizations.miles_away}  | ",
+                                          rating: h.rating,
+                                          textElevatedButton:
+                                              appLocalizations.viewDetails,
+                                          onPressed: () {},
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                            ),
+                        ],
+                        SizedBox(height: 20.h),
+                        Text(
+                          appLocalizations
+                              .this_tool_provides_general_guidance_and_does_not_replace_professional_medical_diagnosis,
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodySmall!.copyWith(fontSize: 10.sp),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    
                   ),
                 ),
-                SizedBox(height: 5.h),
-                Text(
-                  appLocalizations
-                      .describe_your_symptoms_and_let_our_smart_assistant_guide_you_to_the_right_department_or_nearby_hospitals,
-                  style: Theme.of(context).textTheme.bodySmall,
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 16.h),
-                Text(
-                  appLocalizations.describeYourSymptoms,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.headlineLarge!.copyWith(fontSize: 16.sp),
-                ),
-                SizedBox(height: 8.h),
-                CustomSearchTextField(
-                  hintText: appLocalizations
-                      .e_g_I_have_a_sharp_headache_and_feel_dizzy,
-                  maxLines: 5,
-                  isDarkColor: true,
-                  onChanged: (value) {},
-                ),
-                SizedBox(height: 10.h),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Text(appLocalizations.analyzeSymptoms),
-                  ),
-                ),
-                SizedBox(height: 10.h),
-                Center(
-                  child: Text(
-                    appLocalizations.your_input_is_processed_securely,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                SizedBox(height: 10.h),
-                CustomCardAiChat(
-                  color: ColorManager.lightBlue,
-                  title: appLocalizations.cardiology,
-                  isWidget: true,
-                  widget: Text(
-                    appLocalizations
-                        .based_on_your_symptoms_this_department_is_the_most_relevant_for_a_consultation,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
-                  ),
-                ),
-                CustomCardAiChat(
-                  color: ColorManager.lightBlue,
-                  title: appLocalizations.suggestedActions,
-                  subTitle1:
-                      appLocalizations.seek_medical_attention_within_hours,
-                  subTitle2:
-                      appLocalizations.monitor_any_changes_in_your_breathing,
-                  subTitle3: appLocalizations.avoid_heavy_physical_activity,
-                  isWidget: false,
-                ),
-                CustomCardAiChat(
-                  color: ColorManager.lightBlue,
-                  title: appLocalizations.howtoUse,
-                  subTitle1:
-                      appLocalizations.describe_symptoms_in_everyday_language,
-                  subTitle2:
-                      appLocalizations.include_duration_severity_or_other_notes,
-                  subTitle3:
-                      appLocalizations.this_is_a_guidance_tool_not_a_diagnosis,
-                  isWidget: false,
-                ),
-                CustomCardAiChat(
-                  color: ColorManager.white,
-                  title: appLocalizations.nearbyHospitals,
-                  isWidget: true,
-                  widget: Column(
-                    children: [
-                      CustomCardAiNearbyHospital(
-                        title: "City Medical Center",
-                        subTitle: "2.5 ${appLocalizations.miles_away}   |  ",
-                        rating: 4.8,
-                        textElevatedButton: appLocalizations.viewDetails,
-                        onPressed: () {},
-                      ),
-                      SizedBox(height: 8.h,),
-                      CustomCardAiNearbyHospital(
-                        title: "City Medical Center",
-                        subTitle: "2.5 ${appLocalizations.miles_away}    |  ",
-                        rating: 4.6,
-                        textElevatedButton: appLocalizations.viewDetails,
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                ),
-                Text(
-                  appLocalizations
-                      .this_tool_provides_general_guidance_and_does_not_replace_professional_medical_diagnosis,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium!.copyWith(fontSize: 12.sp),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
+              );
+            },
           ),
         ),
       ),
