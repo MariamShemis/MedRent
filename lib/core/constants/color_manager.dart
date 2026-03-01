@@ -7,6 +7,7 @@ class ColorManager {
   static const Color secondary = Color(0xFF00B1D3);
   static const Color secondary2 = Color(0xFFCAF3F9);
   static const Color error = Color(0xFFFF3B30);
+  static const Color red = Color(0xFFFF0000);
   static const Color lightRed = Color(0xFFFF6F6F);
   static const Color lightGrey = Color(0xFFD9D9D9);
   static const Color green = Color(0xFF0BFD17);
