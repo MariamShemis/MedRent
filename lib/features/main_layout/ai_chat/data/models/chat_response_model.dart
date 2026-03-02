@@ -1,23 +1,26 @@
 class ChatResponseModel {
-  final String? department;
-  final List<String> ?suggestedActions;
-  final String ?howToUse;
-  final List<HospitalModel>? hospitals;
+  final String department;
+  final List<String> suggestedActions;
+  final String howToUse;
+  final List<HospitalModel> hospitals;
 
-  ChatResponseModel({this.department, required this.suggestedActions,  required this.howToUse, this.hospitals});
+  ChatResponseModel({
+    required this.department,
+    required this.suggestedActions,
+    required this.howToUse,
+    required this.hospitals,
+  });
 
   factory ChatResponseModel.fromJson(Map<String, dynamic> json) {
-  return ChatResponseModel(
-    department: json['department']?? "General",
-    suggestedActions: json['suggestedActions'] != null 
-        ? List<String>.from(json['suggestedActions']) 
-        : [],
-    hospitals: json['hospitals'] != null 
-        ? (json['hospitals'] as List).map((i) => HospitalModel.fromJson(i)).toList() 
-        : null, 
-    howToUse: json['howToUse'] ?? "Please follow the instructions provided by the AI.",
-  );
-}
+    return ChatResponseModel(
+      department: json['department'] ?? "General Medicine",
+      suggestedActions: List<String>.from(json['suggestedActions'] ?? []),
+      howToUse: json['howToUse'] ?? "Consult a specialist for more details.",
+      hospitals: (json['hospitals'] as List?)
+              ?.map((i) => HospitalModel.fromJson(i))
+              .toList() ?? [],
+    );
+  }
 }
 
 class HospitalModel {

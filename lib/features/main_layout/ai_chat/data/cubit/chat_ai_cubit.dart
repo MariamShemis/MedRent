@@ -9,27 +9,29 @@ class ChatAiCubit extends Cubit<ChatAiState> {
   final ChatData chatData;
   final List<ChatMessage> message = [];
   ChatAiCubit(this.chatData) : super(ChatAiInitial());
- Future<void> sendMessage(String text) async {
-  if (text.trim().isEmpty) return;
+  // chat_ai_cubit.dart
 
-  message.add(ChatMessage(isUser: true, text: text));
-  emit(ChatAiSuccess(List.from(message))); 
+  Future<void> sendMessage(String text) async {
+    if (text.trim().isEmpty) return;
 
-  emit(ChatAiLoading()); 
-
-  try {
-    final responseModel = await chatData.analyzeMessage(text);
-    
-    message.add(ChatMessage(
-      isUser: false, 
-      text: responseModel.department ?? "Analysis Completed",
-      fullResponse: responseModel, 
-    ));
-
+    message.add(ChatMessage(isUser: true, text: text));
     emit(ChatAiSuccess(List.from(message)));
-  } catch (e) {
-    emit(ChatAiSuccess(List.from(message))); // نرجع الرسايل القديمة
-    emit(ChatAiError("السيرفر مشغول حالياً (Error 500)، جربي كمان شوية"));
+    emit(ChatAiLoading());
+
+    try {
+      final responseModel = await chatData.analyzeMessage(text);
+
+      message.add(
+        ChatMessage(
+          isUser: false,
+          text: responseModel.department,
+          fullResponse: responseModel,
+        ),
+      );
+
+      emit(ChatAiSuccess(List.from(message)));
+    } catch (e) {
+      emit(ChatAiError(e.toString(), List.unmodifiable(message)));
+    }
   }
-}
 }

@@ -223,6 +223,8 @@ class SessionService {
   }
 }
 
+
+
 enum AppLaunchState {
   authenticated,
   needsAuth,

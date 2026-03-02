@@ -7,26 +7,18 @@ class ChatData {
   Future<ChatResponseModel> analyzeMessage(String message) async {
     try {
       final response = await dio.post(
-        'http://GraduationProject.somee.com/api/Chat/analyze',
+        'http://graduationprojectapi.somee.com/api/Chat/analyze',
         data: {'message': message},
-        options: Options(headers: {'Content-Type': 'application/json'},
-                validateStatus: (status) => true,
-),
+        
+        
       );
 
-      if (response.statusCode == 200) {
-        if (response.data is Map<String, dynamic>) {
-          return ChatResponseModel.fromJson(response.data);
-        } else {
-          throw Exception("Unexpected data format from server");
-        }
-      } else {
-        throw Exception("Server Error: ${response.statusCode}");
-      }
+      return ChatResponseModel.fromJson(response.data);
     } on DioException catch (e) {
-      throw Exception("Network Error: ${e.message}");
+      if (e.response?.statusCode == 404) throw "Service not found (404)";
+      throw "Network error: Please check your connection";
     } catch (e) {
-      throw Exception("Error: $e");
+      throw "Something went wrong, please try again";
     }
   }
 }
