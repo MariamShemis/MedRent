@@ -5,7 +5,7 @@ import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/features/auth/data/cubit/auth_cubit.dart';
 import 'package:med_rent/features/auth/presentation/view/login_screen.dart';
 import 'package:med_rent/features/auth/presentation/view/register_screen.dart';
-import 'package:med_rent/features/auth/presentation/view/verify_register.dart';
+import 'package:med_rent/features/contact_us/data/cubit/contact_us_cubit.dart';
 import 'package:med_rent/features/contact_us/presentation/view/contact_us.dart';
 import 'package:med_rent/features/equipment%20details/data/cubit/equipment_details_cubit.dart';
 import 'package:med_rent/features/equipment%20details/data/data_sources/equipment_details_data_source.dart';
@@ -25,6 +25,7 @@ import 'package:med_rent/features/update_profile/data/cubit/update_profile_cubit
 import 'package:med_rent/features/update_profile/data/data_sources/update_profile_data_source.dart';
 import 'package:med_rent/features/update_profile/presentation/view/personal_information.dart';
 
+import '../../features/contact_us/data/data_sources/contact_us_data_source.dart';
 import '../../features/hospital_details/data/cubit/hospital_details_cubit.dart';
 
 abstract class RoutesManager {
@@ -66,7 +67,14 @@ abstract class RoutesManager {
         }
       case AppRoutes.contactUs:
         {
-          return CupertinoPageRoute(builder: (context) => ContactUs());
+          return CupertinoPageRoute(
+            builder: (context) => BlocProvider(
+              create: (context) => ContactUsCubit(
+                ContactUsDataSource(Dio()),
+              ),
+              child: ContactUs(),
+            ),
+          );
         }
       case AppRoutes.hospitalDetails:
         {

@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/service/session_service.dart';
 import 'package:med_rent/features/main_layout/profile/presentation/widgets/user_image_profile.dart';
@@ -24,8 +27,11 @@ class _PersonalInformationState extends State<PersonalInformation> {
   late TextEditingController birthController;
   late TextEditingController phoneController;
   late TextEditingController emailController;
+
   String? selectedGender;
-  bool isLoading = true; // علم تحميل البيانات
+  bool isLoading = true;
+
+  File? selectedImage;
 
   @override
   void initState() {
@@ -35,7 +41,6 @@ class _PersonalInformationState extends State<PersonalInformation> {
     phoneController = TextEditingController();
     emailController = TextEditingController();
 
-    // تأكد إن context جاهز
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadUserData();
     });
@@ -51,10 +56,19 @@ class _PersonalInformationState extends State<PersonalInformation> {
     }
     birthController.text = SessionService.getSessionDateOfBirth() ?? '';
     selectedGender = SessionService.getSessionGender() ?? appLocalizations.male;
-
     setState(() {
-      isLoading = false; // البيانات جاهزة للعرض
+      isLoading = false;
     });
+  }
+  Future<void> _pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+    if (pickedFile == null) return;
+    setState(() {
+      selectedImage = File(pickedFile.path);
+    });
+    Navigator.pop(context);
+    context.read<UpdateProfileCubit>().uploadImage(selectedImage!, context);
   }
 
   @override
@@ -69,10 +83,9 @@ class _PersonalInformationState extends State<PersonalInformation> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context)!;
+
     if (isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
     return BlocListener<UpdateProfileCubit, UpdateProfileState>(
       listener: (context, state) {
@@ -87,10 +100,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
         }
         if (state is UpdateProfileError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.error),
-              backgroundColor: Colors.red,
-            ),
+            SnackBar(content: Text(state.error), backgroundColor: Colors.red),
           );
         }
       },
@@ -112,7 +122,12 @@ class _PersonalInformationState extends State<PersonalInformation> {
                   child: UserImageProfile(
                     widgetUserImageProfile: CircleAvatar(
                       radius: 40.r,
-                      child: Icon(Icons.person, size: 40.sp),
+                      backgroundImage: selectedImage != null
+                          ? FileImage(selectedImage!)
+                          : null,
+                      child: selectedImage == null
+                          ? Icon(Icons.person, size: 40.sp)
+                          : null,
                     ),
                     onTapCamera: _showBottomSheetImage,
                   ),
@@ -140,11 +155,12 @@ class _PersonalInformationState extends State<PersonalInformation> {
                   onChange: (value) {
                     setState(() {
                       selectedGender = value ?? appLocalizations.male;
-                      SessionService.setSessionGender(selectedGender ?? "");
                     });
                   },
                 ),
+
                 SizedBox(height: 20.h),
+
                 CustomProfileTextFormField(
                   labelName: appLocalizations.phone,
                   controller: phoneController,
@@ -159,8 +175,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                   keyboardType: TextInputType.emailAddress,
                 ),
                 SizedBox(height: 28.h),
-                Container(
-                  padding: REdgeInsets.symmetric(horizontal: 18),
+                SizedBox(
                   width: double.infinity,
                   child: BlocBuilder<UpdateProfileCubit, UpdateProfileState>(
                     builder: (context, state) {
@@ -194,11 +209,11 @@ class _PersonalInformationState extends State<PersonalInformation> {
   }
 
   void _showBottomSheetImage() {
-    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+    final appLocalizations = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadiusGeometry.vertical(top: Radius.circular(16.r)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
       ),
       builder: (context) => Padding(
         padding: REdgeInsets.all(30.0),
@@ -206,33 +221,26 @@ class _PersonalInformationState extends State<PersonalInformation> {
           mainAxisSize: MainAxisSize.min,
           children: [
             InkWell(
-              onTap: () {},
+              onTap: () => _pickImage(ImageSource.camera),
               child: Row(
                 children: [
-                  Icon(Icons.photo_camera_outlined),
+                  const Icon(Icons.photo_camera_outlined),
                   SizedBox(width: 10.w),
-                  Text(
-                    appLocalizations.take_a_photo,
-                    style: Theme.of(context).textTheme.labelSmall,
-                  ),
+                  Text(appLocalizations.take_a_photo),
                 ],
               ),
             ),
             SizedBox(height: 20.h),
             InkWell(
-              onTap: () {},
+              onTap: () => _pickImage(ImageSource.gallery),
               child: Row(
                 children: [
-                  Icon(Icons.photo_library_outlined),
+                  const Icon(Icons.photo_library_outlined),
                   SizedBox(width: 10.w),
-                  Text(
-                    appLocalizations.choose_from_gallery,
-                    style: Theme.of(context).textTheme.labelSmall,
-                  ),
+                  Text(appLocalizations.choose_from_gallery),
                 ],
               ),
             ),
-            SizedBox(height: 10.h),
           ],
         ),
       ),
