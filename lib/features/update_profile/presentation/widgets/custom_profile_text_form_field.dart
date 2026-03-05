@@ -51,7 +51,7 @@ class CustomProfileTextFormField extends StatelessWidget {
               color: isLightBlue ? ColorManager.black : ColorManager.greyText,
             ),
             onChanged: onChanged,
-            onFieldSubmitted: onChanged,
+            //onFieldSubmitted: onChanged,
             cursorColor: Colors.black,
             maxLines: maxLine,
             keyboardType: keyboardType,

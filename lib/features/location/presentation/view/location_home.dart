@@ -85,59 +85,17 @@ class _LocationHomeState extends State<LocationHome> {
                                       });
                                     },
                                   ),
-                                  onChanged: (value) async {
-                                    final result = await context
+                                  onChanged: (value) {
+                                    if (value.isEmpty) return;
+                                    context
                                         .read<LocationCubit>()
                                         .searchLocation(value);
-                                    if (result != null) {
-                                      context
-                                          .read<LocationCubit>()
-                                          .updateSelectedLocation(result);
-                                    }
-                                    // setState(() {
-                                    //   isSearching = false;
-                                    // });
                                   },
                                 ),
                               ),
-                              // Expanded(
-                              //   child: TextField(
-                              //     controller: searchController,
-                              //     decoration: InputDecoration(
-                              //       hintText: "Search location",
-                              //       fillColor: Colors.white,
-                              //       filled: true,
-                              //       border: OutlineInputBorder(
-                              //         borderRadius: BorderRadius.circular(10),
-                              //       ),
-                              //     ),
-                              //     onSubmitted: (value) async {
-                              //       final result = await context
-                              //           .read<LocationCubit>()
-                              //           .searchLocation(value);
-                              //       if (result != null) {
-                              //         context
-                              //             .read<LocationCubit>()
-                              //             .updateSelectedLocation(result);
-                              //       }
-                              //       setState(() {
-                              //         isSearching = false;
-                              //       });
-                              //     },
-                              //   ),
-                              // ),
-                              // IconButton(
-                              //   icon: const Icon(Icons.close),
-                              //   onPressed: () {
-                              //     setState(() {
-                              //       isSearching = false;
-                              //     });
-                              //   },
-                              // ),
                             ],
                           )
                         : Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CustomIconButton(
                                 icon: Icons.close,
@@ -146,6 +104,12 @@ class _LocationHomeState extends State<LocationHome> {
                                   Navigator.pop(context);
                                 },
                               ),
+                              SizedBox(width: 25.w),
+                              Text(
+                                "Address",
+                                style: Theme.of(context).textTheme.labelMedium,
+                              ),
+                              Spacer(),
                               CustomIconButton(
                                 icon: Iconsax.search_normal,
                                 isWhite: true,

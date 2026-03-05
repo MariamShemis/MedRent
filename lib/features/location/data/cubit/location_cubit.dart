@@ -37,16 +37,31 @@ class LocationCubit extends Cubit<LocationState> {
     }
   }
 
-  Future<LatLng?> searchLocation(String query) async {
+  Future<void> searchLocation(String query) async {
+    if (state is! LocationLoaded) return;
+
     try {
       final locations = await geo.locationFromAddress(query);
-      if (locations.isNotEmpty) {
-        final loc = locations.first;
-        return LatLng(loc.latitude, loc.longitude);
-      }
-      return null;
-    } catch (_) {
-      return null;
+
+      if (locations.isEmpty) return;
+
+      final loc = locations.first;
+      final latLng = LatLng(loc.latitude, loc.longitude);
+
+      final address = await _repository.getAddressFromLatLng(latLng);
+
+      final currentState = state as LocationLoaded;
+
+      emit(
+        LocationLoaded(
+          currentLocation: currentState.currentLocation,
+          selectedLocation: latLng,
+          address: address,
+        ),
+      );
+    } catch (e) {
+      emit(LocationError(e.toString()));
     }
   }
+
 }

@@ -22,6 +22,7 @@ class ProfileTab extends StatefulWidget {
 
 class _ProfileTabState extends State<ProfileTab> {
   final ImagePicker _picker = ImagePicker();
+
   Future<void> pickAndUploadImage(
     ImageSource source,
     BuildContext cubitContext,
@@ -32,9 +33,8 @@ class _ProfileTabState extends State<ProfileTab> {
     );
 
     if (image != null && mounted) {
-       Navigator.pop(context);
+      Navigator.pop(context);
       if (cubitContext.mounted) {
-       
         cubitContext.read<ProfileCubit>().updateProfileImage(image.path);
       }
     }
@@ -46,7 +46,7 @@ class _ProfileTabState extends State<ProfileTab> {
       create: (context) => ProfileCubit(ProfileData())..getProfileData(),
       child: Builder(
         builder: (context) {
-              AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+          AppLocalizations appLocalizations = AppLocalizations.of(context)!;
 
           return Scaffold(
             body: SafeArea(
@@ -60,41 +60,41 @@ class _ProfileTabState extends State<ProfileTab> {
                       return Center(child: Text(state.message));
                     } else if (state is ProfileSuccess) {
                       final user = state.profileModel;
-          
+
                       return SingleChildScrollView(
                         child: Column(
                           children: [
                             Text(
                               appLocalizations.profile,
                               textAlign: TextAlign.center,
-                              style: Theme.of(
-                                context,
-                              ).textTheme.headlineLarge!.copyWith(fontSize: 24.sp),
+                              style: Theme.of(context).textTheme.headlineLarge!
+                                  .copyWith(fontSize: 24.sp),
                             ),
                             SizedBox(height: 15.h),
                             Center(
                               child: UserImageProfile(
                                 widgetUserImageProfile: CircleAvatar(
-                                  radius: 40.r,
+                                  radius: 46.r,
+                                  backgroundColor: Colors.grey.shade200,
                                   backgroundImage: user.imageUrl.isNotEmpty
                                       ? NetworkImage(
-                                          '${ApiConstants.baseImageUrl}${user.imageUrl}?t=${DateTime.now().millisecondsSinceEpoch}',
-                                        )
+                                    '${user.imageUrl}?t=${DateTime.now().millisecondsSinceEpoch}',
+                                  )
                                       : null,
                                   child: user.imageUrl.isEmpty
-                                      ? Icon(Icons.person, size: 40.sp)
+                                      ? Icon(Icons.person, size: 40.sp, color: Colors.grey.shade600)
                                       : null,
                                 ),
-onTapCamera: () => _showBottomSheetImage(context),                              ),
+                                onTapCamera: () =>
+                                    _showBottomSheetImage(context),
+                              ),
                             ),
                             SizedBox(height: 18.h),
-          
                             Text(
                               user.name,
                               textAlign: TextAlign.center,
-                              style: Theme.of(
-                                context,
-                              ).textTheme.displayLarge!.copyWith(fontSize: 24.sp),
+                              style: Theme.of(context).textTheme.displayLarge!
+                                  .copyWith(fontSize: 24.sp),
                             ),
                             SizedBox(height: 14.h),
                             Text(
@@ -148,7 +148,9 @@ onTapCamera: () => _showBottomSheetImage(context),                              
                                       context,
                                       AppRoutes.personalInformation,
                                     ).then((_) {
-                                      context.read<ProfileCubit>().getProfileData();
+                                      context
+                                          .read<ProfileCubit>()
+                                          .getProfileData();
                                     });
                                   },
                                   onPressedIconContactUs: () {
@@ -157,7 +159,9 @@ onTapCamera: () => _showBottomSheetImage(context),                              
                                       AppRoutes.contactUs,
                                     );
                                   },
-                                  textLanguage: isArabic ? "العربية" : "English",
+                                  textLanguage: isArabic
+                                      ? "العربية"
+                                      : "English",
                                   onPressedLanguage: () {
                                     Navigator.pushNamed(
                                       context,
@@ -193,21 +197,20 @@ onTapCamera: () => _showBottomSheetImage(context),                              
                         ),
                       );
                     }
-          
                     return const SizedBox();
                   },
                 ),
               ),
             ),
           );
-        }
+        },
       ),
     );
   }
 
-  void _showBottomSheetImage(BuildContext cubitContext ) {
+  void _showBottomSheetImage(BuildContext cubitContext) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
-    
+
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(

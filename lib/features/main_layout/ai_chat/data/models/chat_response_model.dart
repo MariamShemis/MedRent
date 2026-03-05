@@ -24,16 +24,18 @@ class ChatResponseModel {
 }
 
 class HospitalModel {
+  final int? hospitalId;
   final String name;
   final double rating;
   final double? distance;
 
-  HospitalModel({required this.name, required this.rating, this.distance});
+  HospitalModel({required this.name, required this.rating, this.distance, this.hospitalId});
 
   factory HospitalModel.fromJson(Map<String, dynamic> json) {
     return HospitalModel(
       name: json['name'] ?? "Unknown Hospital",
       rating: (json['rating'] ?? 0).toDouble(),
+      hospitalId: (json['hospitalId'] ?? 0),
       distance: (json['distanceKm'] ?? 0).toDouble(),
     );
   }
