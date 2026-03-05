@@ -152,8 +152,8 @@ class _ContactUsState extends State<ContactUs> {
                 SizedBox(height: 16.h),
                 SelectLocationMap(
                   onLocationSelected: (latLng) {
-                    print("User selected: ${latLng.latitude}, ${latLng.longitude}");
-                    // ممكن تحفظيهم في Cubit أو فورم
+                    print("Lat: ${latLng.latitude}");
+                    print("Lng: ${latLng.longitude}");
                   },
                 ),
                 SizedBox(height: 16.h),

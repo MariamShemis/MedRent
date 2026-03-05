@@ -10,29 +10,38 @@ class CustomProfileTextFormField extends StatelessWidget {
     this.isLightBlue = false,
     required this.keyboardType,
     this.validator,
-    required this.labelName,
+    this.labelName,
     this.maxLine,
+    this.onChanged,
+    this.suffixIcon,
+    this.isLabel = true,
   });
+
   final TextEditingController controller;
   final String hintText;
   final int? maxLine;
-  final String labelName;
+  final String? labelName;
   final bool isLightBlue;
+  final bool isLabel;
   final TextInputType keyboardType;
+  final Widget? suffixIcon;
   final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          labelName,
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium!.copyWith(color: ColorManager.darkBlue),
-        ),
-        SizedBox(height: 8.h),
+        isLabel
+            ? Text(
+                labelName ?? "",
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium!.copyWith(color: ColorManager.darkBlue),
+              )
+            : SizedBox(),
+        SizedBox(height: isLabel ? 8.h : 0),
         SizedBox(
           width: double.infinity,
           child: TextFormField(
@@ -41,10 +50,13 @@ class CustomProfileTextFormField extends StatelessWidget {
               fontWeight: isLightBlue ? FontWeight.w500 : FontWeight.w900,
               color: isLightBlue ? ColorManager.black : ColorManager.greyText,
             ),
+            onChanged: onChanged,
+            onFieldSubmitted: onChanged,
             cursorColor: Colors.black,
             maxLines: maxLine,
             keyboardType: keyboardType,
             decoration: InputDecoration(
+              suffixIcon: suffixIcon,
               filled: true,
               fillColor: isLightBlue
                   ? ColorManager.lightBlue

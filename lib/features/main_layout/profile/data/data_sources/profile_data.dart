@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:med_rent/core/constants/assets_manager.dart';
 import 'package:med_rent/features/main_layout/profile/data/models/profile_model.dart';
+import 'dart:convert';
 
 class ProfileData {
   final Dio dio = Dio();
-  final String baseUrl = ApiConstants.baseUrl;
+  final String baseUrl = ApiConstants.baseUrlNew;
   Future<ProfileModel> fetchProfile(String token) async {
     try {
       final response = await dio.get(
@@ -17,12 +18,22 @@ class ProfileData {
         ),
       );
       if (response.statusCode == 200) {
-        return ProfileModel.fromJson(response.data);
+        final data = response.data is String
+            ? jsonDecode(response.data)
+            : response.data;
+
+        return ProfileModel.fromJson(data);
       } else {
         throw Exception("${response.statusCode}");
       }
     } on DioException catch (e) {
-      String errorMessage = e.response?.data['message'] ?? "error";
+      String errorMessage;
+
+      if (e.response?.data is Map) {
+        errorMessage = e.response?.data['message'] ?? "error";
+      } else {
+        errorMessage = e.response?.data.toString() ?? "error";
+      }
       throw Exception(errorMessage);
     }
   }
