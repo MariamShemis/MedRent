@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
+import 'package:med_rent/features/booking/presentation/view/booking_tab.dart';
 import 'package:med_rent/features/main_layout/hospital/data/models/hospital_model.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
 
@@ -109,7 +110,14 @@ class CustomCardHospital extends StatelessWidget {
                   children: [
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BookingTab(),
+                            ),
+                          );
+                        },
                         child: Text(appLocalizations.bookNow),
                       ),
                     ),

@@ -5,7 +5,6 @@ import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/features/auth/data/cubit/auth_cubit.dart';
 import 'package:med_rent/features/auth/presentation/view/login_screen.dart';
 import 'package:med_rent/features/auth/presentation/view/register_screen.dart';
-import 'package:med_rent/features/auth/presentation/view/verify_register.dart';
 import 'package:med_rent/features/contact_us/presentation/view/contact_us.dart';
 import 'package:med_rent/features/equipment%20details/data/cubit/equipment_details_cubit.dart';
 import 'package:med_rent/features/equipment%20details/data/data_sources/equipment_details_data_source.dart';
