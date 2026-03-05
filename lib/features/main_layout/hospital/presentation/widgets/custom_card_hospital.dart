@@ -71,6 +71,8 @@ class CustomCardHospital extends StatelessWidget {
                           Expanded(
                             child: Text(
                               model.description!,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),

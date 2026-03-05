@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/assets_manager.dart';
+import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/core/service/session_service.dart';
 import 'package:med_rent/core/widgets/custom_search_text_field.dart';
 import 'package:med_rent/features/language/data/cubit/app_localization_cubit.dart';
@@ -123,7 +124,9 @@ class _HomeTabState extends State<HomeTab> {
                       .enable_location_to_find_hospitals_near_you,
                   textButton: appLocalizations.enableLocation,
                   icon: Iconsax.location5,
-                  onPressedButton: () {},
+                  onPressedButton: () {
+                    Navigator.pushNamed(context, AppRoutes.location);
+                  },
                 ),
                 SizedBox(height: 16.h),
                 Text(

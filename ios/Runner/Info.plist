@@ -4,6 +4,10 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSCameraUsageDescription</key>
+    <string>App needs camera access to take profile photo</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>App needs gallery access to select profile photo</string>
 	<key>CFBundleDisplayName</key>
 	<string>Med Rent</string>
 	<key>CFBundleExecutable</key>

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:med_rent/features/contact_us/data/cubit/contact_us_cubit.dart';
+import 'package:med_rent/features/contact_us/data/cubit/contact_us_state.dart';
 import 'package:med_rent/features/contact_us/presentation/widgets/contact_information_contact_us.dart';
+import 'package:med_rent/features/contact_us/presentation/widgets/select_location_map.dart';
 import 'package:med_rent/features/update_profile/presentation/widgets/custom_profile_text_form_field.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
 
@@ -50,7 +55,27 @@ class _ContactUsState extends State<ContactUs> {
         ),
         title: Text(appLocalizations.contactUs),
       ),
-      body: Padding(
+      body: BlocConsumer<ContactUsCubit, ContactUsState>(
+        listener: (context, state) {
+          if (state is ContactUsSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message)),
+            );
+
+            _nameController.clear();
+            _emailController.clear();
+            _subjectController.clear();
+            _messageController.clear();
+          }
+
+          if (state is ContactUsError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.error)),
+            );
+          }
+        },
+        builder: (context, state) {
+          return Padding(
         padding: REdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
         child: SingleChildScrollView(
           child: SafeArea(
@@ -125,10 +150,26 @@ class _ContactUsState extends State<ContactUs> {
                   email: 'marwawageeh75@gmail.com',
                 ),
                 SizedBox(height: 16.h),
+                SelectLocationMap(
+                  onLocationSelected: (latLng) {
+                    print("Lat: ${latLng.latitude}");
+                    print("Lng: ${latLng.longitude}");
+                  },
+                ),
+                SizedBox(height: 16.h),
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
+                  child: state is ContactUsLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : ElevatedButton(
+                    onPressed: () {
+                      context.read<ContactUsCubit>().sendContactMessage(
+                        name: _nameController.text,
+                        email: _emailController.text,
+                        subject: _subjectController.text,
+                        body: _messageController.text,
+                      );
+                    },
                     child: Text(appLocalizations.sendMessage),
                   ),
                 ),
@@ -136,7 +177,9 @@ class _ContactUsState extends State<ContactUs> {
             ),
           ),
         ),
-      ),
+      );
+  },
+),
     );
   }
 }

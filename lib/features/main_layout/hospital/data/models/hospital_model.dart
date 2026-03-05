@@ -36,8 +36,7 @@ class HospitalModel {
           ? (json['reservationPrice'] as num).toDouble()
           : null,
       imageUrl: json['imageUrl'] != null
-          ? "http://GraduationProject.somee.com${json['imageUrl']}"
-          .replaceAll("\\", "/")
+          ? "http://graduationprojectapi.somee.com${json['imageUrl']}".replaceAll("\\", "/")
           : null,
       description: json['description'],
       departments: json['departments'] != null
