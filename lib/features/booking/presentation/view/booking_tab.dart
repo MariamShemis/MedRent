@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/features/booking/presentation/widgets/bookind_calendar.dart';
 import 'package:med_rent/features/booking/presentation/widgets/dapartment_selector.dart';
-import 'package:med_rent/features/booking/presentation/widgets/specialties_selector.dart';
+import 'package:med_rent/features/booking/presentation/widgets/doctor_card.dart';
+import 'package:med_rent/features/booking/presentation/widgets/specialties_drop_down.dart';
 
 class BookingTab extends StatelessWidget {
   const BookingTab({super.key});
@@ -66,7 +67,16 @@ class BookingTab extends StatelessWidget {
                   "Available Doctor",
                   style: TextStyle(fontSize: 18.sp, color: ColorManager.black ,),
                 ),
-SizedBox(height: 16.h), 
+SizedBox(height: 16.h),
+SpecialtiesDropdown(),
+SizedBox(height: 16.h),
+DoctorCard(
+  name: "Dr. Mohamed Ali",
+  experience: "15 years",
+  availableTimes: ["10:00 Am", "11:30 Am", "12:00 Pm"],
+  imageUrl: "https://via.placeholder.com/150", // استبدليها بصور حقيقية
+),
+ 
               ],
             ),
           ),
