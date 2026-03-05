@@ -21,7 +21,7 @@ class CustomDepartmentHospitals extends StatelessWidget {
         ),
         SizedBox(height: 16.h),
         SizedBox(
-          height: 92.h,
+          height: 110.h,
           child: ListView.separated(
             separatorBuilder: (context, index) => SizedBox(width: 16.w),
             itemCount: uniqueDepartments.length,
