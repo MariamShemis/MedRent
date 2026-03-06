@@ -1,3 +1,4 @@
+// lib/features/booking/presentation/widgets/booking_calendar.dart
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,20 +8,28 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
 class BookingCalendar extends StatefulWidget {
-  const BookingCalendar({super.key});
+  final DateTime? selectedDate; // ✅ خليها optional
+  final Function(DateTime)? onDateSelected; // ✅ خليها optional
+
+  const BookingCalendar({
+    super.key,
+    this.selectedDate, // ✅ optional
+    this.onDateSelected, // ✅ optional
+  });
 
   @override
   State<BookingCalendar> createState() => _BookingCalendarState();
 }
 
 class _BookingCalendarState extends State<BookingCalendar> {
-  DateTime _focusedDay = DateTime.now();
+  late DateTime _focusedDay;
   DateTime? _selectedDay;
 
   @override
   void initState() {
     super.initState();
-    _selectedDay = _focusedDay;
+    _focusedDay = DateTime.now();
+    _selectedDay = widget.selectedDate ?? DateTime.now(); // ✅ لو مش موجود، استخدم النهاردة
   }
 
   String _getMonthName(int month) {
@@ -110,6 +119,10 @@ class _BookingCalendarState extends State<BookingCalendar> {
                   _selectedDay = selectedDay;
                   _focusedDay = focusedDay;
                 });
+                // ✅ استدعاء callback لو موجود
+                if (widget.onDateSelected != null) {
+                  widget.onDateSelected!(selectedDay);
+                }
               },
               calendarStyle: CalendarStyle(
                 defaultTextStyle: TextStyle(

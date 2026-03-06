@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
+import 'package:med_rent/features/booking/data/model/booking_model.dart';
 
 class SpecialtiesDropdown extends StatefulWidget {
-  const SpecialtiesDropdown({super.key});
+  final List<DepartmentModel> departments;
+  final int selectedDepartmentId;
+  final Function(int) onSpecialtySelected;
+
+  const SpecialtiesDropdown({
+    super.key,
+    required this.departments,
+    required this.selectedDepartmentId,
+    required this.onSpecialtySelected,
+  });
 
   @override
   State<SpecialtiesDropdown> createState() => _SpecialtiesDropdownState();
@@ -11,17 +21,16 @@ class SpecialtiesDropdown extends StatefulWidget {
 
 class _SpecialtiesDropdownState extends State<SpecialtiesDropdown> {
   bool isExpanded = false;
-  String? selectedValue;
 
-  final List<String> items = [
-    'Cardiology',
-    'Neurology',
-    'Pediatrics',
-    'Oncology',
-    'Orthopedics',
-    'Ophthalmology',
-    'General',
-  ];
+  String getSelectedValue() {
+    try {
+      return widget.departments
+          .firstWhere((d) => d.departmentId == widget.selectedDepartmentId)
+          .name;
+    } catch (e) {
+      return 'Specialties';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +40,6 @@ class _SpecialtiesDropdownState extends State<SpecialtiesDropdown> {
           onTap: () => setState(() => isExpanded = !isExpanded),
           child: Container(
             width: 166.w,
-
             padding: REdgeInsets.symmetric(horizontal: 12, vertical: 5),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -42,21 +50,18 @@ class _SpecialtiesDropdownState extends State<SpecialtiesDropdown> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Specialties",
+                  getSelectedValue(),
                   style: TextStyle(
                     fontSize: 18.sp,
                     color: ColorManager.black,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-
                 Icon(
                   isExpanded
                       ? Icons.keyboard_arrow_up_rounded
                       : Icons.keyboard_arrow_down_rounded,
-                  color: isExpanded
-                      ? ColorManager.secondary
-                      : ColorManager.black,
+                  color: isExpanded ? ColorManager.secondary : ColorManager.black,
                   size: 30.sp,
                 ),
               ],
@@ -78,21 +83,18 @@ class _SpecialtiesDropdownState extends State<SpecialtiesDropdown> {
               ],
             ),
             child: Column(
-              children: items.map((item) {
-                final isSelected = selectedValue == item;
+              children: widget.departments.map((department) {
+                final isSelected = department.departmentId == widget.selectedDepartmentId;
                 return GestureDetector(
                   onTap: () {
-                    setState(() {
-                      selectedValue = item;
-                    });
+                    widget.onSpecialtySelected(department.departmentId);
+                    setState(() => isExpanded = false);
                   },
                   child: Container(
                     width: double.infinity,
                     padding: REdgeInsets.symmetric(vertical: 14, horizontal: 8),
                     decoration: BoxDecoration(
-                      color: isSelected
-                          ? ColorManager.darkBlue
-                          : Colors.transparent,
+                      color: isSelected ? ColorManager.darkBlue : Colors.transparent,
                       borderRadius: BorderRadius.circular(6.r),
                     ),
                     child: Row(
@@ -102,12 +104,10 @@ class _SpecialtiesDropdownState extends State<SpecialtiesDropdown> {
                           Icon(Icons.check, color: Colors.white, size: 20.sp),
                         if (isSelected) SizedBox(width: 6.w),
                         Text(
-                          item,
+                          department.name,
                           style: TextStyle(
                             fontSize: 16.sp,
-                            color: isSelected
-                                ? Colors.white
-                                : ColorManager.black,
+                            color: isSelected ? Colors.white : ColorManager.black,
                           ),
                         ),
                       ],
