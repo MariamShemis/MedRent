@@ -41,12 +41,14 @@ class CustomPatientReviews extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          review.userName,
-                          style: Theme.of(context).textTheme.headlineMedium,
+                        Expanded(
+                          child: Text(
+                            review.userName,
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
                         ),
-                        const Spacer(),
                         Row(
                           children: List.generate(
                             5,

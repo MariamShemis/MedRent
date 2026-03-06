@@ -16,6 +16,7 @@ import 'package:med_rent/features/language/presentation/view/language_profile.da
 import 'package:med_rent/features/location/data/cubit/location_cubit.dart';
 import 'package:med_rent/features/location/data/data_sources/location_data_source.dart';
 import 'package:med_rent/features/location/presentation/view/location_home.dart';
+import 'package:med_rent/features/location/presentation/widgets/location_home_wrapper.dart';
 import 'package:med_rent/features/main_layout/main_layout.dart';
 import 'package:med_rent/features/my_rental/data/cubit/my_rental_cubit.dart';
 import 'package:med_rent/features/my_rental/data/data_sources/my_rental_data_source.dart';
@@ -111,7 +112,7 @@ abstract class RoutesManager {
           return CupertinoPageRoute(
             builder: (context) => BlocProvider(
               create: (_) => LocationCubit(LocationDataSource())..getCurrentLocation(),
-              child: LocationHome(),
+              child: LocationHomeWrapper(),
             ),
           );
         }

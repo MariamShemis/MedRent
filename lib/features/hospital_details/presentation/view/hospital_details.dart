@@ -37,9 +37,8 @@ class HospitalDetails extends StatelessWidget {
         ),
         child: SafeArea(
           top: false,
-          //bottom: false,
           child: SizedBox(
-            height: 50.h,
+            height: 60.h,
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
@@ -50,7 +49,7 @@ class HospitalDetails extends StatelessWidget {
               },
               child: Text(
                 appLocalizations.bookNow,
-                style: TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: 18),
               ),
             ),
           ),

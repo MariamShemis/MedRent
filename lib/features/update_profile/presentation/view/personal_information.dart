@@ -28,46 +28,33 @@ class _PersonalInformationState extends State<PersonalInformation> {
   late TextEditingController emailController;
 
   String? selectedGender;
-
   File? selectedImage;
-
   String? profileImageUrl;
-
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-
     nameController = TextEditingController();
     birthController = TextEditingController();
     phoneController = TextEditingController();
     emailController = TextEditingController();
-
     _loadUserData();
   }
 
   Future<void> _loadUserData() async {
     final cubit = context.read<UpdateProfileCubit>();
-
     final profile = await cubit.getProfile(context);
-
     if (profile != null) {
       nameController.text = profile.name;
-
       phoneController.text = profile.phone;
-
       emailController.text = profile.email;
-
       birthController.text = profile.dateOfBirth.split('T')[0];
-
       selectedGender = profile.gender;
-
       if (profile.imageUrl != null && profile.imageUrl!.isNotEmpty) {
         profileImageUrl = profile.imageUrl;
       }
     }
-
     setState(() {
       isLoading = false;
     });
@@ -75,17 +62,12 @@ class _PersonalInformationState extends State<PersonalInformation> {
 
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
-
     final pickedFile = await picker.pickImage(source: source);
-
     if (pickedFile == null) return;
-
     setState(() {
       selectedImage = File(pickedFile.path);
     });
-
     Navigator.pop(context);
-
     context.read<UpdateProfileCubit>().uploadImage(selectedImage!, context);
   }
 
@@ -101,34 +83,8 @@ class _PersonalInformationState extends State<PersonalInformation> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context)!;
-
     if (isLoading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
-    return BlocListener<UpdateProfileCubit, UpdateProfileState>(
-      listener: (context, state) {
-        if (state is UpdateProfileSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-              backgroundColor: Colors.green,
-            ),
-          );
-        }
-        if (state is UpdateProfileError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.error), backgroundColor: Colors.red),
-          );
-        }
-        if (state is UpdateProfileImageUploaded) {
-          setState(() {
-            profileImageUrl =
-                "http://graduationprojectapi.somee.com${state.imageUrl}";
-          });
-        }
-      },
-      child: Scaffold(
+      return Scaffold(
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
@@ -138,7 +94,43 @@ class _PersonalInformationState extends State<PersonalInformation> {
           ),
           title: Text(appLocalizations.personalInformation),
         ),
-        body: Padding(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
+        title: Text(appLocalizations.personalInformation),
+      ),
+      body: BlocListener<UpdateProfileCubit, UpdateProfileState>(
+        listener: (context, state) {
+          if (state is UpdateProfileSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.green,
+              ),
+            );
+            Navigator.pop(context, true);
+          }
+          if (state is UpdateProfileError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.error), backgroundColor: Colors.red),
+            );
+          }
+          if (state is UpdateProfileImageUploaded) {
+            setState(() {
+              profileImageUrl =
+                  "http://graduationprojectapi.somee.com${state.imageUrl}";
+            });
+          }
+        },
+        child: Padding(
           padding: REdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: SingleChildScrollView(
             child: Column(
@@ -149,45 +141,40 @@ class _PersonalInformationState extends State<PersonalInformation> {
                     widgetUserImageProfile: CircleAvatar(
                       radius: 46.r,
                       backgroundImage: selectedImage != null
-                          ? FileImage(selectedImage! ,)
-                          : (profileImageUrl != null && profileImageUrl!.isNotEmpty)
-                          ? NetworkImage(profileImageUrl! ,)
+                          ? FileImage(selectedImage!)
+                          : (profileImageUrl != null &&
+                                profileImageUrl!.isNotEmpty)
+                          ? NetworkImage(profileImageUrl!)
                           : null,
-                      child: selectedImage == null &&
-                          (profileImageUrl == null || profileImageUrl!.isEmpty)
+                      child:
+                          selectedImage == null &&
+                              (profileImageUrl == null ||
+                                  profileImageUrl!.isEmpty)
                           ? Icon(Icons.person, size: 40.sp)
                           : null,
                     ),
                     onTapCamera: _showBottomSheetImage,
                   ),
                 ),
-
                 SizedBox(height: 20.h),
-
                 CustomProfileTextFormField(
                   controller: nameController,
                   hintText: appLocalizations.enterYourName,
                   keyboardType: TextInputType.name,
                   labelName: appLocalizations.name,
                 ),
-
                 SizedBox(height: 20.h),
-
                 BirthDateField(controller: birthController),
-
                 SizedBox(height: 20.h),
-
                 Text(
                   appLocalizations.gender,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: ColorManager.darkBlue,
                   ),
                 ),
-
                 SizedBox(height: 8.h),
-
                 PersonalProfileGenderText(
-                  selectedLabel: selectedGender ?? "",
+                  selectedLabel: selectedGender ?? "Male",
                   menuItems: [appLocalizations.male, appLocalizations.female],
                   onChange: (value) {
                     setState(() {
@@ -195,27 +182,21 @@ class _PersonalInformationState extends State<PersonalInformation> {
                     });
                   },
                 ),
-
                 SizedBox(height: 20.h),
-
                 CustomProfileTextFormField(
                   labelName: appLocalizations.phone,
                   controller: phoneController,
                   hintText: appLocalizations.enter_Your_phone_number,
                   keyboardType: TextInputType.phone,
                 ),
-
                 SizedBox(height: 20.h),
-
                 CustomProfileTextFormField(
                   labelName: appLocalizations.email,
                   controller: emailController,
                   hintText: appLocalizations.enterYourEmail,
                   keyboardType: TextInputType.emailAddress,
                 ),
-
                 SizedBox(height: 28.h),
-
                 SizedBox(
                   width: double.infinity,
                   child: BlocBuilder<UpdateProfileCubit, UpdateProfileState>(
@@ -236,7 +217,6 @@ class _PersonalInformationState extends State<PersonalInformation> {
                             ),
                             context,
                           );
-                          Navigator.pop(context);
                         },
                         child: Text(appLocalizations.saveChanges),
                       );

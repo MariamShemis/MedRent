@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:geocoding/geocoding.dart' as geo;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as loc;
@@ -41,34 +40,13 @@ class LocationDataSource {
   }
 
   Future<LatLng?> searchLocation(String query) async {
-    const apiKey = "AIzaSyAaPcLU7xqPNI79aLH-70XPc5Nj91sKQNk";
-    Dio dio = Dio();
-
-    final url =
-        "https://maps.googleapis.com/maps/api/place/findplacefromtext/json";
-
     try {
-      final response = await dio.get(
-        url,
-        queryParameters: {
-          "input": query,
-          "inputtype": "textquery",
-          "fields": "geometry",
-          "key": apiKey,
-        },
-      );
-
-      final data = response.data;
-
-      if (data["candidates"] != null && data["candidates"].isNotEmpty) {
-        final location = data["candidates"][0]["geometry"]["location"];
-
-        return LatLng(location["lat"], location["lng"]);
-      }
-    } catch (e) {
-      throw Exception(e.toString());
+      final locations = await geo.locationFromAddress(query);
+      if (locations.isEmpty) return null;
+      final locResult = locations.first;
+      return LatLng(locResult.latitude, locResult.longitude);
+    } catch (_) {
+      return null;
     }
-
-    return null;
   }
 }

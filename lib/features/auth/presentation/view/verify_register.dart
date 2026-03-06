@@ -115,6 +115,7 @@ class _VerifyRegisterState extends State<VerifyRegister> {
                   children: [
                     Text(
                       appLocalizations.enter_the_digit_OTP_sent_to_your_email,
+                      textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     SizedBox(height: 24.h),

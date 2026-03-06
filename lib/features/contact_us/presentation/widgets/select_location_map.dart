@@ -1,74 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:med_rent/features/location/data/cubit/location_cubit.dart';
-import 'package:med_rent/features/location/data/data_sources/location_data_source.dart';
 
-class SelectLocationMap extends StatelessWidget {
-  final Function(LatLng) onLocationSelected;
+class SelectLocationMap extends StatefulWidget {
   final double height;
 
   const SelectLocationMap({
     super.key,
-    required this.onLocationSelected,
     this.height = 300,
   });
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => LocationCubit(LocationDataSource())..getCurrentLocation(),
-      child: SizedBox(
-        height: height,
-        child: BlocBuilder<LocationCubit, LocationState>(
-          builder: (context, state) {
-            if (state is LocationLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (state is LocationError) {
-              return Center(
-                child: Text(state.message),
-              );
-            }
-            if (state is LocationLoaded) {
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(16.r),
-                child: GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: state.selectedLocation,
-                    zoom: 16,
-                  ),
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: true,
-                  markers: {
-                    Marker(
-                      markerId: const MarkerId("selected"),
-                      position: state.selectedLocation,
-                      draggable: true,
-                      onDragEnd: (newPos) {
-                        context
-                            .read<LocationCubit>()
-                            .updateSelectedLocation(newPos);
-                
-                        onLocationSelected(newPos);
-                      },
-                    ),
-                  },
-                  onTap: (latLng) {
-                    context
-                        .read<LocationCubit>()
-                        .updateSelectedLocation(latLng);
-                
-                    onLocationSelected(latLng);
-                  },
-                ),
-              );
-            }
+  State<SelectLocationMap> createState() => _SelectLocationMapState();
+}
 
-            return const SizedBox();
+class _SelectLocationMapState extends State<SelectLocationMap> {
+  static const LatLng fcisTanta = LatLng(30.9997, 31.0022);
+  final MarkerId markerId = const MarkerId("fcis_tanta");
+  late GoogleMapController mapController;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: widget.height,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16.r),
+        child: GoogleMap(
+          onMapCreated: (controller) {
+            mapController = controller;
+            // عرض infoWindow تلقائي
+            mapController.showMarkerInfoWindow(markerId);
+          },
+          initialCameraPosition: const CameraPosition(
+            target: fcisTanta,
+            zoom: 17,
+          ),
+          myLocationEnabled: false,
+          myLocationButtonEnabled: false,
+          markers: {
+            Marker(
+              markerId: markerId,
+              position: fcisTanta,
+              infoWindow: const InfoWindow(
+                title: "كلية الحاسبات والمعلومات",
+                snippet: "جامعة طنطا",
+              ),
+            ),
           },
         ),
       ),
