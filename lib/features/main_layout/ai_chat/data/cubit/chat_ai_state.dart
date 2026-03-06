@@ -11,5 +11,6 @@ class ChatAiSuccess extends ChatAiState {
 }
 class ChatAiError extends ChatAiState {
   final String error;
-  ChatAiError(this.error);
+  final List<ChatMessage> messages;
+  ChatAiError(this.error , this.messages );
 }

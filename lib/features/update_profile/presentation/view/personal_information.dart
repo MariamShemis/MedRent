@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
-import 'package:med_rent/core/service/session_service.dart';
 import 'package:med_rent/features/main_layout/profile/presentation/widgets/user_image_profile.dart';
 import 'package:med_rent/features/update_profile/data/cubit/update_profile_cubit.dart';
 import 'package:med_rent/features/update_profile/data/cubit/update_profile_state.dart';
@@ -29,9 +28,9 @@ class _PersonalInformationState extends State<PersonalInformation> {
   late TextEditingController emailController;
 
   String? selectedGender;
-  bool isLoading = true;
-
   File? selectedImage;
+  String? profileImageUrl;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -40,26 +39,27 @@ class _PersonalInformationState extends State<PersonalInformation> {
     birthController = TextEditingController();
     phoneController = TextEditingController();
     emailController = TextEditingController();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadUserData();
-    });
+    _loadUserData();
   }
 
   Future<void> _loadUserData() async {
-    final appLocalizations = AppLocalizations.of(context)!;
-    final userData = await SessionService.getUserData();
-    if (userData != null) {
-      nameController.text = userData['name'] ?? '';
-      phoneController.text = userData['phone'] ?? '';
-      emailController.text = userData['email'] ?? '';
+    final cubit = context.read<UpdateProfileCubit>();
+    final profile = await cubit.getProfile(context);
+    if (profile != null) {
+      nameController.text = profile.name;
+      phoneController.text = profile.phone;
+      emailController.text = profile.email;
+      birthController.text = profile.dateOfBirth.split('T')[0];
+      selectedGender = profile.gender;
+      if (profile.imageUrl != null && profile.imageUrl!.isNotEmpty) {
+        profileImageUrl = profile.imageUrl;
+      }
     }
-    birthController.text = SessionService.getSessionDateOfBirth() ?? '';
-    selectedGender = SessionService.getSessionGender() ?? appLocalizations.male;
     setState(() {
       isLoading = false;
     });
   }
+
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: source);
@@ -83,37 +83,55 @@ class _PersonalInformationState extends State<PersonalInformation> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context)!;
-
     if (isLoading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-    return BlocListener<UpdateProfileCubit, UpdateProfileState>(
-      listener: (context, state) {
-        if (state is UpdateProfileSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-              backgroundColor: Colors.green,
-            ),
-          );
-          Navigator.pop(context, true);
-        }
-        if (state is UpdateProfileError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.error), backgroundColor: Colors.red),
-          );
-        }
-      },
-      child: Scaffold(
+      return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              Navigator.pop(context);
+            },
             icon: const Icon(Icons.arrow_back_ios),
           ),
           title: Text(appLocalizations.personalInformation),
         ),
-        body: Padding(
-          padding: REdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
+        title: Text(appLocalizations.personalInformation),
+      ),
+      body: BlocListener<UpdateProfileCubit, UpdateProfileState>(
+        listener: (context, state) {
+          if (state is UpdateProfileSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.green,
+              ),
+            );
+            Navigator.pop(context, true);
+          }
+          if (state is UpdateProfileError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.error), backgroundColor: Colors.red),
+            );
+          }
+          if (state is UpdateProfileImageUploaded) {
+            setState(() {
+              profileImageUrl =
+                  "http://graduationprojectapi.somee.com${state.imageUrl}";
+            });
+          }
+        },
+        child: Padding(
+          padding: REdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,11 +139,17 @@ class _PersonalInformationState extends State<PersonalInformation> {
                 Center(
                   child: UserImageProfile(
                     widgetUserImageProfile: CircleAvatar(
-                      radius: 40.r,
+                      radius: 46.r,
                       backgroundImage: selectedImage != null
                           ? FileImage(selectedImage!)
+                          : (profileImageUrl != null &&
+                                profileImageUrl!.isNotEmpty)
+                          ? NetworkImage(profileImageUrl!)
                           : null,
-                      child: selectedImage == null
+                      child:
+                          selectedImage == null &&
+                              (profileImageUrl == null ||
+                                  profileImageUrl!.isEmpty)
                           ? Icon(Icons.person, size: 40.sp)
                           : null,
                     ),
@@ -150,7 +174,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                 ),
                 SizedBox(height: 8.h),
                 PersonalProfileGenderText(
-                  selectedLabel: selectedGender ?? "",
+                  selectedLabel: selectedGender ?? "Male",
                   menuItems: [appLocalizations.male, appLocalizations.female],
                   onChange: (value) {
                     setState(() {
@@ -158,9 +182,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                     });
                   },
                 ),
-
                 SizedBox(height: 20.h),
-
                 CustomProfileTextFormField(
                   labelName: appLocalizations.phone,
                   controller: phoneController,
@@ -182,6 +204,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                       if (state is UpdateProfileLoading) {
                         return const Center(child: CircularProgressIndicator());
                       }
+
                       return ElevatedButton(
                         onPressed: () {
                           context.read<UpdateProfileCubit>().updateProfile(
@@ -210,40 +233,49 @@ class _PersonalInformationState extends State<PersonalInformation> {
 
   void _showBottomSheetImage() {
     final appLocalizations = AppLocalizations.of(context)!;
+
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
       ),
-      builder: (context) => Padding(
-        padding: REdgeInsets.all(30.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            InkWell(
-              onTap: () => _pickImage(ImageSource.camera),
-              child: Row(
-                children: [
-                  const Icon(Icons.photo_camera_outlined),
-                  SizedBox(width: 10.w),
-                  Text(appLocalizations.take_a_photo),
-                ],
+      builder: (context) {
+        return Padding(
+          padding: REdgeInsets.all(30),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              InkWell(
+                onTap: () {
+                  _pickImage(ImageSource.camera);
+                },
+                child: Row(
+                  children: [
+                    const Icon(Icons.photo_camera_outlined),
+                    SizedBox(width: 10.w),
+                    Text(appLocalizations.take_a_photo),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 20.h),
-            InkWell(
-              onTap: () => _pickImage(ImageSource.gallery),
-              child: Row(
-                children: [
-                  const Icon(Icons.photo_library_outlined),
-                  SizedBox(width: 10.w),
-                  Text(appLocalizations.choose_from_gallery),
-                ],
+
+              SizedBox(height: 20.h),
+
+              InkWell(
+                onTap: () {
+                  _pickImage(ImageSource.gallery);
+                },
+                child: Row(
+                  children: [
+                    const Icon(Icons.photo_library_outlined),
+                    SizedBox(width: 10.w),
+                    Text(appLocalizations.choose_from_gallery),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

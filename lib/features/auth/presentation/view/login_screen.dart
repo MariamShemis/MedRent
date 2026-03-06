@@ -160,23 +160,25 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ],
                             ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ForgetPasswordScreen(),
-                                  ),
-                                );
-                              },
-                              child: Text(
-                                appLocalizations.forget_password_,
-                                style: Theme.of(context).textTheme.labelLarge!
-                                    .copyWith(
-                                      fontSize: 15.sp,
-                                      color: const Color(0xFF031B4E),
+                            Expanded(
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ForgetPasswordScreen(),
                                     ),
+                                  );
+                                },
+                                child: Text(
+                                  appLocalizations.forget_password_,
+                                  style: Theme.of(context).textTheme.labelLarge!
+                                      .copyWith(
+                                        fontSize: 15.sp,
+                                        color: const Color(0xFF031B4E),
+                                      ),
+                                ),
                               ),
                             ),
                           ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:med_rent/features/booking/presentation/view/booking_tab.dart';
 import 'package:med_rent/features/hospital_details/data/cubit/hospital_details_cubit.dart';
 import 'package:med_rent/features/hospital_details/data/cubit/hospital_details_state.dart';
 import 'package:med_rent/features/hospital_details/presentation/widgets/custom_department_hospitals.dart';
@@ -36,15 +37,19 @@ class HospitalDetails extends StatelessWidget {
         ),
         child: SafeArea(
           top: false,
-          //bottom: false,
           child: SizedBox(
-            height: 50.h,
+            height: 60.h,
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => BookingTab()),
+                );
+              },
               child: Text(
                 appLocalizations.bookNow,
-                style: TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: 18),
               ),
             ),
           ),

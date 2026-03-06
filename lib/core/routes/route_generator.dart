@@ -13,6 +13,10 @@ import 'package:med_rent/features/equipment%20details/presentation/view/equipmen
 import 'package:med_rent/features/hospital_details/data/data_sources/hospital_details_data_source.dart';
 import 'package:med_rent/features/hospital_details/presentation/view/hospital_details.dart';
 import 'package:med_rent/features/language/presentation/view/language_profile.dart';
+import 'package:med_rent/features/location/data/cubit/location_cubit.dart';
+import 'package:med_rent/features/location/data/data_sources/location_data_source.dart';
+import 'package:med_rent/features/location/presentation/view/location_home.dart';
+import 'package:med_rent/features/location/presentation/widgets/location_home_wrapper.dart';
 import 'package:med_rent/features/main_layout/main_layout.dart';
 import 'package:med_rent/features/my_rental/data/cubit/my_rental_cubit.dart';
 import 'package:med_rent/features/my_rental/data/data_sources/my_rental_data_source.dart';
@@ -48,9 +52,7 @@ abstract class RoutesManager {
         );
       case AppRoutes.startScreen:
         {
-          return CupertinoPageRoute(
-            builder: (context) => const StartScreen(),
-          );
+          return CupertinoPageRoute(builder: (context) => const StartScreen());
         }
       case AppRoutes.login:
         {
@@ -69,9 +71,7 @@ abstract class RoutesManager {
         {
           return CupertinoPageRoute(
             builder: (context) => BlocProvider(
-              create: (context) => ContactUsCubit(
-                ContactUsDataSource(Dio()),
-              ),
+              create: (context) => ContactUsCubit(ContactUsDataSource(Dio())),
               child: ContactUs(),
             ),
           );
@@ -93,9 +93,8 @@ abstract class RoutesManager {
         {
           return CupertinoPageRoute(
             builder: (context) => BlocProvider(
-              create: (context) => UpdateProfileCubit(
-                UpdateProfileDataSource(Dio()),
-              ),
+              create: (context) =>
+                  UpdateProfileCubit(UpdateProfileDataSource(Dio())),
               child: const PersonalInformation(),
             ),
           );
@@ -108,6 +107,16 @@ abstract class RoutesManager {
         {
           return CupertinoPageRoute(builder: (context) => LanguageProfile());
         }
+      case AppRoutes.location:
+        {
+          return CupertinoPageRoute(
+            builder: (context) => BlocProvider(
+              create: (_) => LocationCubit(LocationDataSource())..getCurrentLocation(),
+              child: LocationHomeWrapper(),
+            ),
+          );
+        }
+
       case AppRoutes.myRental:
         {
           return CupertinoPageRoute(
