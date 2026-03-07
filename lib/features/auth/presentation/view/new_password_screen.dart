@@ -127,8 +127,8 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                 if(!regExp.hasMatch(val)){
                                   return appLocalizations.strong_password_please;
                                 }
-                                if (val == newpasswordController.text) {
-                                  return "Passwords Can't Be Same";
+                                if (val != newpasswordController.text) {
+                                  return "Passwords do not match";
                                 }
                                 return null;
                               },
