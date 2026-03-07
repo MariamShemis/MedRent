@@ -9,7 +9,7 @@ class HospitalRemoteDataSource {
 
   Future<List<HospitalModel>> getAllHospitals() async {
     final response = await dio.post(
-      "http://GraduationProject.somee.com/api/Hospital/search",
+      "http://graduationprojectapi.somee.com/api/Hospital/search",
       data: {
         "text": "string",
       },
@@ -21,7 +21,7 @@ class HospitalRemoteDataSource {
 
   Future<List<HospitalModel>> searchHospitals(String text) async {
     final response = await dio.post(
-      "http://GraduationProject.somee.com/api/Hospital/search",
+      "http://graduationprojectapi.somee.com/api/Hospital/search",
       data: {
         "text": text,
       },

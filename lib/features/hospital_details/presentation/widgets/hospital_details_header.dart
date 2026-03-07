@@ -52,7 +52,6 @@ class HospitalDetailsHeader extends StatelessWidget {
                 ).textTheme.labelLarge!.copyWith(fontWeight: FontWeight.w700),
               ),
             ),
-            Spacer(),
             Row(
               children: [
                 Icon(Iconsax.star1, color: ColorManager.yellow, size: 30),

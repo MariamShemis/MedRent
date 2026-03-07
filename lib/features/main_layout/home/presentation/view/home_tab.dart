@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/assets_manager.dart';
+import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/core/service/session_service.dart';
 import 'package:med_rent/core/widgets/custom_search_text_field.dart';
 import 'package:med_rent/features/language/data/cubit/app_localization_cubit.dart';
@@ -48,11 +49,11 @@ class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
-
     return Scaffold(
       body: SafeArea(
+        bottom: false,
         child: Padding(
-          padding: REdgeInsets.all(16.0),
+          padding: EdgeInsets.fromLTRB(16.w, 16, 16.w, 70.h),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -88,18 +89,18 @@ class _HomeTabState extends State<HomeTab> {
                         size: 25,
                       ),
                     ),
-                    SizedBox(width: 5.w),
-                    BlocBuilder<AppLocalizationCubit, Locale>(
-                      builder: (context, locale) {
-                        final isArabic = locale.languageCode == 'ar';
-                        return ContainerLanguageHomeTab(
-                          text: isArabic ? 'EN' : 'AR',
-                          onTap: (){
-                            context.read<AppLocalizationCubit>().toggleLanguage();
-                          },
-                        );
-                      },
-                    ),
+                    //SizedBox(width: 5.w),
+                    // BlocBuilder<AppLocalizationCubit, Locale>(
+                    //   builder: (context, locale) {
+                    //     final isArabic = locale.languageCode == 'ar';
+                    //     return ContainerLanguageHomeTab(
+                    //       text: isArabic ? 'EN' : 'AR',
+                    //       onTap: (){
+                    //         context.read<AppLocalizationCubit>().toggleLanguage();
+                    //       },
+                    //     );
+                    //   },
+                    // ),
                   ],
                 ),
                 SizedBox(height: 5.h),
@@ -123,7 +124,9 @@ class _HomeTabState extends State<HomeTab> {
                       .enable_location_to_find_hospitals_near_you,
                   textButton: appLocalizations.enableLocation,
                   icon: Iconsax.location5,
-                  onPressedButton: () {},
+                  onPressedButton: () async {
+                    final result = await Navigator.pushNamed(context, AppRoutes.location);
+                  },
                 ),
                 SizedBox(height: 16.h),
                 Text(

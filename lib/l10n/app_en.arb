@@ -249,5 +249,9 @@
   "enter_the_digit_OTP_sent_to_your_email" : "Enter the 6-digit OTP sent to your email",
   "didnt_get_the_OTP" : "Didn’t get the OTP?",
   "resend_OTP" : "Resend OTP",
-  "aiAnalysis": "AI Medical Analysis"
+  "aiAnalysis": "AI Medical Analysis",
+  "availableToday" : "Available Today",
+  "years_experience" : "years experience",
+  "appointment_booked" : "Appointment booked",
+  "doctor" : "Doctor"
 }

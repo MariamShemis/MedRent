@@ -169,14 +169,17 @@ class ThemeManager {
     ),
 
     /// BOTTOM NAVIGATION
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      //enableFeedback: false,
+
       type: BottomNavigationBarType.fixed,
       backgroundColor: Colors.transparent,
+
       selectedItemColor: ColorManager.darkBlue,
       unselectedItemColor: ColorManager.greyText,
       showSelectedLabels: false,
       showUnselectedLabels: false,
-      elevation: 0,
+      elevation: 10,
     ),
   );
 }

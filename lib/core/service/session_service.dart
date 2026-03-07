@@ -1,3 +1,4 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SessionService {
@@ -11,33 +12,61 @@ class SessionService {
   static const String _userEmailKey = 'user_email';
   static const String _userPhoneKey = 'user_phone';
   static const String _firstLaunchKey = 'first_launch';
+  static const String _savedAddressKey = 'saved_address';
+  static const String _savedLatKey = 'saved_lat';
+  static const String _savedLngKey = 'saved_lng';
 
   static String? sessionGender;
   static String? sessionDateOfBirth;
-  static void setSessionGender(String gender) {
-    sessionGender = gender;
-  }
 
-  static String? getSessionGender() {
-    return sessionGender;
-  }
+  static void setSessionGender(String gender) => sessionGender = gender;
+  static String? getSessionGender() => sessionGender;
 
-  static void setSessionDateOfBirth(String dob) {
-    sessionDateOfBirth = dob;
-  }
-
-  static String? getSessionDateOfBirth() {
-    return sessionDateOfBirth;
-  }
+  static void setSessionDateOfBirth(String dob) => sessionDateOfBirth = dob;
+  static String? getSessionDateOfBirth() => sessionDateOfBirth;
 
   static Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
   }
 
   static Future<void> _ensureInitialized() async {
-    if (_prefs == null) {
-      await init();
+    if (_prefs == null) await init();
+  }
+
+  static Future<void> saveLocation(String address, LatLng latLng) async {
+    await _ensureInitialized();
+    await _prefs!.setString(_savedAddressKey, address);
+    await _prefs!.setDouble(_savedLatKey, latLng.latitude);
+    await _prefs!.setDouble(_savedLngKey, latLng.longitude);
+  }
+
+  static Future<Map<String, dynamic>?> loadSavedLocation() async {
+    await _ensureInitialized();
+    final address = _prefs!.getString(_savedAddressKey);
+    final lat = _prefs!.getDouble(_savedLatKey);
+    final lng = _prefs!.getDouble(_savedLngKey);
+
+    if (address != null && lat != null && lng != null) {
+      return {
+        'address': address,
+        'latLng': LatLng(lat, lng),
+      };
     }
+    return null;
+  }
+  static Future<String> getAddressFromLatLng(LatLng latLng) async {
+    final saved = await loadSavedLocation();
+    if (saved != null && saved['latLng'] == latLng) {
+      return saved['address'] ?? "";
+    }
+    return "";
+  }
+
+  static Future<void> clearSavedLocation() async {
+    await _ensureInitialized();
+    await _prefs!.remove(_savedAddressKey);
+    await _prefs!.remove(_savedLatKey);
+    await _prefs!.remove(_savedLngKey);
   }
 
   static Future<bool> isFirstLaunch() async {
@@ -222,6 +251,8 @@ class SessionService {
     print('  First Launch: ${await isFirstLaunch()}');
   }
 }
+
+
 
 enum AppLaunchState {
   authenticated,

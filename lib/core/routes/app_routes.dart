@@ -12,6 +12,9 @@ abstract class AppRoutes{
   static const String hospitalDetails = '/hospitalDetails';
   static const String personalInformation = '/personalInformation';
   static const String languageProfile = '/languageProfile';
+  static const String location = '/location';
+  static const String bookingPayment = '/BookingPayment';
+  static const String booking = '/Booking';
 
 
 }

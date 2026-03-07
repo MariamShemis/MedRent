@@ -43,6 +43,7 @@ class StartScreen extends StatelessWidget {
               SizedBox(height: 8.h),
               Text(
                 appLocalizations.logInToYourExistingAccountOrCreateANewOne,
+                textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelSmall,
               ),
               SizedBox(height: 30.h),
