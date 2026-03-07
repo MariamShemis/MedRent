@@ -49,7 +49,6 @@ class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -89,18 +88,18 @@ class _HomeTabState extends State<HomeTab> {
                         size: 25,
                       ),
                     ),
-                    SizedBox(width: 5.w),
-                    BlocBuilder<AppLocalizationCubit, Locale>(
-                      builder: (context, locale) {
-                        final isArabic = locale.languageCode == 'ar';
-                        return ContainerLanguageHomeTab(
-                          text: isArabic ? 'EN' : 'AR',
-                          onTap: (){
-                            context.read<AppLocalizationCubit>().toggleLanguage();
-                          },
-                        );
-                      },
-                    ),
+                    //SizedBox(width: 5.w),
+                    // BlocBuilder<AppLocalizationCubit, Locale>(
+                    //   builder: (context, locale) {
+                    //     final isArabic = locale.languageCode == 'ar';
+                    //     return ContainerLanguageHomeTab(
+                    //       text: isArabic ? 'EN' : 'AR',
+                    //       onTap: (){
+                    //         context.read<AppLocalizationCubit>().toggleLanguage();
+                    //       },
+                    //     );
+                    //   },
+                    // ),
                   ],
                 ),
                 SizedBox(height: 5.h),
@@ -124,8 +123,8 @@ class _HomeTabState extends State<HomeTab> {
                       .enable_location_to_find_hospitals_near_you,
                   textButton: appLocalizations.enableLocation,
                   icon: Iconsax.location5,
-                  onPressedButton: () {
-                    Navigator.pushNamed(context, AppRoutes.location);
+                  onPressedButton: () async {
+                    final result = await Navigator.pushNamed(context, AppRoutes.location);
                   },
                 ),
                 SizedBox(height: 16.h),

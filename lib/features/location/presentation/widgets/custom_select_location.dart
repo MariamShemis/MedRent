@@ -13,7 +13,7 @@ class CustomSelectLocation extends StatelessWidget {
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Container(
-      padding: REdgeInsets.all(20),
+      padding: REdgeInsets.symmetric(horizontal: 20 , vertical: 33),
       decoration: BoxDecoration(
         color: ColorManager.background,
         borderRadius: BorderRadius.vertical(

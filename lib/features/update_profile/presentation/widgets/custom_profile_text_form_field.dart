@@ -41,7 +41,7 @@ class CustomProfileTextFormField extends StatelessWidget {
                 ).textTheme.bodyMedium!.copyWith(color: ColorManager.darkBlue),
               )
             : SizedBox(),
-        SizedBox(height: isLabel ? 8.h : 0),
+        SizedBox(height: isLabel ? 8.h : 0.h),
         SizedBox(
           width: double.infinity,
           child: TextFormField(
@@ -51,7 +51,7 @@ class CustomProfileTextFormField extends StatelessWidget {
               color: isLightBlue ? ColorManager.black : ColorManager.greyText,
             ),
             onChanged: onChanged,
-            onFieldSubmitted: onChanged,
+            //onFieldSubmitted: onChanged,
             cursorColor: Colors.black,
             maxLines: maxLine,
             keyboardType: keyboardType,

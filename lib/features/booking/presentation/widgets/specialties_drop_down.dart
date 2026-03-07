@@ -39,22 +39,20 @@ class _SpecialtiesDropdownState extends State<SpecialtiesDropdown> {
         GestureDetector(
           onTap: () => setState(() => isExpanded = !isExpanded),
           child: Container(
-            width: 166.w,
+            width: 180.w,
             padding: REdgeInsets.symmetric(horizontal: 12, vertical: 5),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Colors.transparent,
               borderRadius: BorderRadius.circular(10.r),
-              border: Border.all(color: ColorManager.lightGrey),
+              border: Border.all(color: ColorManager.greyText , width: 1.5),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  getSelectedValue(),
-                  style: TextStyle(
-                    fontSize: 18.sp,
-                    color: ColorManager.black,
-                    fontWeight: FontWeight.w500,
+                Expanded(
+                  child: Text(
+                    getSelectedValue(),
+                    style: Theme.of(context).textTheme.labelLarge
                   ),
                 ),
                 Icon(
@@ -68,55 +66,113 @@ class _SpecialtiesDropdownState extends State<SpecialtiesDropdown> {
             ),
           ),
         ),
-
+        // if (isExpanded)
+        //   Container(
+        //     width: 180.w,
+        //     margin: EdgeInsets.only(top: 4.h),
+        //     padding: REdgeInsets.all(4),
+        //     decoration: BoxDecoration(
+        //       color: Colors.transparent,
+        //       borderRadius: BorderRadius.circular(10.r),
+        //       border: Border.all(color: ColorManager.greyText),
+        //       boxShadow: [
+        //         BoxShadow(color: Colors.grey.withOpacity(0.05), blurRadius: 10),
+        //       ],
+        //     ),
+        //     child: Column(
+        //       children: widget.departments.map((department) {
+        //         final isSelected = department.departmentId == widget.selectedDepartmentId;
+        //         return GestureDetector(
+        //           onTap: () {
+        //             widget.onSpecialtySelected(department.departmentId);
+        //             setState(() => isExpanded = false);
+        //           },
+        //           child: Container(
+        //             width: double.infinity,
+        //             padding: REdgeInsets.symmetric(vertical: 14, horizontal: 8),
+        //             decoration: BoxDecoration(
+        //               color: isSelected ? ColorManager.darkBlue : Colors.transparent,
+        //               borderRadius: BorderRadius.circular(6.r),
+        //             ),
+        //             child: Row(
+        //               mainAxisAlignment: MainAxisAlignment.center,
+        //               children: [
+        //                 if (isSelected)
+        //                   Icon(Icons.check, color: Colors.white, size: 20.sp),
+        //                 if (isSelected) SizedBox(width: 6.w),
+        //                 Expanded(
+        //                   child: Text(
+        //                     department.name,
+        //                     style: Theme.of(context).textTheme.labelMedium!.copyWith(
+        //                       color: isSelected ? Colors.white : ColorManager.black,
+        //                     ),
+        //                   ),
+        //                 ),
+        //               ],
+        //             ),
+        //           ),
+        //         );
+        //       }).toList(),
+        //     ),
+        //   ),
         if (isExpanded)
           Container(
             width: 180.w,
+            constraints: BoxConstraints(
+              maxHeight: 300.h,
+            ),
             margin: EdgeInsets.only(top: 4.h),
             padding: REdgeInsets.all(4),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Colors.transparent,
               borderRadius: BorderRadius.circular(10.r),
-              border: Border.all(color: ColorManager.lightGrey),
+              border: Border.all(color: ColorManager.greyText),
               boxShadow: [
                 BoxShadow(color: Colors.grey.withOpacity(0.05), blurRadius: 10),
               ],
             ),
-            child: Column(
-              children: widget.departments.map((department) {
-                final isSelected = department.departmentId == widget.selectedDepartmentId;
-                return GestureDetector(
-                  onTap: () {
-                    widget.onSpecialtySelected(department.departmentId);
-                    setState(() => isExpanded = false);
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    padding: REdgeInsets.symmetric(vertical: 14, horizontal: 8),
-                    decoration: BoxDecoration(
-                      color: isSelected ? ColorManager.darkBlue : Colors.transparent,
-                      borderRadius: BorderRadius.circular(6.r),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        if (isSelected)
-                          Icon(Icons.check, color: Colors.white, size: 20.sp),
-                        if (isSelected) SizedBox(width: 6.w),
-                        Text(
-                          department.name,
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            color: isSelected ? Colors.white : ColorManager.black,
+            child: SingleChildScrollView(
+              child: Column(
+                children: widget.departments.map((department) {
+                  final isSelected =
+                      department.departmentId == widget.selectedDepartmentId;
+                  return GestureDetector(
+                    onTap: () {
+                      widget.onSpecialtySelected(department.departmentId);
+                      setState(() => isExpanded = false);
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: REdgeInsets.symmetric(vertical: 14, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: isSelected ? ColorManager.darkBlue : Colors.transparent,
+                        borderRadius: BorderRadius.circular(6.r),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (isSelected)
+                            Icon(Icons.check, color: Colors.white, size: 20.sp),
+                          if (isSelected) SizedBox(width: 6.w),
+                          Expanded(
+                            child: Text(
+                              department.name,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium!
+                                  .copyWith(
+                                color: isSelected ? Colors.white : ColorManager.black,
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              }).toList(),
+                  );
+                }).toList(),
+              ),
             ),
-          ),
+          )
       ],
     );
   }

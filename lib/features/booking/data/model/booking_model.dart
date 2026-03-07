@@ -49,20 +49,30 @@ class DoctorModel {
   final String name;
   final String specialization;
   final int experienceYears;
+  final String? image;
 
   DoctorModel({
     required this.doctorId,
     required this.name,
     required this.specialization,
     required this.experienceYears,
+    this.image,
   });
 
   factory DoctorModel.fromJson(Map<String, dynamic> json) {
+    final rawImage = json['imageURL'];
+    String? fullImage;
+    if (rawImage != null && rawImage.toString().isNotEmpty) {
+      final fixed = rawImage.toString().replaceAll('\\', '/');
+      fullImage = "http://GraduationProject.somee.com$fixed";
+    }
+
     return DoctorModel(
       doctorId: json['doctorId'] ?? 0,
       name: json['name'] ?? '',
       specialization: json['specialization'] ?? '',
       experienceYears: json['experienceYears'] ?? 0,
+      image: fullImage,
     );
   }
 }

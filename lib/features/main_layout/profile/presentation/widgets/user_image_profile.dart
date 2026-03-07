@@ -6,11 +6,11 @@ class UserImageProfile extends StatelessWidget {
   const UserImageProfile({
     super.key,
     required this.widgetUserImageProfile,
-    required this.onTapCamera,
+    this.onTapCamera,
   });
 
   final Widget widgetUserImageProfile;
-  final VoidCallback onTapCamera;
+  final VoidCallback? onTapCamera;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class UserImageProfile extends StatelessWidget {
         Card(
           shape: RoundedRectangleBorder(
             side: BorderSide(color: ColorManager.darkBlue, width: 3.w),
-            borderRadius: BorderRadius.circular(40.r),
+            borderRadius: BorderRadius.circular(50.r),
           ),
           child: widgetUserImageProfile,
         ),
@@ -33,7 +33,11 @@ class UserImageProfile extends StatelessWidget {
               borderRadius: BorderRadius.circular(20.r),
               color: ColorManager.darkBlue,
             ),
-            child: Icon(Icons.camera_alt_outlined, color: ColorManager.white, size: 23),
+            child: Icon(
+              Icons.camera_alt_outlined,
+              color: ColorManager.white,
+              size: 23,
+            ),
           ),
         ),
       ],

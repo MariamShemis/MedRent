@@ -1,157 +1,184 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
+import 'package:med_rent/features/booking/data/cubit/booking_cubit.dart';
 import 'package:med_rent/features/booking/data/model/booking_model.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
 
-class DoctorCard extends StatelessWidget {
+class DoctorCard extends StatefulWidget {
   final DoctorModel doctor;
-  final bool isSelected;
-  final List<AvailableTimeModel> availableTimes;
-  final bool isLoadingTimes;
-  final VoidCallback onTap;
-  final Function(String) onBookAppointment;
+  final DateTime selectedDate;
+  final Function(String time) onBookAppointment;
 
   const DoctorCard({
     super.key,
     required this.doctor,
-    required this.isSelected,
-    required this.availableTimes,
-    required this.isLoadingTimes,
-    required this.onTap,
+    required this.selectedDate,
     required this.onBookAppointment,
   });
 
   @override
+  State<DoctorCard> createState() => _DoctorCardState();
+}
+
+class _DoctorCardState extends State<DoctorCard> {
+  List<AvailableTimeModel> availableTimes = [];
+  bool isLoadingTimes = false;
+  String? selectedTime;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTimes();
+  }
+
+  Future<void> _loadTimes() async {
+    setState(() => isLoadingTimes = true);
+    try {
+      final cubit = context.read<BookingCubit>();
+      final times = await cubit.getDoctorAvailableTimes(
+        widget.doctor.doctorId,
+        widget.selectedDate,
+      );
+      setState(() {
+        availableTimes = times;
+        isLoadingTimes = false;
+      });
+    } catch (_) {
+      setState(() => isLoadingTimes = false);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: EdgeInsets.only(bottom: 16.h),
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+
+    return Card(
+      margin: EdgeInsets.only(bottom: 16.h),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.r),
+        side: BorderSide(color: Colors.grey.withOpacity(0.1)),
+      ),
+      color: ColorManager.white,
+      elevation: 5,
+      child: Padding(
         padding: REdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: Colors.grey.withOpacity(0.1)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.03),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 CircleAvatar(
-                  radius: 30.r,
+                  radius: 35.r,
                   backgroundColor: ColorManager.lightBlue,
-                  child: Text(
-                    doctor.name.isNotEmpty ? doctor.name[0] : 'D',
-                    style: TextStyle(
-                      fontSize: 24.sp,
-                      color: ColorManager.darkBlue,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  child:
+                      widget.doctor.image != null &&
+                          widget.doctor.image!.isNotEmpty
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(40.r),
+                          child: Image.network(
+                            widget.doctor.image!,
+                            width: double.infinity,
+                            height: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : Text(
+                          widget.doctor.name.isNotEmpty
+                              ? widget.doctor.name[0]
+                              : "D",
+                          style: TextStyle(
+                            fontSize: 22.sp,
+                            color: ColorManager.darkBlue,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                 ),
-                SizedBox(width: 12.w),
+                SizedBox(width: 22.w,),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      doctor.name,
-                      style: TextStyle(
-                        fontSize: 18.sp,
+                      widget.doctor.name,
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: ColorManager.black,
                       ),
                     ),
+                    SizedBox(height: 7.h),
                     Text(
-                      "${doctor.experienceYears} years experience",
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        color: ColorManager.greyText,
-                      ),
+                      "${widget.doctor.experienceYears} ${appLocalizations.years_experience}",
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ],
                 ),
               ],
             ),
-            SizedBox(height: 16.h),
-
+            SizedBox(height: 13.h),
             Row(
               children: [
                 Icon(
                   Icons.access_time,
-                  size: 18.sp,
+                  size: 22.sp,
                   color: ColorManager.greyText,
                 ),
                 SizedBox(width: 8.w),
                 Text(
-                  "Available Today",
-                  style: TextStyle(fontSize: 13.sp, color: ColorManager.greyText),
+                  appLocalizations.availableToday,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall!.copyWith(fontSize: 18.sp),
                 ),
               ],
             ),
-            SizedBox(height: 12.h),
-
+            SizedBox(height: 16.h),
             if (isLoadingTimes)
               const Center(child: CircularProgressIndicator())
-            else if (availableTimes.isEmpty)
-              const SizedBox.shrink()
-            else
+            else if (availableTimes.isNotEmpty)
               Wrap(
                 spacing: 8.w,
                 runSpacing: 8.h,
-                children: availableTimes
-                    .map(
-                      (time) => GestureDetector(
-                        onTap: () => onBookAppointment(time.time),
-                        child: Container(
-                          padding: REdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: const Color(0XffF8FAFC),
-                            borderRadius: BorderRadius.circular(8.r),
-                            border: Border.all(color: const Color(0XffF8FAFC)),
-                          ),
-                          child: Text(
-                            _formatTime(time.time),
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              color: ColorManager.black,
-                            ),
-                          ),
-                        ),
+                children: availableTimes.map((time) {
+                  final isSelected = selectedTime == time.time;
+                  return GestureDetector(
+                    onTap: () => setState(() => selectedTime = time.time),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 8.h,
                       ),
-                    )
-                    .toList(),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? ColorManager.darkBlue
+                            : const Color(0XFFF8FAFC),
+                        borderRadius: BorderRadius.circular(8.r),
+                        border: BoxBorder.all(color: isSelected ? ColorManager.darkBlue : ColorManager.lightGrey , width: 1)
+                      ),
+                      child: Text(
+                        _formatTime(time.time),
+                        style: Theme.of(context).textTheme.labelMedium!
+                            .copyWith(
+                              color: isSelected
+                                  ? Colors.white
+                                  : ColorManager.black,
+                            ),
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
-            
             SizedBox(height: 16.h),
-
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: availableTimes.isNotEmpty
-                    ? () => onBookAppointment(availableTimes.first.time)
+                onPressed: selectedTime != null
+                    ? () {
+                  widget.onBookAppointment(selectedTime!);
+                }
                     : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: ColorManager.darkBlue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                  padding: EdgeInsets.symmetric(vertical: 12.h),
-                ),
-                child: Text(
-                  "Book Appointment",
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: ColorManager.background
-                  ),
-                ),
-              ),
+                child: Text(appLocalizations.bookAppointment),
+              )
             ),
           ],
         ),
@@ -162,16 +189,13 @@ class DoctorCard extends StatelessWidget {
   String _formatTime(String time) {
     try {
       final parts = time.split(':');
-      if (parts.length == 2) {
-        final hour = int.parse(parts[0]);
-        final minute = parts[1];
-        final period = hour >= 12 ? 'PM' : 'AM';
-        final hour12 = hour > 12 ? hour - 12 : (hour == 0 ? 12 : hour);
-        return '$hour12:$minute $period';
-      }
-    } catch (e) {
+      final hour = int.parse(parts[0]);
+      final minute = parts[1];
+      final period = hour >= 12 ? 'PM' : 'AM';
+      final hour12 = hour > 12 ? hour - 12 : hour;
+      return '$hour12:$minute $period';
+    } catch (_) {
       return time;
     }
-    return time;
   }
 }

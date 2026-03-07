@@ -27,33 +27,35 @@ class CustomDepartmentHospitals extends StatelessWidget {
             itemCount: uniqueDepartments.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) => Container(
-              padding: REdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              padding: REdgeInsets.symmetric(horizontal: 25, vertical: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.r),
                 color: ColorManager.lightBlue,
               ),
-              child: Column(
-                children: [
-                  Container(
-                    padding: REdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: ColorManager.darkBlue,
-                      shape: BoxShape.circle,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: REdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: ColorManager.darkBlue,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        getDepartmentIcon(uniqueDepartments[index]),
+                        size: 29,
+                        color: ColorManager.secondary,
+                      ),
                     ),
-                    child: Icon(
-                      getDepartmentIcon(uniqueDepartments[index]),
-                      size: 29,
-                      color: ColorManager.secondary,
+                    Text(
+                      uniqueDepartments[index],
+                      style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                        color: ColorManager.darkBlue,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 12.h),
-                  Text(
-                    uniqueDepartments[index],
-                    style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                      color: ColorManager.darkBlue,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

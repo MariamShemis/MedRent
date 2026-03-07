@@ -16,15 +16,22 @@ class ProfileModel {
     required this.email,
     required this.imageUrl,
   });
+
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
+    const baseUrl = 'http://graduationprojectapi.somee.com';
+    String imagePath = json['imageUrl'] ?? "";
+    if (imagePath.isNotEmpty && !imagePath.startsWith('http')) {
+      imagePath = '$baseUrl$imagePath';
+    }
+
     return ProfileModel(
-      userId: json['userId'] ??0,
-      name: json['name']??"",
-      dateOfBirth: json['dateOfBirth']??"",
-      gender: json['gender']??"",
-      phone: json['phone']??"",
-      email: json['email']??"",
-      imageUrl: json['imageUrl']??"",
+      userId: json['userId'] ?? 0,
+      name: json['name'] ?? "",
+      dateOfBirth: json['dateOfBirth'] ?? "",
+      gender: json['gender'] ?? "",
+      phone: json['phone'] ?? "",
+      email: json['email'] ?? "",
+      imageUrl: imagePath,
     );
   }
 }

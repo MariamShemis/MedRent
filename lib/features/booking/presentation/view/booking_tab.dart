@@ -2,56 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
+import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/features/booking/data/cubit/booking_cubit.dart';
 import 'package:med_rent/features/booking/presentation/widgets/bookind_calendar.dart';
-
 import 'package:med_rent/features/booking/presentation/widgets/dapartment_selector.dart';
 import 'package:med_rent/features/booking/presentation/widgets/doctor_card.dart';
 import 'package:med_rent/features/booking/presentation/widgets/specialties_drop_down.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
 
 class BookingTab extends StatelessWidget {
-  const BookingTab({super.key});
+  const BookingTab({super.key, required this.selectedHospitalId});
+
+  final int selectedHospitalId;
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return BlocProvider(
-      create: (context) => BookingCubit()..loadHospitalDetails(),
+      create: (_) => BookingCubit()..loadHospitalDetails(selectedHospitalId),
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
           leading: IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: Icon(
-              Icons.arrow_back_ios,
-              size: 20,
-              color: ColorManager.darkBlue,
-            ),
+            icon: const Icon(Icons.arrow_back_ios),
           ),
-          title: Text(
-            "Booking",
-            style: Theme.of(
-              context,
-            ).textTheme.headlineMedium?.copyWith(color: ColorManager.darkBlue),
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.white,
-          elevation: 0,
-          foregroundColor: Colors.black,
+          title: Text(appLocalizations.booking),
         ),
         body: BlocConsumer<BookingCubit, BookingState>(
           listener: (context, state) {
-            if (state is BookingError) {
+            if (state is BookingSuccessLoaded) {
+            } else if (state is BookingError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),
                   backgroundColor: Colors.red,
-                ),
-              );
-            } else if (state is AppointmentBookingSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: Colors.green,
                 ),
               );
             }
@@ -60,146 +44,127 @@ class BookingTab extends StatelessWidget {
             if (state is BookingLoading) {
               return const Center(child: CircularProgressIndicator());
             }
-
-            if (state is HospitalDetailsLoaded) {
-              return SafeArea(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: REdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Schedule Your booking",
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            color: const Color(0xFF0A1D47),
-                          ),
-                        ),
-                        SizedBox(height: 16.h),
-
-                        BookingCalendar(
-  selectedDate: state.selectedDate,
-  onDateSelected: (date) {
-    context.read<BookingCubit>().selectDate(date);
-  },
-),
-                        SizedBox(height: 16.h),
-
-                        Text(
-                          "Departments",
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            color: ColorManager.darkBlue,
-                          ),
-                        ),
-
-                        SizedBox(height: 16.h),
-                        
-                        // Department Selector مع البيانات الحقيقية
-                        DapartmentSelector(
-                          departments: state.hospital.departments,
-                          selectedDepartmentId: state.selectedDepartmentId,
-                          onDepartmentSelected: (deptId) {
-                            context.read<BookingCubit>().selectDepartment(deptId);
-                          },
-                        ),
-                        
-                        SizedBox(height: 16.h),
-
-                        Text(
-                          "Available Doctor",
-                          style: TextStyle(fontSize: 18.sp, color: ColorManager.black),
-                        ),
-                        
-                        SizedBox(height: 16.h),
-                        
-                        // Specialties Dropdown مع البيانات الحقيقية
-                        SpecialtiesDropdown(
-                          departments: state.hospital.departments,
-                          selectedDepartmentId: state.selectedDepartmentId,
-                          onSpecialtySelected: (deptId) {
-                            context.read<BookingCubit>().selectDepartment(deptId);
-                          },
-                        ),
-                        
-                        SizedBox(height: 16.h),
-
-                        // عرض الدكاترة حسب القسم المختار
-                        ..._buildDoctorsList(state, context),
-                      ],
-                    ),
-                  ),
-                ),
+            if (state is BookingSuccessLoaded) {
+              final selectedDepartment = state.hospital.departments.firstWhere(
+                (d) => d.departmentId == state.selectedDepartmentId,
               );
-            }
-
-            if (state is BookingInitial) {
-              return Center(
+              return SingleChildScrollView(
+                padding: EdgeInsets.all(16.w),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Failed to load data'),
+                    Text(
+                      appLocalizations.scheduleYour_booking,
+                      style: TextStyle(
+                        fontSize: 18.sp,
+                        color: const Color(0xFF0A1D47),
+                      ),
+                    ),
                     SizedBox(height: 16.h),
-                    ElevatedButton(
-                      onPressed: () {
-                        context.read<BookingCubit>().loadHospitalDetails();
+                    BookingCalendar(
+                      selectedDate: state.selectedDate,
+                      onDateSelected: (date) {
+                        context.read<BookingCubit>().selectDate(date);
                       },
-                      child: const Text('Retry'),
+                    ),
+                    SizedBox(height: 16.h),
+                    Text(
+                      appLocalizations.departments,
+                      style: TextStyle(
+                        fontSize: 18.sp,
+                        color: ColorManager.darkBlue,
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
+                    DapartmentSelector(
+                      departments: state.hospital.departments,
+                      selectedDepartmentId: state.selectedDepartmentId,
+                      onDepartmentSelected: (id) {
+                        context.read<BookingCubit>().selectDepartment(id);
+                      },
+                    ),
+                    SizedBox(height: 16.h),
+                    Text(
+                      appLocalizations.availableDoctors,
+                      style: TextStyle(
+                        fontSize: 18.sp,
+                        color: ColorManager.black,
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
+                    SpecialtiesDropdown(
+                      departments: state.hospital.departments,
+                      selectedDepartmentId: state.selectedDepartmentId,
+                      onSpecialtySelected: (id) {
+                        context.read<BookingCubit>().selectDepartment(id);
+                      },
+                    ),
+                    SizedBox(height: 16.h),
+                    ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: selectedDepartment.doctors.length,
+                      itemBuilder: (context, index) {
+                        final doctor = selectedDepartment.doctors[index];
+                        // return DoctorCard(
+                        //   doctor: doctor,
+                        //   selectedDate: state.selectedDate,
+                        //   onBookAppointment: (time) {
+                        //     ScaffoldMessenger.of(context).showSnackBar(
+                        //       SnackBar(
+                        //         content: Text(
+                        //           "Appointment booked\nDoctor: ${doctor.name}\nTime: $time",
+                        //         ),
+                        //         backgroundColor: Colors.green,
+                        //       ),
+                        //     );
+                        //     Navigator.pushNamed(
+                        //       context,
+                        //       AppRoutes.bookingPayment,
+                        //       arguments: {
+                        //         "doctorName": doctor.name,
+                        //         "time": time,
+                        //         "date": state.selectedDate
+                        //       },
+                        //     );
+                        //   },
+                        // );
+                        return DoctorCard(
+                          doctor: doctor,
+                          selectedDate: state.selectedDate,
+                          onBookAppointment: (time) {
+                            final date = state.selectedDate;
+                            final formattedDate =
+                                "${date.day}/${date.month}/${date.year}";
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.green,
+                                content: Text(
+                                  "${appLocalizations.appointment_booked}:\t\t\t${appLocalizations.doctor}: ${doctor.name}\n${appLocalizations.date}: $formattedDate\t\t\t\t${appLocalizations.time}: $time",
+                                ),
+                              ),
+                            );
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutes.bookingPayment,
+                              arguments: {
+                                "doctorName": doctor.name,
+                                "date": date,
+                                "time": time,
+                              },
+                            );
+                          },
+                        );
+                      },
                     ),
                   ],
                 ),
               );
             }
-
-            return const SizedBox.shrink();
+            return const SizedBox();
           },
         ),
       ),
     );
-  }
-
-  List<Widget> _buildDoctorsList(HospitalDetailsLoaded state, BuildContext context) {
-    try {
-      final selectedDepartment = state.hospital.departments.firstWhere(
-        (dept) => dept.departmentId == state.selectedDepartmentId,
-      );
-
-      if (selectedDepartment.doctors.isEmpty) {
-        return [
-          Center(
-            child: Padding(
-              padding: EdgeInsets.all(20.h),
-              child: Text(
-                'No doctors available',
-                style: TextStyle(fontSize: 16.sp, color: Colors.grey),
-              ),
-            ),
-          ),
-        ];
-      }
-
-      return selectedDepartment.doctors.map((doctor) {
-        final isSelected = state.selectedDoctor?.doctorId == doctor.doctorId;
-        return DoctorCard(
-          doctor: doctor,
-          isSelected: isSelected,
-          availableTimes: isSelected ? state.availableTimes : [],
-          isLoadingTimes: isSelected && state.isLoadingTimes,
-          onTap: () {
-            context.read<BookingCubit>().selectDoctor(doctor);
-          },
-          onBookAppointment: (time) {
-            context.read<BookingCubit>().bookAppointment(
-              doctorId: doctor.doctorId,
-              date: state.selectedDate,
-              time: time,
-            );
-          },
-        );
-      }).toList();
-    } catch (e) {
-      return [];
-    }
   }
 }

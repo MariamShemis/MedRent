@@ -62,7 +62,7 @@ class CustomCardAiNearbyHospital extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: onPressed,
                 child: Text(textElevatedButton),
               ),
             ),

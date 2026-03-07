@@ -757,4 +757,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aiAnalysis => 'AI Medical Analysis';
+
+  @override
+  String get availableToday => 'Available Today';
+
+  @override
+  String get years_experience => 'years experience';
+
+  @override
+  String get appointment_booked => 'Appointment booked';
+
+  @override
+  String get doctor => 'Doctor';
 }

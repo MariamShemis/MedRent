@@ -113,11 +113,10 @@ class CustomCardHospital extends StatelessWidget {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushNamed(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => BookingTab(),
-                            ),
+                            AppRoutes.booking ,
+                            arguments: model.id
                           );
                         },
                         child: Text(appLocalizations.bookNow),
