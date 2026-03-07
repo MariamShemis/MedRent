@@ -28,7 +28,7 @@ class CustomHospitalLocation extends StatelessWidget {
       children: [
         Image.asset(bgImage, width: double.infinity, fit: BoxFit.cover ,),
         Container(
-          height: MediaQuery.sizeOf(context).height * 0.3,
+          height: MediaQuery.sizeOf(context).height * 0.1,
           padding: REdgeInsets.symmetric(vertical: 5.0, horizontal: 4),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(15.r)),
@@ -51,6 +51,7 @@ class CustomHospitalLocation extends StatelessWidget {
               Expanded(
                 child: Column(
                   spacing: 4.h,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(

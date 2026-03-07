@@ -1594,6 +1594,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'AI Medical Analysis'**
   String get aiAnalysis;
+
+  /// No description provided for @availableToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Available Today'**
+  String get availableToday;
+
+  /// No description provided for @years_experience.
+  ///
+  /// In en, this message translates to:
+  /// **'years experience'**
+  String get years_experience;
+
+  /// No description provided for @appointment_booked.
+  ///
+  /// In en, this message translates to:
+  /// **'Appointment booked'**
+  String get appointment_booked;
+
+  /// No description provided for @doctor.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctor'**
+  String get doctor;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
