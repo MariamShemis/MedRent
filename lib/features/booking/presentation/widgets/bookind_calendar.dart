@@ -1,26 +1,32 @@
+// lib/features/booking/presentation/widgets/booking_calendar.dart
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:med_rent/core/constants/color_manager.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
+import 'package:med_rent/core/constants/color_manager.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class BookingCalendar extends StatefulWidget {
-  const BookingCalendar({super.key});
+  final DateTime? selectedDate;
+  final Function(DateTime)? onDateSelected;
+
+  const BookingCalendar({super.key, this.selectedDate, this.onDateSelected});
 
   @override
   State<BookingCalendar> createState() => _BookingCalendarState();
 }
 
 class _BookingCalendarState extends State<BookingCalendar> {
-  DateTime _focusedDay = DateTime.now();
+  late DateTime _focusedDay;
   DateTime? _selectedDay;
 
   @override
   void initState() {
     super.initState();
-    _selectedDay = _focusedDay;
+    _focusedDay = DateTime.now();
+    _selectedDay = widget.selectedDate ?? DateTime.now();
   }
 
   String _getMonthName(int month) {
@@ -29,6 +35,7 @@ class _BookingCalendarState extends State<BookingCalendar> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Center(
       child: Container(
         width: 343.w,
@@ -103,13 +110,15 @@ class _BookingCalendarState extends State<BookingCalendar> {
               lastDay: DateTime.utc(2030, 12, 31),
               focusedDay: _focusedDay,
               headerVisible: false,
-
               selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
               onDaySelected: (selectedDay, focusedDay) {
                 setState(() {
                   _selectedDay = selectedDay;
                   _focusedDay = focusedDay;
                 });
+                if (widget.onDateSelected != null) {
+                  widget.onDateSelected!(selectedDay);
+                }
               },
               calendarStyle: CalendarStyle(
                 defaultTextStyle: TextStyle(
@@ -138,13 +147,11 @@ class _BookingCalendarState extends State<BookingCalendar> {
               daysOfWeekStyle: DaysOfWeekStyle(
                 dowTextFormatter: (date, locale) =>
                     DateFormat.E(locale).format(date).toUpperCase(),
-
                 weekdayStyle: TextStyle(
                   color: Colors.white,
                   fontSize: 13,
                   fontWeight: FontWeight.bold,
                 ),
-
                 weekendStyle: TextStyle(
                   color: Colors.white,
                   fontSize: 13,
@@ -152,15 +159,17 @@ class _BookingCalendarState extends State<BookingCalendar> {
                 ),
               ),
             ),
-
+            SizedBox(height: 18.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Time",
-                    style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                    appLocalizations.time,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.displaySmall!.copyWith(fontSize: 16.sp),
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(
@@ -173,11 +182,9 @@ class _BookingCalendarState extends State<BookingCalendar> {
                     ),
                     child: Text(
                       TimeOfDay.now().format(context),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.displaySmall!.copyWith(fontSize: 16.sp),
                     ),
                   ),
                 ],
