@@ -141,6 +141,32 @@ class AuthRemoteData {
     );
   }
 
+  // Future<void> newPassword({
+  //   required String email,
+  //   required String newPassword,
+  // }) async {
+  //   final hasInternet = await NetworkChecker.hasInternetConnection();
+  //
+  //   if (!hasInternet) {
+  //     throw DioException(
+  //       requestOptions: RequestOptions(path: ''),
+  //       error: const SocketException('No Internet'),
+  //     );
+  //   }
+  //
+  //   final response = await _apiClient.post(
+  //     '/Auth/reset-password',
+  //     queryParameters: {'email': email, 'newPassword': newPassword},
+  //   );
+  //
+  //   if (response.statusCode != 200 && response.statusCode != 201) {
+  //     throw DioException(
+  //       requestOptions: response.requestOptions,
+  //       response: response,
+  //       type: DioExceptionType.badResponse,
+  //     );
+  //   }
+  // }
   Future<void> newPassword({
     required String email,
     required String newPassword,
@@ -153,19 +179,23 @@ class AuthRemoteData {
         error: const SocketException('No Internet'),
       );
     }
-
     final response = await _apiClient.post(
       '/Auth/reset-password',
-      queryParameters: {'email': email, 'newPassword': newPassword},
+      queryParameters: {
+        'email': email,
+        'newPassword': newPassword,
+      },
+      data: {},
     );
-
-    if (response.statusCode != 200 && response.statusCode != 201) {
-      throw DioException(
-        requestOptions: response.requestOptions,
-        response: response,
-        type: DioExceptionType.badResponse,
-      );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print("Success: ${response.data}");
+      return;
     }
+    throw DioException(
+      requestOptions: response.requestOptions,
+      response: response,
+      type: DioExceptionType.badResponse,
+    );
   }
 
   Future<String> verifyRegister({
