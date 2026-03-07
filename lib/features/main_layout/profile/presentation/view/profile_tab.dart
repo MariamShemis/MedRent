@@ -1,13 +1,7 @@
-
-
-
-
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/features/language/data/cubit/app_localization_cubit.dart';
@@ -25,56 +19,9 @@ class ProfileTab extends StatefulWidget {
 }
 
 class _ProfileTabState extends State<ProfileTab> {
-  String? profileImageUrl; 
-  File? selectedImage;     
+  String? profileImageUrl;
   String userName = "";
   int userId = 0;
-
-  Future<void> _pickImage(BuildContext parentContext, ImageSource source) async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: source);
-    
-    if (pickedFile == null) return;
-
-    setState(() {
-      selectedImage = File(pickedFile.path); 
-    });
-
-    if (parentContext.mounted) {
-      parentContext.read<ProfileCubit>().updateProfileImage(pickedFile.path);
-    }
-  }
-
-  void _showImageSourcePicker(BuildContext parentContext) {
-    showModalBottomSheet(
-      context: parentContext,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
-      ),
-      builder: (context) => SafeArea(
-        child: Wrap(
-          children: [
-            ListTile(
-              leading: const Icon(Iconsax.gallery, color: ColorManager.darkBlue),
-              title: const Text('Gallery'),
-              onTap: () {
-                Navigator.pop(context);
-                _pickImage(parentContext, ImageSource.gallery);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Iconsax.camera, color: ColorManager.darkBlue),
-              title: const Text('Camera'),
-              onTap: () {
-                Navigator.pop(context);
-                _pickImage(parentContext, ImageSource.camera);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,82 +41,93 @@ class _ProfileTabState extends State<ProfileTab> {
                       Text(
                         appLocalizations.profile,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: 24.sp),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.headlineLarge!.copyWith(fontSize: 24.sp),
                       ),
                       SizedBox(height: 15.h),
-
                       BlocBuilder<ProfileCubit, ProfileState>(
                         builder: (context, state) {
-                          if (state is ProfileLoading && selectedImage == null) {
+                          if (state is ProfileLoading) {
                             return SizedBox(
                               height: 150.h,
-                              child: const Center(child: CircularProgressIndicator()),
+                              child: const Center(
+                                child: CircularProgressIndicator(),
+                              ),
                             );
                           }
-
                           if (state is ProfileSuccess) {
                             profileImageUrl = state.profileModel.imageUrl;
                             userName = state.profileModel.name;
                             userId = state.profileModel.userId;
                           }
-
                           return Column(
                             children: [
-                              GestureDetector(
-                                onTap: () => _showImageSourcePicker(context),
-                                child: UserImageProfile(
-                                  widgetUserImageProfile: CircleAvatar(
-                                    radius: 46.r,
-                                    backgroundColor: Colors.grey[200],
-                                
-                                    backgroundImage: selectedImage != null
-                                        ? FileImage(selectedImage!)
-                                        : (profileImageUrl != null && profileImageUrl!.isNotEmpty)
-                                            ? NetworkImage("$profileImageUrl?t=${DateTime.now().millisecondsSinceEpoch}")
-                                            : null,
-                                    child: selectedImage == null && (profileImageUrl == null || profileImageUrl!.isEmpty)
-                                        ? Icon(Icons.person, size: 40.sp, color: Colors.grey)
-                                        : null,
-                                  ),
+                              UserImageProfile(
+                                widgetUserImageProfile: CircleAvatar(
+                                  radius: 46.r,
+                                  backgroundColor: Colors.grey[200],
+                                  backgroundImage:
+                                      (profileImageUrl != null &&
+                                          profileImageUrl!.isNotEmpty)
+                                      ? NetworkImage(profileImageUrl!)
+                                      : null,
+                                  child:
+                                      (profileImageUrl == null ||
+                                          profileImageUrl!.isEmpty)
+                                      ? Icon(
+                                          Icons.person,
+                                          size: 40.sp,
+                                          color: Colors.grey,
+                                        )
+                                      : null,
                                 ),
                               ),
                               SizedBox(height: 18.h),
                               Text(
                                 userName,
-                                style: Theme.of(context).textTheme.displayLarge!.copyWith(fontSize: 24.sp),
+                                style: Theme.of(context).textTheme.displayLarge!
+                                    .copyWith(fontSize: 24.sp),
                               ),
                               SizedBox(height: 10.h),
                               Text(
                                 "Patient ID : #HE-$userId",
-                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
+                                style: Theme.of(context).textTheme.bodyMedium!
+                                    .copyWith(fontSize: 14.sp),
                               ),
                             ],
                           );
                         },
                       ),
-
                       SizedBox(height: 20.h),
-
                       SizedBox(
                         width: 200.w,
                         height: 45.h,
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, AppRoutes.personalInformation).then((value) {
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutes.personalInformation,
+                            ).then((value) {
                               if (value == true) {
                                 context.read<ProfileCubit>().getProfileData();
-                                setState(() { selectedImage = null; }); // تصفير الملف المحلي بعد الرجوع للتحديث من السيرفر
                               }
                             });
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: ColorManager.darkBlue,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Iconsax.edit_2, size: 20.sp, color: Colors.white),
+                              Icon(
+                                Iconsax.edit_2,
+                                size: 20.sp,
+                                color: Colors.white,
+                              ),
                               SizedBox(width: 8.w),
                               Text(
                                 appLocalizations.editProfile,
@@ -179,39 +137,54 @@ class _ProfileTabState extends State<ProfileTab> {
                           ),
                         ),
                       ),
-
                       SizedBox(height: 30.h),
-
                       BlocBuilder<AppLocalizationCubit, Locale>(
                         builder: (context, locale) {
                           final isArabic = locale.languageCode == 'ar';
                           return CustomProfileContainerItem(
                             onPressedNotification: () {},
-                            onPressedIconMyRental: () => Navigator.pushNamed(context, AppRoutes.myRental),
+                            onPressedIconMyRental: () => Navigator.pushNamed(
+                              context,
+                              AppRoutes.myRental,
+                            ),
                             onPressedIconPersonalInformation: () {
-                              Navigator.pushNamed(context, AppRoutes.personalInformation).then((value) {
-                                if (value == true) context.read<ProfileCubit>().getProfileData();
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutes.personalInformation,
+                              ).then((value) {
+                                if (value == true) {
+                                  context.read<ProfileCubit>().getProfileData();
+                                }
                               });
                             },
-                            onPressedIconContactUs: () => Navigator.pushNamed(context, AppRoutes.contactUs),
+                            onPressedIconContactUs: () => Navigator.pushNamed(
+                              context,
+                              AppRoutes.contactUs,
+                            ),
                             textLanguage: isArabic ? "العربية" : "English",
-                            onPressedLanguage: () => Navigator.pushNamed(context, AppRoutes.languageProfile),
+                            onPressedLanguage: () => Navigator.pushNamed(
+                              context,
+                              AppRoutes.languageProfile,
+                            ),
                           );
                         },
                       ),
-
                       SizedBox(height: 20.h),
-
                       GestureDetector(
                         onTap: () => _showDialogLogOut(context),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Iconsax.logout, color: ColorManager.red, size: 26.sp),
+                            Icon(
+                              Iconsax.logout,
+                              color: ColorManager.red,
+                              size: 26.sp,
+                            ),
                             SizedBox(width: 8.w),
                             Text(
                               appLocalizations.log_out,
-                              style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: ColorManager.red),
+                              style: Theme.of(context).textTheme.headlineMedium!
+                                  .copyWith(color: ColorManager.red),
                             ),
                           ],
                         ),
@@ -222,7 +195,7 @@ class _ProfileTabState extends State<ProfileTab> {
               ),
             ),
           );
-        }
+        },
       ),
     );
   }
@@ -233,7 +206,9 @@ class _ProfileTabState extends State<ProfileTab> {
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
         title: Text(appLocalizations.log_out),
         content: Text(appLocalizations.are_you_sure_you_want_to_log_out),
         actions: [

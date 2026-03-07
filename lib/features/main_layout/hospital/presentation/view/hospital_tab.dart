@@ -16,8 +16,9 @@ class HospitalTab extends StatelessWidget {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Scaffold(
       body: SafeArea(
+        bottom: false,
         child: Padding(
-          padding: REdgeInsets.all(16.0),
+          padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 20.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

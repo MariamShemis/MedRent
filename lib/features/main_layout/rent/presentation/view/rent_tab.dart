@@ -16,9 +16,7 @@ class RentTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => EquipmentCubit(
-        EquipmentDataSource(Dio())
-      )..getAll(),
+      create: (context) => EquipmentCubit(EquipmentDataSource(Dio()))..getAll(),
       child: Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
