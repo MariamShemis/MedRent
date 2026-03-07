@@ -34,16 +34,20 @@ class EquipmentCubit extends Cubit<EquipmentState> {
     return ratingSummaries;
   }
 
-  void getAll() async {
+ void getAll() async {
     emit(EquipmentLoading());
     try {
       final data = await dataSource.search('');
       final ratingSummaries = await _fetchRatingSummaries(data);
+      
+      if (isClosed) return; 
+
       emit(EquipmentLoaded(
         equipments: data,
         ratingSummaries: ratingSummaries,
       ));
     } catch (e) {
+      if (isClosed) return;
       emit(EquipmentError(e.toString()));
     }
   }
