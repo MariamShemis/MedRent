@@ -53,7 +53,7 @@ class _HomeTabState extends State<HomeTab> {
       body: SafeArea(
         bottom: false,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(16.w, 16, 16.w, 60.h),
+          padding: EdgeInsets.fromLTRB(16.w, 16, 16.w, 70.h),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

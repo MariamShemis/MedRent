@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/features/equipment%20details/data/models/equipment_review.dart';
 
 class ReviewUserItem extends StatelessWidget {
   const ReviewUserItem({super.key, required this.review});
-
   final ReviewModel review;
 
   @override
@@ -18,12 +18,17 @@ class ReviewUserItem extends StatelessWidget {
           Row(
             children: [
               CircleAvatar(
-                radius: 15,
+                radius: 20,
                 backgroundColor: Colors.blue.shade100,
-                child: Icon(
-                  Icons.person,
-                  color: Colors.blue.shade800,
-                  size: 16.sp,
+                child: Text(
+                  review.userName!.isNotEmpty
+                      ? review.userName![0]
+                      : "D",
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    color: ColorManager.darkBlue,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               SizedBox(width: 10.w),

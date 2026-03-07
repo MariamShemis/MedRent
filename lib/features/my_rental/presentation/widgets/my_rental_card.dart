@@ -89,13 +89,13 @@ class MyRentalCard extends StatelessWidget {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12.r),
-                    color: Colors.white,
+                    color: Colors.transparent,
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12.r),
+                    borderRadius: BorderRadius.circular(20.r),
                     child: Image.network(
                       _getImageUrl(rental.imageUrl),
-                      fit: BoxFit.fill,
+                      fit: BoxFit.contain,
                       loadingBuilder: (context, child, loadingProgress) {
                         if (loadingProgress == null) return child;
                         return Center(
