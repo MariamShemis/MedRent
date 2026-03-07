@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
+import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/core/widgets/custom_search_text_field.dart';
 import 'package:med_rent/features/main_layout/ai_chat/data/cubit/chat_ai_cubit.dart';
 import 'package:med_rent/features/main_layout/ai_chat/data/data_sources/chat_data.dart';
@@ -212,7 +213,13 @@ class _AiChatState extends State<AiChat> {
                                         rating: h.rating,
                                         textElevatedButton:
                                             appLocalizations.viewDetails,
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            AppRoutes.hospitalDetails,
+                                            arguments: h.hospitalId,
+                                          );
+                                        },
                                       ),
                                     ),
                                   )

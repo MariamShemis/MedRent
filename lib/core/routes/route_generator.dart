@@ -5,6 +5,9 @@ import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/features/auth/data/cubit/auth_cubit.dart';
 import 'package:med_rent/features/auth/presentation/view/login_screen.dart';
 import 'package:med_rent/features/auth/presentation/view/register_screen.dart';
+import 'package:med_rent/features/booking/data/cubit/booking_cubit.dart';
+import 'package:med_rent/features/booking/presentation/view/booking_tab.dart';
+import 'package:med_rent/features/booking_payment/presentation/view/booking_payment.dart';
 import 'package:med_rent/features/contact_us/data/cubit/contact_us_cubit.dart';
 import 'package:med_rent/features/contact_us/presentation/view/contact_us.dart';
 import 'package:med_rent/features/equipment%20details/data/cubit/equipment_details_cubit.dart';
@@ -15,7 +18,7 @@ import 'package:med_rent/features/hospital_details/presentation/view/hospital_de
 import 'package:med_rent/features/language/presentation/view/language_profile.dart';
 import 'package:med_rent/features/location/data/cubit/location_cubit.dart';
 import 'package:med_rent/features/location/data/data_sources/location_data_source.dart';
-import 'package:med_rent/features/location/presentation/view/location_home.dart';
+import 'package:med_rent/features/location/presentation/widgets/location_home_wrapper.dart';
 import 'package:med_rent/features/main_layout/main_layout.dart';
 import 'package:med_rent/features/my_rental/data/cubit/my_rental_cubit.dart';
 import 'package:med_rent/features/my_rental/data/data_sources/my_rental_data_source.dart';
@@ -106,16 +109,31 @@ abstract class RoutesManager {
         {
           return CupertinoPageRoute(builder: (context) => LanguageProfile());
         }
+      case AppRoutes.bookingPayment:
+        {
+          return CupertinoPageRoute(builder: (context) => BookingPayment());
+        }
+      case AppRoutes.booking:
+        {
+          final args = settings.arguments;
+          final hospitalId = args is int ? args : 0;
+          return CupertinoPageRoute(
+            builder: (context) => BlocProvider(
+              create: (_) => BookingCubit()..loadHospitalDetails(hospitalId),
+              child: BookingTab(selectedHospitalId: hospitalId),
+            ),
+          );
+        }
       case AppRoutes.location:
         {
           return CupertinoPageRoute(
             builder: (context) => BlocProvider(
-              create: (_) => LocationCubit(LocationDataSource())..getCurrentLocation(),
-              child: LocationHome(),
+              create: (_) =>
+                  LocationCubit(LocationDataSource())..getCurrentLocation(),
+              child: LocationHomeWrapper(),
             ),
           );
         }
-
       case AppRoutes.myRental:
         {
           return CupertinoPageRoute(

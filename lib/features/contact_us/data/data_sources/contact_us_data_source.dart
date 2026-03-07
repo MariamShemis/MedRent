@@ -7,7 +7,7 @@ class ContactUsDataSource {
   Future<String> sendMessage(ContactUsModel model) async {
     try {
       final response = await dio.post(
-        "http://GraduationProject.somee.com/api/ContactUs",
+        "http://graduationprojectapi.somee.com/api/ContactUs",
         data: model.toJson(),
       );
 

@@ -26,9 +26,9 @@ class CustomHospitalLocation extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       alignment: Alignment.bottomCenter,
       children: [
-        Image.asset(bgImage, width: double.infinity, fit: BoxFit.fill),
+        Image.asset(bgImage, width: double.infinity, fit: BoxFit.cover ,),
         Container(
-          height: 80.h,
+          height: MediaQuery.sizeOf(context).height * 0.1,
           padding: REdgeInsets.symmetric(vertical: 5.0, horizontal: 4),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(15.r)),
@@ -51,16 +51,21 @@ class CustomHospitalLocation extends StatelessWidget {
               Expanded(
                 child: Column(
                   spacing: 4.h,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       title,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: ColorManager.white,
                       ),
                     ),
                     Text(
                       subTitle,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: ColorManager.white,
                         fontSize: 12.sp,
@@ -69,14 +74,18 @@ class CustomHospitalLocation extends StatelessWidget {
                   ],
                 ),
               ),
-              ElevatedButton(
-                onPressed: onPressedButton,
-                style: ElevatedButton.styleFrom(padding: REdgeInsets.all(10)),
-                child: Text(
-                  textButton,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.labelSmall?.copyWith(color: ColorManager.white),
+              SizedBox(
+                child: ElevatedButton(
+                  onPressed: onPressedButton,
+                  style: ElevatedButton.styleFrom(padding: REdgeInsets.all(10)),
+                  child: Text(
+                    textButton,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.labelSmall?.copyWith(color: ColorManager.white),
+                  ),
                 ),
               ),
             ],

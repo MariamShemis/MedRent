@@ -1,19 +1,16 @@
-// lib/features/booking/data/booking_data.dart
-
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:med_rent/features/booking/data/model/booking_model.dart';
 
 class BookingData {
   static const String baseUrl = 'http://GraduationProject.somee.com/api';
-  static const int hospitalId = 30;
 
-  Future<HospitalModel> getHospitalBookingDetails() async {
+  Future<HospitalModel> getHospitalBookingDetails(int hospitalId) async {
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/Hospital/$hospitalId/booking-details'),
       );
-
+      print(response.body);
       if (response.statusCode == 200) {
         return HospitalModel.fromJson(json.decode(response.body));
       } else {
