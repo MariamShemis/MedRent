@@ -119,19 +119,11 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                             hintText: '******',
                             isPassword: true,
                             validator:
-                              (val) {
-                                RegExp regExp = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-                                if (val == null || val.isEmpty) {
-                                  return appLocalizations.this_field_is_required;
-                                }
-                                if(!regExp.hasMatch(val)){
-                                  return appLocalizations.strong_password_please;
-                                }
-                                if (val != newpasswordController.text) {
-                                  return "Passwords do not match";
-                                }
-                                return null;
-                              },
+                                (val) => AppValidators.validateConfirmPassword(
+                              context,
+                              val,
+                              newpasswordController.text,
+                            ),
                           ),
                         ),
                         SizedBox(height: 40.h),
@@ -147,7 +139,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                     .newPassword(
                                   email: widget.email,
                                   newPassword:
-                                  newpasswordController.text,
+                                  confirmPasswordController.text,
                                 );
                               }
                             },
