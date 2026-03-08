@@ -21,9 +21,27 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   int selectedIndex = 0;
+  late PageController _pageController;
 
-  final List<Widget> _pages = [
-    HomeTab(),
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: selectedIndex);
+  }
+
+  List<Widget> get _pages => [
+    HomeTab(
+      onNavigate: (index) {
+        _pageController.animateToPage(
+          index,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+        setState(() {
+          selectedIndex = index;
+        });
+      },
+    ),
     BlocProvider(
       create: (context) =>
           HospitalCubit(HospitalRemoteDataSource(Dio()))..getAllHospitals(),
@@ -39,7 +57,12 @@ class _MainLayoutState extends State<MainLayout> {
     return Scaffold(
       extendBody: true,
       bottomNavigationBar: _buildBottomAppBar1(),
-      body: _pages[selectedIndex],
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: onPageChanged,
+        physics: NeverScrollableScrollPhysics(),
+        children: _pages,
+      ),
     );
   }
 
@@ -136,7 +159,6 @@ class _MainLayoutState extends State<MainLayout> {
               ),
               label: "Ai Chat",
             ),
-
             BottomNavigationBarItem(
               icon: Icon(
                 selectedIndex == 4 ? Icons.person : Iconsax.user,
@@ -150,8 +172,20 @@ class _MainLayoutState extends State<MainLayout> {
     );
   }
 
+  void onPageChanged(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
+
   void _onTap(int newIndex) {
-    selectedIndex = newIndex;
-    setState(() {});
+    _pageController.animateToPage(
+      newIndex,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+    setState(() {
+      selectedIndex = newIndex;
+    });
   }
 }
