@@ -196,13 +196,13 @@ class _EquipmentCalendarState extends State<EquipmentCalendar> {
       bgColor = ColorManager.lightRed;
       textColor = ColorManager.black;
       fontWeight = FontWeight.bold;
-    } else if (isPast) {
-      bgColor = Colors.transparent;
-      textColor = Colors.grey.shade400;
-    } else if (isOutside) {
+    }else if (isOutside) {
       bgColor = Colors.transparent;
       textColor = Colors.grey.shade300;
-    } else {
+    } else if (isPast) {
+      bgColor = Colors.transparent;
+      textColor = ColorManager.black;
+    }  else {
       bgColor = Colors.transparent;
       textColor = Colors.black;
     }

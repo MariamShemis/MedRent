@@ -221,7 +221,7 @@ class _LocationHomeState extends State<LocationHome> {
                   ),
                   Positioned(
                     right: 10.w,
-                    top: 80.h,
+                    top: 90.h,
                     child: FloatingActionButton(
                       mini: true,
                       heroTag: "location",
