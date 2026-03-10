@@ -51,9 +51,9 @@ class _HomeTabState extends State<HomeTab> {
     return Scaffold(
       body: SafeArea(
         bottom: false,
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(16.w, 16, 16.w, 20.h),
-          child: SingleChildScrollView(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: REdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -113,7 +113,10 @@ class _HomeTabState extends State<HomeTab> {
                 CustomSearchTextField(
                   hintText: appLocalizations.search_for_hospitals_or_equipment,
                   iconPrefix: Iconsax.search_normal4,
-                  onChanged: (value) {},
+                  readOnly: true,
+                  onTap: () {
+                    Navigator.pushNamed(context, AppRoutes.searchHome);
+                  },
                 ),
                 SizedBox(height: 16.h),
                 CustomHospitalLocation(

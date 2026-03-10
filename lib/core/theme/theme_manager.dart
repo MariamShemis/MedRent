@@ -88,7 +88,7 @@ class ThemeManager {
       titleSmall: GoogleFonts.inter(
         fontSize: 10.sp,
         fontWeight: FontWeight.bold,
-        color: Colors.black,
+        color: ColorManager.black,
       ),
     ),
 
@@ -170,11 +170,8 @@ class ThemeManager {
 
     /// BOTTOM NAVIGATION
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      //enableFeedback: false,
-
       type: BottomNavigationBarType.fixed,
       backgroundColor: Colors.transparent,
-
       selectedItemColor: ColorManager.darkBlue,
       unselectedItemColor: ColorManager.greyText,
       showSelectedLabels: false,
