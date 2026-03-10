@@ -15,6 +15,7 @@ abstract class AppRoutes{
   static const String location = '/location';
   static const String bookingPayment = '/BookingPayment';
   static const String booking = '/Booking';
+  static const String searchHome = '/searchHome';
 
 
 }

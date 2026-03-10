@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/assets_manager.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/core/service/session_service.dart';
 import 'package:med_rent/core/widgets/custom_search_text_field.dart';
-import 'package:med_rent/features/language/data/cubit/app_localization_cubit.dart';
-import 'package:med_rent/features/main_layout/home/presentation/widgets/container_language_home_tab.dart';
 import 'package:med_rent/features/main_layout/home/presentation/widgets/custom_container_service.dart';
 import 'package:med_rent/features/main_layout/home/presentation/widgets/custom_container_tips.dart';
 import 'package:med_rent/features/main_layout/home/presentation/widgets/custom_hospital_location.dart';
@@ -15,7 +12,9 @@ import 'package:med_rent/features/main_layout/home/presentation/widgets/rtl_awar
 import 'package:med_rent/l10n/app_localizations.dart';
 
 class HomeTab extends StatefulWidget {
-  const HomeTab({super.key});
+  final void Function(int pageIndex) onNavigate;
+
+  const HomeTab({super.key, required this.onNavigate});
 
   @override
   State<HomeTab> createState() => _HomeTabState();
@@ -52,9 +51,9 @@ class _HomeTabState extends State<HomeTab> {
     return Scaffold(
       body: SafeArea(
         bottom: false,
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(16.w, 16, 16.w, 70.h),
-          child: SingleChildScrollView(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: REdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -114,7 +113,10 @@ class _HomeTabState extends State<HomeTab> {
                 CustomSearchTextField(
                   hintText: appLocalizations.search_for_hospitals_or_equipment,
                   iconPrefix: Iconsax.search_normal4,
-                  onChanged: (value) {},
+                  readOnly: true,
+                  onTap: () {
+                    Navigator.pushNamed(context, AppRoutes.searchHome);
+                  },
                 ),
                 SizedBox(height: 16.h),
                 CustomHospitalLocation(
@@ -125,7 +127,10 @@ class _HomeTabState extends State<HomeTab> {
                   textButton: appLocalizations.enableLocation,
                   icon: Iconsax.location5,
                   onPressedButton: () async {
-                    final result = await Navigator.pushNamed(context, AppRoutes.location);
+                    final result = await Navigator.pushNamed(
+                      context,
+                      AppRoutes.location,
+                    );
                   },
                 ),
                 SizedBox(height: 16.h),
@@ -139,7 +144,9 @@ class _HomeTabState extends State<HomeTab> {
                       .find_hospitals_by_specialty_location_and_rating,
                   icon: Iconsax.search_normal,
                   textButton: appLocalizations.searchNow,
-                  onPressedButton: () {},
+                  onPressedButton: () {
+                    widget.onNavigate(1);
+                  },
                 ),
                 CustomContainerService(
                   title: appLocalizations.equipmentRental,
@@ -147,7 +154,9 @@ class _HomeTabState extends State<HomeTab> {
                       .rent_or_purchase_medical_devices_and_equipment,
                   icon: Iconsax.box,
                   textButton: appLocalizations.browseNow,
-                  onPressedButton: () {},
+                  onPressedButton: () {
+                    widget.onNavigate(2);
+                  },
                 ),
                 CustomContainerService(
                   title: appLocalizations.aIAssistant,
@@ -155,7 +164,9 @@ class _HomeTabState extends State<HomeTab> {
                       .find_hospitals_by_specialty_location_and_rating,
                   icon: Iconsax.message,
                   textButton: appLocalizations.startChat,
-                  onPressedButton: () {},
+                  onPressedButton: () {
+                    widget.onNavigate(3);
+                  },
                 ),
                 Text(
                   appLocalizations.tips_for_better_health,
@@ -208,6 +219,7 @@ class _HomeTabState extends State<HomeTab> {
                     ),
                   ],
                 ),
+                SizedBox(height: 80.h),
               ],
             ),
           ),
