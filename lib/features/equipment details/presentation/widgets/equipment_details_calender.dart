@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class EquipmentCalendar extends StatefulWidget {
   final List<DateTime> bookedDates;
@@ -55,32 +55,50 @@ class _EquipmentCalendarState extends State<EquipmentCalendar> {
                 padding: EdgeInsets.zero,
                 onPressed: () {
                   setState(() {
-                    focusedDay = DateTime(focusedDay.year, focusedDay.month - 1, 1);
+                    focusedDay = DateTime(
+                      focusedDay.year,
+                      focusedDay.month - 1,
+                      1,
+                    );
                   });
                 },
-                icon: Icon(Icons.chevron_left, size: 20.sp, color: Colors.black54),
+                icon: Icon(
+                  Icons.chevron_left,
+                  size: 20.sp,
+                  color: Colors.black54,
+                ),
               ),
               Text(
                 "${_getMonthName(focusedDay.month)} ${focusedDay.year}",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleSmall!
-                    .copyWith(fontSize: 11.sp),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleSmall!.copyWith(fontSize: 11.sp),
               ),
               IconButton(
                 constraints: BoxConstraints(),
                 padding: EdgeInsets.zero,
                 onPressed: () {
                   setState(() {
-                    focusedDay = DateTime(focusedDay.year, focusedDay.month + 1, 1);
+                    focusedDay = DateTime(
+                      focusedDay.year,
+                      focusedDay.month + 1,
+                      1,
+                    );
                   });
                 },
-                icon: Icon(Icons.chevron_right, size: 20.sp, color: Colors.black54),
+                icon: Icon(
+                  Icons.chevron_right,
+                  size: 20.sp,
+                  color: Colors.black54,
+                ),
               ),
               Spacer(),
               _buildLegendItem(ColorManager.green, appLocalizations.available),
               SizedBox(width: 4.w),
-              _buildLegendItem(ColorManager.lightRed, appLocalizations.occupied),
+              _buildLegendItem(
+                ColorManager.lightRed,
+                appLocalizations.occupied,
+              ),
               SizedBox(width: 4.w),
               GestureDetector(
                 onTap: () {
@@ -125,7 +143,9 @@ class _EquipmentCalendarState extends State<EquipmentCalendar> {
           rowHeight: 42.h,
           daysOfWeekHeight: 30.h,
           selectedDayPredicate: (day) {
-            return widget.selectedDays.any((selectedDay) => isSameDay(selectedDay, day));
+            return widget.selectedDays.any(
+              (selectedDay) => isSameDay(selectedDay, day),
+            );
           },
           onPageChanged: (focused) {
             setState(() {
@@ -133,13 +153,19 @@ class _EquipmentCalendarState extends State<EquipmentCalendar> {
             });
           },
           onDaySelected: (selectedDay, newFocusedDay) {
-            bool isOccupied = widget.bookedDates.any((d) => isSameDay(d, selectedDay));
-            bool isPast = selectedDay.isBefore(DateTime.now().subtract(Duration(days: 1)));
+            bool isOccupied = widget.bookedDates.any(
+              (d) => isSameDay(d, selectedDay),
+            );
+            bool isPast = selectedDay.isBefore(
+              DateTime.now().subtract(Duration(days: 1)),
+            );
 
             if (_isSelectionModeActive && !isOccupied && !isPast) {
               setState(() {
                 if (widget.selectedDays.any((d) => isSameDay(d, selectedDay))) {
-                  widget.selectedDays.removeWhere((d) => isSameDay(d, selectedDay));
+                  widget.selectedDays.removeWhere(
+                    (d) => isSameDay(d, selectedDay),
+                  );
                 } else {
                   widget.selectedDays.add(selectedDay);
                 }
@@ -155,18 +181,34 @@ class _EquipmentCalendarState extends State<EquipmentCalendar> {
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(AppLocalizations.of(context)!.activate_Selected_mode_to_choose_dates),
+                  content: Text(
+                    AppLocalizations.of(
+                      context,
+                    )!.activate_Selected_mode_to_choose_dates,
+                  ),
                   backgroundColor: Colors.blue,
                   duration: Duration(seconds: 2),
                 ),
               );
             }
           },
+          daysOfWeekStyle: DaysOfWeekStyle(
+            weekdayStyle: Theme.of(
+              context,
+            ).textTheme.titleSmall!.copyWith(fontSize: 15.sp),
+            weekendStyle: Theme.of(
+              context,
+            ).textTheme.titleSmall!.copyWith(fontSize: 15.sp),
+          ),
           calendarBuilders: CalendarBuilders(
-            defaultBuilder: (context, day, focusedDay) => _dayCell(day, widget.bookedDates),
-            selectedBuilder: (context, day, focusedDay) => _dayCell(day, widget.bookedDates, isSelected: true),
-            todayBuilder: (context, day, focusedDay) => _dayCell(day, widget.bookedDates, isToday: true),
-            outsideBuilder: (context, day, focusedDay) => _dayCell(day, widget.bookedDates, isOutside: true),
+            defaultBuilder: (context, day, focusedDay) =>
+                _dayCell(day, widget.bookedDates),
+            selectedBuilder: (context, day, focusedDay) =>
+                _dayCell(day, widget.bookedDates, isSelected: true),
+            todayBuilder: (context, day, focusedDay) =>
+                _dayCell(day, widget.bookedDates, isToday: true),
+            outsideBuilder: (context, day, focusedDay) =>
+                _dayCell(day, widget.bookedDates, isOutside: true),
           ),
         ),
       ],
@@ -174,12 +216,12 @@ class _EquipmentCalendarState extends State<EquipmentCalendar> {
   }
 
   Widget _dayCell(
-      DateTime day,
-      List<DateTime> bookedDates, {
-        bool isSelected = false,
-        bool isToday = false,
-        bool isOutside = false,
-      }) {
+    DateTime day,
+    List<DateTime> bookedDates, {
+    bool isSelected = false,
+    bool isToday = false,
+    bool isOutside = false,
+  }) {
     bool isOccupied = bookedDates.any((d) => isSameDay(d, day));
     bool isPast = day.isBefore(DateTime.now().subtract(Duration(days: 1)));
     bool isSelectedDate = widget.selectedDays.any((d) => isSameDay(d, day));
@@ -196,15 +238,17 @@ class _EquipmentCalendarState extends State<EquipmentCalendar> {
       bgColor = ColorManager.lightRed;
       textColor = ColorManager.black;
       fontWeight = FontWeight.bold;
-    }else if (isOutside) {
+    } else if (isOutside) {
       bgColor = Colors.transparent;
-      textColor = Colors.grey.shade300;
+      textColor = ColorManager.greyText;
     } else if (isPast) {
       bgColor = Colors.transparent;
       textColor = ColorManager.black;
-    }  else {
+      fontWeight = FontWeight.bold;
+    } else {
       bgColor = Colors.transparent;
-      textColor = Colors.black;
+      textColor = ColorManager.black;
+      fontWeight = FontWeight.bold;
     }
 
     return Container(
@@ -214,7 +258,11 @@ class _EquipmentCalendarState extends State<EquipmentCalendar> {
       alignment: Alignment.center,
       child: Text(
         day.day.toString(),
-        style: GoogleFonts.inter(fontSize: 14.sp, fontWeight: fontWeight, color: textColor),
+        style: GoogleFonts.inter(
+          fontSize: 14.sp,
+          fontWeight: fontWeight,
+          color: textColor,
+        ),
       ),
     );
   }
@@ -261,7 +309,9 @@ class _EquipmentCalendarState extends State<EquipmentCalendar> {
   void _showOccupiedMessage() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(AppLocalizations.of(context)!.this_date_is_already_occupied),
+        content: Text(
+          AppLocalizations.of(context)!.this_date_is_already_occupied,
+        ),
         backgroundColor: Colors.red,
         duration: Duration(seconds: 2),
       ),

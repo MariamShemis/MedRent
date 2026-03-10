@@ -66,7 +66,6 @@ class _ProfileTabState extends State<ProfileTab> {
                               UserImageProfile(
                                 widgetUserImageProfile: CircleAvatar(
                                   radius: 46.r,
-                                  backgroundColor: Colors.grey[200],
                                   backgroundImage:
                                       (profileImageUrl != null &&
                                           profileImageUrl!.isNotEmpty)
@@ -78,7 +77,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                       ? Icon(
                                           Icons.person,
                                           size: 40.sp,
-                                          color: Colors.grey,
+                                          color: Colors.white,
                                         )
                                       : null,
                                 ),

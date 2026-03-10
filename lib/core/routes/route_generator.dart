@@ -25,6 +25,9 @@ import 'package:med_rent/features/my_rental/data/data_sources/my_rental_data_sou
 import 'package:med_rent/features/my_rental/presentation/view/my_rental.dart';
 import 'package:med_rent/features/onboarding/onboarding_screen.dart';
 import 'package:med_rent/features/rent_payment/presentation/view/rent_payment.dart';
+import 'package:med_rent/features/search_home/data/cubit/search_cubit.dart';
+import 'package:med_rent/features/search_home/data/data_sources/search_remote_data_source.dart';
+import 'package:med_rent/features/search_home/presentation/view/search_home.dart';
 import 'package:med_rent/features/splash/splash_screen.dart';
 import 'package:med_rent/features/start_screen/start_screen.dart';
 import 'package:med_rent/features/update_profile/data/cubit/update_profile_cubit.dart';
@@ -108,6 +111,17 @@ abstract class RoutesManager {
       case AppRoutes.languageProfile:
         {
           return CupertinoPageRoute(builder: (context) => LanguageProfile());
+        }
+      case AppRoutes.searchHome:
+        {
+          return CupertinoPageRoute(
+            builder: (context) => BlocProvider(
+              create: (context) => SearchCubit(
+                SearchRemoteDataSource(Dio()),
+              ),
+              child: const SearchHome(),
+            ),
+          );
         }
       case AppRoutes.bookingPayment:
         {

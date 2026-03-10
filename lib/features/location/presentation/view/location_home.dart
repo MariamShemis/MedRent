@@ -100,7 +100,7 @@ class _LocationHomeState extends State<LocationHome> {
                               target: state.selectedLocation,
                               zoom: 16,
                             ),
-                            myLocationEnabled: true,
+                            myLocationEnabled: false,
                             myLocationButtonEnabled: false,
                             markers: marker != null ? {marker} : {},
                             onTap: (pos) {
@@ -184,7 +184,7 @@ class _LocationHomeState extends State<LocationHome> {
                   ),
                   Positioned(
                     right: 10.w,
-                    bottom: 160.h,
+                    bottom: 170.h,
                     child: Column(
                       children: [
                         FloatingActionButton(
