@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
+import 'package:med_rent/core/network/api_client.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/features/booking/data/cubit/booking_cubit.dart';
 import 'package:med_rent/features/booking/presentation/widgets/bookind_calendar.dart';
@@ -19,7 +20,7 @@ class BookingTab extends StatelessWidget {
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return BlocProvider(
-      create: (_) => BookingCubit()..loadHospitalDetails(selectedHospitalId),
+      create: (_) => BookingCubit(ApiClient())..loadHospitalDetails(selectedHospitalId),
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(

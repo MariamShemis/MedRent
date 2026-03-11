@@ -6,7 +6,6 @@ import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/features/language/data/cubit/app_localization_cubit.dart';
 import 'package:med_rent/features/main_layout/profile/data/cubit/profile_cubit.dart';
-import 'package:med_rent/features/main_layout/profile/data/data_sources/profile_data.dart';
 import 'package:med_rent/features/main_layout/profile/presentation/widgets/custom_profile_container_item.dart';
 import 'package:med_rent/features/main_layout/profile/presentation/widgets/user_image_profile.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
@@ -27,174 +26,159 @@ class _ProfileTabState extends State<ProfileTab> {
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
 
-    return BlocProvider(
-      create: (context) => ProfileCubit(ProfileData())..getProfileData(),
-      child: Builder(
-        builder: (context) {
-          return Scaffold(
-            body: SafeArea(
-              child: Padding(
-                padding: REdgeInsets.all(16.0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Text(
-                        appLocalizations.profile,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: REdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Text(
+                  appLocalizations.profile,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.headlineLarge!.copyWith(fontSize: 24.sp),
+                ),
+                SizedBox(height: 15.h),
+                BlocBuilder<ProfileCubit, ProfileState>(
+                  builder: (context, state) {
+                    if (state is ProfileLoading) {
+                      return SizedBox(
+                        height: 150.h,
+                        child: const Center(child: CircularProgressIndicator()),
+                      );
+                    }
+                    if (state is ProfileSuccess) {
+                      profileImageUrl = state.profileModel.imageUrl;
+                      userName = state.profileModel.name;
+                      userId = state.profileModel.userId;
+                    }
+                    return Column(
+                      children: [
+                        UserImageProfile(
+                          widgetUserImageProfile: CircleAvatar(
+                            radius: 46.r,
+                            backgroundImage:
+                                (profileImageUrl != null &&
+                                    profileImageUrl!.isNotEmpty)
+                                ? NetworkImage(profileImageUrl!)
+                                : null,
+                            child:
+                                (profileImageUrl == null ||
+                                    profileImageUrl!.isEmpty)
+                                ? Icon(
+                                    Icons.person,
+                                    size: 40.sp,
+                                    color: Colors.white,
+                                  )
+                                : null,
+                          ),
+                        ),
+                        SizedBox(height: 18.h),
+                        Text(
+                          userName,
+                          style: Theme.of(
+                            context,
+                          ).textTheme.displayLarge!.copyWith(fontSize: 24.sp),
+                        ),
+                        SizedBox(height: 10.h),
+                        Text(
+                          "Patient ID : #HE-$userId",
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+                SizedBox(height: 20.h),
+                SizedBox(
+                  width: 200.w,
+                  height: 45.h,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.personalInformation,
+                      ).then((value) {
+                        if (value == true) {
+                          context.read<ProfileCubit>().getProfileData();
+                        }
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorManager.darkBlue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Iconsax.edit_2, size: 20.sp, color: Colors.white),
+                        SizedBox(width: 8.w),
+                        Text(
+                          appLocalizations.editProfile,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 30.h),
+                BlocBuilder<AppLocalizationCubit, Locale>(
+                  builder: (context, locale) {
+                    final isArabic = locale.languageCode == 'ar';
+                    return CustomProfileContainerItem(
+                      onPressedNotification: () {},
+                      onPressedIconMyRental: () =>
+                          Navigator.pushNamed(context, AppRoutes.myRental),
+                      onPressedIconPersonalInformation: () {
+                        Navigator.pushNamed(
                           context,
-                        ).textTheme.headlineLarge!.copyWith(fontSize: 24.sp),
-                      ),
-                      SizedBox(height: 15.h),
-                      BlocBuilder<ProfileCubit, ProfileState>(
-                        builder: (context, state) {
-                          if (state is ProfileLoading) {
-                            return SizedBox(
-                              height: 150.h,
-                              child: const Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            );
+                          AppRoutes.personalInformation,
+                        ).then((value) {
+                          if (value == true) {
+                            context.read<ProfileCubit>().getProfileData();
                           }
-                          if (state is ProfileSuccess) {
-                            profileImageUrl = state.profileModel.imageUrl;
-                            userName = state.profileModel.name;
-                            userId = state.profileModel.userId;
-                          }
-                          return Column(
-                            children: [
-                              UserImageProfile(
-                                widgetUserImageProfile: CircleAvatar(
-                                  radius: 46.r,
-                                  backgroundImage:
-                                      (profileImageUrl != null &&
-                                          profileImageUrl!.isNotEmpty)
-                                      ? NetworkImage(profileImageUrl!)
-                                      : null,
-                                  child:
-                                      (profileImageUrl == null ||
-                                          profileImageUrl!.isEmpty)
-                                      ? Icon(
-                                          Icons.person,
-                                          size: 40.sp,
-                                          color: Colors.white,
-                                        )
-                                      : null,
-                                ),
-                              ),
-                              SizedBox(height: 18.h),
-                              Text(
-                                userName,
-                                style: Theme.of(context).textTheme.displayLarge!
-                                    .copyWith(fontSize: 24.sp),
-                              ),
-                              SizedBox(height: 10.h),
-                              Text(
-                                "Patient ID : #HE-$userId",
-                                style: Theme.of(context).textTheme.bodyMedium!
-                                    .copyWith(fontSize: 14.sp),
-                              ),
-                            ],
-                          );
-                        },
+                        });
+                      },
+                      onPressedIconContactUs: () =>
+                          Navigator.pushNamed(context, AppRoutes.contactUs),
+                      textLanguage: isArabic ? "العربية" : "English",
+                      onPressedLanguage: () => Navigator.pushNamed(
+                        context,
+                        AppRoutes.languageProfile,
                       ),
-                      SizedBox(height: 20.h),
-                      SizedBox(
-                        width: 200.w,
-                        height: 45.h,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              AppRoutes.personalInformation,
-                            ).then((value) {
-                              if (value == true) {
-                                context.read<ProfileCubit>().getProfileData();
-                              }
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: ColorManager.darkBlue,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.r),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Iconsax.edit_2,
-                                size: 20.sp,
-                                color: Colors.white,
-                              ),
-                              SizedBox(width: 8.w),
-                              Text(
-                                appLocalizations.editProfile,
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          ),
-                        ),
+                    );
+                  },
+                ),
+                SizedBox(height: 20.h),
+                GestureDetector(
+                  onTap: () => _showDialogLogOut(context),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Iconsax.logout,
+                        color: ColorManager.red,
+                        size: 26.sp,
                       ),
-                      SizedBox(height: 30.h),
-                      BlocBuilder<AppLocalizationCubit, Locale>(
-                        builder: (context, locale) {
-                          final isArabic = locale.languageCode == 'ar';
-                          return CustomProfileContainerItem(
-                            onPressedNotification: () {},
-                            onPressedIconMyRental: () => Navigator.pushNamed(
-                              context,
-                              AppRoutes.myRental,
-                            ),
-                            onPressedIconPersonalInformation: () {
-                              Navigator.pushNamed(
-                                context,
-                                AppRoutes.personalInformation,
-                              ).then((value) {
-                                if (value == true) {
-                                  context.read<ProfileCubit>().getProfileData();
-                                }
-                              });
-                            },
-                            onPressedIconContactUs: () => Navigator.pushNamed(
-                              context,
-                              AppRoutes.contactUs,
-                            ),
-                            textLanguage: isArabic ? "العربية" : "English",
-                            onPressedLanguage: () => Navigator.pushNamed(
-                              context,
-                              AppRoutes.languageProfile,
-                            ),
-                          );
-                        },
-                      ),
-                      SizedBox(height: 20.h),
-                      GestureDetector(
-                        onTap: () => _showDialogLogOut(context),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Iconsax.logout,
-                              color: ColorManager.red,
-                              size: 26.sp,
-                            ),
-                            SizedBox(width: 8.w),
-                            Text(
-                              appLocalizations.log_out,
-                              style: Theme.of(context).textTheme.headlineMedium!
-                                  .copyWith(color: ColorManager.red),
-                            ),
-                          ],
-                        ),
+                      SizedBox(width: 8.w),
+                      Text(
+                        appLocalizations.log_out,
+                        style: Theme.of(context).textTheme.headlineMedium!
+                            .copyWith(color: ColorManager.red),
                       ),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }

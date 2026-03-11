@@ -1,31 +1,34 @@
-import 'package:dio/dio.dart';
-import 'package:med_rent/core/constants/assets_manager.dart';
-import 'package:med_rent/features/main_layout/profile/data/models/profile_model.dart';
 import 'dart:convert';
+import 'package:dio/dio.dart';
+import 'package:med_rent/core/network/api_client.dart';
+import 'package:med_rent/features/main_layout/profile/data/models/profile_model.dart';
 
 class ProfileData {
-  final Dio dio = Dio();
-  final String baseUrl = ApiConstants.baseUrlNew;
+  final ApiClient _apiClient;
+
+  ProfileData({required ApiClient apiClient}) : _apiClient = apiClient;
+
   Future<ProfileModel> fetchProfile(String token) async {
     try {
-      final response = await dio.get(
-        '$baseUrl/Profile',
+      final response = await _apiClient.get(
+        '/Profile',
         options: Options(
           headers: {
-            'Authorization': 'Bearer $token', 
+            'Authorization': 'Bearer $token',
             'Accept': 'application/json',
           },
         ),
       );
+
       if (response.statusCode == 200) {
         final data = response.data is String
             ? jsonDecode(response.data)
             : response.data;
 
         return ProfileModel.fromJson(data);
-      } else {
-        throw Exception("${response.statusCode}");
       }
+
+      throw Exception("${response.statusCode}");
     } on DioException catch (e) {
       String errorMessage;
 
@@ -34,6 +37,7 @@ class ProfileData {
       } else {
         errorMessage = e.response?.data.toString() ?? "error";
       }
+
       throw Exception(errorMessage);
     }
   }
@@ -41,12 +45,14 @@ class ProfileData {
   Future<String> uploadProfileImage(String token, String filePath) async {
     try {
       FormData formData = FormData.fromMap({
-        'file': await MultipartFile.fromFile(filePath,
-            filename: filePath.split('/').last),
+        'file': await MultipartFile.fromFile(
+          filePath,
+          filename: filePath.split('/').last,
+        ),
       });
 
-      final response = await dio.post(
-        ApiConstants.uploadImage,
+      final response = await _apiClient.post(
+        '/Profile/upload-image',
         data: formData,
         options: Options(
           headers: {
@@ -57,12 +63,14 @@ class ProfileData {
       );
 
       if (response.statusCode == 200) {
-        return response.data['imageUrl']; 
-      } else {
-        throw Exception("Failed to upload image");
+        return response.data['imageUrl'];
       }
+
+      throw Exception("Failed to upload image");
     } on DioException catch (e) {
-      throw Exception(e.response?.data['message'] ?? "Error uploading image");
+      throw Exception(
+        e.response?.data['message'] ?? "Error uploading image",
+      );
     }
   }
 }
