@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
+import 'package:med_rent/core/network/api_client.dart';
 import 'package:med_rent/core/widgets/custom_search_text_field.dart';
 import 'package:med_rent/features/my_rental/data/cubit/my_rental_cubit.dart';
 import 'package:med_rent/features/my_rental/data/cubit/my_rental_state.dart';
@@ -27,7 +28,7 @@ class _MyRentalState extends State<MyRental> {
   void initState() {
     super.initState();
     cubit = MyRentalCubit(
-      dataSource: MyRentalDataSource(),
+      dataSource: MyRentalDataSource(apiClient: ApiClient()),
     )..loadRentals();
   }
 

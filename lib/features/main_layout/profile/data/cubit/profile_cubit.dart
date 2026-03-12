@@ -8,7 +8,8 @@ part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   final ProfileData profileData;
-  ProfileModel? _profileModel; // ← نخزن البيانات هنا
+  ProfileModel? _profileModel;
+  String? userRole;
 
   ProfileCubit(this.profileData) : super(ProfileInitial());
 
@@ -16,11 +17,12 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(ProfileLoading());
     try {
       final token = await SessionService.getAuthToken();
-
       if (token != null && token.isNotEmpty) {
         final profile = await profileData.fetchProfile(token);
-        _profileModel = profile; // ← نخزن البروفايل
-        emit(ProfileSuccess(profile));
+        _profileModel = profile;
+        userRole = await SessionService.getUserRole();
+
+        emit(ProfileSuccess(profile, role: userRole));
       } else {
         emit(ProfileError("Session expired"));
       }
@@ -55,7 +57,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         email: currentProfile.email,
         imageUrl: currentProfile.imageUrl,
       );
-      emit(ProfileSuccess(updatedProfile));
+      emit(ProfileSuccess(updatedProfile, role: userRole));
     }
   }
 }

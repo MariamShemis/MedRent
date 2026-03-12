@@ -1,15 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:med_rent/core/network/api_client.dart';
 import 'package:med_rent/core/service/session_service.dart';
 import '../models/rental_model.dart';
 
 class MyRentalDataSource {
-  final Dio dio = Dio();
+  final ApiClient _apiClient;
 
-  MyRentalDataSource() {
-    dio.options.baseUrl = 'http://www.graduationprojectapi.somee.com';
-    dio.options.connectTimeout = const Duration(seconds: 30);
-    dio.options.receiveTimeout = const Duration(seconds: 30);
-  }
+  MyRentalDataSource({required ApiClient apiClient})
+      : _apiClient = apiClient;
 
   Future<String?> _getToken() async {
     return await SessionService.getAuthToken();
@@ -37,48 +35,48 @@ class MyRentalDataSource {
   Future<List<RentalModel>> getUserRentals() async {
     try {
       final userId = await _getUserId();
+
       if (userId == null) {
         throw Exception('User not logged in');
       }
 
       final options = await _getOptions();
-      final response = await dio.get(
-        '/api/Profile/$userId',
+
+      final response = await _apiClient.get(
+        '/Profile/$userId',
         options: options,
       );
 
       if (response.statusCode == 200) {
-        final List<dynamic> data = response.data;
-        final List<RentalModel> rentals = [];
+        final List data = response.data;
 
-        for (var item in data) {
-          rentals.add(RentalModel.fromJson(item));
-        }
-
-        return rentals;
-      } else {
-        throw Exception('Failed to load rentals');
+        return data.map((e) => RentalModel.fromJson(e)).toList();
       }
+
+      throw Exception('Failed to load rentals');
     } on DioException catch (e) {
       if (e.response?.statusCode == 401) {
         throw Exception('Please login again');
       }
+
       throw Exception('Network error');
     } catch (e) {
-      throw Exception('Error: $e');
+      throw Exception('Error $e');
     }
   }
 
   Future<List<RentalModel>> searchRentals(String query) async {
     try {
       final userId = await _getUserId();
+
       if (userId == null) {
         throw Exception('User not logged in');
       }
 
       final options = await _getOptions();
-      final response = await dio.get(
-        '/api/Profile/search',
+
+      final response = await _apiClient.get(
+        '/Profile/search',
         options: options,
         queryParameters: {
           'userId': userId,
@@ -87,23 +85,19 @@ class MyRentalDataSource {
       );
 
       if (response.statusCode == 200) {
-        final List<dynamic> data = response.data;
-        final List<RentalModel> rentals = [];
+        final List data = response.data;
 
-        for (var item in data) {
-          rentals.add(RentalModel.fromJson(item));
-        }
-
-        return rentals;
-      } else {
-        return [];
+        return data.map((e) => RentalModel.fromJson(e)).toList();
       }
+
+      return [];
     } on DioException catch (e) {
       if (e.response?.statusCode == 401) {
         throw Exception('Please login again');
       }
+
       return [];
-    } catch (e) {
+    } catch (_) {
       return [];
     }
   }

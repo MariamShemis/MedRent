@@ -1,15 +1,21 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
+import 'package:med_rent/core/network/api_client.dart';
+import 'package:med_rent/features/main_layout/ai_chat/data/cubit/chat_ai_cubit.dart';
+import 'package:med_rent/features/main_layout/ai_chat/data/data_sources/chat_data.dart';
 import 'package:med_rent/features/main_layout/ai_chat/presentation/view/ai_chat.dart';
 import 'package:med_rent/features/main_layout/home/presentation/view/home_tab.dart';
 import 'package:med_rent/features/main_layout/hospital/data/cubit/hospital_cubit.dart';
 import 'package:med_rent/features/main_layout/hospital/data/data_sources/hospital_remote_data_source.dart';
 import 'package:med_rent/features/main_layout/hospital/presentation/view/hospital_tab.dart';
+import 'package:med_rent/features/main_layout/profile/data/cubit/profile_cubit.dart';
+import 'package:med_rent/features/main_layout/profile/data/data_sources/profile_data.dart';
 import 'package:med_rent/features/main_layout/profile/presentation/view/profile_tab.dart';
+import 'package:med_rent/features/main_layout/rent/data/cubit/equipment_cubit.dart';
+import 'package:med_rent/features/main_layout/rent/data/data_sources/equipment_data_source.dart';
 import 'package:med_rent/features/main_layout/rent/presentation/view/rent_tab.dart';
 
 class MainLayout extends StatefulWidget {
@@ -44,12 +50,24 @@ class _MainLayoutState extends State<MainLayout> {
     ),
     BlocProvider(
       create: (context) =>
-          HospitalCubit(HospitalRemoteDataSource(Dio()))..getAllHospitals(),
+          HospitalCubit(HospitalRemoteDataSource(apiClient: ApiClient()))
+            ..getAllHospitals(),
       child: const HospitalTab(),
     ),
-    RentTab(),
-    AiChat(),
-    ProfileTab(),
+    BlocProvider(
+      create: (context) =>
+          EquipmentCubit(EquipmentDataSource(apiClient: ApiClient()))..getAll(),
+      child: RentTab(),
+    ),
+    BlocProvider(
+      create: (context) => ChatAiCubit(ChatData(apiClient: ApiClient())),
+      child: AiChat(),
+    ),
+    BlocProvider(
+      create: (context) =>
+          ProfileCubit(ProfileData(apiClient: ApiClient()))..getProfileData(),
+      child: ProfileTab(),
+    ),
   ];
 
   @override

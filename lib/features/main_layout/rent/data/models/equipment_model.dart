@@ -1,4 +1,4 @@
-import 'package:med_rent/features/equipment%20details/data/models/rating_summary.dart';
+import 'package:med_rent/features/equipment details/data/models/rating_summary.dart';
 
 class EquipmentModel {
   final int equipmentId;
@@ -33,4 +33,24 @@ class EquipmentModel {
 
   double get rating => ratingSummary.average;
   int get reviewsCount => ratingSummary.count;
+
+  EquipmentModel copyWith({
+    int? equipmentId,
+    String? name,
+    String? description,
+    bool? availability,
+    double? pricePerDay,
+    String? imageUrl,
+    RatingSummaryModel? ratingSummary,
+  }) {
+    return EquipmentModel(
+      equipmentId: equipmentId ?? this.equipmentId,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      availability: availability ?? this.availability,
+      pricePerDay: pricePerDay ?? this.pricePerDay,
+      imageUrl: imageUrl ?? this.imageUrl,
+      ratingSummary: ratingSummary ?? this.ratingSummary,
+    );
+  }
 }

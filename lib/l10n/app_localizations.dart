@@ -1613,6 +1613,54 @@ abstract class AppLocalizations {
   /// **'Appointment booked'**
   String get appointment_booked;
 
+  /// No description provided for @adminID.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin ID'**
+  String get adminID;
+
+  /// No description provided for @doctorID.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctor ID'**
+  String get doctorID;
+
+  /// No description provided for @ownerID.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner ID'**
+  String get ownerID;
+
+  /// No description provided for @dashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard'**
+  String get dashboard;
+
+  /// No description provided for @devices.
+  ///
+  /// In en, this message translates to:
+  /// **'Devices'**
+  String get devices;
+
+  /// No description provided for @users.
+  ///
+  /// In en, this message translates to:
+  /// **'Users'**
+  String get users;
+
+  /// No description provided for @my_devices.
+  ///
+  /// In en, this message translates to:
+  /// **'My devices'**
+  String get my_devices;
+
+  /// No description provided for @add_a_Device.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a Device'**
+  String get add_a_Device;
+
   /// No description provided for @doctor.
   ///
   /// In en, this message translates to:

@@ -253,5 +253,13 @@
   "availableToday" : "Available Today",
   "years_experience" : "years experience",
   "appointment_booked" : "Appointment booked",
+  "adminID" : "Admin ID",
+  "doctorID" : "Doctor ID",
+  "ownerID" : "Owner ID",
+  "dashboard" : "Dashboard",
+  "devices" : "Devices",
+  "users" : "Users",
+  "my_devices" : "My devices",
+  "add_a_Device" : "Add a Device",
   "doctor" : "Doctor"
 }

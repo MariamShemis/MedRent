@@ -27,7 +27,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
   late TextEditingController phoneController;
   late TextEditingController emailController;
 
-  String? selectedGender;
+  String? selectedGender= "Male";
   File? selectedImage;
   String? profileImageUrl;
   bool isLoading = true;
@@ -50,7 +50,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
       phoneController.text = profile.phone;
       emailController.text = profile.email;
       birthController.text = profile.dateOfBirth.split('T')[0];
-      selectedGender = profile.gender;
+      selectedGender = profile.gender?.isNotEmpty == true ? profile.gender : selectedGender;
       if (profile.imageUrl != null && profile.imageUrl!.isNotEmpty) {
         profileImageUrl = profile.imageUrl;
       }
@@ -174,7 +174,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                 ),
                 SizedBox(height: 8.h),
                 PersonalProfileGenderText(
-                  selectedLabel: selectedGender ?? "Male",
+                  selectedLabel: selectedGender ?? appLocalizations.male,
                   menuItems: [appLocalizations.male, appLocalizations.female],
                   onChange: (value) {
                     setState(() {
@@ -211,7 +211,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                             UpdateProfileRequest(
                               name: nameController.text,
                               dateOfBirth: birthController.text,
-                              gender: selectedGender ?? "",
+                              gender: selectedGender ?? appLocalizations.male,
                               phone: phoneController.text,
                               email: emailController.text,
                             ),

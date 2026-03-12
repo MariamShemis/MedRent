@@ -1,6 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:med_rent/core/network/api_client.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
 import 'package:med_rent/features/auth/data/cubit/auth_cubit.dart';
 import 'package:med_rent/features/auth/presentation/view/login_screen.dart';
@@ -33,7 +33,6 @@ import 'package:med_rent/features/start_screen/start_screen.dart';
 import 'package:med_rent/features/update_profile/data/cubit/update_profile_cubit.dart';
 import 'package:med_rent/features/update_profile/data/data_sources/update_profile_data_source.dart';
 import 'package:med_rent/features/update_profile/presentation/view/personal_information.dart';
-
 import '../../features/contact_us/data/data_sources/contact_us_data_source.dart';
 import '../../features/hospital_details/data/cubit/hospital_details_cubit.dart';
 
@@ -76,7 +75,7 @@ abstract class RoutesManager {
         {
           return CupertinoPageRoute(
             builder: (context) => BlocProvider(
-              create: (context) => ContactUsCubit(ContactUsDataSource(Dio())),
+              create: (context) => ContactUsCubit(ContactUsDataSource(apiClient: ApiClient())),
               child: ContactUs(),
             ),
           );
@@ -88,7 +87,7 @@ abstract class RoutesManager {
           return CupertinoPageRoute(
             builder: (context) => BlocProvider(
               create: (context) =>
-                  HospitalDetailsCubit(HospitalDetailsDataSource())
+                  HospitalDetailsCubit(HospitalDetailsDataSource(apiClient: ApiClient()))
                     ..fetchHospitalDetails(hospitalId),
               child: HospitalDetails(hospitalId: hospitalId),
             ),
@@ -99,7 +98,7 @@ abstract class RoutesManager {
           return CupertinoPageRoute(
             builder: (context) => BlocProvider(
               create: (context) =>
-                  UpdateProfileCubit(UpdateProfileDataSource(Dio())),
+                  UpdateProfileCubit(UpdateProfileDataSource(apiClient: ApiClient())),
               child: const PersonalInformation(),
             ),
           );
@@ -117,7 +116,7 @@ abstract class RoutesManager {
           return CupertinoPageRoute(
             builder: (context) => BlocProvider(
               create: (context) => SearchCubit(
-                SearchRemoteDataSource(Dio()),
+                SearchRemoteDataSource(apiClient: ApiClient()),
               ),
               child: const SearchHome(),
             ),
@@ -133,7 +132,7 @@ abstract class RoutesManager {
           final hospitalId = args is int ? args : 0;
           return CupertinoPageRoute(
             builder: (context) => BlocProvider(
-              create: (_) => BookingCubit()..loadHospitalDetails(hospitalId),
+              create: (_) => BookingCubit(ApiClient())..loadHospitalDetails(hospitalId),
               child: BookingTab(selectedHospitalId: hospitalId),
             ),
           );
@@ -153,7 +152,7 @@ abstract class RoutesManager {
           return CupertinoPageRoute(
             builder: (context) => BlocProvider(
               create: (context) =>
-                  MyRentalCubit(dataSource: MyRentalDataSource()),
+                  MyRentalCubit(dataSource: MyRentalDataSource(apiClient: ApiClient())),
               child: const MyRental(),
             ),
           );
@@ -165,7 +164,7 @@ abstract class RoutesManager {
           return CupertinoPageRoute(
             builder: (_) => BlocProvider(
               create: (context) => EquipmentDetailsCubit(
-                dataSource: EquipmentDetailsDataSource(),
+                dataSource: EquipmentDetailsDataSource(apiClient: ApiClient()),
                 context: context,
               ),
               child: EquipmentDetails(equipmentId: equipmentId),
