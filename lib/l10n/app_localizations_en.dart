@@ -768,5 +768,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appointment_booked => 'Appointment booked';
 
   @override
+  String get adminID => 'Admin ID';
+
+  @override
+  String get doctorID => 'Doctor ID';
+
+  @override
+  String get ownerID => 'Owner ID';
+
+  @override
+  String get dashboard => 'Dashboard';
+
+  @override
+  String get devices => 'Devices';
+
+  @override
+  String get users => 'Users';
+
+  @override
+  String get my_devices => 'My devices';
+
+  @override
+  String get add_a_Device => 'Add a Device';
+
+  @override
   String get doctor => 'Doctor';
 }

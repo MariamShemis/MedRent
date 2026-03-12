@@ -15,19 +15,32 @@ class AppValidators {
     }
     return null;
   }
-  static String?  validatePassword(BuildContext context ,  String? val){
+  // static String? validatePassword(BuildContext context, String? val) {
+  //   final t = AppLocalizations.of(context)!;
+  //   RegExp regExp = RegExp(r'^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+  //
+  //   if (val == null || val.isEmpty) {
+  //     return t.this_field_is_required;
+  //   }
+  //   if (!regExp.hasMatch(val)) {
+  //     return t.strong_password_please;
+  //   }
+  //   return null;
+  // }
+  static String? validatePassword(BuildContext context, String? val) {
     final t = AppLocalizations.of(context)!;
-    RegExp regExp = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+    RegExp regExp = RegExp(r'^.{6,}$');
+
     if (val == null || val.isEmpty) {
       return t.this_field_is_required;
     }
-    if(!regExp.hasMatch(val)){
-      return t.strong_password_please;
+
+    if (!regExp.hasMatch(val)) {
+      return "Password must be at least 6 characters";
     }
+
     return null;
-
   }
-
   static String? validateConfirmPassword(BuildContext context, String? val, String? password) {
     final t = AppLocalizations.of(context)!;
     if (val == null || val.isEmpty) {
@@ -61,7 +74,7 @@ class AppValidators {
     if (int.tryParse(trimmed) == null) {
       return t.enter_numbers_only;
     }
-    if (trimmed.length != 10) {
+    if (trimmed.length != 11) {
       return t.enter_value_must_be_11_digit_including_country_code_or_10_without_it;
     }
     return null;
