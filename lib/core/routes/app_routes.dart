@@ -16,6 +16,8 @@ abstract class AppRoutes{
   static const String bookingPayment = '/BookingPayment';
   static const String booking = '/Booking';
   static const String searchHome = '/searchHome';
+  static const String myNotification = '/myNotification';
+  static const String notificationSetting = '/notificationSetting';
 
 
 }
