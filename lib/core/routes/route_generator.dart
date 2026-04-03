@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:med_rent/core/network/api_client.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
+import 'package:med_rent/features/rent_payment/data/cubit/rent_payment_cubit.dart';
+import 'package:med_rent/features/rent_payment/data/data_sources/rent_payment_data_source.dart';
 import 'package:med_rent/features/auth/data/cubit/auth_cubit.dart';
 import 'package:med_rent/features/auth/presentation/view/login_screen.dart';
 import 'package:med_rent/features/auth/presentation/view/register_screen.dart';
@@ -105,7 +107,16 @@ abstract class RoutesManager {
         }
       case AppRoutes.rentPayment:
         {
-          return CupertinoPageRoute(builder: (context) => RentPayment());
+          final args = settings.arguments;
+          final rentalId = args is int ? args : 0;
+          return CupertinoPageRoute(
+            builder: (context) => BlocProvider(
+              create: (_) => RentPaymentCubit(
+                dataSource: RentPaymentDataSource(apiClient: ApiClient()),
+              ),
+              child: RentPayment(rentalId: rentalId),
+            ),
+          );
         }
       case AppRoutes.languageProfile:
         {
