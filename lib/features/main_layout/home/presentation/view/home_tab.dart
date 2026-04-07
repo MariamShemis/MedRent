@@ -81,7 +81,9 @@ class _HomeTabState extends State<HomeTab> {
                       ),
                     const Spacer(),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, AppRoutes.myNotification);
+                      },
                       icon: Icon(
                         Iconsax.notification4,
                         color: Theme.of(context).primaryColor,

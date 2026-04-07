@@ -793,4 +793,175 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get doctor => 'Doctor';
+
+  @override
+  String get newBookingAlerts => 'New Booking Alerts';
+
+  @override
+  String get notification_when_a_new_patient_books => 'Notification when a new patient books';
+
+  @override
+  String get totalPatients => 'Total Patients';
+
+  @override
+  String get pendingPatients => 'Pending Patients';
+
+  @override
+  String get todaysBookings => 'Today\'s Bookings';
+
+  @override
+  String get satisfactionRate => 'Satisfaction Rate';
+
+  @override
+  String get weekly_reservations => 'Weekly reservations';
+
+  @override
+  String get state => 'State';
+
+  @override
+  String get types_of_Appointments => 'Types of Appointments';
+
+  @override
+  String get dailyRent => 'Daily Rent';
+
+  @override
+  String get weeklyRent => 'Weekly Rent';
+
+  @override
+  String get monthlyPatients => 'Monthly Patients';
+
+  @override
+  String get general_Checkup => 'General Check-up';
+
+  @override
+  String get followup => 'Follow-up';
+
+  @override
+  String get consultation => 'Consultation';
+
+  @override
+  String get emergency => 'Emergency';
+
+  @override
+  String get reservation => 'Reservation';
+
+  @override
+  String get search_by_Name_or_phone => 'Search by Name or phone ';
+
+  @override
+  String get display => 'Display';
+
+  @override
+  String get myDevice => 'My Device';
+
+  @override
+  String get addDevice => 'Add Device';
+
+  @override
+  String get addNewDevice => 'Add New Device';
+
+  @override
+  String get deviceImage => 'Device Image';
+
+  @override
+  String get addImage => 'Add Image';
+
+  @override
+  String get deviceInformation => 'Device Information';
+
+  @override
+  String get enter_name_of_device => 'Enter name of device';
+
+  @override
+  String get enter_price_of_device => 'Enter price of device';
+
+  @override
+  String get enter_a_detailed_description_of_the_device => 'Enter a detailed description of the device......';
+
+  @override
+  String get price => 'Price';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get totalDevices => 'Total Devices';
+
+  @override
+  String get totalBookings => 'Total Bookings';
+
+  @override
+  String get totalHospitals => 'Total Hospitals';
+
+  @override
+  String get totalUsers => 'Total Users';
+
+  @override
+  String get totalRentals => 'Total Rentals';
+
+  @override
+  String get totalDoctor => 'Total Doctor';
+
+  @override
+  String get cardiologyConsultation => 'Cardiology Consultation';
+
+  @override
+  String get search_by_Name => 'Search by Name';
+
+  @override
+  String get consultationPrice => 'Consultation Price';
+
+  @override
+  String get doctorImage => 'Doctor Image';
+
+  @override
+  String get doctorInformation => 'Doctor Information';
+
+  @override
+  String get enter_name_of_doctor => 'Enter name of doctor';
+
+  @override
+  String get enter_email => 'Enter email';
+
+  @override
+  String get enter_password => 'Enter password';
+
+  @override
+  String get experienceYear => 'Experience Year';
+
+  @override
+  String get enter_experience_year => 'Enter experience year';
+
+  @override
+  String get specialization => 'Specialization';
+
+  @override
+  String get enter_specialization => 'Enter specialization';
+
+  @override
+  String get hospital => 'Hospital';
+
+  @override
+  String get tantaUniversityHospital => 'Tanta University Hospital';
+
+  @override
+  String get department => 'Department';
+
+  @override
+  String get enter_price_of_consutation => 'Enter price of consutation';
+
+  @override
+  String get startTime => 'Start Time';
+
+  @override
+  String get enter_start_time => 'Enter start time';
+
+  @override
+  String get end_Time => 'End Time';
+
+  @override
+  String get enter_end_time => 'Enter end time';
+
+  @override
+  String get revenue => 'Revenue';
 }

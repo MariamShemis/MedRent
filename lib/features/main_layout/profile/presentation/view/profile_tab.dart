@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
+import 'package:med_rent/features/dashboard_doctor/presentation/view/dashboard_doctor.dart';
 import 'package:med_rent/features/language/data/cubit/app_localization_cubit.dart';
 import 'package:med_rent/features/main_layout/profile/data/cubit/profile_cubit.dart';
 import 'package:med_rent/features/main_layout/profile/data/models/profile_menu_item.dart';
@@ -29,6 +30,7 @@ class _ProfileTabState extends State<ProfileTab> {
 
     return Scaffold(
       body: SafeArea(
+        bottom: false,
         child: Padding(
           padding: REdgeInsets.all(16.0),
           child: SingleChildScrollView(
@@ -36,11 +38,12 @@ class _ProfileTabState extends State<ProfileTab> {
               builder: (context, state) {
                 if (state is ProfileLoading) {
                   return SizedBox(
-                    height: 600.h,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                    height: 620.h,
+                    child: Center(child: CircularProgressIndicator()),
                   );
+                }
+                if(state is ProfileError){
+                  return Text(state.message);
                 }
                 if (state is ProfileSuccess) {
                   profileImageUrl = state.profileModel.imageUrl;
@@ -75,17 +78,21 @@ class _ProfileTabState extends State<ProfileTab> {
                   if (role == 'Admin') {
                     menuItems.addAll([
                       ProfileMenuItem(
-                        icon: Icons.space_dashboard_outlined,
+                        icon: Icons.dashboard_outlined,
                         text: appLocalizations.dashboard,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.dashboardAdmin);
+                        },
                       ),
                       ProfileMenuItem(
                         icon: Iconsax.calendar_1,
                         text: appLocalizations.booking,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.bookingReservationAdmin);
+                        },
                       ),
                       ProfileMenuItem(
-                        icon: Iconsax.devices_14,
+                        icon: Icons.monitor_outlined,
                         text: appLocalizations.devices,
                         onPressed: () {},
                       ),
@@ -103,22 +110,31 @@ class _ProfileTabState extends State<ProfileTab> {
                   } else if (role == 'EquipmentOwner') {
                     menuItems.addAll([
                       ProfileMenuItem(
-                        icon: Icons.space_dashboard_outlined,
+                        icon: Icons.dashboard_outlined,
                         text: appLocalizations.dashboard,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.dashboardEOwner);
+                        },
                       ),
                       ProfileMenuItem(
                         icon: Iconsax.calendar_1,
                         text: appLocalizations.booking,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.bookingReservationEOwner);
+                        },
                       ),
                       ProfileMenuItem(
                         icon: Iconsax.notification,
                         text: appLocalizations.notificationSettings,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.notificationSetting,
+                          );
+                        },
                       ),
                       ProfileMenuItem(
-                        icon: Iconsax.devices_14,
+                        icon: Icons.monitor_outlined,
                         text: appLocalizations.my_devices,
                         onPressed: () {},
                       ),
@@ -131,19 +147,28 @@ class _ProfileTabState extends State<ProfileTab> {
                   } else if (role == 'Doctor') {
                     menuItems.addAll([
                       ProfileMenuItem(
-                        icon: Icons.space_dashboard_outlined,
+                        icon: Icons.dashboard_outlined,
                         text: appLocalizations.dashboard,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.dashboardDoctor);
+                        },
                       ),
                       ProfileMenuItem(
                         icon: Iconsax.calendar_1,
                         text: appLocalizations.booking,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.bookingReservationDoctor);
+                        },
                       ),
                       ProfileMenuItem(
                         icon: Iconsax.notification,
                         text: appLocalizations.notificationSettings,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.notificationSetting,
+                          );
+                        },
                       ),
                     ]);
                   } else {
@@ -151,31 +176,34 @@ class _ProfileTabState extends State<ProfileTab> {
                       ProfileMenuItem(
                         icon: Iconsax.calendar_1,
                         text: appLocalizations.contactUs,
-                        onPressed: () => Navigator.pushNamed(
-                          context,
-                          AppRoutes.contactUs,
-                        ),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, AppRoutes.contactUs),
                       ),
                     );
                     menuItems.add(
                       ProfileMenuItem(
                         icon: Iconsax.box_search,
                         text: appLocalizations.myRentals,
-                        onPressed: () => Navigator.pushNamed(
-                          context,
-                          AppRoutes.myRental,
-                        ),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, AppRoutes.myRental),
                       ),
                     );
                     menuItems.add(
                       ProfileMenuItem(
                         icon: Iconsax.notification,
                         text: appLocalizations.notificationSettings,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.notificationSetting,
+                          );
+                        },
                       ),
                     );
                   }
-                  final isArabic = context.read<AppLocalizationCubit>().state.languageCode == 'ar';
+                  final isArabic =
+                      context.read<AppLocalizationCubit>().state.languageCode ==
+                      'ar';
                   menuItems.add(
                     ProfileMenuItem(
                       icon: Icons.language_outlined,
@@ -190,12 +218,33 @@ class _ProfileTabState extends State<ProfileTab> {
                   );
                   return Column(
                     children: [
-                      Text(
-                        appLocalizations.profile,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.headlineLarge!.copyWith(fontSize: 24.sp),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(width: 50.w),
+                          Text(
+                            appLocalizations.profile,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.headlineLarge!
+                                .copyWith(fontSize: 24.sp),
+                          ),
+                          if (role != 'Admin')
+                            IconButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoutes.myNotification,
+                                );
+                              },
+                              icon: Icon(
+                                Iconsax.notification4,
+                                color: Theme.of(context).primaryColor,
+                                size: 25,
+                              ),
+                            )
+                          else
+                            SizedBox(width: 50.w),
+                        ],
                       ),
                       SizedBox(height: 15.h),
                       UserImageProfile(
@@ -241,9 +290,7 @@ class _ProfileTabState extends State<ProfileTab> {
                               AppRoutes.personalInformation,
                             ).then((value) {
                               if (value == true) {
-                                context
-                                    .read<ProfileCubit>()
-                                    .getProfileData();
+                                context.read<ProfileCubit>().getProfileData();
                               }
                             });
                           },
@@ -292,10 +339,10 @@ class _ProfileTabState extends State<ProfileTab> {
                           ],
                         ),
                       ),
+                      SizedBox(height: 100.h,),
                     ],
                   );
                 }
-
                 return const SizedBox();
               },
             ),

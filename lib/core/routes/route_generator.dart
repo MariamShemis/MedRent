@@ -10,8 +10,18 @@ import 'package:med_rent/features/auth/presentation/view/register_screen.dart';
 import 'package:med_rent/features/booking/data/cubit/booking_cubit.dart';
 import 'package:med_rent/features/booking/presentation/view/booking_tab.dart';
 import 'package:med_rent/features/booking_payment/presentation/view/booking_payment.dart';
+import 'package:med_rent/features/booking_reservation_admin/presentation/view/booking_reservation_admin.dart';
+import 'package:med_rent/features/booking_reservation_doctor/presentation/view/booking_reservation_doctor.dart';
+import 'package:med_rent/features/booking_reservation_e_owner/presentation/view/booking_reservation_e_owner.dart';
 import 'package:med_rent/features/contact_us/data/cubit/contact_us_cubit.dart';
 import 'package:med_rent/features/contact_us/presentation/view/contact_us.dart';
+import 'package:med_rent/features/dashboard_admin/presentation/view/dashboard_admin.dart';
+import 'package:med_rent/features/dashboard_doctor/data/cubit/dashboard_doctor_cubit.dart';
+import 'package:med_rent/features/dashboard_doctor/data/data_sources/dashboard_doctor_data_source.dart';
+import 'package:med_rent/features/dashboard_doctor/presentation/view/dashboard_doctor.dart';
+import 'package:med_rent/features/dashboard_equipment_owner/data/cubit/equipment_owner_dashboard_cubit.dart';
+import 'package:med_rent/features/dashboard_equipment_owner/data/data_sources/equipment_owner_dashboard_data.dart';
+import 'package:med_rent/features/dashboard_equipment_owner/presentation/view/dashboard_equipment_owner.dart';
 import 'package:med_rent/features/equipment%20details/data/cubit/equipment_details_cubit.dart';
 import 'package:med_rent/features/equipment%20details/data/data_sources/equipment_details_data_source.dart';
 import 'package:med_rent/features/equipment%20details/presentation/view/equipment_details.dart';
@@ -25,6 +35,8 @@ import 'package:med_rent/features/main_layout/main_layout.dart';
 import 'package:med_rent/features/my_rental/data/cubit/my_rental_cubit.dart';
 import 'package:med_rent/features/my_rental/data/data_sources/my_rental_data_source.dart';
 import 'package:med_rent/features/my_rental/presentation/view/my_rental.dart';
+import 'package:med_rent/features/notification/presentation/view/my_notification.dart';
+import 'package:med_rent/features/notification_setting/presentation/view/notification_setting.dart';
 import 'package:med_rent/features/onboarding/onboarding_screen.dart';
 import 'package:med_rent/features/rent_payment/presentation/view/rent_payment.dart';
 import 'package:med_rent/features/search_home/data/cubit/search_cubit.dart';
@@ -35,6 +47,7 @@ import 'package:med_rent/features/start_screen/start_screen.dart';
 import 'package:med_rent/features/update_profile/data/cubit/update_profile_cubit.dart';
 import 'package:med_rent/features/update_profile/data/data_sources/update_profile_data_source.dart';
 import 'package:med_rent/features/update_profile/presentation/view/personal_information.dart';
+
 import '../../features/contact_us/data/data_sources/contact_us_data_source.dart';
 import '../../features/hospital_details/data/cubit/hospital_details_cubit.dart';
 
@@ -77,7 +90,8 @@ abstract class RoutesManager {
         {
           return CupertinoPageRoute(
             builder: (context) => BlocProvider(
-              create: (context) => ContactUsCubit(ContactUsDataSource(apiClient: ApiClient())),
+              create: (context) =>
+                  ContactUsCubit(ContactUsDataSource(apiClient: ApiClient())),
               child: ContactUs(),
             ),
           );
@@ -88,9 +102,9 @@ abstract class RoutesManager {
           final hospitalId = args is int ? args : 0;
           return CupertinoPageRoute(
             builder: (context) => BlocProvider(
-              create: (context) =>
-                  HospitalDetailsCubit(HospitalDetailsDataSource(apiClient: ApiClient()))
-                    ..fetchHospitalDetails(hospitalId),
+              create: (context) => HospitalDetailsCubit(
+                HospitalDetailsDataSource(apiClient: ApiClient()),
+              )..fetchHospitalDetails(hospitalId),
               child: HospitalDetails(hospitalId: hospitalId),
             ),
           );
@@ -99,8 +113,9 @@ abstract class RoutesManager {
         {
           return CupertinoPageRoute(
             builder: (context) => BlocProvider(
-              create: (context) =>
-                  UpdateProfileCubit(UpdateProfileDataSource(apiClient: ApiClient())),
+              create: (context) => UpdateProfileCubit(
+                UpdateProfileDataSource(apiClient: ApiClient()),
+              ),
               child: const PersonalInformation(),
             ),
           );
@@ -122,13 +137,66 @@ abstract class RoutesManager {
         {
           return CupertinoPageRoute(builder: (context) => LanguageProfile());
         }
+      case AppRoutes.myNotification:
+        {
+          return CupertinoPageRoute(builder: (context) => MyNotification());
+        }
+      case AppRoutes.notificationSetting:
+        {
+          return CupertinoPageRoute(
+            builder: (context) => NotificationSetting(),
+          );
+        }
+      case AppRoutes.dashboardDoctor:
+        {
+          return CupertinoPageRoute(
+            builder: (context) => BlocProvider(
+              create: (context) => DoctorDashboardCubit(
+                DoctorDashboardRemoteDataSource(ApiClient()),
+              ),
+              child: const Dashboard(),
+            ),
+          );
+        }
+      case AppRoutes.dashboardAdmin:
+        {
+          return CupertinoPageRoute(builder: (context) => DashboardAdmin());
+        }
+      case AppRoutes.dashboardEOwner:
+        {
+          return CupertinoPageRoute(
+            builder: (context) => BlocProvider(
+              create: (context) => EquipmentOwnerDashboardCubit(
+                EquipmentOwnerDashboardData(ApiClient()),
+              )..loadDashboard(),
+              child: DashboardEquipmentOwner(),
+            ),
+          );
+        }
+      case AppRoutes.bookingReservationDoctor:
+        {
+          return CupertinoPageRoute(
+            builder: (context) => BookingReservationDoctor(),
+          );
+        }
+      case AppRoutes.bookingReservationAdmin:
+        {
+          return CupertinoPageRoute(
+            builder: (context) => BookingReservationAdmin(),
+          );
+        }
+      case AppRoutes.bookingReservationEOwner:
+        {
+          return CupertinoPageRoute(
+            builder: (context) => BookingReservationEOwner(),
+          );
+        }
       case AppRoutes.searchHome:
         {
           return CupertinoPageRoute(
             builder: (context) => BlocProvider(
-              create: (context) => SearchCubit(
-                SearchRemoteDataSource(apiClient: ApiClient()),
-              ),
+              create: (context) =>
+                  SearchCubit(SearchRemoteDataSource(apiClient: ApiClient())),
               child: const SearchHome(),
             ),
           );
@@ -143,7 +211,8 @@ abstract class RoutesManager {
           final hospitalId = args is int ? args : 0;
           return CupertinoPageRoute(
             builder: (context) => BlocProvider(
-              create: (_) => BookingCubit(ApiClient())..loadHospitalDetails(hospitalId),
+              create: (_) =>
+                  BookingCubit(ApiClient())..loadHospitalDetails(hospitalId),
               child: BookingTab(selectedHospitalId: hospitalId),
             ),
           );
@@ -162,8 +231,9 @@ abstract class RoutesManager {
         {
           return CupertinoPageRoute(
             builder: (context) => BlocProvider(
-              create: (context) =>
-                  MyRentalCubit(dataSource: MyRentalDataSource(apiClient: ApiClient())),
+              create: (context) => MyRentalCubit(
+                dataSource: MyRentalDataSource(apiClient: ApiClient()),
+              ),
               child: const MyRental(),
             ),
           );
