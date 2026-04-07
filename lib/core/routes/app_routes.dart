@@ -21,6 +21,9 @@ abstract class AppRoutes{
   static const String dashboardDoctor = '/dashboardDoctor';
   static const String dashboardAdmin = '/dashboardAdmin';
   static const String dashboardEOwner = '/dashboardEOwner';
+  static const String bookingReservationDoctor = '/bookingReservationDoctor';
+  static const String bookingReservationAdmin = '/bookingReservationAdmin';
+  static const String bookingReservationEOwner = '/bookingReservationEOwner';
 
 
 }

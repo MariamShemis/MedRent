@@ -87,10 +87,12 @@ class _ProfileTabState extends State<ProfileTab> {
                       ProfileMenuItem(
                         icon: Iconsax.calendar_1,
                         text: appLocalizations.booking,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.bookingReservationAdmin);
+                        },
                       ),
                       ProfileMenuItem(
-                        icon: Iconsax.devices_14,
+                        icon: Icons.monitor_outlined,
                         text: appLocalizations.devices,
                         onPressed: () {},
                       ),
@@ -117,7 +119,9 @@ class _ProfileTabState extends State<ProfileTab> {
                       ProfileMenuItem(
                         icon: Iconsax.calendar_1,
                         text: appLocalizations.booking,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.bookingReservationEOwner);
+                        },
                       ),
                       ProfileMenuItem(
                         icon: Iconsax.notification,
@@ -130,7 +134,7 @@ class _ProfileTabState extends State<ProfileTab> {
                         },
                       ),
                       ProfileMenuItem(
-                        icon: Iconsax.devices_14,
+                        icon: Icons.monitor_outlined,
                         text: appLocalizations.my_devices,
                         onPressed: () {},
                       ),
@@ -152,7 +156,9 @@ class _ProfileTabState extends State<ProfileTab> {
                       ProfileMenuItem(
                         icon: Iconsax.calendar_1,
                         text: appLocalizations.booking,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.bookingReservationDoctor);
+                        },
                       ),
                       ProfileMenuItem(
                         icon: Iconsax.notification,
@@ -222,19 +228,22 @@ class _ProfileTabState extends State<ProfileTab> {
                             style: Theme.of(context).textTheme.headlineLarge!
                                 .copyWith(fontSize: 24.sp),
                           ),
-                          IconButton(
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                context,
-                                AppRoutes.myNotification,
-                              );
-                            },
-                            icon: Icon(
-                              Iconsax.notification4,
-                              color: Theme.of(context).primaryColor,
-                              size: 25,
-                            ),
-                          ),
+                          if (role != 'Admin')
+                            IconButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoutes.myNotification,
+                                );
+                              },
+                              icon: Icon(
+                                Iconsax.notification4,
+                                color: Theme.of(context).primaryColor,
+                                size: 25,
+                              ),
+                            )
+                          else
+                            SizedBox(width: 50.w),
                         ],
                       ),
                       SizedBox(height: 15.h),
