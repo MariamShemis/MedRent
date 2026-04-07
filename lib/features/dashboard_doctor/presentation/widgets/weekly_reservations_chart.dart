@@ -1,11 +1,13 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:med_rent/features/dashboard_doctor/data/models/dashboard_model.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
 
 class WeeklyReservationsChart extends StatelessWidget {
-  const WeeklyReservationsChart({super.key, this.color});
+  const WeeklyReservationsChart({super.key, this.color, required this.data});
 
+  final List<WeeklyBooking> data;
   final Color? color;
 
   @override
@@ -33,7 +35,12 @@ class WeeklyReservationsChart extends StatelessWidget {
                   minX: 0,
                   maxX: 6,
                   minY: 0,
-                  maxY: 28,
+                  maxY: data.isEmpty
+                      ? 10
+                      : data
+                                .map((e) => e.count)
+                                .reduce((a, b) => a > b ? a : b) +
+                            5,
                   lineTouchData: LineTouchData(
                     touchTooltipData: LineTouchTooltipData(
                       getTooltipColor: (touchedSpot) =>
@@ -104,21 +111,12 @@ class WeeklyReservationsChart extends StatelessWidget {
                         showTitles: true,
                         reservedSize: 35,
                         getTitlesWidget: (value, meta) {
-                          const days = [
-                            'Sate',
-                            'Sun',
-                            'Mon',
-                            'Tues',
-                            'Wed',
-                            'Thur',
-                            'Fri',
-                          ];
-                          if (value >= 0 && value < days.length) {
+                          if (value >= 0 && value < data.length) {
                             return SideTitleWidget(
                               meta: meta,
                               space: 10,
                               child: Text(
-                                days[value.toInt()],
+                                data[value.toInt()].day,
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineMedium!
@@ -143,15 +141,14 @@ class WeeklyReservationsChart extends StatelessWidget {
                         show: true,
                         color: color?.withOpacity(0.4),
                       ),
-                      spots: const [
-                        FlSpot(0, 0),
-                        FlSpot(1, 15),
-                        FlSpot(2, 13),
-                        FlSpot(3, 20),
-                        FlSpot(4, 15),
-                        FlSpot(5, 16),
-                        FlSpot(6, 0),
-                      ],
+                      spots: data.isEmpty
+                          ? const [FlSpot(0, 0)]
+                          : List.generate(data.length, (index) {
+                              return FlSpot(
+                                index.toDouble(),
+                                data[index].count.toDouble(),
+                              );
+                            }),
                     ),
                   ],
                 ),

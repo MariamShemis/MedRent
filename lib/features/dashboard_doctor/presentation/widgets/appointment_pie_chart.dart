@@ -1,19 +1,32 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:med_rent/features/dashboard_doctor/data/models/dashboard_model.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
 
-class AppointmentPieChart extends StatefulWidget {
-  const AppointmentPieChart({super.key});
+class AppointmentPieChart extends StatelessWidget {
+  const AppointmentPieChart({super.key, required this.data});
 
-  @override
-  State<AppointmentPieChart> createState() => _AppointmentPieChartState();
-}
+  final List<BookingType> data;
 
-class _AppointmentPieChartState extends State<AppointmentPieChart> {
   @override
   Widget build(BuildContext context) {
-    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+    final appLocalizations = AppLocalizations.of(context)!;
+
+    final colors = [
+      const Color(0xFF5EA1C2),
+      const Color(0xFFE28361),
+      const Color(0xFF5D7DD8),
+      const Color(0xFFD75795),
+    ];
+
+    final total = data.fold<int>(0, (sum, e) => sum + e.count);
+
+    String percent(int value) {
+      if (total == 0) return "0%";
+      return "${((value / total) * 100).toStringAsFixed(0)}%";
+    }
+
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       elevation: 4,
@@ -29,54 +42,62 @@ class _AppointmentPieChartState extends State<AppointmentPieChart> {
                 context,
               ).textTheme.labelLarge!.copyWith(fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 20),
+
+            SizedBox(height: 20.h),
+
             SizedBox(
               height: 180.h,
               child: PieChart(
                 PieChartData(
                   sectionsSpace: 2,
                   centerSpaceRadius: 0,
-                  sections: [
-                    PieChartSectionData(
-                      value: 45,
-                      color: const Color(0xFF5EA1C2),
-                      showTitle: false,
-                      radius: 80.r,
-                    ),
-                    PieChartSectionData(
-                      value: 30,
-                      color: const Color(0xFFE28361),
-                      showTitle: false,
-                      radius: 80.r,
-                    ),
-                    PieChartSectionData(
-                      value: 15,
-                      color: const Color(0xFF5D7DD8),
-                      showTitle: false,
-                      radius: 80.r,
-                    ),
-                    PieChartSectionData(
-                      value: 10,
-                      color: const Color(0xFFD75795),
-                      showTitle: false,
-                      radius: 80.r,
-                    ),
-                  ],
+                  sections: data.isEmpty
+                      ? [
+                          PieChartSectionData(
+                            value: 1,
+                            color: Colors.grey,
+                            showTitle: false,
+                            radius: 80.r,
+                          ),
+                        ]
+                      : List.generate(data.length, (index) {
+                          return PieChartSectionData(
+                            value: data[index].count.toDouble(),
+                            color: colors[index % colors.length],
+                            showTitle: false,
+                            radius: 80.r,
+                          );
+                        }),
                 ),
               ),
             ),
+
             SizedBox(height: 30.h),
-            _legendItem(const Color(0xFF5EA1C2), appLocalizations.general_Checkup, "45%"),
-            _legendItem(const Color(0xFFE28361), appLocalizations.followup, "30%"),
-            _legendItem(const Color(0xFFD75795), appLocalizations.consultation, "10%"),
-            _legendItem(const Color(0xFF5D7DD8), appLocalizations.emergency, "15%"),
+
+            if (data.isEmpty)
+              _legendItem(Colors.grey, "No Data", "0%", context)
+            else
+              ...List.generate(data.length, (index) {
+                final item = data[index];
+                return _legendItem(
+                  colors[index % colors.length],
+                  item.type,
+                  percent(item.count),
+                  context,
+                );
+              }),
           ],
         ),
       ),
     );
   }
 
-  Widget _legendItem(Color color, String title, String percentage) {
+  Widget _legendItem(
+    Color color,
+    String title,
+    String percentage,
+    BuildContext context,
+  ) {
     return Padding(
       padding: REdgeInsets.symmetric(vertical: 8),
       child: Row(

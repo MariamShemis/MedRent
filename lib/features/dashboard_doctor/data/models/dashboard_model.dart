@@ -19,17 +19,17 @@ class DoctorDashboardModel {
 
   factory DoctorDashboardModel.fromJson(Map<String, dynamic> json) {
     return DoctorDashboardModel(
-      totalPatients: json['totalPatients'],
-      todayBookings: json['todayBookings'],
-      waitingCount: json['waitingCount'],
-      rating: (json['rating'] as num).toDouble(),
-      bookingTypes: (json['bookingTypes'] as List)
+      totalPatients: json['totalPatients'] ?? 0,
+      todayBookings: json['todayBookings'] ?? 0,
+      waitingCount: json['waitingCount'] ?? 0,
+      rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
+      bookingTypes: (json['bookingTypes'] as List? ?? [])
           .map((e) => BookingType.fromJson(e))
           .toList(),
-      weeklyBookings: (json['weeklyBookings'] as List)
+      weeklyBookings: (json['weeklyBookings'] as List? ?? [])
           .map((e) => WeeklyBooking.fromJson(e))
           .toList(),
-      monthlyPatients: (json['monthlyPatients'] as List)
+      monthlyPatients: (json['monthlyPatients'] as List? ?? [])
           .map((e) => MonthlyPatient.fromJson(e))
           .toList(),
     );
@@ -44,8 +44,8 @@ class BookingType {
 
   factory BookingType.fromJson(Map<String, dynamic> json) {
     return BookingType(
-      type: json['type'],
-      count: json['count'],
+      type: json['type'] ?? 'Unknown',
+      count: json['count'] ?? 0,
     );
   }
 }
@@ -58,8 +58,8 @@ class WeeklyBooking {
 
   factory WeeklyBooking.fromJson(Map<String, dynamic> json) {
     return WeeklyBooking(
-      day: json['day'],
-      count: json['count'],
+      day: json['day'] ?? '',
+      count: json['count'] ?? 0,
     );
   }
 }
@@ -72,8 +72,8 @@ class MonthlyPatient {
 
   factory MonthlyPatient.fromJson(Map<String, dynamic> json) {
     return MonthlyPatient(
-      month: json['month'],
-      count: json['count'],
+      month: json['month'] ?? 0,
+      count: json['count'] ?? 0,
     );
   }
 }

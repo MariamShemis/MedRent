@@ -107,7 +107,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
             SizedBox(height: 20.h),
             AppointmentPieChartAdmin(),
             SizedBox(height: 20.h),
-            MonthlyPatientsChart(color: Color(0xFF87DD68),),
+            MonthlyPatientsChart(color: Color(0xFF87DD68), data: [],),
             SizedBox(height: 20.h),
           ],
         ),

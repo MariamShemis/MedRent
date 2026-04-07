@@ -1,11 +1,13 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:med_rent/features/dashboard_doctor/data/models/dashboard_model.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
 
 class MonthlyPatientsChart extends StatelessWidget {
-  const MonthlyPatientsChart({super.key, required this.color});
+  const MonthlyPatientsChart({super.key, required this.color, required this.data});
   final Color color;
+  final List<MonthlyPatient> data;
 
   @override
   Widget build(BuildContext context) {
@@ -64,23 +66,18 @@ class MonthlyPatientsChart extends StatelessWidget {
                         showTitles: true,
                         reservedSize: 30,
                         getTitlesWidget: (value, meta) {
-                          const months = [
-                            'Janu',
-                            'Febr',
-                            'Marc',
-                            'April',
-                            'May',
-                            'June',
-                          ];
-                          return SideTitleWidget(
-                            meta: meta,
-                            space: 8,
-                            child: Text(
-                              months[value.toInt()],
-                              style: Theme.of(context).textTheme.headlineMedium!
-                                  .copyWith(fontSize: 14.sp),
-                            ),
-                          );
+                          if (value >= 0 && value < data.length) {
+                            return SideTitleWidget(
+                              meta: meta,
+                              space: 8,
+                              child: Text(
+                                "M${data[value.toInt()].month}",
+                                style: Theme.of(context).textTheme.headlineMedium!
+                                    .copyWith(fontSize: 14.sp),
+                              ),
+                            );
+                          }
+                          return const SizedBox();
                         },
                       ),
                     ),
@@ -99,14 +96,14 @@ class MonthlyPatientsChart extends StatelessWidget {
                       ),
                     ),
                   ),
-                  barGroups: [
-                    _bar(0, 140),
-                    _bar(1, 185),
-                    _bar(2, 80),
-                    _bar(3, 15),
-                    _bar(4, 55),
-                    _bar(5, 150),
-                  ],
+                  barGroups: data.isEmpty
+                      ? [_bar(0, 0)]
+                      : List.generate(data.length, (index) {
+                    return _bar(
+                      index,
+                      data[index].count.toDouble(),
+                    );
+                  }),
                 ),
               ),
             ),

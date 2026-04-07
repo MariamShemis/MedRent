@@ -14,7 +14,11 @@ import 'package:med_rent/features/booking_reservation_e_owner/presentation/view/
 import 'package:med_rent/features/contact_us/data/cubit/contact_us_cubit.dart';
 import 'package:med_rent/features/contact_us/presentation/view/contact_us.dart';
 import 'package:med_rent/features/dashboard_admin/presentation/view/dashboard_admin.dart';
+import 'package:med_rent/features/dashboard_doctor/data/cubit/dashboard_doctor_cubit.dart';
+import 'package:med_rent/features/dashboard_doctor/data/data_sources/dashboard_doctor_data_source.dart';
 import 'package:med_rent/features/dashboard_doctor/presentation/view/dashboard_doctor.dart';
+import 'package:med_rent/features/dashboard_equipment_owner/data/cubit/equipment_owner_dashboard_cubit.dart';
+import 'package:med_rent/features/dashboard_equipment_owner/data/data_sources/equipment_owner_dashboard_data.dart';
 import 'package:med_rent/features/dashboard_equipment_owner/presentation/view/dashboard_equipment_owner.dart';
 import 'package:med_rent/features/equipment%20details/data/cubit/equipment_details_cubit.dart';
 import 'package:med_rent/features/equipment%20details/data/data_sources/equipment_details_data_source.dart';
@@ -134,7 +138,14 @@ abstract class RoutesManager {
         }
       case AppRoutes.dashboardDoctor:
         {
-          return CupertinoPageRoute(builder: (context) => Dashboard());
+          return CupertinoPageRoute(
+            builder: (context) => BlocProvider(
+              create: (context) => DoctorDashboardCubit(
+                DoctorDashboardRemoteDataSource(ApiClient()),
+              ),
+              child: const Dashboard(),
+            ),
+          );
         }
       case AppRoutes.dashboardAdmin:
         {
@@ -143,7 +154,12 @@ abstract class RoutesManager {
       case AppRoutes.dashboardEOwner:
         {
           return CupertinoPageRoute(
-            builder: (context) => DashboardEquipmentOwner(),
+            builder: (context) => BlocProvider(
+              create: (context) => EquipmentOwnerDashboardCubit(
+                EquipmentOwnerDashboardData(ApiClient()),
+              )..loadDashboard(),
+              child: DashboardEquipmentOwner(),
+            ),
           );
         }
       case AppRoutes.bookingReservationDoctor:
@@ -152,13 +168,13 @@ abstract class RoutesManager {
             builder: (context) => BookingReservationDoctor(),
           );
         }
-        case AppRoutes.bookingReservationAdmin:
+      case AppRoutes.bookingReservationAdmin:
         {
           return CupertinoPageRoute(
             builder: (context) => BookingReservationAdmin(),
           );
         }
-        case AppRoutes.bookingReservationEOwner:
+      case AppRoutes.bookingReservationEOwner:
         {
           return CupertinoPageRoute(
             builder: (context) => BookingReservationEOwner(),
