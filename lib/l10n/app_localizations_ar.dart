@@ -793,4 +793,175 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get doctor => 'طبيب';
+
+  @override
+  String get newBookingAlerts => 'تنبيهات الحجز الجديدة';
+
+  @override
+  String get notification_when_a_new_patient_books => 'إشعار عند قيام مريض جديد بالحجز';
+
+  @override
+  String get totalPatients => 'إجمالي المرضى';
+
+  @override
+  String get pendingPatients => 'المرضى المعلقون';
+
+  @override
+  String get todaysBookings => 'حجوزات اليوم';
+
+  @override
+  String get satisfactionRate => 'معدل الرضا';
+
+  @override
+  String get weekly_reservations => 'الحجوزات الأسبوعية';
+
+  @override
+  String get state => 'الحالة';
+
+  @override
+  String get types_of_Appointments => 'أنواع المواعيد';
+
+  @override
+  String get dailyRent => 'الإيجار اليومي';
+
+  @override
+  String get weeklyRent => 'الإيجار الأسبوعي';
+
+  @override
+  String get monthlyPatients => 'المرضى شهريًا';
+
+  @override
+  String get general_Checkup => 'فحص عام';
+
+  @override
+  String get followup => 'متابعة';
+
+  @override
+  String get consultation => 'استشارة';
+
+  @override
+  String get emergency => 'طوارئ';
+
+  @override
+  String get reservation => 'حجز';
+
+  @override
+  String get search_by_Name_or_phone => 'البحث بالاسم أو رقم الهاتف';
+
+  @override
+  String get display => 'عرض';
+
+  @override
+  String get myDevice => 'جهازي';
+
+  @override
+  String get addDevice => 'إضافة جهاز';
+
+  @override
+  String get addNewDevice => 'إضافة جهاز جديد';
+
+  @override
+  String get deviceImage => 'صورة الجهاز';
+
+  @override
+  String get addImage => 'إضافة صورة';
+
+  @override
+  String get deviceInformation => 'معلومات الجهاز';
+
+  @override
+  String get enter_name_of_device => 'أدخل اسم الجهاز';
+
+  @override
+  String get enter_price_of_device => 'أدخل سعر الجهاز';
+
+  @override
+  String get enter_a_detailed_description_of_the_device => 'أدخل وصفًا تفصيليًا للجهاز';
+
+  @override
+  String get price => 'السعر';
+
+  @override
+  String get description => 'الوصف';
+
+  @override
+  String get totalDevices => 'إجمالي الأجهزة';
+
+  @override
+  String get totalBookings => 'إجمالي الحجوزات';
+
+  @override
+  String get totalHospitals => 'إجمالي المستشفيات';
+
+  @override
+  String get totalUsers => 'إجمالي المستخدمين';
+
+  @override
+  String get totalRentals => 'إجمالي عمليات التأجير';
+
+  @override
+  String get totalDoctor => 'إجمالي الأطباء';
+
+  @override
+  String get cardiologyConsultation => 'استشارة أمراض القلب';
+
+  @override
+  String get search_by_Name => 'البحث بالاسم';
+
+  @override
+  String get consultationPrice => 'سعر الاستشارة';
+
+  @override
+  String get doctorImage => 'صورة الطبيب';
+
+  @override
+  String get doctorInformation => 'معلومات الطبيب';
+
+  @override
+  String get enter_name_of_doctor => 'أدخل اسم الطبيب';
+
+  @override
+  String get enter_email => 'أدخل البريد الإلكتروني';
+
+  @override
+  String get enter_password => 'أدخل كلمة المرور';
+
+  @override
+  String get experienceYear => 'سنوات الخبرة';
+
+  @override
+  String get enter_experience_year => 'أدخل سنوات الخبرة';
+
+  @override
+  String get specialization => 'التخصص';
+
+  @override
+  String get enter_specialization => 'أدخل التخصص';
+
+  @override
+  String get hospital => 'المستشفى';
+
+  @override
+  String get tantaUniversityHospital => 'مستشفى جامعة طنطا';
+
+  @override
+  String get department => 'القسم';
+
+  @override
+  String get enter_price_of_consutation => 'أدخل سعر الاستشارة';
+
+  @override
+  String get startTime => 'وقت البداية';
+
+  @override
+  String get enter_start_time => 'أدخل وقت البداية';
+
+  @override
+  String get end_Time => 'وقت النهاية';
+
+  @override
+  String get enter_end_time => 'أدخل وقت النهاية';
+
+  @override
+  String get revenue => 'الإيرادات';
 }

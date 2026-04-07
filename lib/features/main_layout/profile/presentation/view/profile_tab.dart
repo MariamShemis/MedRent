@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
+import 'package:med_rent/features/dashboard_doctor/presentation/view/dashboard_doctor.dart';
 import 'package:med_rent/features/language/data/cubit/app_localization_cubit.dart';
 import 'package:med_rent/features/main_layout/profile/data/cubit/profile_cubit.dart';
 import 'package:med_rent/features/main_layout/profile/data/models/profile_menu_item.dart';
@@ -29,6 +30,7 @@ class _ProfileTabState extends State<ProfileTab> {
 
     return Scaffold(
       body: SafeArea(
+        bottom: false,
         child: Padding(
           padding: REdgeInsets.all(16.0),
           child: SingleChildScrollView(
@@ -36,7 +38,7 @@ class _ProfileTabState extends State<ProfileTab> {
               builder: (context, state) {
                 if (state is ProfileLoading) {
                   return SizedBox(
-                    height: 600.h,
+                    height: 620.h,
                     child: Center(child: CircularProgressIndicator()),
                   );
                 }
@@ -78,7 +80,9 @@ class _ProfileTabState extends State<ProfileTab> {
                       ProfileMenuItem(
                         icon: Icons.dashboard_outlined,
                         text: appLocalizations.dashboard,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.dashboardAdmin);
+                        },
                       ),
                       ProfileMenuItem(
                         icon: Iconsax.calendar_1,
@@ -106,7 +110,9 @@ class _ProfileTabState extends State<ProfileTab> {
                       ProfileMenuItem(
                         icon: Icons.dashboard_outlined,
                         text: appLocalizations.dashboard,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.dashboardEOwner);
+                        },
                       ),
                       ProfileMenuItem(
                         icon: Iconsax.calendar_1,
@@ -139,7 +145,9 @@ class _ProfileTabState extends State<ProfileTab> {
                       ProfileMenuItem(
                         icon: Icons.dashboard_outlined,
                         text: appLocalizations.dashboard,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.dashboardDoctor);
+                        },
                       ),
                       ProfileMenuItem(
                         icon: Iconsax.calendar_1,
@@ -322,10 +330,10 @@ class _ProfileTabState extends State<ProfileTab> {
                           ],
                         ),
                       ),
+                      SizedBox(height: 100.h,),
                     ],
                   );
                 }
-
                 return const SizedBox();
               },
             ),

@@ -10,6 +10,9 @@ import 'package:med_rent/features/booking/presentation/view/booking_tab.dart';
 import 'package:med_rent/features/booking_payment/presentation/view/booking_payment.dart';
 import 'package:med_rent/features/contact_us/data/cubit/contact_us_cubit.dart';
 import 'package:med_rent/features/contact_us/presentation/view/contact_us.dart';
+import 'package:med_rent/features/dashboard_admin/presentation/view/dashboard_admin.dart';
+import 'package:med_rent/features/dashboard_doctor/presentation/view/dashboard_doctor.dart';
+import 'package:med_rent/features/dashboard_equipment_owner/presentation/view/dashboard_equipment_owner.dart';
 import 'package:med_rent/features/equipment%20details/data/cubit/equipment_details_cubit.dart';
 import 'package:med_rent/features/equipment%20details/data/data_sources/equipment_details_data_source.dart';
 import 'package:med_rent/features/equipment%20details/presentation/view/equipment_details.dart';
@@ -124,6 +127,24 @@ abstract class RoutesManager {
         {
           return CupertinoPageRoute(
             builder: (context) => NotificationSetting(),
+          );
+        }
+        case AppRoutes.dashboardDoctor:
+        {
+          return CupertinoPageRoute(
+            builder: (context) => Dashboard(),
+          );
+        }
+        case AppRoutes.dashboardAdmin:
+        {
+          return CupertinoPageRoute(
+            builder: (context) => DashboardAdmin(),
+          );
+        }
+        case AppRoutes.dashboardEOwner:
+        {
+          return CupertinoPageRoute(
+            builder: (context) => DashboardEquipmentOwner(),
           );
         }
       case AppRoutes.searchHome:

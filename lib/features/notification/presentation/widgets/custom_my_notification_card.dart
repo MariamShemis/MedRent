@@ -38,7 +38,7 @@ class CustomMyNotificationCard extends StatelessWidget {
                     children: [
                       Icon(
                         Iconsax.calendar_1,
-                        size: 25.sp,
+                        size: 30.sp,
                         color: ColorManager.black,
                       ),
                       SizedBox(width: 5.w),

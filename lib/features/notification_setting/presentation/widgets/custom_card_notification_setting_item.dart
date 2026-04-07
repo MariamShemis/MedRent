@@ -37,11 +37,11 @@ class CustomCardNotificationSettingItem extends StatelessWidget {
                   ),
                   child: Icon(
                     Iconsax.calendar_1,
-                    size: 24.sp,
+                    size: 28.sp,
                     color: ColorManager.black,
                   ),
                 ),
-                SizedBox(width: 12.w),
+                SizedBox(width: 10.w),
                 Expanded(
                   child: Text(
                     appLocalizations.appointmentReminders,
@@ -66,12 +66,17 @@ class CustomCardNotificationSettingItem extends StatelessWidget {
               ],
             ),
             SizedBox(height: 6.h,),
-            Text(
-              appLocalizations.reminders_for_upcoming_visits,
-              textAlign: TextAlign.center,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium!.copyWith(fontSize: 13.sp),
+            Row(
+              children: [
+                SizedBox(width: 50.w,),
+                Text(
+                  appLocalizations.reminders_for_upcoming_visits,
+                  textAlign: TextAlign.start,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium!.copyWith(fontSize: 13.sp),
+                ),
+              ],
             ),
             SizedBox(height: 20.h),
             Row(
@@ -84,11 +89,11 @@ class CustomCardNotificationSettingItem extends StatelessWidget {
                   ),
                   child: Icon(
                     Iconsax.notification,
-                    size: 24.sp,
+                    size: 28.sp,
                     color: ColorManager.black,
                   ),
                 ),
-                SizedBox(width: 12.w),
+                SizedBox(width: 10.w),
                 Expanded(
                   child: Text(
                     appLocalizations.equipmentRentalAlerts,
@@ -113,12 +118,17 @@ class CustomCardNotificationSettingItem extends StatelessWidget {
               ],
             ),
             SizedBox(height: 6.h,),
-            Text(
-              appLocalizations.reminders_for_return_dates_and_rental_status,
-              textAlign: TextAlign.center,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium!.copyWith(fontSize: 13.sp),
+            Row(
+              children: [
+                SizedBox(width: 50.w,),
+                Text(
+                  appLocalizations.reminders_for_return_dates_and_rental_status,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium!.copyWith(fontSize: 13.sp),
+                ),
+              ],
             ),
           ],
         ),
