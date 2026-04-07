@@ -1,4 +1,4 @@
 class NetworkConfig {
-  static const String baseUrl = "http://graduationprojectapi.somee.com/api";
+  static const String baseUrl = "https://graduationproject-production-07f0.up.railway.app/api";
   static const Duration timeout = Duration(seconds: 30);
 }

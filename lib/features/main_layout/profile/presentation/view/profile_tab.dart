@@ -4,9 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
+import 'package:med_rent/features/dashboard_doctor/presentation/view/dashboard_doctor.dart';
 import 'package:med_rent/features/language/data/cubit/app_localization_cubit.dart';
 import 'package:med_rent/features/main_layout/profile/data/cubit/profile_cubit.dart';
-import 'package:med_rent/features/main_layout/profile/data/data_sources/profile_data.dart';
+import 'package:med_rent/features/main_layout/profile/data/models/profile_menu_item.dart';
 import 'package:med_rent/features/main_layout/profile/presentation/widgets/custom_profile_container_item.dart';
 import 'package:med_rent/features/main_layout/profile/presentation/widgets/user_image_profile.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
@@ -27,81 +28,261 @@ class _ProfileTabState extends State<ProfileTab> {
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
 
-    return BlocProvider(
-      create: (context) => ProfileCubit(ProfileData())..getProfileData(),
-      child: Builder(
-        builder: (context) {
-          return Scaffold(
-            body: SafeArea(
-              child: Padding(
-                padding: REdgeInsets.all(16.0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Text(
-                        appLocalizations.profile,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.headlineLarge!.copyWith(fontSize: 24.sp),
+    return Scaffold(
+      body: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: REdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: BlocBuilder<ProfileCubit, ProfileState>(
+              builder: (context, state) {
+                if (state is ProfileLoading) {
+                  return SizedBox(
+                    height: 620.h,
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                }
+                if(state is ProfileError){
+                  return Text(state.message);
+                }
+                if (state is ProfileSuccess) {
+                  profileImageUrl = state.profileModel.imageUrl;
+                  userName = state.profileModel.name;
+                  userId = state.profileModel.userId;
+                  final role = state.role ?? 'Patient';
+                  String displayId = '';
+                  switch (role) {
+                    case 'Admin':
+                      displayId = "${appLocalizations.adminID} : #HE-$userId";
+                      break;
+                    case 'Doctor':
+                      displayId = "${appLocalizations.doctorID} : #HE-$userId";
+                      break;
+                    case 'EquipmentOwner':
+                      displayId = "${appLocalizations.ownerID} : #HE-$userId";
+                      break;
+                    default:
+                      displayId = "${appLocalizations.patientID} : #HE-$userId";
+                  }
+                  List<ProfileMenuItem> menuItems = [];
+                  menuItems.add(
+                    ProfileMenuItem(
+                      icon: Iconsax.user_edit4,
+                      text: appLocalizations.personalInformation,
+                      onPressed: () => Navigator.pushNamed(
+                        context,
+                        AppRoutes.personalInformation,
                       ),
-                      SizedBox(height: 15.h),
-                      BlocBuilder<ProfileCubit, ProfileState>(
-                        builder: (context, state) {
-                          if (state is ProfileLoading) {
-                            return SizedBox(
-                              height: 150.h,
-                              child: const Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            );
-                          }
-                          if (state is ProfileSuccess) {
-                            profileImageUrl = state.profileModel.imageUrl;
-                            userName = state.profileModel.name;
-                            userId = state.profileModel.userId;
-                          }
-                          return Column(
-                            children: [
-                              UserImageProfile(
-                                widgetUserImageProfile: CircleAvatar(
-                                  radius: 46.r,
-                                  backgroundImage:
-                                      (profileImageUrl != null &&
-                                          profileImageUrl!.isNotEmpty)
-                                      ? NetworkImage(profileImageUrl!)
-                                      : null,
-                                  child:
-                                      (profileImageUrl == null ||
-                                          profileImageUrl!.isEmpty)
-                                      ? Icon(
-                                          Icons.person,
-                                          size: 40.sp,
-                                          color: Colors.white,
-                                        )
-                                      : null,
-                                ),
-                              ),
-                              SizedBox(height: 18.h),
-                              Text(
-                                userName,
-                                style: Theme.of(context).textTheme.displayLarge!
-                                    .copyWith(fontSize: 24.sp),
-                              ),
-                              SizedBox(height: 10.h),
-                              Text(
-                                "Patient ID : #HE-$userId",
-                                style: Theme.of(context).textTheme.bodyMedium!
-                                    .copyWith(fontSize: 14.sp),
-                              ),
-                            ],
+                    ),
+                  );
+                  if (role == 'Admin') {
+                    menuItems.addAll([
+                      ProfileMenuItem(
+                        icon: Icons.dashboard_outlined,
+                        text: appLocalizations.dashboard,
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.dashboardAdmin);
+                        },
+                      ),
+                      ProfileMenuItem(
+                        icon: Iconsax.calendar_1,
+                        text: appLocalizations.booking,
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.bookingReservationAdmin);
+                        },
+                      ),
+                      ProfileMenuItem(
+                        icon: Icons.monitor_outlined,
+                        text: appLocalizations.devices,
+                        onPressed: () {},
+                      ),
+                      ProfileMenuItem(
+                        icon: Iconsax.health,
+                        text: appLocalizations.doctor,
+                        onPressed: () {},
+                      ),
+                      ProfileMenuItem(
+                        icon: Iconsax.profile_2user4,
+                        text: appLocalizations.users,
+                        onPressed: () {},
+                      ),
+                    ]);
+                  } else if (role == 'EquipmentOwner') {
+                    menuItems.addAll([
+                      ProfileMenuItem(
+                        icon: Icons.dashboard_outlined,
+                        text: appLocalizations.dashboard,
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.dashboardEOwner);
+                        },
+                      ),
+                      ProfileMenuItem(
+                        icon: Iconsax.calendar_1,
+                        text: appLocalizations.booking,
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.bookingReservationEOwner);
+                        },
+                      ),
+                      ProfileMenuItem(
+                        icon: Iconsax.notification,
+                        text: appLocalizations.notificationSettings,
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.notificationSetting,
                           );
                         },
+                      ),
+                      ProfileMenuItem(
+                        icon: Icons.monitor_outlined,
+                        text: appLocalizations.my_devices,
+                        onPressed: () {},
+                      ),
+                      ProfileMenuItem(
+                        icon: Icons.add_circle_outline,
+                        text: appLocalizations.add_a_Device,
+                        onPressed: () {},
+                      ),
+                    ]);
+                  } else if (role == 'Doctor') {
+                    menuItems.addAll([
+                      ProfileMenuItem(
+                        icon: Icons.dashboard_outlined,
+                        text: appLocalizations.dashboard,
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.dashboardDoctor);
+                        },
+                      ),
+                      ProfileMenuItem(
+                        icon: Iconsax.calendar_1,
+                        text: appLocalizations.booking,
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.bookingReservationDoctor);
+                        },
+                      ),
+                      ProfileMenuItem(
+                        icon: Iconsax.notification,
+                        text: appLocalizations.notificationSettings,
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.notificationSetting,
+                          );
+                        },
+                      ),
+                    ]);
+                  } else {
+                    menuItems.add(
+                      ProfileMenuItem(
+                        icon: Iconsax.calendar_1,
+                        text: appLocalizations.contactUs,
+                        onPressed: () =>
+                            Navigator.pushNamed(context, AppRoutes.contactUs),
+                      ),
+                    );
+                    menuItems.add(
+                      ProfileMenuItem(
+                        icon: Iconsax.box_search,
+                        text: appLocalizations.myRentals,
+                        onPressed: () =>
+                            Navigator.pushNamed(context, AppRoutes.myRental),
+                      ),
+                    );
+                    menuItems.add(
+                      ProfileMenuItem(
+                        icon: Iconsax.notification,
+                        text: appLocalizations.notificationSettings,
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.notificationSetting,
+                          );
+                        },
+                      ),
+                    );
+                  }
+                  final isArabic =
+                      context.read<AppLocalizationCubit>().state.languageCode ==
+                      'ar';
+                  menuItems.add(
+                    ProfileMenuItem(
+                      icon: Icons.language_outlined,
+                      text: appLocalizations.language,
+                      isLanguage: true,
+                      textLanguage: isArabic ? "العربية" : "English",
+                      onPressed: () => Navigator.pushNamed(
+                        context,
+                        AppRoutes.languageProfile,
+                      ),
+                    ),
+                  );
+                  return Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(width: 50.w),
+                          Text(
+                            appLocalizations.profile,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.headlineLarge!
+                                .copyWith(fontSize: 24.sp),
+                          ),
+                          if (role != 'Admin')
+                            IconButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoutes.myNotification,
+                                );
+                              },
+                              icon: Icon(
+                                Iconsax.notification4,
+                                color: Theme.of(context).primaryColor,
+                                size: 25,
+                              ),
+                            )
+                          else
+                            SizedBox(width: 50.w),
+                        ],
+                      ),
+                      SizedBox(height: 15.h),
+                      UserImageProfile(
+                        widgetUserImageProfile: CircleAvatar(
+                          radius: 46.r,
+                          backgroundImage:
+                              (profileImageUrl != null &&
+                                  profileImageUrl!.isNotEmpty)
+                              ? NetworkImage(profileImageUrl!)
+                              : null,
+                          child:
+                              (profileImageUrl == null ||
+                                  profileImageUrl!.isEmpty)
+                              ? Icon(
+                                  Icons.person,
+                                  size: 40.sp,
+                                  color: Colors.white,
+                                )
+                              : null,
+                        ),
+                      ),
+                      SizedBox(height: 18.h),
+                      Text(
+                        userName,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.displayLarge!.copyWith(fontSize: 24.sp),
+                      ),
+                      SizedBox(height: 10.h),
+                      Text(
+                        displayId,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
                       ),
                       SizedBox(height: 20.h),
                       SizedBox(
                         width: 200.w,
-                        height: 45.h,
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.pushNamed(
@@ -137,37 +318,7 @@ class _ProfileTabState extends State<ProfileTab> {
                         ),
                       ),
                       SizedBox(height: 30.h),
-                      BlocBuilder<AppLocalizationCubit, Locale>(
-                        builder: (context, locale) {
-                          final isArabic = locale.languageCode == 'ar';
-                          return CustomProfileContainerItem(
-                            onPressedNotification: () {},
-                            onPressedIconMyRental: () => Navigator.pushNamed(
-                              context,
-                              AppRoutes.myRental,
-                            ),
-                            onPressedIconPersonalInformation: () {
-                              Navigator.pushNamed(
-                                context,
-                                AppRoutes.personalInformation,
-                              ).then((value) {
-                                if (value == true) {
-                                  context.read<ProfileCubit>().getProfileData();
-                                }
-                              });
-                            },
-                            onPressedIconContactUs: () => Navigator.pushNamed(
-                              context,
-                              AppRoutes.contactUs,
-                            ),
-                            textLanguage: isArabic ? "العربية" : "English",
-                            onPressedLanguage: () => Navigator.pushNamed(
-                              context,
-                              AppRoutes.languageProfile,
-                            ),
-                          );
-                        },
-                      ),
+                      CustomProfileContainerItem(items: menuItems),
                       SizedBox(height: 20.h),
                       GestureDetector(
                         onTap: () => _showDialogLogOut(context),
@@ -188,13 +339,15 @@ class _ProfileTabState extends State<ProfileTab> {
                           ],
                         ),
                       ),
+                      SizedBox(height: 100.h,),
                     ],
-                  ),
-                ),
-              ),
+                  );
+                }
+                return const SizedBox();
+              },
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }

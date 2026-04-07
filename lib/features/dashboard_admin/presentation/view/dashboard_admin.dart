@@ -1,0 +1,117 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:med_rent/features/dashboard_admin/presentation/widgets/appointment_pie_chart_admin.dart';
+import 'package:med_rent/features/dashboard_admin/presentation/widgets/weekly_reservations_chart_admin.dart';
+import 'package:med_rent/features/dashboard_doctor/presentation/widgets/dashboard_state_card.dart';
+import 'package:med_rent/features/dashboard_doctor/presentation/widgets/monthly_patients_chart.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
+
+class DashboardAdmin extends StatefulWidget {
+  const DashboardAdmin({super.key});
+
+  @override
+  State<DashboardAdmin> createState() => _DashboardAdminState();
+}
+
+class _DashboardAdminState extends State<DashboardAdmin> {
+  @override
+  Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
+        title: Text(appLocalizations.dashboard),
+      ),
+      body: SingleChildScrollView(
+        padding: REdgeInsets.all(14),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: DashboardStatCard(
+                    value: "17",
+                    title: appLocalizations.totalDevices,
+                    icon: Icons.monitor_outlined,
+                  ),
+                ),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: DashboardStatCard(
+                    value: "10",
+                    title: appLocalizations.totalBookings,
+                    icon: Iconsax.calendar_1,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 12.h),
+            Row(
+              children: [
+                Expanded(
+                  child: DashboardStatCard(
+                    value: "30",
+                    title: appLocalizations.totalRentals,
+                    icon: Iconsax.calendar_edit,
+                  ),
+                ),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: DashboardStatCard(
+                    value: "29",
+                    title: appLocalizations.totalHospitals,
+                    icon: Iconsax.hospital,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 12.h),
+            Row(
+              children: [
+                Expanded(
+                  child: DashboardStatCard(
+                    value: "136",
+                    title: appLocalizations.totalDoctor,
+                    icon: Icons.medical_services_outlined,
+                  ),
+                ),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: DashboardStatCard(
+                    value: "52",
+                    title: appLocalizations.totalUsers,
+                    icon: Icons.group_outlined,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 12.h),
+            Row(
+              children: [
+                Expanded(
+                  child: DashboardStatCard(
+                    value: "400\$",
+                    title: appLocalizations.revenue,
+                    icon: Iconsax.money_send,
+                  ),
+                ),
+                const Spacer(),
+              ],
+            ),
+            SizedBox(height: 30.h),
+            WeeklyReservationsChartAdmin(),
+            SizedBox(height: 20.h),
+            AppointmentPieChartAdmin(),
+            SizedBox(height: 20.h),
+            MonthlyPatientsChart(color: Color(0xFF87DD68), data: [],),
+            SizedBox(height: 20.h),
+          ],
+        ),
+      ),
+    );
+  }
+}

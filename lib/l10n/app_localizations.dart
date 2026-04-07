@@ -1613,11 +1613,401 @@ abstract class AppLocalizations {
   /// **'Appointment booked'**
   String get appointment_booked;
 
+  /// No description provided for @adminID.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin ID'**
+  String get adminID;
+
+  /// No description provided for @doctorID.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctor ID'**
+  String get doctorID;
+
+  /// No description provided for @ownerID.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner ID'**
+  String get ownerID;
+
+  /// No description provided for @dashboard_doctor.
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard'**
+  String get dashboard;
+
+  /// No description provided for @devices.
+  ///
+  /// In en, this message translates to:
+  /// **'Devices'**
+  String get devices;
+
+  /// No description provided for @users.
+  ///
+  /// In en, this message translates to:
+  /// **'Users'**
+  String get users;
+
+  /// No description provided for @my_devices.
+  ///
+  /// In en, this message translates to:
+  /// **'My devices'**
+  String get my_devices;
+
+  /// No description provided for @add_a_Device.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a Device'**
+  String get add_a_Device;
+
   /// No description provided for @doctor.
   ///
   /// In en, this message translates to:
   /// **'Doctor'**
   String get doctor;
+
+  /// No description provided for @newBookingAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'New Booking Alerts'**
+  String get newBookingAlerts;
+
+  /// No description provided for @notification_when_a_new_patient_books.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification when a new patient books'**
+  String get notification_when_a_new_patient_books;
+
+  /// No description provided for @totalPatients.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Patients'**
+  String get totalPatients;
+
+  /// No description provided for @pendingPatients.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Patients'**
+  String get pendingPatients;
+
+  /// No description provided for @todaysBookings.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s Bookings'**
+  String get todaysBookings;
+
+  /// No description provided for @satisfactionRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Satisfaction Rate'**
+  String get satisfactionRate;
+
+  /// No description provided for @weekly_reservations.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly reservations'**
+  String get weekly_reservations;
+
+  /// No description provided for @state.
+  ///
+  /// In en, this message translates to:
+  /// **'State'**
+  String get state;
+
+  /// No description provided for @types_of_Appointments.
+  ///
+  /// In en, this message translates to:
+  /// **'Types of Appointments'**
+  String get types_of_Appointments;
+
+  /// No description provided for @dailyRent.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Rent'**
+  String get dailyRent;
+
+  /// No description provided for @weeklyRent.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly Rent'**
+  String get weeklyRent;
+
+  /// No description provided for @monthlyPatients.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Patients'**
+  String get monthlyPatients;
+
+  /// No description provided for @general_Checkup.
+  ///
+  /// In en, this message translates to:
+  /// **'General Check-up'**
+  String get general_Checkup;
+
+  /// No description provided for @followup.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow-up'**
+  String get followup;
+
+  /// No description provided for @consultation.
+  ///
+  /// In en, this message translates to:
+  /// **'Consultation'**
+  String get consultation;
+
+  /// No description provided for @emergency.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency'**
+  String get emergency;
+
+  /// No description provided for @reservation.
+  ///
+  /// In en, this message translates to:
+  /// **'Reservation'**
+  String get reservation;
+
+  /// No description provided for @search_by_Name_or_phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by Name or phone '**
+  String get search_by_Name_or_phone;
+
+  /// No description provided for @display.
+  ///
+  /// In en, this message translates to:
+  /// **'Display'**
+  String get display;
+
+  /// No description provided for @myDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'My Device'**
+  String get myDevice;
+
+  /// No description provided for @addDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Device'**
+  String get addDevice;
+
+  /// No description provided for @addNewDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Device'**
+  String get addNewDevice;
+
+  /// No description provided for @deviceImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Device Image'**
+  String get deviceImage;
+
+  /// No description provided for @addImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Image'**
+  String get addImage;
+
+  /// No description provided for @deviceInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Device Information'**
+  String get deviceInformation;
+
+  /// No description provided for @enter_name_of_device.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter name of device'**
+  String get enter_name_of_device;
+
+  /// No description provided for @enter_price_of_device.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter price of device'**
+  String get enter_price_of_device;
+
+  /// No description provided for @enter_a_detailed_description_of_the_device.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a detailed description of the device......'**
+  String get enter_a_detailed_description_of_the_device;
+
+  /// No description provided for @price.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get price;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// No description provided for @totalDevices.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Devices'**
+  String get totalDevices;
+
+  /// No description provided for @totalBookings.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Bookings'**
+  String get totalBookings;
+
+  /// No description provided for @totalHospitals.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Hospitals'**
+  String get totalHospitals;
+
+  /// No description provided for @totalUsers.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Users'**
+  String get totalUsers;
+
+  /// No description provided for @totalRentals.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Rentals'**
+  String get totalRentals;
+
+  /// No description provided for @totalDoctor.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Doctor'**
+  String get totalDoctor;
+
+  /// No description provided for @cardiologyConsultation.
+  ///
+  /// In en, this message translates to:
+  /// **'Cardiology Consultation'**
+  String get cardiologyConsultation;
+
+  /// No description provided for @search_by_Name.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by Name'**
+  String get search_by_Name;
+
+  /// No description provided for @consultationPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Consultation Price'**
+  String get consultationPrice;
+
+  /// No description provided for @doctorImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctor Image'**
+  String get doctorImage;
+
+  /// No description provided for @doctorInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctor Information'**
+  String get doctorInformation;
+
+  /// No description provided for @enter_name_of_doctor.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter name of doctor'**
+  String get enter_name_of_doctor;
+
+  /// No description provided for @enter_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter email'**
+  String get enter_email;
+
+  /// No description provided for @enter_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter password'**
+  String get enter_password;
+
+  /// No description provided for @experienceYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Experience Year'**
+  String get experienceYear;
+
+  /// No description provided for @enter_experience_year.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter experience year'**
+  String get enter_experience_year;
+
+  /// No description provided for @specialization.
+  ///
+  /// In en, this message translates to:
+  /// **'Specialization'**
+  String get specialization;
+
+  /// No description provided for @enter_specialization.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter specialization'**
+  String get enter_specialization;
+
+  /// No description provided for @hospital.
+  ///
+  /// In en, this message translates to:
+  /// **'Hospital'**
+  String get hospital;
+
+  /// No description provided for @tantaUniversityHospital.
+  ///
+  /// In en, this message translates to:
+  /// **'Tanta University Hospital'**
+  String get tantaUniversityHospital;
+
+  /// No description provided for @department.
+  ///
+  /// In en, this message translates to:
+  /// **'Department'**
+  String get department;
+
+  /// No description provided for @enter_price_of_consutation.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter price of consutation'**
+  String get enter_price_of_consutation;
+
+  /// No description provided for @startTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Time'**
+  String get startTime;
+
+  /// No description provided for @enter_start_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter start time'**
+  String get enter_start_time;
+
+  /// No description provided for @end_Time.
+  ///
+  /// In en, this message translates to:
+  /// **'End Time'**
+  String get end_Time;
+
+  /// No description provided for @enter_end_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter end time'**
+  String get enter_end_time;
+
+  /// No description provided for @revenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue'**
+  String get revenue;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

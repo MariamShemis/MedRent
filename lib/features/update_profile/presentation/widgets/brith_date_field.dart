@@ -35,7 +35,7 @@ class _BirthDateFieldState extends State<BirthDateField> {
           controller: widget.controller,
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
-            hintText: "YYYY/MM/DD",
+            hintText: "YYYY-MM-DD",
             hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
               fontWeight: FontWeight.w900,
             ),
@@ -64,13 +64,13 @@ class _BirthDateFieldState extends State<BirthDateField> {
             ),
           ),
           onChanged: (value) {
-            String newText = value.replaceAll('-', ''); // إزالة أي شرطات موجودة
+            String newText = value.replaceAll('-', '');
             if (newText.length > 8) newText = newText.substring(0, 8);
 
             String formatted = "";
             for (int i = 0; i < newText.length; i++) {
               formatted += newText[i];
-              if (i == 3 || i == 5) formatted += "-"; // إضافة الشرطة بعد السنة والشهر
+              if (i == 3 || i == 5) formatted += "-";
             }
 
             if (formatted != widget.controller.text) {
