@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
-import 'package:med_rent/features/dashboard_doctor/presentation/view/dashboard_doctor.dart';
 import 'package:med_rent/features/language/data/cubit/app_localization_cubit.dart';
 import 'package:med_rent/features/main_layout/profile/data/cubit/profile_cubit.dart';
 import 'package:med_rent/features/main_layout/profile/data/models/profile_menu_item.dart';
@@ -130,6 +129,7 @@ class _ProfileTabState extends State<ProfileTab> {
                           Navigator.pushNamed(
                             context,
                             AppRoutes.notificationSetting,
+                            arguments: role,
                           );
                         },
                       ),
@@ -167,6 +167,7 @@ class _ProfileTabState extends State<ProfileTab> {
                           Navigator.pushNamed(
                             context,
                             AppRoutes.notificationSetting,
+                            arguments: role,
                           );
                         },
                       ),
@@ -196,6 +197,7 @@ class _ProfileTabState extends State<ProfileTab> {
                           Navigator.pushNamed(
                             context,
                             AppRoutes.notificationSetting,
+                            arguments: role,
                           );
                         },
                       ),
