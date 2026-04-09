@@ -33,6 +33,8 @@ import 'package:med_rent/features/main_layout/main_layout.dart';
 import 'package:med_rent/features/my_rental/data/cubit/my_rental_cubit.dart';
 import 'package:med_rent/features/my_rental/data/data_sources/my_rental_data_source.dart';
 import 'package:med_rent/features/my_rental/presentation/view/my_rental.dart';
+import 'package:med_rent/features/notification/data/cubit/notification_cubit.dart';
+import 'package:med_rent/features/notification/data/data_sources/notification_remote_data_source.dart';
 import 'package:med_rent/features/notification/presentation/view/my_notification.dart';
 import 'package:med_rent/features/notification_setting/data/cubit/notification_settings_cubit.dart';
 import 'package:med_rent/features/notification_setting/data/data_sources/notification_settings_data_source.dart';
@@ -130,7 +132,17 @@ abstract class RoutesManager {
         }
       case AppRoutes.myNotification:
         {
-          return CupertinoPageRoute(builder: (context) => MyNotification());
+          final args = settings.arguments;
+          final role = args is String ? args : 'Patient';
+          return CupertinoPageRoute(
+            builder: (context) => BlocProvider(
+              create: (context) => NotificationCubit(
+                NotificationRemoteDataSource(ApiClient()),
+              ),
+              child: const MyNotification(),
+            ),
+            settings: settings,
+          );
         }
       case AppRoutes.notificationSetting:
         {

@@ -236,6 +236,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                 Navigator.pushNamed(
                                   context,
                                   AppRoutes.myNotification,
+                                  arguments: role,
                                 );
                               },
                               icon: Icon(
