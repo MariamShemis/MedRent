@@ -8,15 +8,19 @@ class HospitalCubit extends Cubit<HospitalState> {
 
   HospitalCubit(this.remoteDataSource) : super(HospitalInitial());
 
-  Future<void> getAllHospitals() async {
-    emit(HospitalLoading());
-    try {
-      final result = await remoteDataSource.getAllHospitals();
-      emit(HospitalLoaded(result));
-    } catch (e) {
-      emit(HospitalError(e.toString()));
-    }
+ Future<void> getAllHospitals() async {
+  emit(HospitalLoading());
+  try {
+    final result = await remoteDataSource.getAllHospitals();
+    
+    if (isClosed) return; 
+    
+    emit(HospitalLoaded(result));
+  } catch (e) {
+    if (isClosed) return;
+    emit(HospitalError(e.toString()));
   }
+}
 
   Future<void> searchOrGetAll(String text) async {
     emit(HospitalLoading());

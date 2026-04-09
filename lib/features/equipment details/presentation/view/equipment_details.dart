@@ -12,7 +12,7 @@ import 'package:med_rent/features/equipment%20details/presentation/widgets/custo
 import 'package:med_rent/features/equipment%20details/presentation/widgets/custom_item_price_details.dart';
 import 'package:med_rent/features/equipment%20details/presentation/widgets/equipment_details_calender.dart';
 import 'package:med_rent/features/equipment%20details/presentation/widgets/user_review.dart';
-import 'package:med_rent/features/rent_payment/presentation/view/rent_payment.dart';
+import 'package:med_rent/features/rent_payment/data/data_sources/rent_payment_data_source.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
 
 import '../../data/cubit/equipment_details_state.dart';
@@ -257,7 +257,7 @@ class _EquipmentDetailsState extends State<EquipmentDetails> {
                                     borderRadius: BorderRadius.circular(12.r),
                                   ),
                                 ),
-                                onPressed: () {
+                                onPressed: () async {
                                   if (selectedDays.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
@@ -267,30 +267,59 @@ class _EquipmentDetailsState extends State<EquipmentDetails> {
                                     );
                                     return;
                                   }
-                                  final equipmentName = equipment.name;
-                                  final price = equipment.pricePerDay;
-                                  final formattedDates = selectedDays
-                                      .map((d) => "${d.day}/${d.month}/${d.year}")
-                                      .join(" , ");
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      backgroundColor: Colors.green,
-                                      content: Text(
-                                        "${appLocalizations.productDetails}: $equipmentName\n"
-                                            "${appLocalizations.date}: $formattedDates\n"
-                                            "${appLocalizations.rentalPricing}: $price ${appLocalizations.lE}",
+         
+
+                                  // Sort selected days to get start and end
+                                  final sortedDays = List<DateTime>.from(selectedDays)..sort();
+                                  final startDate = '${sortedDays.first.year}-${sortedDays.first.month.toString().padLeft(2, '0')}-${sortedDays.first.day.toString().padLeft(2, '0')}';
+                                  final endDate = '${sortedDays.last.year}-${sortedDays.last.month.toString().padLeft(2, '0')}-${sortedDays.last.day.toString().padLeft(2, '0')}';
+
+                                  try {
+                                    // Show loading
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (_) => const Center(
+                                        child: CircularProgressIndicator(
+                                          color: ColorManager.darkBlue,
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                  Navigator.pushNamed(
-                                    context,
-                                    AppRoutes.rentPayment,
-                                    arguments: {
-                                      "equipmentName": equipmentName,
-                                      "dates": selectedDays,
-                                      "price": price,
-                                    },
-                                  );
+                                    );
+
+                                    // Call rent API
+                                    final dataSource = RentPaymentDataSource(
+                                      apiClient: ApiClient(),
+                                    );
+                                    final rentResponse = await dataSource.rentEquipment(
+                                      equipmentId: widget.equipmentId,
+                                      startDate: startDate,
+                                      endDate: endDate,
+                                    );
+
+                                    // Dismiss loading
+                                    if (context.mounted) Navigator.pop(context);
+
+                                    // Navigate to rent payment with rentalId
+                                    if (context.mounted) {
+                                      Navigator.pushNamed(
+                                        context,
+                                        AppRoutes.rentPayment,
+                                        arguments: rentResponse.rentalId,
+                                      );
+                                    }
+                                  } catch (e) {
+                                    // Dismiss loading
+                                    if (context.mounted) Navigator.pop(context);
+
+                                    if (context.mounted) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          backgroundColor: Colors.red,
+                                          content: Text('Failed to create rental: $e'),
+                                        ),
+                                      );
+                                    }
+                                  }
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
