@@ -16,7 +16,6 @@ class RentalSummaryCard extends StatelessWidget {
         color: const Color(0xFFF3F7FA),
         borderRadius: BorderRadius.circular(15.r),
       ),
-
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -30,10 +29,6 @@ class RentalSummaryCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(
-                  model.equipmentDescription,
-                  style: TextStyle(fontSize: 12.sp, color: Colors.grey),
-                ),
                 SizedBox(height: 10.h),
                 Image.network(
                   model.equipmentImage,
@@ -44,7 +39,7 @@ class RentalSummaryCard extends StatelessWidget {
                       Icons.broken_image,
                       size: 50.h,
                       color: Colors.grey,
-                    ); 
+                    );
                   },
                 ),
               ],
@@ -52,7 +47,7 @@ class RentalSummaryCard extends StatelessWidget {
           ),
           SizedBox(height: 15.h),
           const Divider(),
-          
+
           const Text(
             "Rental Period",
             style: TextStyle(
