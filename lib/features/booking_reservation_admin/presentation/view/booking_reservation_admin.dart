@@ -39,7 +39,6 @@ class BookingReservationAdmin extends StatelessWidget {
                   date: "Mon, Oct25, 2026",
                   time: "10:00 AM",
                   onDisplayTap: () {
-                    // الكود اللي هيتنفذ لما يضغط على Display
                   },
                 ),
                 separatorBuilder: (context, index) => SizedBox(height: 16.h),

@@ -4,18 +4,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
 
 class AppointmentPieChartAdmin extends StatelessWidget {
-  const AppointmentPieChartAdmin({super.key});
+  final List<String> names;
+  final List<int> counts;
+
+  const AppointmentPieChartAdmin({
+    super.key,
+    required this.names,
+    required this.counts,
+  });
 
   @override
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
-    final data = [
-      {'title': appLocalizations.cardiologyConsultation, 'value': 56.0, 'color': const Color(0xFF079E6B)},
-      {'title': appLocalizations.followup, 'value': 30.0, 'color': const Color(0xFF61E076)},
-      {'title': appLocalizations.general_Checkup, 'value': 39.0, 'color': Color(0xFFE90509)},
-      {'title': appLocalizations.consultation, 'value': 49.0, 'color': const Color(0xFF4786FB)},
-      {'title': appLocalizations.emergency, 'value': 63.0, 'color': const Color(0xFFE08261)},
-    ];
+    final List<Map<String, dynamic>> data = List.generate(names.length, (index) {
+      return {
+        'title': names[index],
+        'value': counts[index].toDouble(),
+        'color': Colors.primaries[index % Colors.primaries.length],
+      };
+    });
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.r)),
       elevation: 4,
@@ -36,19 +43,17 @@ class AppointmentPieChartAdmin extends StatelessWidget {
                 PieChartData(
                   sectionsSpace: 2,
                   centerSpaceRadius: 60.r,
-                  startDegreeOffset: -90,
                   sections: data.map((item) {
                     return PieChartSectionData(
-                      value: item['value'] as double,
-                      color: item['color'] as Color,
+                      value: item['value'],
+                      color: item['color'],
                       radius: 40.r,
                       showTitle: true,
-                      title: item['value'].toString().split('.')[0],
-                      titlePositionPercentageOffset: 1.4,
+                      title: item['value'].toStringAsFixed(0),
                       titleStyle: TextStyle(
-                        fontSize: 16.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.bold,
-                        color: const Color(0xFF4556FE),
+                        color: Colors.white,
                       ),
                     );
                   }).toList(),

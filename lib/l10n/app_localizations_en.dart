@@ -963,5 +963,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enter_end_time => 'Enter end time';
 
   @override
+  String get monthlyRentals => 'Monthly Rentals';
+
+  @override
+  String get monthlyBookings => 'Monthly Bookings';
+
+  @override
   String get revenue => 'Revenue';
 }

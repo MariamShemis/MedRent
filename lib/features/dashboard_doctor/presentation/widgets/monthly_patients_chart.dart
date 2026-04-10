@@ -5,9 +5,10 @@ import 'package:med_rent/features/dashboard_doctor/data/models/dashboard_model.d
 import 'package:med_rent/l10n/app_localizations.dart';
 
 class MonthlyPatientsChart extends StatelessWidget {
-  const MonthlyPatientsChart({super.key, required this.color, required this.data});
+  const MonthlyPatientsChart({super.key, required this.color, required this.data, this.title});
   final Color color;
   final List<MonthlyPatient> data;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class MonthlyPatientsChart extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              appLocalizations.monthlyPatients,
+              title ?? appLocalizations.monthlyPatients,
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -34,7 +35,7 @@ class MonthlyPatientsChart extends StatelessWidget {
               child: BarChart(
                 BarChartData(
                   alignment: BarChartAlignment.spaceAround,
-                  maxY: 200,
+                  maxY: 80,
                   gridData: FlGridData(
                     show: true,
                     drawVerticalLine: false,
@@ -84,8 +85,8 @@ class MonthlyPatientsChart extends StatelessWidget {
                     leftTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
-                        reservedSize: 35,
-                        interval: 50,
+                        reservedSize: 30,
+                        interval: 10,
                         getTitlesWidget: (value, meta) {
                           return Text(
                             value.toInt().toString(),

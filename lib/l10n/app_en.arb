@@ -318,5 +318,7 @@
   "enter_start_time" : "Enter start time",
   "end_Time" : "End Time",
   "enter_end_time" : "Enter end time",
+  "monthlyRentals" : "Monthly Rentals",
+  "monthlyBookings" : "Monthly Bookings",
   "revenue" : "Revenue"
 }

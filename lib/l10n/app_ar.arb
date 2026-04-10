@@ -318,5 +318,7 @@
   "enter_start_time": "أدخل وقت البداية",
   "end_Time": "وقت النهاية",
   "enter_end_time": "أدخل وقت النهاية",
+  "monthlyRentals": "الإيجارات الشهرية",
+  "monthlyBookings": "الحجوزات الشهرية" ,
   "revenue": "الإيرادات"
 }

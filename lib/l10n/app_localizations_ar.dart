@@ -963,5 +963,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get enter_end_time => 'أدخل وقت النهاية';
 
   @override
+  String get monthlyRentals => 'الإيجارات الشهرية';
+
+  @override
+  String get monthlyBookings => 'الحجوزات الشهرية';
+
+  @override
   String get revenue => 'الإيرادات';
 }

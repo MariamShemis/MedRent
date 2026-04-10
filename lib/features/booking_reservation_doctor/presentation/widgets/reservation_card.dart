@@ -26,6 +26,7 @@ class ReservationCard extends StatelessWidget {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Container(
       padding: REdgeInsets.all(20),
+      margin: REdgeInsets.all(2),
       decoration: BoxDecoration(
         color: ColorManager.white,
         borderRadius: BorderRadius.circular(16.r),
@@ -63,7 +64,7 @@ class ReservationCard extends StatelessWidget {
                     ),
                     Icon(
                       Icons.arrow_forward,
-                      size: 18.sp,
+                      size: 16.sp,
                       color: ColorManager.darkBlue,
                     ),
                   ],
@@ -98,7 +99,7 @@ class ReservationCard extends StatelessWidget {
                   context,
                 ).textTheme.titleSmall!.copyWith(fontSize: 14.sp),
               ),
-              SizedBox(width: 30.w),
+              SizedBox(width: 50.w),
               Text(
                 time,
                 style: Theme.of(

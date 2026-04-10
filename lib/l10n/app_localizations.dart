@@ -1631,7 +1631,7 @@ abstract class AppLocalizations {
   /// **'Owner ID'**
   String get ownerID;
 
-  /// No description provided for @dashboard_doctor.
+  /// No description provided for @dashboard.
   ///
   /// In en, this message translates to:
   /// **'Dashboard'**
@@ -2002,6 +2002,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter end time'**
   String get enter_end_time;
+
+  /// No description provided for @monthlyRentals.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Rentals'**
+  String get monthlyRentals;
+
+  /// No description provided for @monthlyBookings.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Bookings'**
+  String get monthlyBookings;
 
   /// No description provided for @revenue.
   ///

@@ -26,6 +26,7 @@ class ReservationCardAdmin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: REdgeInsets.all(20),
+      margin: REdgeInsets.all(2),
       decoration: BoxDecoration(
         color: ColorManager.white,
         borderRadius: BorderRadius.circular(16.r),
@@ -93,7 +94,7 @@ class ReservationCardAdmin extends StatelessWidget {
                   context,
                 ).textTheme.titleSmall!.copyWith(fontSize: 14.sp),
               ),
-              SizedBox(width: 30.w),
+              SizedBox(width: 50.w),
               Text(
                 time,
                 style: Theme.of(

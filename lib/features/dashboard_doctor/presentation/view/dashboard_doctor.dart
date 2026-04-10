@@ -28,7 +28,6 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context)!;
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -42,74 +41,72 @@ class _DashboardState extends State<Dashboard> {
           if (state is DashboardLoading) {
             return const Center(child: CircularProgressIndicator());
           }
-
           if (state is DashboardError) {
             return Center(child: Text(state.message));
           }
-
           if (state is DashboardLoaded) {
             final data = state.model;
-
             return SingleChildScrollView(
               padding: REdgeInsets.all(14),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: DashboardStatCard(
-                          value: data.totalPatients.toString(),
-                          title: appLocalizations.totalPatients,
-                          icon: Icons.group_outlined,
+              child: SafeArea(
+                top: false,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DashboardStatCard(
+                            value: data.totalPatients.toString(),
+                            title: appLocalizations.totalPatients,
+                            icon: Icons.group_outlined,
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: DashboardStatCard(
-                          value: data.todayBookings.toString(),
-                          title: appLocalizations.todaysBookings,
-                          icon: Iconsax.calendar_1,
+                        SizedBox(width: 12.w),
+                        Expanded(
+                          child: DashboardStatCard(
+                            value: data.todayBookings.toString(),
+                            title: appLocalizations.todaysBookings,
+                            icon: Iconsax.calendar_1,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 12.h),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: DashboardStatCard(
-                          value: data.waitingCount.toString(),
-                          title: appLocalizations.pendingPatients,
-                          icon: Iconsax.timer_14,
+                      ],
+                    ),
+                    SizedBox(height: 12.h),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DashboardStatCard(
+                            value: data.waitingCount.toString(),
+                            title: appLocalizations.pendingPatients,
+                            icon: Iconsax.timer_14,
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: DashboardStatCard(
-                          value: data.rating.toString(),
-                          title: appLocalizations.satisfactionRate,
-                          icon: Iconsax.chart_1,
+                        SizedBox(width: 12.w),
+                        Expanded(
+                          child: DashboardStatCard(
+                            value: data.rating.toString(),
+                            title: appLocalizations.satisfactionRate,
+                            icon: Iconsax.chart_1,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20.h),
-                  WeeklyReservationsChart(
-                    data: data.weeklyBookings,
-                    color: const Color(0xFFB2E2E2),
-                  ),
-                  SizedBox(height: 20.h),
-                  AppointmentPieChart(
-                    data: data.bookingTypes,
-                  ),
-                  SizedBox(height: 20.h),
-                  MonthlyPatientsChart(
-                    data: data.monthlyPatients,
-                    color: const Color(0xFF6080DB),
-                  ),
-
-                  SizedBox(height: 20.h),
-                ],
+                      ],
+                    ),
+                    SizedBox(height: 20.h),
+                    WeeklyReservationsChart(
+                      data: data.weeklyBookings,
+                      color: const Color(0xFFB2E2E2),
+                    ),
+                    SizedBox(height: 20.h),
+                    AppointmentPieChart(
+                      data: data.bookingTypes,
+                    ),
+                    SizedBox(height: 20.h),
+                    MonthlyPatientsChart(
+                      data: data.monthlyPatients,
+                      color: const Color(0xFF6080DB),
+                    ),
+                  ],
+                ),
               ),
             );
           }

@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:med_rent/core/network/api_client.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
+import 'package:med_rent/features/dashboard_admin/data/cubit/admin_dashboard_cubit.dart';
+import 'package:med_rent/features/dashboard_admin/data/data_sources/admin_dashboard_data_source.dart';
 import 'package:med_rent/features/rent_payment/data/cubit/rent_payment_cubit.dart';
 import 'package:med_rent/features/rent_payment/data/data_sources/rent_payment_data_source.dart';
 import 'package:med_rent/features/auth/data/cubit/auth_cubit.dart';
@@ -182,7 +184,14 @@ abstract class RoutesManager {
         }
       case AppRoutes.dashboardAdmin:
         {
-          return CupertinoPageRoute(builder: (context) => DashboardAdmin());
+          return CupertinoPageRoute(
+            builder: (context) => BlocProvider(
+              create: (context) => AdminDashboardCubit(
+                AdminDashboardDataSource(ApiClient()),
+              ),
+              child: const DashboardAdmin(),
+            ),
+          );
         }
       case AppRoutes.dashboardEOwner:
         {
