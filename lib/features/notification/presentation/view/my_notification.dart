@@ -62,20 +62,11 @@ class _MyNotificationState extends State<MyNotification> {
                   SizedBox(height: 15.h),
                   Divider(thickness: 1, color: ColorManager.lightGrey),
                   SizedBox(height: 10.h),
-                  Expanded(
-                    child: Card(
-                      elevation: 5,
-                      margin: EdgeInsets.zero,
-                      color: ColorManager.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadiusGeometry.circular(16.r),
-                      ),
-                      child: Padding(
-                        padding: REdgeInsets.all(8.0),
-                        child: Expanded(
-                          child: _buildBody(state, role, appLocalizations),
-                        ),
-                      ),
+                  SizedBox(
+                    height: 300.h,
+                    child: Padding(
+                      padding: REdgeInsets.all(9.0),
+                      child: _buildBody(state, role, appLocalizations),
                     ),
                   ),
                   Padding(
@@ -137,14 +128,22 @@ class _MyNotificationState extends State<MyNotification> {
             notification.title,
             notification.message,
           );
-          return CustomMyNotificationCard(
-            role: role,
-            createdAt: notification.createdAt,
-            isRead: notification.isRead,
-            isBooking: isBooking,
-            title: notification.title,
-            message: notification.message,
-            onTap: () => cubit.markAsRead(notification.notificationId),
+          return Card(
+            elevation: 5,
+            margin: EdgeInsets.zero,
+            color: ColorManager.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadiusGeometry.circular(16.r),
+            ),
+            child: CustomMyNotificationCard(
+              role: role,
+              createdAt: notification.createdAt,
+              isRead: notification.isRead,
+              isBooking: isBooking,
+              title: notification.title,
+              message: notification.message,
+              onTap: () => cubit.markAsRead(notification.notificationId),
+            ),
           );
         },
       );

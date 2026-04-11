@@ -18,12 +18,14 @@ class ProfileModel {
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
-    const baseUrl = 'http://graduationprojectapi.somee.com';
+    const baseUrl = 'http://GraduationProject.somee.com';
     String imagePath = json['imageUrl'] ?? "";
     if (imagePath.isNotEmpty && !imagePath.startsWith('http')) {
+      if (imagePath.startsWith('/')) {
+        imagePath = imagePath.substring(1);
+      }
       imagePath = '$baseUrl$imagePath';
     }
-
     return ProfileModel(
       userId: json['userId'] ?? 0,
       name: json['name'] ?? "",

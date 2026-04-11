@@ -320,5 +320,12 @@
   "enter_end_time": "أدخل وقت النهاية",
   "monthlyRentals": "الإيجارات الشهرية",
   "monthlyBookings": "الحجوزات الشهرية" ,
-  "revenue": "الإيرادات"
+  "revenue": "الإيرادات",
+  "duration": "المدة",
+  "to": "إلى",
+  "device": "الجهاز",
+  "totalPrice": "السعر الإجمالي",
+  "status": "الحالة",
+  "notes": "الملاحظات",
+  "close": "إغلاق"
 }

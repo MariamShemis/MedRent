@@ -2,6 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:med_rent/core/network/api_client.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
+import 'package:med_rent/features/booking_reservation_doctor/data/cubit/booking_reservation_cubit.dart';
+import 'package:med_rent/features/booking_reservation_doctor/data/data_sources/admin_reservation_data_source.dart';
+import 'package:med_rent/features/booking_reservation_doctor/data/data_sources/doctor_reservation_data_source.dart';
+import 'package:med_rent/features/booking_reservation_doctor/data/data_sources/owner_reservation_data_source.dart';
 import 'package:med_rent/features/dashboard_admin/data/cubit/admin_dashboard_cubit.dart';
 import 'package:med_rent/features/dashboard_admin/data/data_sources/admin_dashboard_data_source.dart';
 import 'package:med_rent/features/rent_payment/data/cubit/rent_payment_cubit.dart';
@@ -12,9 +16,7 @@ import 'package:med_rent/features/auth/presentation/view/register_screen.dart';
 import 'package:med_rent/features/booking/data/cubit/booking_cubit.dart';
 import 'package:med_rent/features/booking/presentation/view/booking_tab.dart';
 import 'package:med_rent/features/booking_payment/presentation/view/booking_payment.dart';
-import 'package:med_rent/features/booking_reservation_admin/presentation/view/booking_reservation_admin.dart';
-import 'package:med_rent/features/booking_reservation_doctor/presentation/view/booking_reservation_doctor.dart';
-import 'package:med_rent/features/booking_reservation_e_owner/presentation/view/booking_reservation_e_owner.dart';
+import 'package:med_rent/features/booking_reservation_doctor/presentation/view/booking_reservation.dart';
 import 'package:med_rent/features/contact_us/data/cubit/contact_us_cubit.dart';
 import 'package:med_rent/features/contact_us/presentation/view/contact_us.dart';
 import 'package:med_rent/features/dashboard_admin/presentation/view/dashboard_admin.dart';
@@ -204,22 +206,19 @@ abstract class RoutesManager {
             ),
           );
         }
-      case AppRoutes.bookingReservationDoctor:
+      case AppRoutes.bookingReservation:
         {
+          final args = settings.arguments;
+          final String role = args is String ? args : 'Doctor';
           return CupertinoPageRoute(
-            builder: (context) => BookingReservationDoctor(),
-          );
-        }
-      case AppRoutes.bookingReservationAdmin:
-        {
-          return CupertinoPageRoute(
-            builder: (context) => BookingReservationAdmin(),
-          );
-        }
-      case AppRoutes.bookingReservationEOwner:
-        {
-          return CupertinoPageRoute(
-            builder: (context) => BookingReservationEOwner(),
+            builder: (context) => BlocProvider(
+              create: (context) => BookingReservationCubit(
+                adminDS: AdminReservationDataSource(ApiClient()),
+                doctorDS: DoctorReservationDataSource(ApiClient()),
+                ownerDS: OwnerReservationDataSource(ApiClient()),
+              ),
+              child: BookingReservation(role: role),
+            ),
           );
         }
       case AppRoutes.searchHome:

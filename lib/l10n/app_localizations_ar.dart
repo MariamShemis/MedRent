@@ -970,4 +970,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get revenue => 'الإيرادات';
+
+  @override
+  String get duration => 'المدة';
+
+  @override
+  String get to => 'إلى';
+
+  @override
+  String get device => 'الجهاز';
+
+  @override
+  String get totalPrice => 'السعر الإجمالي';
+
+  @override
+  String get status => 'الحالة';
+
+  @override
+  String get notes => 'الملاحظات';
+
+  @override
+  String get close => 'إغلاق';
 }

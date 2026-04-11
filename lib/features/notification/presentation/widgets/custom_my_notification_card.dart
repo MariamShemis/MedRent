@@ -78,7 +78,6 @@ class CustomMyNotificationCard extends StatelessWidget {
                     radius: 5.r,
                   ),
                 SizedBox(width: 8.w),
-                // هنا بنعرض الوقت المختصر
                 Text(
                   _formatTimeAgo(createdAt),
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(

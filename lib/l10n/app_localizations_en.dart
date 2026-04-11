@@ -970,4 +970,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get revenue => 'Revenue';
+
+  @override
+  String get duration => 'Duration';
+
+  @override
+  String get to => 'To';
+
+  @override
+  String get device => 'Device';
+
+  @override
+  String get totalPrice => 'Total Price';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get notes => 'Notes';
+
+  @override
+  String get close => 'Close';
 }
