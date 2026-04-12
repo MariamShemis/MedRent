@@ -52,7 +52,7 @@ class BookingType {
 
 class WeeklyBooking {
   final String day;
-  final int count;
+  final num count;
 
   WeeklyBooking({required this.day, required this.count});
 

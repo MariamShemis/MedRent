@@ -327,5 +327,6 @@
   "totalPrice" : "Total Price",
   "status" : "Status",
   "notes" : "Notes",
+  "type" : "Type",
   "close" : "Close"
 }

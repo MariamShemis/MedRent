@@ -1,4 +1,4 @@
-import 'package:med_rent/features/booking_reservation_doctor/data/models/reservation_details_model.dart';
+import 'package:med_rent/features/booking_reservation/data/models/reservation_details_model.dart';
 import '../models/reservation_model.dart';
 
 abstract class BookingReservationState {}

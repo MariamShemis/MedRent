@@ -2057,6 +2057,12 @@ abstract class AppLocalizations {
   /// **'Notes'**
   String get notes;
 
+  /// No description provided for @type.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get type;
+
   /// No description provided for @close.
   ///
   /// In en, this message translates to:

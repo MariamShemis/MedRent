@@ -990,5 +990,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notes => 'Notes';
 
   @override
+  String get type => 'Type';
+
+  @override
   String get close => 'Close';
 }

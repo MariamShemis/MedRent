@@ -94,6 +94,7 @@ class DashboardEquipmentOwner extends StatelessWidget {
                           .map((e) => MonthlyPatient(month: 0, count: e.count))
                           .toList(),
                     ),
+                    SizedBox(height: 20.h),
                   ],
                 ),
               ),

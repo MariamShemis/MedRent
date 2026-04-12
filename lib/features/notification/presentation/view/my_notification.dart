@@ -38,11 +38,15 @@ class _MyNotificationState extends State<MyNotification> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        appLocalizations.notifications,
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: ColorManager.darkBlue,
-                          fontSize: 22.sp,
+                      Expanded(
+                        child: Text(
+                          appLocalizations.notifications,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            color: ColorManager.darkBlue,
+                            fontSize: 22.sp,
+                          ),
                         ),
                       ),
                       InkWell(

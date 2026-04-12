@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:med_rent/core/network/api_client.dart';
 import 'package:med_rent/core/service/session_service.dart';
-import 'package:med_rent/features/booking_reservation_doctor/data/models/reservation_details_model.dart';
-import 'package:med_rent/features/booking_reservation_doctor/data/models/reservation_model.dart';
+import 'package:med_rent/features/booking_reservation/data/models/reservation_details_model.dart';
+import 'package:med_rent/features/booking_reservation/data/models/reservation_model.dart';
 
 class OwnerReservationDataSource {
   final ApiClient _apiClient;

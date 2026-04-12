@@ -2,17 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
-import 'package:med_rent/features/booking_reservation_doctor/data/models/reservation_details_model.dart';
+import 'package:med_rent/features/booking_reservation/data/models/reservation_details_model.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
 
 class ReservationDetailsDialog extends StatelessWidget {
   final ReservationDetailsModel details;
+  final String role;
 
-  const ReservationDetailsDialog({super.key, required this.details});
+  const ReservationDetailsDialog({
+    super.key,
+    required this.details,
+    required this.role,
+  });
 
   @override
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+    final bool isDoctor = role.toLowerCase() == 'doctor';
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
       contentPadding: EdgeInsets.zero,
@@ -31,14 +37,22 @@ class ReservationDetailsDialog extends StatelessWidget {
                 padding: REdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
-                    _buildInfoRow(
-                      context,
-                      Iconsax.calendar_1,
-                      appLocalizations.duration,
-                      "${appLocalizations.from}: ${details.startDate.split('T')[0]}",
-                      isEndDate: true,
-                      endValue: "To: ${details.endDate.split('T')[0]}",
-                    ),
+                    if (isDoctor)
+                      _buildInfoRow(
+                        context,
+                        Iconsax.calendar_1,
+                        appLocalizations.date,
+                        details.endDate.split('T')[0],
+                      )
+                    else
+                      _buildInfoRow(
+                        context,
+                        Iconsax.calendar_1,
+                        appLocalizations.duration,
+                        "${appLocalizations.from}: ${details.startDate.split('T')[0]}",
+                        isEndDate: true,
+                        endValue: "To: ${details.endDate.split('T')[0]}",
+                      ),
                     if (details.time.isNotEmpty)
                       _buildInfoRow(
                         context,
@@ -68,6 +82,13 @@ class ReservationDetailsDialog extends StatelessWidget {
                         appLocalizations.status,
                         details.status,
                       ),
+                    if (details.type != null && details.type!.isNotEmpty)
+                      _buildInfoRow(
+                        context,
+                        _getTypeIcon(details.type!),
+                        appLocalizations.type,
+                        details.type!,
+                      ),
                     if (details.notes != null && details.notes!.isNotEmpty)
                       _buildInfoRow(
                         context,
@@ -96,6 +117,18 @@ class ReservationDetailsDialog extends StatelessWidget {
       ],
     );
   }
+  IconData _getTypeIcon(String type) {
+    String lowerType = type.toLowerCase();
+    if (lowerType.contains("follow")) {
+      return Iconsax.refresh_2; 
+    } else if (lowerType.contains("check")) {
+      return Iconsax.health; 
+    } else if (lowerType.contains("consult")) {
+      return Iconsax.message_question; 
+    } else {
+      return Iconsax.category;
+    }
+  }
 
   Widget _buildHeader(BuildContext context) {
     return Container(
@@ -117,6 +150,13 @@ class ReservationDetailsDialog extends StatelessWidget {
           ),
           SizedBox(height: 13.h),
           Text(details.name, style: Theme.of(context).textTheme.titleMedium),
+          SizedBox(height: 5.h),
+          Text(
+            details.email ?? "",
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w700),
+          ),
           SizedBox(height: 5.h),
           Text(
             details.phone,

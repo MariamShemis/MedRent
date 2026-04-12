@@ -30,8 +30,10 @@ class ReservationDetailsModel {
   factory ReservationDetailsModel.fromJson(Map<String, dynamic> json) {
     return ReservationDetailsModel(
       id: json['rentalId'] ?? 0,
-      name: json['customer'] ?? json['customerName'] ?? "Unknown",
-      phone: json['phone'] ?? json['customerPhone'] ?? "",
+      name: json['customer'] ?? json['customerName'] ?? json['patientName'] ?? "Unknown",
+      phone: json['phone'] ?? json['customerPhone'] ?? json['patientPhone'] ?? "",
+      type: json['type'] ?? '',
+      email: json['patientEmail'] ?? '',
       startDate: json['startDate'] ?? "",
       endDate: json['endDate'] ?? json['date'] ?? "",
       time: json['time'] ?? "",

@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:med_rent/features/booking_reservation_doctor/data/data_sources/owner_reservation_data_source.dart';
-import 'package:med_rent/features/booking_reservation_doctor/data/models/reservation_details_model.dart';
+import 'package:med_rent/features/booking_reservation/data/data_sources/owner_reservation_data_source.dart';
+import 'package:med_rent/features/booking_reservation/data/models/reservation_details_model.dart';
 import '../data_sources/admin_reservation_data_source.dart';
 import '../data_sources/doctor_reservation_data_source.dart';
 import '../models/reservation_model.dart';
@@ -13,6 +13,9 @@ class BookingReservationCubit extends Cubit<BookingReservationState> {
 
   List<ReservationModel> currentBookings = [];
 
+  String currentSearch = '';
+  String? currentStatus;
+
   BookingReservationCubit({
     required this.adminDS,
     required this.doctorDS,
@@ -24,35 +27,28 @@ class BookingReservationCubit extends Cubit<BookingReservationState> {
     String? search,
     String? status,
   }) async {
+    if (search != null) currentSearch = search;
+    currentStatus = status;
+
     emit(BookingReservationLoading());
     try {
       List<ReservationModel> results;
 
-      if (search == null || search.isEmpty) {
-        if (role == 'Admin') {
-          results = await adminDS.getAllOperations();
-        } else if (role == 'Doctor') {
-          results = await doctorDS.getAllDoctorBookings();
-        } else {
-          results = await ownerDS.getOwnerBookings();
-        }
+      if (role == 'Admin') {
+        results = await adminDS.searchOperations(
+          status: currentStatus ?? '',
+          search: currentSearch,
+        );
+      } else if (role == 'Doctor') {
+        results = await doctorDS.searchDoctorBookings(
+          status: currentStatus ?? '',
+          search: currentSearch,
+        );
       } else {
-        if (role == 'Admin') {
-          results = await adminDS.searchOperations(
-            status: status ?? 'booked',
-            search: search,
-          );
-        } else if (role == 'Doctor') {
-          results = await doctorDS.searchDoctorBookings(
-            status: status ?? 'pending',
-            search: search,
-          );
-        } else {
-          results = await ownerDS.getOwnerBookings(
-            status: status ?? 'booked',
-            search: search,
-          );
-        }
+        results = await ownerDS.getOwnerBookings(
+          status: currentStatus ?? '',
+          search: currentSearch,
+        );
       }
 
       currentBookings = results;

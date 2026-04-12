@@ -990,5 +990,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notes => 'الملاحظات';
 
   @override
+  String get type => 'النوع';
+
+  @override
   String get close => 'إغلاق';
 }

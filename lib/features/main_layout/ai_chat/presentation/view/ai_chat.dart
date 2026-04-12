@@ -32,7 +32,7 @@ class _AiChatState extends State<AiChat> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: Text(appLocalizations.aI_MedicalAssistant)),
+        appBar: AppBar(title: Text(appLocalizations.aI_MedicalAssistant) , leading: SizedBox(),),
         body: BlocConsumer<ChatAiCubit, ChatAiState>(
           listener: (context, state) {
             if (state is ChatAiError) {

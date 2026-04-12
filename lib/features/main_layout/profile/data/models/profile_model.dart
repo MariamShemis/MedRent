@@ -18,14 +18,18 @@ class ProfileModel {
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
-    const baseUrl = 'http://GraduationProject.somee.com';
+    const String baseUrl = 'http://GraduationProject.somee.com/';
     String imagePath = json['imageUrl'] ?? "";
-    if (imagePath.isNotEmpty && !imagePath.startsWith('http')) {
-      if (imagePath.startsWith('/')) {
-        imagePath = imagePath.substring(1);
+    String finalImageUrl = "";
+    if (imagePath.isNotEmpty) {
+      if (imagePath.startsWith('http')) {
+        finalImageUrl = imagePath;
+      } else {
+        String cleanPath = imagePath.startsWith('/') ? imagePath.substring(1) : imagePath;
+        finalImageUrl = '$baseUrl$cleanPath';
       }
-      imagePath = '$baseUrl$imagePath';
     }
+
     return ProfileModel(
       userId: json['userId'] ?? 0,
       name: json['name'] ?? "",
@@ -33,7 +37,7 @@ class ProfileModel {
       gender: json['gender'] ?? "",
       phone: json['phone'] ?? "",
       email: json['email'] ?? "",
-      imageUrl: imagePath,
+      imageUrl: finalImageUrl,
     );
   }
 }
