@@ -16,8 +16,8 @@ class CustomCardHospital extends StatelessWidget {
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Card(
-      margin: EdgeInsets.zero,
-      elevation: 2,
+      margin: REdgeInsets.symmetric(horizontal: 3),
+      elevation: 5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       child: Column(
         children: [

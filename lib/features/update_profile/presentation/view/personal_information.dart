@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:med_rent/core/constants/assets_manager.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/features/main_layout/profile/presentation/widgets/user_image_profile.dart';
 import 'package:med_rent/features/update_profile/data/cubit/update_profile_cubit.dart';
@@ -27,10 +28,16 @@ class _PersonalInformationState extends State<PersonalInformation> {
   late TextEditingController phoneController;
   late TextEditingController emailController;
 
-  String? selectedGender= "Male";
+  String? selectedGender = "Male";
   File? selectedImage;
   String? profileImageUrl;
   bool isLoading = true;
+
+  String _resolveImageUrl(String path) {
+    if (path.startsWith('http')) return path;
+    String cleanPath = path.startsWith('/') ? path : '/$path';
+    return "${ApiConstants.baseImageUrl}$cleanPath";
+  }
 
   @override
   void initState() {
@@ -50,9 +57,14 @@ class _PersonalInformationState extends State<PersonalInformation> {
       phoneController.text = profile.phone;
       emailController.text = profile.email;
       birthController.text = profile.dateOfBirth.split('T')[0];
-      selectedGender = profile.gender?.isNotEmpty == true ? profile.gender : selectedGender;
+      selectedGender = profile.gender?.isNotEmpty == true
+          ? profile.gender
+          : selectedGender;
+
       if (profile.imageUrl != null && profile.imageUrl!.isNotEmpty) {
-        profileImageUrl = profile.imageUrl;
+        setState(() {
+          profileImageUrl = _resolveImageUrl(profile.imageUrl!);
+        });
       }
     }
     setState(() {
@@ -85,24 +97,14 @@ class _PersonalInformationState extends State<PersonalInformation> {
     final appLocalizations = AppLocalizations.of(context)!;
     if (isLoading) {
       return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.arrow_back_ios),
-          ),
-          title: Text(appLocalizations.personalInformation),
-        ),
+        appBar: AppBar(title: Text(appLocalizations.personalInformation)),
         body: Center(child: CircularProgressIndicator()),
       );
     }
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back_ios),
         ),
         title: Text(appLocalizations.personalInformation),
@@ -125,8 +127,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
           }
           if (state is UpdateProfileImageUploaded) {
             setState(() {
-              profileImageUrl =
-                  "http://graduationprojectapi.somee.com${state.imageUrl}";
+              profileImageUrl = _resolveImageUrl(state.imageUrl);
             });
           }
         },
@@ -139,6 +140,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                 Center(
                   child: UserImageProfile(
                     widgetUserImageProfile: CircleAvatar(
+                      key: ValueKey(profileImageUrl),
                       radius: 46.r,
                       backgroundImage: selectedImage != null
                           ? FileImage(selectedImage!)
@@ -160,8 +162,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                 CustomProfileTextFormField(
                   controller: nameController,
                   hintText: appLocalizations.enterYourName,
-                  keyboardType: TextInputType.name,
-                  labelName: appLocalizations.name,
+                  labelName: appLocalizations.name, keyboardType: TextInputType.text,
                 ),
                 SizedBox(height: 20.h),
                 BirthDateField(controller: birthController),
@@ -176,11 +177,9 @@ class _PersonalInformationState extends State<PersonalInformation> {
                 PersonalProfileGenderText(
                   selectedLabel: selectedGender ?? appLocalizations.male,
                   menuItems: [appLocalizations.male, appLocalizations.female],
-                  onChange: (value) {
-                    setState(() {
-                      selectedGender = value ?? appLocalizations.male;
-                    });
-                  },
+                  onChange: (value) => setState(
+                    () => selectedGender = value ?? appLocalizations.male,
+                  ),
                 ),
                 SizedBox(height: 20.h),
                 CustomProfileTextFormField(
@@ -201,10 +200,8 @@ class _PersonalInformationState extends State<PersonalInformation> {
                   width: double.infinity,
                   child: BlocBuilder<UpdateProfileCubit, UpdateProfileState>(
                     builder: (context, state) {
-                      if (state is UpdateProfileLoading) {
+                      if (state is UpdateProfileLoading)
                         return const Center(child: CircularProgressIndicator());
-                      }
-
                       return ElevatedButton(
                         onPressed: () {
                           context.read<UpdateProfileCubit>().updateProfile(
@@ -233,49 +230,40 @@ class _PersonalInformationState extends State<PersonalInformation> {
 
   void _showBottomSheetImage() {
     final appLocalizations = AppLocalizations.of(context)!;
-
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
       ),
-      builder: (context) {
-        return Padding(
-          padding: REdgeInsets.all(30),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              InkWell(
-                onTap: () {
-                  _pickImage(ImageSource.camera);
-                },
-                child: Row(
-                  children: [
-                    const Icon(Icons.photo_camera_outlined),
-                    SizedBox(width: 10.w),
-                    Text(appLocalizations.take_a_photo),
-                  ],
-                ),
+      builder: (context) => Padding(
+        padding: REdgeInsets.all(30),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            InkWell(
+              onTap: () => _pickImage(ImageSource.camera),
+              child: Row(
+                children: [
+                  const Icon(Icons.photo_camera_outlined),
+                  SizedBox(width: 10.w),
+                  Text(appLocalizations.take_a_photo),
+                ],
               ),
-
-              SizedBox(height: 20.h),
-
-              InkWell(
-                onTap: () {
-                  _pickImage(ImageSource.gallery);
-                },
-                child: Row(
-                  children: [
-                    const Icon(Icons.photo_library_outlined),
-                    SizedBox(width: 10.w),
-                    Text(appLocalizations.choose_from_gallery),
-                  ],
-                ),
+            ),
+            SizedBox(height: 20.h),
+            InkWell(
+              onTap: () => _pickImage(ImageSource.gallery),
+              child: Row(
+                children: [
+                  const Icon(Icons.photo_library_outlined),
+                  SizedBox(width: 10.w),
+                  Text(appLocalizations.choose_from_gallery),
+                ],
               ),
-            ],
-          ),
-        );
-      },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

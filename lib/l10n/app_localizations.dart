@@ -1631,7 +1631,7 @@ abstract class AppLocalizations {
   /// **'Owner ID'**
   String get ownerID;
 
-  /// No description provided for @dashboard_doctor.
+  /// No description provided for @dashboard.
   ///
   /// In en, this message translates to:
   /// **'Dashboard'**
@@ -2003,11 +2003,71 @@ abstract class AppLocalizations {
   /// **'Enter end time'**
   String get enter_end_time;
 
+  /// No description provided for @monthlyRentals.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Rentals'**
+  String get monthlyRentals;
+
+  /// No description provided for @monthlyBookings.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Bookings'**
+  String get monthlyBookings;
+
   /// No description provided for @revenue.
   ///
   /// In en, this message translates to:
   /// **'Revenue'**
   String get revenue;
+
+  /// No description provided for @duration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get duration;
+
+  /// No description provided for @to.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get to;
+
+  /// No description provided for @device.
+  ///
+  /// In en, this message translates to:
+  /// **'Device'**
+  String get device;
+
+  /// No description provided for @totalPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Price'**
+  String get totalPrice;
+
+  /// No description provided for @status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
+
+  /// No description provided for @notes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get notes;
+
+  /// No description provided for @type.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get type;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

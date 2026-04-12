@@ -963,5 +963,35 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enter_end_time => 'Enter end time';
 
   @override
+  String get monthlyRentals => 'Monthly Rentals';
+
+  @override
+  String get monthlyBookings => 'Monthly Bookings';
+
+  @override
   String get revenue => 'Revenue';
+
+  @override
+  String get duration => 'Duration';
+
+  @override
+  String get to => 'To';
+
+  @override
+  String get device => 'Device';
+
+  @override
+  String get totalPrice => 'Total Price';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get notes => 'Notes';
+
+  @override
+  String get type => 'Type';
+
+  @override
+  String get close => 'Close';
 }

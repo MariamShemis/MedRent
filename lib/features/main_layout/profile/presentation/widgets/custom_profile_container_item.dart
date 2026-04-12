@@ -20,7 +20,7 @@ class CustomProfileContainerItem extends StatelessWidget {
       surfaceTintColor: ColorManager.black,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       color: ColorManager.white,
-      margin: REdgeInsets.symmetric(vertical: 6),
+      margin: REdgeInsets.symmetric(vertical: 6 , horizontal: 3),
       child: Padding(
         padding: REdgeInsets.symmetric(horizontal: 10.0 , vertical: 18),
         child: Column(

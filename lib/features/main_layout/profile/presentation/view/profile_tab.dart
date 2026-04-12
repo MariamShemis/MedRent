@@ -41,7 +41,7 @@ class _ProfileTabState extends State<ProfileTab> {
                     child: Center(child: CircularProgressIndicator()),
                   );
                 }
-                if(state is ProfileError){
+                if (state is ProfileError) {
                   return Text(state.message);
                 }
                 if (state is ProfileSuccess) {
@@ -80,18 +80,25 @@ class _ProfileTabState extends State<ProfileTab> {
                         icon: Icons.dashboard_outlined,
                         text: appLocalizations.dashboard,
                         onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.dashboardAdmin);
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.dashboardAdmin,
+                          );
                         },
                       ),
                       ProfileMenuItem(
                         icon: Iconsax.calendar_1,
                         text: appLocalizations.booking,
                         onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.bookingReservationAdmin);
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.bookingReservation,
+                            arguments: role,
+                          );
                         },
                       ),
                       ProfileMenuItem(
-                        icon: Icons.monitor_outlined,
+                        icon: Iconsax.monitor_mobbile,
                         text: appLocalizations.devices,
                         onPressed: () {},
                       ),
@@ -112,14 +119,21 @@ class _ProfileTabState extends State<ProfileTab> {
                         icon: Icons.dashboard_outlined,
                         text: appLocalizations.dashboard,
                         onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.dashboardEOwner);
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.dashboardEOwner,
+                          );
                         },
                       ),
                       ProfileMenuItem(
                         icon: Iconsax.calendar_1,
                         text: appLocalizations.booking,
                         onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.bookingReservationEOwner);
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.bookingReservation,
+                            arguments: role,
+                          );
                         },
                       ),
                       ProfileMenuItem(
@@ -134,7 +148,7 @@ class _ProfileTabState extends State<ProfileTab> {
                         },
                       ),
                       ProfileMenuItem(
-                        icon: Icons.monitor_outlined,
+                        icon: Iconsax.monitor_mobbile,
                         text: appLocalizations.my_devices,
                         onPressed: () {},
                       ),
@@ -150,14 +164,21 @@ class _ProfileTabState extends State<ProfileTab> {
                         icon: Icons.dashboard_outlined,
                         text: appLocalizations.dashboard,
                         onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.dashboardDoctor);
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.dashboardDoctor,
+                          );
                         },
                       ),
                       ProfileMenuItem(
                         icon: Iconsax.calendar_1,
                         text: appLocalizations.booking,
                         onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.bookingReservationDoctor);
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.bookingReservation,
+                            arguments: role,
+                          );
                         },
                       ),
                       ProfileMenuItem(
@@ -258,6 +279,13 @@ class _ProfileTabState extends State<ProfileTab> {
                                   profileImageUrl!.isNotEmpty)
                               ? NetworkImage(profileImageUrl!)
                               : null,
+                          onBackgroundImageError:
+                              (profileImageUrl != null &&
+                                  profileImageUrl!.isNotEmpty)
+                              ? (exception, stackTrace) {
+                                  debugPrint("Image Load Error: $exception");
+                                }
+                              : null,
                           child:
                               (profileImageUrl == null ||
                                   profileImageUrl!.isEmpty)
@@ -342,7 +370,7 @@ class _ProfileTabState extends State<ProfileTab> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 100.h,),
+                      SizedBox(height: 100.h),
                     ],
                   );
                 }

@@ -318,5 +318,15 @@
   "enter_start_time" : "Enter start time",
   "end_Time" : "End Time",
   "enter_end_time" : "Enter end time",
-  "revenue" : "Revenue"
+  "monthlyRentals" : "Monthly Rentals",
+  "monthlyBookings" : "Monthly Bookings",
+  "revenue" : "Revenue",
+  "duration" : "Duration",
+  "to" : "To",
+  "device" : "Device",
+  "totalPrice" : "Total Price",
+  "status" : "Status",
+  "notes" : "Notes",
+  "type" : "Type",
+  "close" : "Close"
 }

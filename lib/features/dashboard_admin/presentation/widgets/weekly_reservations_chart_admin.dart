@@ -4,11 +4,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
 
 class WeeklyReservationsChartAdmin extends StatelessWidget {
-  const WeeklyReservationsChartAdmin({super.key});
+  final List<String> days;
+  final List<int> bookings;
+
+  const WeeklyReservationsChartAdmin({
+    super.key,
+    required this.days,
+    required this.bookings,
+  });
 
   @override
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+    double maxVal = bookings.isEmpty
+        ? 100
+        : bookings.reduce((a, b) => a > b ? a : b).toDouble() + 20;
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.r)),
       elevation: 6,
@@ -26,13 +36,12 @@ class WeeklyReservationsChartAdmin extends StatelessWidget {
             SizedBox(height: 25.h),
             SizedBox(
               height: 220.h,
-              child:
-              LineChart(
+              child: LineChart(
                 LineChartData(
                   minX: 0,
                   maxX: 6,
                   minY: 0,
-                  maxY: 300,
+                  maxY: maxVal,
                   gridData: FlGridData(
                     show: true,
                     drawVerticalLine: true,
@@ -46,13 +55,20 @@ class WeeklyReservationsChartAdmin extends StatelessWidget {
                   borderData: FlBorderData(
                     show: true,
                     border: Border(
-                      bottom: BorderSide(color: Colors.grey.shade400, width: 1.5),
+                      bottom: BorderSide(
+                        color: Colors.grey.shade400,
+                        width: 1.5,
+                      ),
                       left: BorderSide(color: Colors.grey.shade400, width: 1.5),
                     ),
                   ),
                   titlesData: FlTitlesData(
-                    rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                    topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    rightTitles: const AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
+                    topTitles: const AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
                     leftTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
@@ -74,19 +90,14 @@ class WeeklyReservationsChartAdmin extends StatelessWidget {
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
-                        reservedSize: 30,
                         getTitlesWidget: (value, meta) {
-                          const days = ['Sate', 'Su', 'Mo', 'Tue', 'Wed', 'Thu', 'Fri'];
-                          if (value >= 0 && value < days.length) {
+                          int index = value.toInt();
+                          if (index >= 0 && index < days.length) {
                             return SideTitleWidget(
                               meta: meta,
-                              space: 8,
                               child: Text(
-                                days[value.toInt()],
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineMedium!
-                                    .copyWith(fontSize: 14.sp),
+                                days[index],
+                                style: TextStyle(fontSize: 10.sp),
                               ),
                             );
                           }
@@ -98,42 +109,15 @@ class WeeklyReservationsChartAdmin extends StatelessWidget {
                   lineBarsData: [
                     LineChartBarData(
                       isCurved: true,
-                      curveSmoothness: 0.35,
-                      barWidth: 0,
                       color: const Color(0xFF90CEC7),
-                      dotData: const FlDotData(show: false),
                       belowBarData: BarAreaData(
                         show: true,
-                        color: const Color(0xFF90CEC7).withOpacity(0.8),
+                        color: const Color(0xFF90CEC7).withOpacity(0.3),
                       ),
-                      spots: const [
-                        FlSpot(0, 150),
-                        FlSpot(1, 230),
-                        FlSpot(2, 170),
-                        FlSpot(3, 240),
-                        FlSpot(4, 200),
-                        FlSpot(5, 240),
-                        FlSpot(6, 170),
-                      ],
-                    ),
-                    LineChartBarData(
-                      isCurved: false,
-                      barWidth: 0,
-                      color: const Color(0xFF9F8781),
-                      dotData: const FlDotData(show: false),
-                      belowBarData: BarAreaData(
-                        show: true,
-                        color: const Color(0xFF9F8781).withOpacity(0.7),
+                      spots: List.generate(
+                        bookings.length,
+                        (i) => FlSpot(i.toDouble(), bookings[i].toDouble()),
                       ),
-                      spots: const [
-                        FlSpot(0, 75),
-                        FlSpot(1, 160),
-                        FlSpot(2, 115),
-                        FlSpot(3, 160),
-                        FlSpot(4, 110),
-                        FlSpot(5, 180),
-                        FlSpot(6, 110),
-                      ],
                     ),
                   ],
                 ),
