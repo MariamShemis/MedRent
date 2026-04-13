@@ -30,9 +30,30 @@ class BookingTab extends StatelessWidget {
           title: Text(appLocalizations.booking),
         ),
         body: BlocConsumer<BookingCubit, BookingState>(
+          buildWhen: (previous, current) {
+            return current is BookingLoading || current is BookingSuccessLoaded;
+          },
           listener: (context, state) {
-            if (state is BookingSuccessLoaded) {
+            if (state is BookingCreating) {
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) => const Center(
+                  child: CircularProgressIndicator(color: ColorManager.darkBlue),
+                ),
+              );
+            } else if (state is BookingCreated) {
+              Navigator.of(context).pop(); // dismiss loading dialog
+              Navigator.pushNamed(
+                context,
+                AppRoutes.bookingPayment,
+                arguments: state.bookingId,
+              );
             } else if (state is BookingError) {
+              // dismiss loading dialog if it was showing
+              if (Navigator.of(context).canPop()) {
+                Navigator.of(context).pop();
+              }
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),
@@ -107,52 +128,14 @@ class BookingTab extends StatelessWidget {
                       itemCount: selectedDepartment.doctors.length,
                       itemBuilder: (context, index) {
                         final doctor = selectedDepartment.doctors[index];
-                        // return DoctorCard(
-                        //   doctor: doctor,
-                        //   selectedDate: state.selectedDate,
-                        //   onBookAppointment: (time) {
-                        //     ScaffoldMessenger.of(context).showSnackBar(
-                        //       SnackBar(
-                        //         content: Text(
-                        //           "Appointment booked\nDoctor: ${doctor.name}\nTime: $time",
-                        //         ),
-                        //         backgroundColor: Colors.green,
-                        //       ),
-                        //     );
-                        //     Navigator.pushNamed(
-                        //       context,
-                        //       AppRoutes.bookingPayment,
-                        //       arguments: {
-                        //         "doctorName": doctor.name,
-                        //         "time": time,
-                        //         "date": state.selectedDate
-                        //       },
-                        //     );
-                        //   },
-                        // );
                         return DoctorCard(
                           doctor: doctor,
                           selectedDate: state.selectedDate,
                           onBookAppointment: (time) {
-                            final date = state.selectedDate;
-                            final formattedDate =
-                                "${date.day}/${date.month}/${date.year}";
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                backgroundColor: Colors.green,
-                                content: Text(
-                                  "${appLocalizations.appointment_booked}:\t\t\t${appLocalizations.doctor}: ${doctor.name}\n${appLocalizations.date}: $formattedDate\t\t\t\t${appLocalizations.time}: $time",
-                                ),
-                              ),
-                            );
-                            Navigator.pushNamed(
-                              context,
-                              AppRoutes.bookingPayment,
-                              arguments: {
-                                "doctorName": doctor.name,
-                                "date": date,
-                                "time": time,
-                              },
+                            context.read<BookingCubit>().bookAppointment(
+                              doctorId: doctor.doctorId,
+                              date: state.selectedDate,
+                              time: time,
                             );
                           },
                         );
@@ -169,3 +152,4 @@ class BookingTab extends StatelessWidget {
     );
   }
 }
+

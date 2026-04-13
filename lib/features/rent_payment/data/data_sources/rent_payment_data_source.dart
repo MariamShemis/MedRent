@@ -54,6 +54,12 @@ class RentPaymentDataSource {
       if (e.response?.statusCode == 401) {
         throw Exception('Please login again');
       }
+      if (e.response?.data != null && e.response?.data is Map) {
+        final message = e.response?.data['message'];
+        if (message != null) {
+          throw Exception(message.toString());
+        }
+      }
       throw Exception('Network error: ${e.message}');
     } catch (e) {
       throw Exception('Error: $e');

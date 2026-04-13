@@ -2,21 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class DeliveryAddressSection extends StatelessWidget {
+class PatientInfoSection extends StatelessWidget {
   final TextEditingController nameController;
+  final TextEditingController emailController;
   final TextEditingController phoneController;
-  final TextEditingController streetController;
-  final TextEditingController apartmentController;
-  final TextEditingController cityController;
+  final String selectedBookingType;
+  final ValueChanged<String> onBookingTypeChanged;
 
-  const DeliveryAddressSection({
+  const PatientInfoSection({
     super.key,
     required this.nameController,
+    required this.emailController,
     required this.phoneController,
-    required this.streetController,
-    required this.apartmentController,
-    required this.cityController,
+    required this.selectedBookingType,
+    required this.onBookingTypeChanged,
   });
+
+  static const List<String> bookingTypes = [
+    'Emergency',
+    'Regular',
+    'Follow-up',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +30,7 @@ class DeliveryAddressSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Delivery Address",
+          "Patient Information",
           style: TextStyle(
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
@@ -33,47 +39,61 @@ class DeliveryAddressSection extends StatelessWidget {
         ),
         SizedBox(height: 16.h),
 
-        _buildLabel("Name"),
+        _buildLabel("Full Name"),
         _buildTextField(
           context,
           controller: nameController,
-          hint: "Enter your full name",
+          hint: "Enter Your full name",
         ),
         SizedBox(height: 12.h),
 
-        _buildLabel("Phone"),
+        _buildLabel("Email Address"),
+        _buildTextField(
+          context,
+          controller: emailController,
+          hint: "Enter Your email",
+          keyboardType: TextInputType.emailAddress,
+        ),
+        SizedBox(height: 12.h),
+
+        _buildLabel("Contact Number"),
         _buildTextField(
           context,
           controller: phoneController,
-          hint: "Enter your phone number",
+          hint: "Enter Your phone number",
           keyboardType: TextInputType.phone,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         ),
         SizedBox(height: 12.h),
 
-        _buildLabel("Street Address"),
-        _buildTextField(
-          context,
-
-          controller: streetController,
-          hint: "Enter your address",
-        ),
-        SizedBox(height: 12.h),
-
-        _buildLabel("Apartment, Suite, etc. (Optional)"),
-        _buildTextField(
-          context,
-
-          controller: apartmentController,
-          hint: "Enter your address",
-        ),
-        SizedBox(height: 12.h),
-
-        _buildLabel("City"),
-        _buildTextField(
-          context,
-          controller: cityController,
-          hint: "Enter your city",
+        _buildLabel("Booking Type"),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.r),
+            border: Border.all(color: Colors.grey.shade300),
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              isExpanded: true,
+              value: selectedBookingType,
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: const Color(0xFF020A19),
+              ),
+              items: bookingTypes.map((type) {
+                return DropdownMenuItem<String>(
+                  value: type,
+                  child: Text(type),
+                );
+              }).toList(),
+              onChanged: (value) {
+                if (value != null) {
+                  onBookingTypeChanged(value);
+                }
+              },
+            ),
+          ),
         ),
       ],
     );
