@@ -858,6 +858,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get addDevice => 'إضافة جهاز';
 
   @override
+  String get addDoctor => 'اضافة طبيب';
+
+  @override
   String get addNewDevice => 'إضافة جهاز جديد';
 
   @override

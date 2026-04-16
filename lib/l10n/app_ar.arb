@@ -283,6 +283,7 @@
   "display": "عرض",
   "myDevice": "جهازي",
   "addDevice": "إضافة جهاز",
+  "addDoctor" : "اضافة طبيب",
   "addNewDevice": "إضافة جهاز جديد",
   "deviceImage": "صورة الجهاز",
   "addImage": "إضافة صورة",

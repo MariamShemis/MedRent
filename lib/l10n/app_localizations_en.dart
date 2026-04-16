@@ -858,6 +858,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addDevice => 'Add Device';
 
   @override
+  String get addDoctor => 'Add Doctor';
+
+  @override
   String get addNewDevice => 'Add New Device';
 
   @override

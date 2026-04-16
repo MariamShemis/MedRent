@@ -117,14 +117,15 @@ class ReservationDetailsDialog extends StatelessWidget {
       ],
     );
   }
+
   IconData _getTypeIcon(String type) {
     String lowerType = type.toLowerCase();
     if (lowerType.contains("follow")) {
-      return Iconsax.refresh_2; 
+      return Iconsax.refresh_2;
     } else if (lowerType.contains("check")) {
-      return Iconsax.health; 
+      return Iconsax.health;
     } else if (lowerType.contains("consult")) {
-      return Iconsax.message_question; 
+      return Iconsax.message_question;
     } else {
       return Iconsax.category;
     }
@@ -151,12 +152,13 @@ class ReservationDetailsDialog extends StatelessWidget {
           SizedBox(height: 13.h),
           Text(details.name, style: Theme.of(context).textTheme.titleMedium),
           SizedBox(height: 5.h),
-          Text(
-            details.email ?? "",
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w700),
-          ),
+          if (details.email != null && details.email!.isNotEmpty)
+            Text(
+              details.email ?? "",
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w700),
+            ),
           SizedBox(height: 5.h),
           Text(
             details.phone,

@@ -283,6 +283,7 @@
   "display" : "Display",
   "myDevice" : "My Device",
   "addDevice" : "Add Device",
+  "addDoctor" : "Add Doctor",
   "addNewDevice" : "Add New Device",
   "deviceImage" : "Device Image",
   "addImage" : "Add Image",

@@ -105,12 +105,22 @@ class _ProfileTabState extends State<ProfileTab> {
                       ProfileMenuItem(
                         icon: Iconsax.health,
                         text: appLocalizations.doctor,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.adminDoctor,
+                          );
+                        },
                       ),
                       ProfileMenuItem(
                         icon: Iconsax.profile_2user4,
                         text: appLocalizations.users,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.adminUser,
+                          );
+                        },
                       ),
                     ]);
                   } else if (role == 'EquipmentOwner') {
