@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
+import 'package:med_rent/features/devices_admin/presentation/view/devices_screen.dart';
 import 'package:med_rent/features/language/data/cubit/app_localization_cubit.dart';
 import 'package:med_rent/features/main_layout/profile/data/cubit/profile_cubit.dart';
 import 'package:med_rent/features/main_layout/profile/data/models/profile_menu_item.dart';
@@ -41,7 +42,7 @@ class _ProfileTabState extends State<ProfileTab> {
                     child: Center(child: CircularProgressIndicator()),
                   );
                 }
-                if(state is ProfileError){
+                if (state is ProfileError) {
                   return Text(state.message);
                 }
                 if (state is ProfileSuccess) {
@@ -80,20 +81,33 @@ class _ProfileTabState extends State<ProfileTab> {
                         icon: Icons.dashboard_outlined,
                         text: appLocalizations.dashboard,
                         onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.dashboardAdmin);
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.dashboardAdmin,
+                          );
                         },
                       ),
                       ProfileMenuItem(
                         icon: Iconsax.calendar_1,
                         text: appLocalizations.booking,
                         onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.bookingReservationAdmin);
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.bookingReservationAdmin,
+                          );
                         },
                       ),
                       ProfileMenuItem(
                         icon: Icons.monitor_outlined,
                         text: appLocalizations.devices,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DevicesScreen.route(),
+                            ),
+                          );
+                        },
                       ),
                       ProfileMenuItem(
                         icon: Iconsax.health,
@@ -112,14 +126,20 @@ class _ProfileTabState extends State<ProfileTab> {
                         icon: Icons.dashboard_outlined,
                         text: appLocalizations.dashboard,
                         onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.dashboardEOwner);
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.dashboardEOwner,
+                          );
                         },
                       ),
                       ProfileMenuItem(
                         icon: Iconsax.calendar_1,
                         text: appLocalizations.booking,
                         onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.bookingReservationEOwner);
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.bookingReservationEOwner,
+                          );
                         },
                       ),
                       ProfileMenuItem(
@@ -150,14 +170,20 @@ class _ProfileTabState extends State<ProfileTab> {
                         icon: Icons.dashboard_outlined,
                         text: appLocalizations.dashboard,
                         onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.dashboardDoctor);
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.dashboardDoctor,
+                          );
                         },
                       ),
                       ProfileMenuItem(
                         icon: Iconsax.calendar_1,
                         text: appLocalizations.booking,
                         onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.bookingReservationDoctor);
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.bookingReservationDoctor,
+                          );
                         },
                       ),
                       ProfileMenuItem(
@@ -342,7 +368,7 @@ class _ProfileTabState extends State<ProfileTab> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 100.h,),
+                      SizedBox(height: 100.h),
                     ],
                   );
                 }
