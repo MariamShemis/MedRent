@@ -17,7 +17,6 @@ class DashboardEquipmentOwner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context)!;
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -36,65 +35,68 @@ class DashboardEquipmentOwner extends StatelessWidget {
             final data = state.dashboard;
             return SingleChildScrollView(
               padding: REdgeInsets.all(14),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: DashboardStatCard(
-                          value: data.totalDevices.toString(),
-                          title: appLocalizations.totalDevices,
-                          icon: Icons.monitor_outlined,
+              child: SafeArea(
+                top: false,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DashboardStatCard(
+                            value: data.totalDevices.toString(),
+                            title: appLocalizations.totalDevices,
+                            icon: Icons.monitor_outlined,
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: DashboardStatCard(
-                          value: data.todayRentals.toString(),
-                          title: appLocalizations.todaysBookings,
-                          icon: Iconsax.calendar_1,
+                        SizedBox(width: 12.w),
+                        Expanded(
+                          child: DashboardStatCard(
+                            value: data.todayRentals.toString(),
+                            title: appLocalizations.todaysBookings,
+                            icon: Iconsax.calendar_1,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 12.h),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: DashboardStatCard(
-                          value: data.pendingRentals.toString(),
-                          title: appLocalizations.pendingPatients,
-                          icon: Iconsax.timer_14,
+                      ],
+                    ),
+                    SizedBox(height: 12.h),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DashboardStatCard(
+                            value: data.pendingRentals.toString(),
+                            title: appLocalizations.pendingPatients,
+                            icon: Iconsax.timer_14,
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: DashboardStatCard(
-                          value: "${data.rating}%",
-                          title: appLocalizations.satisfactionRate,
-                          icon: Iconsax.chart_1,
+                        SizedBox(width: 12.w),
+                        Expanded(
+                          child: DashboardStatCard(
+                            value: "${data.rating}%",
+                            title: appLocalizations.satisfactionRate,
+                            icon: Iconsax.chart_1,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 30.h),
-                  WeeklyReservationsChart(
-                    color: const Color(0xFF6FCB2D).withOpacity(0.4),
-                    data: data.weeklyRentals
-                        .map((e) => WeeklyBooking(day: e.day, count: e.count))
-                        .toList(),
-                  ),
-                  SizedBox(height: 20.h),
-                  AppointmentPieChartEOwner(rentalTypes: data.rentalTypes),
-                  SizedBox(height: 20.h),
-                  MonthlyPatientsChart(
-                    color: const Color(0xFFDB60CD),
-                    data: data.weeklyRentals
-                        .map((e) => MonthlyPatient(month: 0, count: e.count))
-                        .toList(),
-                  ),
-                  SizedBox(height: 20.h),
-                ],
+                      ],
+                    ),
+                    SizedBox(height: 30.h),
+                    WeeklyReservationsChart(
+                      color: const Color(0xFF6FCB2D).withOpacity(0.4),
+                      data: data.weeklyRentals
+                          .map((e) => WeeklyBooking(day: e.day, count: e.count))
+                          .toList(),
+                    ),
+                    SizedBox(height: 20.h),
+                    AppointmentPieChartEOwner(rentalTypes: data.rentalTypes),
+                    SizedBox(height: 20.h),
+                    MonthlyPatientsChart(
+                      color: const Color(0xFFDB60CD),
+                      data: data.weeklyRentals
+                          .map((e) => MonthlyPatient(month: 0, count: e.count))
+                          .toList(),
+                    ),
+                    SizedBox(height: 20.h),
+                  ],
+                ),
               ),
             );
           }

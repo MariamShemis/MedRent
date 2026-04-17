@@ -29,12 +29,12 @@ class CustomPatientReviews extends StatelessWidget {
           itemBuilder: (context, index) {
             final review = reviews[index];
             return Card(
-              margin: EdgeInsets.zero,
+              margin: REdgeInsets.symmetric(horizontal: 3),
               color: ColorManager.lightBlue,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16.r),
               ),
-              elevation: 3,
+              elevation: 4,
               child: Padding(
                 padding: REdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
                 child: Column(

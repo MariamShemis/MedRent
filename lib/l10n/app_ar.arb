@@ -283,6 +283,7 @@
   "display": "عرض",
   "myDevice": "جهازي",
   "addDevice": "إضافة جهاز",
+  "addDoctor" : "اضافة طبيب",
   "addNewDevice": "إضافة جهاز جديد",
   "deviceImage": "صورة الجهاز",
   "addImage": "إضافة صورة",
@@ -318,5 +319,15 @@
   "enter_start_time": "أدخل وقت البداية",
   "end_Time": "وقت النهاية",
   "enter_end_time": "أدخل وقت النهاية",
-  "revenue": "الإيرادات"
+  "monthlyRentals": "الإيجارات الشهرية",
+  "monthlyBookings": "الحجوزات الشهرية" ,
+  "revenue": "الإيرادات",
+  "duration": "المدة",
+  "to": "إلى",
+  "device": "الجهاز",
+  "totalPrice": "السعر الإجمالي",
+  "status": "الحالة",
+  "notes": "الملاحظات",
+  "type" : "النوع",
+  "close": "إغلاق"
 }

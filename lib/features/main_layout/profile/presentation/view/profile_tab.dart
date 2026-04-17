@@ -93,12 +93,13 @@ class _ProfileTabState extends State<ProfileTab> {
                         onPressed: () {
                           Navigator.pushNamed(
                             context,
-                            AppRoutes.bookingReservationAdmin,
+                            AppRoutes.bookingReservation,
+                            arguments: role,
                           );
                         },
                       ),
                       ProfileMenuItem(
-                        icon: Icons.monitor_outlined,
+                        icon: Iconsax.monitor_mobbile,
                         text: appLocalizations.devices,
                         onPressed: () {
                           Navigator.push(
@@ -112,12 +113,22 @@ class _ProfileTabState extends State<ProfileTab> {
                       ProfileMenuItem(
                         icon: Iconsax.health,
                         text: appLocalizations.doctor,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.adminDoctor,
+                          );
+                        },
                       ),
                       ProfileMenuItem(
                         icon: Iconsax.profile_2user4,
                         text: appLocalizations.users,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.adminUser,
+                          );
+                        },
                       ),
                     ]);
                   } else if (role == 'EquipmentOwner') {
@@ -138,7 +149,8 @@ class _ProfileTabState extends State<ProfileTab> {
                         onPressed: () {
                           Navigator.pushNamed(
                             context,
-                            AppRoutes.bookingReservationEOwner,
+                            AppRoutes.bookingReservation,
+                            arguments: role,
                           );
                         },
                       ),
@@ -154,7 +166,7 @@ class _ProfileTabState extends State<ProfileTab> {
                         },
                       ),
                       ProfileMenuItem(
-                        icon: Icons.monitor_outlined,
+                        icon: Iconsax.monitor_mobbile,
                         text: appLocalizations.my_devices,
                         onPressed: () {},
                       ),
@@ -182,7 +194,8 @@ class _ProfileTabState extends State<ProfileTab> {
                         onPressed: () {
                           Navigator.pushNamed(
                             context,
-                            AppRoutes.bookingReservationDoctor,
+                            AppRoutes.bookingReservation,
+                            arguments: role,
                           );
                         },
                       ),
@@ -283,6 +296,13 @@ class _ProfileTabState extends State<ProfileTab> {
                               (profileImageUrl != null &&
                                   profileImageUrl!.isNotEmpty)
                               ? NetworkImage(profileImageUrl!)
+                              : null,
+                          onBackgroundImageError:
+                              (profileImageUrl != null &&
+                                  profileImageUrl!.isNotEmpty)
+                              ? (exception, stackTrace) {
+                                  debugPrint("Image Load Error: $exception");
+                                }
                               : null,
                           child:
                               (profileImageUrl == null ||

@@ -35,6 +35,7 @@ class ApiConstants {
   static const String baseUrlNew = 'http://graduationprojectapi.somee.com/api';
   static const String baseImageUrl = 'http://GraduationProject.somee.com';
   static const String profile = '$baseUrl/Profile';
+  static const String imageBaseUrl = "http://GraduationProject.somee.com";
   static const String uploadImage = '$baseUrl/Profile/upload-image';
 }
 

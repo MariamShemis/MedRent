@@ -95,7 +95,8 @@ class _MyRentalState extends State<MyRental> {
                         ),
                       ),
                     )
-                        : ListView.builder(
+                        : ListView.separated(
+                      separatorBuilder: (context, index) => SizedBox(height: 10.h,),
                       itemCount: paginatedRentals.length,
                       itemBuilder: (context, index) {
                         return MyRentalCard(
