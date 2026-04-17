@@ -118,9 +118,9 @@ class _RentPaymentState extends State<RentPayment> {
 
           final rentalModel = RentalModel(
             equipmentName: summary.equipmentName,
-            equipmentImage: summary.imageUrl.startsWith('http')
-                ? summary.imageUrl
-                : 'https://graduationproject-production-07f0.up.railway.app${summary.imageUrl.replaceAll('\\', '/')}',
+equipmentImage: summary.imageUrl.startsWith('http')
+    ? summary.imageUrl
+    : 'http://GraduationProject.somee.com${summary.imageUrl.replaceAll('\\', '/')}',
             startDate: _formatDate(summary.startDate),
             endDate: _formatDate(summary.endDate),
             rentalDays: summary.rentalDays,

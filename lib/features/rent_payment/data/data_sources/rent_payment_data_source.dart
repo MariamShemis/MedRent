@@ -9,7 +9,7 @@ class RentPaymentDataSource {
   final ApiClient _apiClient;
 
   RentPaymentDataSource({required ApiClient apiClient})
-      : _apiClient = apiClient;
+    : _apiClient = apiClient;
 
   Future<Options> _getOptions() async {
     final token = await SessionService.getAuthToken();
@@ -53,6 +53,12 @@ class RentPaymentDataSource {
     } on DioException catch (e) {
       if (e.response?.statusCode == 401) {
         throw Exception('Please login again');
+      }
+      if (e.response?.data != null && e.response?.data is Map) {
+        final message = e.response?.data['message'];
+        if (message != null) {
+          throw Exception(message.toString());
+        }
       }
       throw Exception('Network error: ${e.message}');
     } catch (e) {
@@ -113,15 +119,11 @@ class RentPaymentDataSource {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return CheckoutResponse.fromJson(response.data);
       }
-
       throw Exception('Failed to start checkout');
     } on DioException catch (e) {
-      if (e.response?.statusCode == 401) {
-        throw Exception('Please login again');
-      }
-      throw Exception('Network error: ${e.message}');
-    } catch (e) {
-      throw Exception('Error: $e');
+      // السطر ده هيعرفك السيرفر رافض إيه بالظبط لو طلع 400
+      print("Backend Error: ${e.response?.data}");
+      throw Exception(e.response?.data['message'] ?? 'Start checkout failed');
     }
   }
 
@@ -132,21 +134,16 @@ class RentPaymentDataSource {
 
       final response = await _apiClient.post(
         '/Payment/verify/$paymentIntentId',
+        data: {},
         options: options,
       );
 
       if (response.statusCode == 200) {
         return response.data.toString();
       }
-
       throw Exception('Payment verification failed');
-    } on DioException catch (e) {
-      if (e.response?.statusCode == 401) {
-        throw Exception('Please login again');
-      }
-      throw Exception('Network error: ${e.message}');
     } catch (e) {
-      throw Exception('Error: $e');
+      throw Exception('Error verifying payment: $e');
     }
   }
 }

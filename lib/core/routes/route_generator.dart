@@ -10,6 +10,8 @@ import 'package:med_rent/features/auth/presentation/view/login_screen.dart';
 import 'package:med_rent/features/auth/presentation/view/register_screen.dart';
 import 'package:med_rent/features/booking/data/cubit/booking_cubit.dart';
 import 'package:med_rent/features/booking/presentation/view/booking_tab.dart';
+import 'package:med_rent/features/booking_payment/data/cubit/booking_payment_cubit.dart';
+import 'package:med_rent/features/booking_payment/data/data_sources/booking_payment_data_source.dart';
 import 'package:med_rent/features/booking_payment/presentation/view/booking_payment.dart';
 import 'package:med_rent/features/booking_reservation/data/cubit/booking_reservation_cubit.dart';
 import 'package:med_rent/features/booking_reservation/data/data_sources/admin_reservation_data_source.dart';
@@ -246,7 +248,16 @@ abstract class RoutesManager {
         }
       case AppRoutes.bookingPayment:
         {
-          return CupertinoPageRoute(builder: (context) => BookingPayment());
+          final args = settings.arguments;
+          final bookingId = args is int ? args : 0;
+          return CupertinoPageRoute(
+            builder: (context) => BlocProvider(
+              create: (_) => BookingPaymentCubit(
+                dataSource: BookingPaymentDataSource(apiClient: ApiClient()),
+              ),
+              child: BookingPayment(bookingId: bookingId),
+            ),
+          );
         }
       case AppRoutes.booking:
         {
