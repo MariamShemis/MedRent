@@ -1793,6 +1793,12 @@ abstract class AppLocalizations {
   /// **'Add Device'**
   String get addDevice;
 
+  /// No description provided for @addDoctor.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Doctor'**
+  String get addDoctor;
+
   /// No description provided for @addNewDevice.
   ///
   /// In en, this message translates to:

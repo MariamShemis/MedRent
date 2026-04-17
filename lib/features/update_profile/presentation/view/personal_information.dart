@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -57,7 +56,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
       phoneController.text = profile.phone;
       emailController.text = profile.email;
       birthController.text = profile.dateOfBirth.split('T')[0];
-      selectedGender = profile.gender?.isNotEmpty == true
+      selectedGender = profile.gender.isNotEmpty == true
           ? profile.gender
           : selectedGender;
 
@@ -97,7 +96,13 @@ class _PersonalInformationState extends State<PersonalInformation> {
     final appLocalizations = AppLocalizations.of(context)!;
     if (isLoading) {
       return Scaffold(
-        appBar: AppBar(title: Text(appLocalizations.personalInformation)),
+        appBar: AppBar(
+          title: Text(appLocalizations.personalInformation),
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back_ios),
+          ),
+        ),
         body: Center(child: CircularProgressIndicator()),
       );
     }
@@ -162,7 +167,8 @@ class _PersonalInformationState extends State<PersonalInformation> {
                 CustomProfileTextFormField(
                   controller: nameController,
                   hintText: appLocalizations.enterYourName,
-                  labelName: appLocalizations.name, keyboardType: TextInputType.text,
+                  labelName: appLocalizations.name,
+                  keyboardType: TextInputType.text,
                 ),
                 SizedBox(height: 20.h),
                 BirthDateField(controller: birthController),
