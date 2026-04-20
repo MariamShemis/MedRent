@@ -26,6 +26,13 @@ class AdminDoctorModel {
   });
 
   factory AdminDoctorModel.fromJson(Map<String, dynamic> json) {
+    String rawPath = json['imageURL'] ?? '';
+    String cleanedPath = rawPath.replaceAll(r'\', '/');
+    if (cleanedPath.startsWith('/')) {
+      cleanedPath = cleanedPath.substring(1);
+    }
+    String fullImageUrl = "http://GraduationProject.somee.com/$cleanedPath";
+
     return AdminDoctorModel(
       doctorId: json['doctorId'] ?? 0,
       name: json['name'] ?? '',
@@ -35,7 +42,7 @@ class AdminDoctorModel {
       startTime: json['startTime'] ?? '',
       endTime: json['endTime'] ?? '',
       consultationPrice: (json['consultationPrice'] ?? 0.0).toDouble(),
-      imageURL: json['imageURL'] ?? '',
+      imageURL: fullImageUrl,
       department: json['department'] ?? '',
       hospital: json['hospital'] ?? '',
     );

@@ -5,16 +5,25 @@ import 'package:med_rent/features/admin_users/data/models/user_model.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
 
 class UsersCard extends StatelessWidget {
-  const UsersCard({super.key, required this.user, required this.textStatus});
+  const UsersCard({
+    super.key,
+    required this.user,
+    required this.onBlockTap,
+  });
+
   final UserModel user;
-  final String textStatus;
+  final VoidCallback onBlockTap;
 
   @override
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+    bool isBlocked = user.status.toLowerCase() == 'blocked';
+    Color statusColor = isBlocked ? Colors.red : const Color(0xFFF5A78C);
+    Color statusTextColor = isBlocked ? ColorManager.white : const Color(0xFFF7865E);
+    String buttonText = isBlocked ? "Unblock" : "Block";
+
     return Container(
       padding: REdgeInsets.all(20),
-      margin: REdgeInsets.all(3),
       decoration: BoxDecoration(
         color: ColorManager.white,
         borderRadius: BorderRadius.circular(16.r),
@@ -34,27 +43,29 @@ class UsersCard extends StatelessWidget {
             children: [
               Text(
                 user.name,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium!.copyWith(fontSize: 16.sp),
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               Text(
                 user.status,
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                  fontSize: 14.sp,
-                  color: ColorManager.darkBlue,
+                  fontSize: 13.sp,
+                  color: isBlocked ? Color(0xFFFA6531): ColorManager.darkBlue,
                 ),
               ),
             ],
           ),
-          SizedBox(height: 10.h),
+          SizedBox(height: 12.h),
           Text(
             "${user.email} → ${user.role}",
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall!.copyWith(fontSize: 12.sp),
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+              fontSize: 13.sp,
+              color: ColorManager.greyText,
+            ),
           ),
-          SizedBox(height: 10.h),
+          SizedBox(height: 12.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -65,16 +76,23 @@ class UsersCard extends StatelessWidget {
                   fontSize: 14.sp,
                 ),
               ),
-              Container(
-                padding: REdgeInsets.symmetric(horizontal: 12 , vertical: 10),
-                decoration: BoxDecoration(
-                  color: Color(0xFFF5A78C),
-                  borderRadius: BorderRadius.circular(10.r),
+              InkWell(
+                onTap: onBlockTap,
+                child: Container(
+                  padding: REdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: statusColor,
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  child: Text(
+                    buttonText,
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      color: statusTextColor,
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-                child: Text(textStatus , style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                  color: ColorManager.white,
-                  fontSize: 13.sp,
-                ),),
               )
             ],
           ),
