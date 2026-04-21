@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:med_rent/core/constants/color_manager.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
 
 class PatientInfoSection extends StatelessWidget {
   final TextEditingController nameController;
@@ -18,19 +20,24 @@ class PatientInfoSection extends StatelessWidget {
     required this.onBookingTypeChanged,
   });
 
-  static const List<String> bookingTypes = [
-    'Emergency',
-    'Regular',
-    'Follow-up',
-  ];
+  List<Map<String, String>> getBookingTypes(BuildContext context) {
+    AppLocalizations local = AppLocalizations.of(context)!;
+    return [
+      {'key': 'Emergency', 'value': local.emergency},
+      {'key': 'Regular', 'value': local.regular},
+      {'key': 'Follow-up', 'value': local.followup},
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+    final types = getBookingTypes(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Patient Information",
+          appLocalizations.patientInformation,
           style: TextStyle(
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
@@ -38,35 +45,31 @@ class PatientInfoSection extends StatelessWidget {
           ),
         ),
         SizedBox(height: 16.h),
-
-        _buildLabel("Full Name"),
+        _buildLabel(appLocalizations.fullName),
         _buildTextField(
           context,
           controller: nameController,
-          hint: "Enter Your full name",
+          hint: appLocalizations.enter_Your_full_name,
         ),
         SizedBox(height: 12.h),
-
-        _buildLabel("Email Address"),
+        _buildLabel(appLocalizations.emailAddress),
         _buildTextField(
           context,
           controller: emailController,
-          hint: "Enter Your email",
+          hint: appLocalizations.enter_Your_email,
           keyboardType: TextInputType.emailAddress,
         ),
         SizedBox(height: 12.h),
-
-        _buildLabel("Contact Number"),
+        _buildLabel(appLocalizations.contactNumber),
         _buildTextField(
           context,
           controller: phoneController,
-          hint: "Enter Your phone number",
+          hint: appLocalizations.enter_Your_phone_number,
           keyboardType: TextInputType.phone,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         ),
         SizedBox(height: 12.h),
-
-        _buildLabel("Booking Type"),
+        _buildLabel(appLocalizations.bookingType),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           decoration: BoxDecoration(
@@ -81,10 +84,10 @@ class PatientInfoSection extends StatelessWidget {
                 fontSize: 14.sp,
                 color: const Color(0xFF020A19),
               ),
-              items: bookingTypes.map((type) {
+              items: types.map((type) {
                 return DropdownMenuItem<String>(
-                  value: type,
-                  child: Text(type),
+                  value: type['key'],
+                  child: Text(type['value']!),
                 );
               }).toList(),
               onChanged: (value) {
@@ -126,11 +129,11 @@ class PatientInfoSection extends StatelessWidget {
       inputFormatters: inputFormatters,
       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
         fontSize: 14.sp,
-        color: const Color(0xFF020A19),
+        color: ColorManager.black,
       ),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: TextStyle(fontSize: 14.sp, color: Colors.grey.shade400),
+        hintStyle: TextStyle(fontSize: 14.sp, color: ColorManager.greyText),
         contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:med_rent/core/constants/color_manager.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
 
 class DeliveryAddressSection extends StatelessWidget {
   final TextEditingController nameController;
@@ -20,11 +22,12 @@ class DeliveryAddressSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Delivery Address",
+          appLocalizations.deliveryAddress,
           style: TextStyle(
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
@@ -32,48 +35,41 @@ class DeliveryAddressSection extends StatelessWidget {
           ),
         ),
         SizedBox(height: 16.h),
-
-        _buildLabel("Name"),
+        _buildLabel(appLocalizations.name),
         _buildTextField(
           context,
           controller: nameController,
-          hint: "Enter your full name",
+          hint: appLocalizations.enter_Your_full_name,
         ),
         SizedBox(height: 12.h),
-
-        _buildLabel("Phone"),
+        _buildLabel(appLocalizations.phone),
         _buildTextField(
           context,
           controller: phoneController,
-          hint: "Enter your phone number",
+          hint: appLocalizations.enter_Your_phone_number,
           keyboardType: TextInputType.phone,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         ),
         SizedBox(height: 12.h),
-
-        _buildLabel("Street Address"),
+        _buildLabel(appLocalizations.streetAddress),
         _buildTextField(
           context,
-
           controller: streetController,
-          hint: "Enter your address",
+          hint: appLocalizations.enter_your_address,
         ),
         SizedBox(height: 12.h),
-
-        _buildLabel("Apartment, Suite, etc. (Optional)"),
+        _buildLabel(appLocalizations.apartment_Suite_etc_Optional),
         _buildTextField(
           context,
-
           controller: apartmentController,
-          hint: "Enter your address",
+          hint: appLocalizations.enter_your_address,
         ),
         SizedBox(height: 12.h),
-
-        _buildLabel("City"),
+        _buildLabel(appLocalizations.city),
         _buildTextField(
           context,
           controller: cityController,
-          hint: "Enter your city",
+          hint: appLocalizations.enter_your_city,
         ),
       ],
     );
@@ -106,11 +102,11 @@ class DeliveryAddressSection extends StatelessWidget {
       inputFormatters: inputFormatters,
       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
         fontSize: 14.sp,
-        color: const Color(0xFF020A19),
+        color: ColorManager.black,
       ),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: TextStyle(fontSize: 14.sp, color: Colors.grey.shade400),
+        hintStyle: TextStyle(fontSize: 14.sp, color: ColorManager.greyText),
         contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),

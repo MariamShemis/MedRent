@@ -8,6 +8,7 @@ import 'package:med_rent/features/rent_payment/presentation/model/rental_model.d
 import 'package:med_rent/features/rent_payment/presentation/widgets/delivery_address_section.dart';
 import 'package:med_rent/features/rent_payment/presentation/widgets/payment_section.dart';
 import 'package:med_rent/features/rent_payment/presentation/widgets/rental_summary_card.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
 
 class RentPayment extends StatefulWidget {
   final int rentalId;
@@ -43,22 +44,14 @@ class _RentPaymentState extends State<RentPayment> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
         ),
-        centerTitle: true,
-        title: Text(
-          "Confirm Your Rental",
-          style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                fontSize: 20.sp,
-                color: const Color(0Xff031B4E),
-              ),
-        ),
+        title: Text(appLocalizations.confirmYourRental),
         actions: [SizedBox(width: 48.w)],
       ),
       body: BlocConsumer<RentPaymentCubit, RentPaymentState>(
@@ -80,7 +73,6 @@ class _RentPaymentState extends State<RentPayment> {
               child: CircularProgressIndicator(color: ColorManager.darkBlue),
             );
           }
-
           if (state is RentPaymentError && state.summary == null) {
             return Center(
               child: Column(
@@ -99,28 +91,24 @@ class _RentPaymentState extends State<RentPayment> {
                   SizedBox(height: 20.h),
                   ElevatedButton(
                     onPressed: () {
-                      context
-                          .read<RentPaymentCubit>()
-                          .loadSummary(widget.rentalId);
+                      context.read<RentPaymentCubit>().loadSummary(
+                        widget.rentalId,
+                      );
                     },
-                    child: Text('Retry', style: TextStyle(fontSize: 14.sp)),
+                    child: Text(appLocalizations.retry, style: TextStyle(fontSize: 14.sp)),
                   ),
                 ],
               ),
             );
           }
-
-          // Get summary from various states
           final summary = _getSummaryFromState(state);
           if (summary == null) return const SizedBox();
-
           final isProcessing = state is RentPaymentProcessing;
-
           final rentalModel = RentalModel(
             equipmentName: summary.equipmentName,
-equipmentImage: summary.imageUrl.startsWith('http')
-    ? summary.imageUrl
-    : 'http://GraduationProject.somee.com${summary.imageUrl.replaceAll('\\', '/')}',
+            equipmentImage: summary.imageUrl.startsWith('http')
+                ? summary.imageUrl
+                : 'http://GraduationProject.somee.com${summary.imageUrl.replaceAll('\\', '/')}',
             startDate: _formatDate(summary.startDate),
             endDate: _formatDate(summary.endDate),
             rentalDays: summary.rentalDays,
@@ -129,7 +117,6 @@ equipmentImage: summary.imageUrl.startsWith('http')
             insuranceFee: summary.insuranceFee,
             taxesAndFees: summary.tax,
           );
-
           return Stack(
             children: [
               SingleChildScrollView(
@@ -140,7 +127,7 @@ equipmentImage: summary.imageUrl.startsWith('http')
                     children: [
                       SizedBox(height: 10.h),
                       Text(
-                        "Rental Summary",
+                        appLocalizations.rentalSummary,
                         style: TextStyle(
                           fontSize: 18.sp,
                           fontWeight: FontWeight.bold,
@@ -150,12 +137,8 @@ equipmentImage: summary.imageUrl.startsWith('http')
                       SizedBox(height: 10.h),
                       Center(child: RentalSummaryCard(model: rentalModel)),
                       SizedBox(height: 24.h),
-
-                      // Payment Method section
                       const PaymentSection(),
                       SizedBox(height: 24.h),
-
-                      // Delivery Address section
                       DeliveryAddressSection(
                         nameController: _nameController,
                         phoneController: _phoneController,
@@ -187,7 +170,7 @@ equipmentImage: summary.imageUrl.startsWith('http')
                                   ),
                                 )
                               : Text(
-                                  "Confirm Rental",
+                                  appLocalizations.confirmRental,
                                   style: TextStyle(
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.bold,
@@ -197,14 +180,30 @@ equipmentImage: summary.imageUrl.startsWith('http')
                         ),
                       ),
                       SizedBox(height: 12.h),
-
                       Center(
-                        child: Text(
-                          'By Clicking "Confirm Rental", You agree to our\nTerms of Service and Privacy Policy.',
+                        child: RichText(
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 11.sp,
-                            color: Colors.grey.shade600,
+                          text: TextSpan(
+                            style: TextStyle(
+                              fontSize: 13.sp,
+                              color: ColorManager.greyText,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            children: [
+                              TextSpan(
+                                text:
+                                    "${appLocalizations.byClicking_ConfirmRental_You_agree_to_our}\n",
+                              ),
+                              TextSpan(
+                                text: "${appLocalizations.termsOfService} ",
+                                style: TextStyle(color: ColorManager.secondary),
+                              ),
+                              TextSpan(text: "${appLocalizations.and} "),
+                              TextSpan(
+                                text: appLocalizations.privacyPolicy,
+                                style: TextStyle(color: ColorManager.secondary),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -237,6 +236,7 @@ equipmentImage: summary.imageUrl.startsWith('http')
   }
 
   void _onConfirmRental() {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     final name = _nameController.text.trim();
     final phone = _phoneController.text.trim();
     final street = _streetController.text.trim();
@@ -244,30 +244,40 @@ equipmentImage: summary.imageUrl.startsWith('http')
 
     if (name.isEmpty || phone.isEmpty || street.isEmpty || city.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           backgroundColor: Colors.orange,
-          content: Text('Please fill in all required fields'),
+          content: Text(appLocalizations.please_fill_in_all_required_fields),
         ),
       );
       return;
     }
 
     context.read<RentPaymentCubit>().processPayment(
-          rentalId: widget.rentalId,
-          fullName: name,
-          phone: phone,
-          streetAddress: street,
-          apartment: _apartmentController.text.trim(),
-          city: city,
-        );
+      rentalId: widget.rentalId,
+      fullName: name,
+      phone: phone,
+      streetAddress: street,
+      apartment: _apartmentController.text.trim(),
+      city: city,
+    );
   }
 
   String _formatDate(String isoDate) {
     try {
       final date = DateTime.parse(isoDate);
       final months = [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December',
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
       ];
       return '${months[date.month - 1]} ${date.day}, ${date.year}';
     } catch (_) {
@@ -276,6 +286,7 @@ equipmentImage: summary.imageUrl.startsWith('http')
   }
 
   void _showSuccessDialog(BuildContext context, String message) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -286,14 +297,10 @@ equipmentImage: summary.imageUrl.startsWith('http')
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.check_circle,
-              color: Colors.green,
-              size: 64.sp,
-            ),
+            Icon(Icons.check_circle, color: Colors.green, size: 64.sp),
             SizedBox(height: 16.h),
             Text(
-              'Payment Successful!',
+              '${appLocalizations.paymentSuccessful}!',
               style: TextStyle(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
@@ -302,12 +309,9 @@ equipmentImage: summary.imageUrl.startsWith('http')
             ),
             SizedBox(height: 8.h),
             Text(
-              'Your rental has been confirmed.',
+              '${appLocalizations.your_rental_has_been_confirmed}.',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: Colors.grey.shade600,
-              ),
+              style: TextStyle(fontSize: 14.sp, color: Colors.grey.shade600),
             ),
           ],
         ),
@@ -325,10 +329,7 @@ equipmentImage: summary.imageUrl.startsWith('http')
                 Navigator.of(ctx).pop();
                 Navigator.of(context).pop();
               },
-              child: const Text(
-                'Done',
-                style: TextStyle(color: Colors.white),
-              ),
+              child: Text(appLocalizations.done, style: TextStyle(color: Colors.white)),
             ),
           ),
         ],

@@ -997,4 +997,40 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get close => 'إغلاق';
+
+  @override
+  String get secure_payment_via_Stripe => 'دفع آمن عبر Stripe';
+
+  @override
+  String get city => 'المدينة';
+
+  @override
+  String get enter_your_city => 'أدخل مدينتك';
+
+  @override
+  String get retry => 'إعادة المحاولة';
+
+  @override
+  String get paymentSuccessful => 'تمت عملية الدفع بنجاح';
+
+  @override
+  String get your_rental_has_been_confirmed => 'تم تأكيد عملية الإيجار الخاصة بك';
+
+  @override
+  String get done => 'تم';
+
+  @override
+  String get your_appointment_has_been_confirmed => 'تم تأكيد موعدك بنجاح';
+
+  @override
+  String get enter_Your_email => 'أدخل بريدك الإلكتروني';
+
+  @override
+  String get bookingType => 'نوع الحجز';
+
+  @override
+  String get regular => 'عادي';
+
+  @override
+  String get please_fill_in_all_required_fields => 'يرجى ملء جميع الحقول المطلوبة';
 }

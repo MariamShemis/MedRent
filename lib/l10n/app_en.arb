@@ -165,7 +165,7 @@
   "nearbyHospitals" : "Nearby Hospitals" ,
   "miles_away" : "miles away" ,
   "this_tool_provides_general_guidance_and_does_not_replace_professional_medical_diagnosis" : "This tool provides general guidance and does not replace professional medical diagnosis." ,
-  "and" : "And",
+  "and" : "and",
   "oxygen": "Oxygen",
   "wheelchairs": "Wheelchairs",
   "hospitalBeds": "Hospital Beds",
@@ -329,5 +329,17 @@
   "status" : "Status",
   "notes" : "Notes",
   "type" : "Type",
-  "close" : "Close"
+  "close" : "Close",
+  "secure_payment_via_Stripe" : "Secure payment via Stripe",
+  "city" : "City",
+  "enter_your_city" : "Enter your city",
+  "retry" : "Retry",
+  "paymentSuccessful" : "Payment Successful",
+  "your_rental_has_been_confirmed" : "Your rental has been confirmed",
+  "done" : "Done",
+  "your_appointment_has_been_confirmed" : "Your appointment has been confirmed",
+  "enter_Your_email" : "Enter Your email",
+  "bookingType" : "Booking Type",
+  "regular" : "Regular",
+  "please_fill_in_all_required_fields" : "Please fill in all required fields"
 }
