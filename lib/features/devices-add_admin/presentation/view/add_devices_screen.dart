@@ -1,231 +1,302 @@
-// import 'package:flutter/material.dart';
-// import 'package:med_rent/core/constants/color_manager.dart';
-
-// class AddDevicesScreen extends StatelessWidget {
-//   const AddDevicesScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return  Scaffold(
-//        appBar: AppBar(
-//         centerTitle: false,
-//         leading: IconButton(
-//           onPressed: () => Navigator.pop(context),
-//           icon: const Icon(Icons.arrow_back_ios, color: ColorManager.darkBlue),
-//         ),
-//         titleSpacing: 0,
-//         title: const Text(
-//           " Add New Devices",
-//           style: TextStyle(
-//             color: ColorManager.darkBlue,
-//             fontSize: 24,
-//             fontWeight: FontWeight.w700,
-//           ),
-//         ),
-//       ),
-//       body: Column(children: [],),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:med_rent/core/constants/color_manager.dart';
+import 'package:med_rent/core/network/api_client.dart';
+import 'package:med_rent/core/service/session_service.dart';
+import 'package:med_rent/features/devices-add_admin/data/cubit/add_devices_cubit.dart';
+import 'package:med_rent/features/devices-add_admin/data/data_source/add_devices_data.dart';
 
-class AddDevicesScreen extends StatelessWidget {
+import '../widget/device_image_card.dart';
+import '../widget/custom_add_devices_text_field.dart';
+
+class AddDevicesScreen extends StatefulWidget {
   const AddDevicesScreen({super.key});
 
   @override
+  State<AddDevicesScreen> createState() => _AddDevicesScreenState();
+}
+
+class _AddDevicesScreenState extends State<AddDevicesScreen> {
+  late TextEditingController nameController;
+  late TextEditingController priceController;
+  late TextEditingController descriptionController;
+  late TextEditingController ownerNameController;
+  late TextEditingController ownerEmailController;
+  late TextEditingController ownerPhoneController;
+  late TextEditingController ownerPasswordController;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController();
+    priceController = TextEditingController();
+    descriptionController = TextEditingController();
+    ownerNameController = TextEditingController();
+    ownerEmailController = TextEditingController();
+    ownerPhoneController = TextEditingController();
+    ownerPasswordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    priceController.dispose();
+    descriptionController.dispose();
+    ownerNameController.dispose();
+    ownerEmailController.dispose();
+    ownerPhoneController.dispose();
+    ownerPasswordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FA),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: const Icon(Icons.arrow_back, color: Colors.black),
-        title: const Text(
-          "Add New Device",
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
+    return BlocProvider(
+      create: (context) => AddDevicesCubit(AddDevicesData(ApiClient())),
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: false,
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: ColorManager.darkBlue,
+            ),
+          ),
+          titleSpacing: 0,
+          title: const Text(
+            " Add New Devices",
+            style: TextStyle(
+              color: ColorManager.darkBlue,
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
-        centerTitle: false,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Device Image Card
-            _buildCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Device Image",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
+        body: BlocConsumer<AddDevicesCubit, AddDevicesState>(
+          listener: (context, state) {
+            if (state is AddDevicesSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    state.message.isEmpty ? "Success" : state.message,
                   ),
-                  const SizedBox(height: 16),
-                  Center(
-                    child: Container(
-                      width: 120,
-                      height: 120,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          color: Colors.blue.shade300,
-                          style: BorderStyle.solid,
-                          width: 2,
+                  backgroundColor: Colors.green,
+                ),
+              );
+              Navigator.pop(context);
+            } else if (state is AddDevicesFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    state.errMessage.isEmpty
+                        ? "An error occurred"
+                        : state.errMessage,
+                  ),
+                  backgroundColor: Colors.red,
+                  duration: const Duration(seconds: 3), // عشان يلحق يظهر
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            var cubit = context.read<AddDevicesCubit>();
+            return SafeArea(
+              top: false,
+              child: SingleChildScrollView(
+                padding: REdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // قسم صورة الجهاز
+                    DeviceImageCard(
+                      text: "Device Image",
+                      onTap: () => _showBottomSheetImage(context, cubit),
+                    ),
+
+                    // إشعار بسيط لو الصورة تم اختيارها
+                    if (cubit.pickedImagePath != null)
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 8.h,
+                          horizontal: 8.w,
+                        ),
+                        child: Text(
+                          "Image selected: ${cubit.pickedImagePath!.split('/').last}",
+                          style: TextStyle(
+                            color: Colors.green,
+                            fontSize: 12.sp,
+                          ),
                         ),
                       ),
-                      child: InkWell(
-                        onTap: () {},
-                        borderRadius: BorderRadius.circular(16),
+                    SizedBox(height: 20.h),
+
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.r),
+                      ),
+                      color: ColorManager.white,
+                      elevation: 5,
+
+                      child: Padding(
+                        padding: REdgeInsets.symmetric(
+                          vertical: 20.0,
+                          horizontal: 20.w,
+                        ),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(Icons.camera_alt_outlined,
-                                color: Colors.blue),
-                            SizedBox(height: 8),
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
                             Text(
-                              "Add Image",
-                              style: TextStyle(color: Colors.blue),
+                              "Device Information",
+                              style: Theme.of(context).textTheme.titleMedium!
+                                  .copyWith(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                            SizedBox(height: 20.h),
+
+                            CustomAddDevicesTextField(
+                              controller: nameController,
+                              hintText: "Enter name of device",
+                              keyboardType: TextInputType.text,
+                              labelName: "Name",
+                            ),
+                            SizedBox(height: 12.h),
+
+                            CustomAddDevicesTextField(
+                              controller: priceController,
+                              hintText: "Enter price of device",
+                              keyboardType: TextInputType.number,
+                              labelName: "Price",
+                            ),
+                            SizedBox(height: 12.h),
+
+                            CustomAddDevicesTextField(
+                              controller: descriptionController,
+                              hintText:
+                                  "Enter a detailed description of the device...",
+                              keyboardType: TextInputType.multiline,
+                              labelName: "Description",
+                              maxLines: 5,
                             ),
                           ],
                         ),
                       ),
                     ),
-                  ),
-                ],
+                    SizedBox(height: 12.h),
+                    state is AddDevicesLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              color: ColorManager.darkBlue,
+                            ),
+                          )
+                        : ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(
+                                0xFF031B4E,
+                              ), // لون Figma
+                              minimumSize: Size(double.infinity, 50.h),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                            ),
+                            onPressed: () async {
+                              String? token =
+                                  await SessionService.getAuthToken();
+
+                              if (token != null && token.isNotEmpty) {
+                                cubit.addDevice(
+                                  name: nameController.text,
+                                  description: descriptionController.text,
+                                  price:
+                                      double.tryParse(priceController.text) ??
+                                      0.0,
+                                  token: token,
+
+                                  ownerName: "Asila Graduation",
+                                  ownerEmail: "asila_graduation@test.com",
+                                  ownerPassword: "123456",
+                                  ownerPhone: "01234567890",
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      "Session expired. Please login again.",
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Add Device",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                SizedBox(width: 10.w),
+                                const Icon(Icons.upload, color: Colors.white),
+                              ],
+                            ),
+                          ),
+                  ],
+                ),
               ),
-            ),
+            );
+          },
+        ),
+      ),
+    );
+  }
 
-            const SizedBox(height: 16),
-
-            // Device Information Card
-            _buildCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+  void _showBottomSheetImage(BuildContext context, AddDevicesCubit cubit) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+      ),
+      builder: (context) => Padding(
+        padding: REdgeInsets.all(30),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.pop(context); // إغلاق القائمة
+                cubit.pickImage(source: ImageSource.camera); // اختيار كاميرا
+              },
+              child: Row(
                 children: [
-                  const Text(
-                    "Device Information",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-
-                  _buildTextField("Name", "Enter name of device"),
-                  const SizedBox(height: 12),
-
-                  _buildTextField("Price", "Enter price of device",
-                      keyboardType: TextInputType.number),
-                  const SizedBox(height: 12),
-
-                  _buildTextField(
-                    "Description",
-                    "Enter a detailed description of the device...",
-                    maxLines: 4,
-                  ),
+                  const Icon(Icons.photo_camera_outlined),
+                  SizedBox(width: 10.w),
+                  const Text("Take a photo"),
                 ],
               ),
             ),
-
-            const SizedBox(height: 24),
-
-            // Add Device Button
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0B2A5B),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: const Text(
-                  "Add Device",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
+            SizedBox(height: 20.h),
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+                cubit.pickImage(source: ImageSource.gallery); // اختيار معرض
+              },
+              child: Row(
+                children: [
+                  const Icon(Icons.photo_library_outlined),
+                  SizedBox(width: 10.w),
+                  const Text("Choose from gallery"),
+                ],
               ),
             ),
-
-            const SizedBox(height: 20),
           ],
         ),
       ),
-    );
-  }
-
-  // Reusable Card Widget
-  Widget _buildCard({required Widget child}) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: child,
-    );
-  }
-
-  // Reusable TextField Widget
-  Widget _buildTextField(
-    String label,
-    String hint, {
-    TextInputType keyboardType = TextInputType.text,
-    int maxLines = 1,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(fontWeight: FontWeight.w500),
-        ),
-        const SizedBox(height: 6),
-        TextField(
-          keyboardType: keyboardType,
-          maxLines: maxLines,
-          decoration: InputDecoration(
-            hintText: hint,
-            filled: true,
-            fillColor: const Color(0xFFF7F9FC),
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Colors.grey.shade300),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Colors.grey.shade300),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: Colors.blue),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

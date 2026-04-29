@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
+import 'package:med_rent/features/devices_add_owner/presentation/view/add_devices_owner_screen.dart';
 import 'package:med_rent/features/devices_admin/presentation/view/devices_screen.dart';
+import 'package:med_rent/features/devices_owner/presentation/view/owner_devices_screen.dart';
 import 'package:med_rent/features/language/data/cubit/app_localization_cubit.dart';
 import 'package:med_rent/features/main_layout/profile/data/cubit/profile_cubit.dart';
 import 'package:med_rent/features/main_layout/profile/data/models/profile_menu_item.dart';
@@ -168,12 +170,26 @@ class _ProfileTabState extends State<ProfileTab> {
                       ProfileMenuItem(
                         icon: Iconsax.monitor_mobbile,
                         text: appLocalizations.my_devices,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => OwnerDevicesScreen.route(),
+                            ),
+                          );
+                        },
                       ),
                       ProfileMenuItem(
                         icon: Icons.add_circle_outline,
                         text: appLocalizations.add_a_Device,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddDevicesOwnerScreen(),
+                            ),
+                          );
+                        },
                       ),
                     ]);
                   } else if (role == 'Doctor') {

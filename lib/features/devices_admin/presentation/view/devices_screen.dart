@@ -5,7 +5,7 @@ import 'package:med_rent/core/service/session_service.dart';
 import 'package:med_rent/features/devices-add_admin/presentation/view/add_devices_screen.dart';
 import 'package:med_rent/features/devices_admin/data/cubit/devices_admin_cubit.dart';
 import 'package:med_rent/features/devices_admin/data/data_sources/devices_data.dart';
-import 'package:med_rent/features/devices_admin/presentation/widget/devices_card.dart';
+import 'package:med_rent/features/devices_admin/presentation/widget/devices_admin_card.dart';
 import 'package:med_rent/features/devices_admin/presentation/widget/devices_search_bar.dart';
 
 class DevicesScreen extends StatefulWidget {
@@ -65,7 +65,12 @@ class _DevicesScreenState extends State<DevicesScreen> {
                 textDirection: TextDirection.rtl,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                   Navigator.push(context, MaterialPageRoute(builder: (context) => AddDevicesScreen(),));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AddDevicesScreen(),
+                      ), // تأكد من الاسم هنا
+                    );
                   },
                   icon: const Icon(Icons.add, size: 14),
                   label: const Text(
@@ -83,18 +88,18 @@ class _DevicesScreenState extends State<DevicesScreen> {
             ),
             const SizedBox(height: 15),
 
-           DevicesSearchBar(
-  onChanged: (query) async {
-    final token = await SessionService.getAuthToken();
-    
-    if (token != null && context.mounted) {
-      context.read<DevicesAdminCubit>().searchAdminDevices(
-        token,
-        query,
-      );
-    }
-  },
-),
+            DevicesSearchBar(
+              onChanged: (query) async {
+                final token = await SessionService.getAuthToken();
+
+                if (token != null && context.mounted) {
+                  context.read<DevicesAdminCubit>().searchAdminDevices(
+                    token,
+                    query,
+                  );
+                }
+              },
+            ),
             const SizedBox(height: 30),
 
             Expanded(
@@ -110,7 +115,7 @@ class _DevicesScreenState extends State<DevicesScreen> {
                       physics: const BouncingScrollPhysics(),
                       itemCount: state.equipments.length,
                       itemBuilder: (context, index) {
-                        return DeviceCard(device: state.equipments[index]);
+                        return DeviceAdminCard(device: state.equipments[index]);
                       },
                     );
                   } else if (state is DevicesAdminError) {
