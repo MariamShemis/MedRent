@@ -1,6 +1,12 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
+import 'package:med_rent/features/admin_add_doctor/cubit/add_doctor_cubit.dart';
+import 'package:med_rent/features/admin_add_doctor/cubit/add_doctor_state.dart';
+import 'package:med_rent/features/admin_add_doctor/data/models/add_doctor_model.dart';
 import 'package:med_rent/features/admin_add_doctor/presentation/widgets/card_add_image.dart';
 import 'package:med_rent/features/admin_add_doctor/presentation/widgets/custom_add_text_form_field.dart';
 import 'package:med_rent/features/update_profile/presentation/widgets/personal_profile_gender_text.dart';
@@ -23,6 +29,12 @@ class _AdminAddDoctorState extends State<AdminAddDoctor> {
   late TextEditingController endTimeController;
   late TextEditingController priceController;
 
+  File? selectedImage;
+  int? selectedHospitalId;
+  int? selectedDepartmentId;
+  String selectedHospitalName = "";
+  String selectedDepartmentName = "";
+
   @override
   void initState() {
     super.initState();
@@ -34,6 +46,7 @@ class _AdminAddDoctorState extends State<AdminAddDoctor> {
     startTimeController = TextEditingController();
     endTimeController = TextEditingController();
     priceController = TextEditingController();
+    context.read<AddDoctorCubit>().getHospitals();
   }
 
   @override
@@ -51,7 +64,7 @@ class _AdminAddDoctorState extends State<AdminAddDoctor> {
 
   @override
   Widget build(BuildContext context) {
-    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+    final appLocalizations = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -60,150 +73,257 @@ class _AdminAddDoctorState extends State<AdminAddDoctor> {
         ),
         title: Text(appLocalizations.addDoctor),
       ),
-      body: SafeArea(
-        top: false,
-        child: SingleChildScrollView(
-          padding: REdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              CardAddImage(
-                text: appLocalizations.doctorImage,
-                onTap: _showBottomSheetImage,
+      body: BlocConsumer<AddDoctorCubit, AddDoctorState>(
+        listener: (context, state) {
+          if (state is HospitalsLoaded && state.hospitals.isNotEmpty) {
+            setState(() {
+              selectedHospitalName = state.hospitals.first.name ;
+              selectedHospitalId = state.hospitals.first.hospitalId;
+            });
+            context.read<AddDoctorCubit>().getDepartments(
+              state.hospitals.first.hospitalId,
+            );
+          }
+          if (state is DepartmentsLoaded && state.departments.isNotEmpty) {
+            setState(() {
+              selectedDepartmentName = state.departments.first.name ;
+              selectedDepartmentId = state.departments.first.departmentId;
+            });
+          }
+          if (state is AddDoctorSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.green,
               ),
-              SizedBox(height: 20.h),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.r),
-                ),
-                color: ColorManager.white,
-                elevation: 5,
-                child: Padding(
-                  padding: REdgeInsets.symmetric(
-                    vertical: 10.0,
-                    horizontal: 20.w,
+            );
+            Navigator.pop(context);
+          }
+          if (state is AddDoctorError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.error), backgroundColor: Colors.red),
+            );
+          }
+        },
+        builder: (context, state) {
+          final cubit = context.read<AddDoctorCubit>();
+          return SafeArea(
+            child: SingleChildScrollView(
+              padding: REdgeInsets.all(12),
+              child: Column(
+                children: [
+                  CardAddImage(
+                    text: appLocalizations.doctorImage,
+                    onTap: _showBottomSheetImage,
+                    image: selectedImage,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        appLocalizations.doctorInformation,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.titleMedium!.copyWith(fontSize: 16.sp),
+                  SizedBox(height: 16.h),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.r),
+                    ),
+                    color: ColorManager.white,
+                    elevation: 5,
+                    child: Padding(
+                      padding: REdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 20,
                       ),
-                      SizedBox(height: 20.h),
-                      CustomAddTextFormField(
-                        controller: nameController,
-                        hintText: appLocalizations.enter_name_of_doctor,
-                        keyboardType: TextInputType.text,
-                        labelName: appLocalizations.name,
-                      ),
-                      SizedBox(height: 12.h),
-                      CustomAddTextFormField(
-                        controller: emailController,
-                        hintText: appLocalizations.enter_email,
-                        keyboardType: TextInputType.emailAddress,
-                        labelName: appLocalizations.email,
-                      ),
-                      SizedBox(height: 12.h),
-                      CustomAddTextFormField(
-                        controller: passwordController,
-                        hintText: appLocalizations.enter_password,
-                        keyboardType: TextInputType.text,
-                        labelName: appLocalizations.password,
-                      ),
-                      SizedBox(height: 12.h),
-                      CustomAddTextFormField(
-                        controller: experienceYearController,
-                        hintText: appLocalizations.enter_experience_year,
-                        keyboardType: TextInputType.number,
-                        labelName: appLocalizations.experienceYear,
-                      ),
-                      SizedBox(height: 12.h),
-                      CustomAddTextFormField(
-                        controller: specializationController,
-                        hintText: appLocalizations.enter_specialization,
-                        keyboardType: TextInputType.text,
-                        labelName: appLocalizations.specialization,
-                      ),
-                      SizedBox(height: 12.h),
-                      Text(
-                        appLocalizations.hospital,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.labelMedium!.copyWith(fontSize: 16),
-                      ),
-                      SizedBox(height: 8.h),
-                      PersonalProfileGenderText(
-                        isGender: false,
-                        selectedLabel: "Tanta University Hospital",
-                        menuItems: [
-                          "Tanta University Hospital",
-                          "Cairo University Hospital",
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            appLocalizations.doctorInformation,
+                            style: Theme.of(
+                              context,
+                            ).textTheme.titleSmall!.copyWith(fontSize: 18),
+                          ),
+                          SizedBox(height: 18.h),
+                          CustomAddTextFormField(
+                            controller: nameController,
+                            hintText: appLocalizations.enter_name_of_doctor,
+                            keyboardType: TextInputType.text,
+                            labelName: appLocalizations.name,
+                          ),
+                          SizedBox(height: 12.h),
+                          CustomAddTextFormField(
+                            controller: emailController,
+                            hintText: appLocalizations.enter_email,
+                            keyboardType: TextInputType.emailAddress,
+                            labelName: appLocalizations.email,
+                          ),
+                          SizedBox(height: 12.h),
+                          CustomAddTextFormField(
+                            controller: passwordController,
+                            hintText: appLocalizations.enter_password,
+                            keyboardType: TextInputType.text,
+                            labelName: appLocalizations.password,
+                          ),
+                          SizedBox(height: 12.h),
+                          CustomAddTextFormField(
+                            controller: experienceYearController,
+                            hintText: appLocalizations.enter_experience_year,
+                            keyboardType: TextInputType.number,
+                            labelName: appLocalizations.experienceYear,
+                          ),
+                          SizedBox(height: 12.h),
+                          CustomAddTextFormField(
+                            controller: specializationController,
+                            hintText: appLocalizations.enter_specialization,
+                            keyboardType: TextInputType.text,
+                            labelName: appLocalizations.specialization,
+                          ),
+                          SizedBox(height: 12.h),
+                          Text(
+                            appLocalizations.hospital,
+                            style: Theme.of(
+                              context,
+                            ).textTheme.labelMedium!.copyWith(fontSize: 16),
+                          ),
+                          SizedBox(height: 8.h),
+                          if (cubit.hospitals.isNotEmpty)
+                            PersonalProfileGenderText(
+                              isGender: false,
+                              selectedLabel: selectedHospitalName,
+                              menuItems: cubit.hospitals
+                                  .map((e) => e.name )
+                                  .toList(),
+                              onChange: (value) {
+                                if (value != null) {
+                                  final selected = cubit.hospitals.firstWhere(
+                                    (e) => e.name == value,
+                                  );
+                                  setState(() {
+                                    selectedHospitalName = value;
+                                    selectedHospitalId = selected.hospitalId;
+                                  });
+                                  cubit.getDepartments(selected.hospitalId);
+                                }
+                              },
+                            ),
+                          SizedBox(height: 12.h),
+                          Text(
+                            appLocalizations.department,
+                            style: Theme.of(
+                              context,
+                            ).textTheme.labelMedium!.copyWith(fontSize: 16),
+                          ),
+                          SizedBox(height: 8.h),
+                          if (cubit.departments.isNotEmpty)
+                            PersonalProfileGenderText(
+                              isGender: false,
+                              selectedLabel: selectedDepartmentName,
+                              menuItems: cubit.departments
+                                  .map((e) => e.name )
+                                  .toList(),
+                              onChange: (value) {
+                                if (value != null) {
+                                  final selected = cubit.departments.firstWhere(
+                                    (e) => e.name == value,
+                                  );
+                                  setState(() {
+                                    selectedDepartmentName = value;
+                                    selectedDepartmentId =
+                                        selected.departmentId;
+                                  });
+                                }
+                              },
+                            ),
+                          SizedBox(height: 12.h),
+                          CustomAddTextFormField(
+                            controller: priceController,
+                            hintText:
+                                appLocalizations.enter_price_of_consutation,
+                            keyboardType: TextInputType.number,
+                            labelName: appLocalizations.price,
+                          ),
+                          SizedBox(height: 12.h),
+                          CustomAddTextFormField(
+                            controller: startTimeController,
+                            hintText: appLocalizations.enter_start_time,
+                            keyboardType: TextInputType.text,
+                            labelName: appLocalizations.startTime,
+                          ),
+                          SizedBox(height: 12.h),
+                          CustomAddTextFormField(
+                            controller: endTimeController,
+                            hintText: appLocalizations.enter_end_time,
+                            keyboardType: TextInputType.text,
+                            labelName: appLocalizations.end_Time,
+                          ),
                         ],
-                        onChange: (value) {},
                       ),
-                      SizedBox(height: 12.h),
-                      Text(
-                        appLocalizations.department,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.labelMedium!.copyWith(fontSize: 16),
-                      ),
-                      SizedBox(height: 8.h),
-                      PersonalProfileGenderText(
-                        isGender: false,
-                        selectedLabel: "Oncology",
-                        menuItems: [
-                          "Oncology",
-                          "Cairo University Hospital",
-                        ],
-                        onChange: (value) {},
-                      ),
-                      SizedBox(height: 12.h),
-                      CustomAddTextFormField(
-                        controller: priceController,
-                        hintText: appLocalizations.enter_price_of_consutation,
-                        keyboardType: TextInputType.number,
-                        labelName: appLocalizations.price,
-                      ),
-                      SizedBox(height: 12.h),
-                      CustomAddTextFormField(
-                        controller: startTimeController,
-                        hintText: appLocalizations.enter_start_time,
-                        keyboardType: TextInputType.number,
-                        labelName: appLocalizations.startTime,
-                      ),
-                      SizedBox(height: 12.h),
-                      CustomAddTextFormField(
-                        controller: endTimeController,
-                        hintText: appLocalizations.enter_end_time,
-                        keyboardType: TextInputType.number,
-                        labelName: appLocalizations.end_Time,
-                      ),
-                      SizedBox(height: 20.h),
-                    ],
+                    ),
                   ),
-                ),
+                  SizedBox(height: 20.h),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50.h,
+                    child: ElevatedButton(
+                      onPressed: (state is AddDoctorLoading)
+                          ? null
+                          : () {
+                              if (_validateFields()) {
+                                final doctor = AddDoctorModel(
+                                  name: nameController.text,
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                  specialization: specializationController.text,
+                                  experienceYears: int.parse(
+                                    experienceYearController.text,
+                                  ),
+                                  consultationPrice: double.parse(
+                                    priceController.text,
+                                  ),
+                                  startTime: startTimeController.text,
+                                  endTime: endTimeController.text,
+                                  departmentId: selectedDepartmentId!,
+                                  image: selectedImage?.path ?? "doctor.png",
+                                );
+                                cubit.addDoctor(doctor);
+                              }
+                            },
+                      child: state is AddDoctorLoading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  appLocalizations.addDoctor,
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                SizedBox(width: 10.w),
+                                const Icon(
+                                  Icons.arrow_upward,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 20.h),
-              ElevatedButton(
-                onPressed: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(appLocalizations.addDoctor),
-                    SizedBox(width: 10.w),
-                    Icon(Icons.arrow_upward),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
+  }
+
+  bool _validateFields() {
+    if (nameController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        selectedDepartmentId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "Please fill all required fields and select department",
+          ),
+        ),
+      );
+      return false;
+    }
+    return true;
   }
 
   void _showBottomSheetImage() {
@@ -219,7 +339,7 @@ class _AdminAddDoctorState extends State<AdminAddDoctor> {
           mainAxisSize: MainAxisSize.min,
           children: [
             InkWell(
-              onTap: () {},
+              onTap: () => _pickImage(ImageSource.camera),
               child: Row(
                 children: [
                   const Icon(Icons.photo_camera_outlined),
@@ -230,7 +350,7 @@ class _AdminAddDoctorState extends State<AdminAddDoctor> {
             ),
             SizedBox(height: 20.h),
             InkWell(
-              onTap: () {},
+              onTap: () => _pickImage(ImageSource.gallery),
               child: Row(
                 children: [
                   const Icon(Icons.photo_library_outlined),
@@ -243,5 +363,13 @@ class _AdminAddDoctorState extends State<AdminAddDoctor> {
         ),
       ),
     );
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
+    final picked = await ImagePicker().pickImage(source: source);
+    if (picked != null) {
+      setState(() => selectedImage = File(picked.path));
+      Navigator.pop(context);
+    }
   }
 }

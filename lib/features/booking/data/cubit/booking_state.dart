@@ -35,3 +35,10 @@ class BookingSuccessLoaded extends BookingState {
     );
   }
 }
+
+class BookingCreating extends BookingState {}
+
+class BookingCreated extends BookingState {
+  final int bookingId;
+  BookingCreated({required this.bookingId});
+}

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../model/rental_model.dart'; // تأكدي من مسار الملف
+import 'package:med_rent/l10n/app_localizations.dart';
+import '../model/rental_model.dart';
 
 class RentalSummaryCard extends StatelessWidget {
-  final RentalModel model; // بنبعت الموديل كامل هنا
+  final RentalModel model;
 
   const RentalSummaryCard({super.key, required this.model});
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Container(
       width: 343.w,
       padding: EdgeInsets.all(16.w),
@@ -47,41 +49,35 @@ class RentalSummaryCard extends StatelessWidget {
           ),
           SizedBox(height: 15.h),
           const Divider(),
-
-          const Text(
-            "Rental Period",
+          Text(
+            appLocalizations.rentalPeriod,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Color(0Xff020A19),
             ),
           ),
           SizedBox(height: 8.h),
-
-          _buildDetailRow("Start Date:", model.startDate),
-          _buildDetailRow("End Date:", model.endDate),
-
+          _buildDetailRow("${appLocalizations.startDate}:", model.startDate),
+          _buildDetailRow("${appLocalizations.endDate}:", model.endDate),
           const Divider(),
-
           _buildDetailRow(
-            "Rental Fee:",
+            "${appLocalizations.rentalFee}:",
             "\$${model.rentalFee.toStringAsFixed(2)}",
           ),
           _buildDetailRow(
-            "Insurance Fee:",
+            "${appLocalizations.insuranceFee}:",
             "\$${model.insuranceFee.toStringAsFixed(2)}",
           ),
           _buildDetailRow(
-            "Taxes & Fees:",
+            "${appLocalizations.taxes_Fee}:",
             "\$${model.taxesAndFees.toStringAsFixed(2)}",
           ),
-
           const Divider(),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Total Cost",
+                appLocalizations.totalCost,
                 style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.bold,

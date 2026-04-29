@@ -2,14 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:med_rent/core/network/api_client.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
+import 'package:med_rent/features/admin_add_doctor/cubit/add_doctor_cubit.dart';
+import 'package:med_rent/features/admin_add_doctor/data/data_sources/admin_add_doctor_data_source.dart';
 import 'package:med_rent/features/admin_add_doctor/presentation/view/admin_add_doctor.dart';
+import 'package:med_rent/features/admin_doctor/data/cubit/admin_doctors_cubit.dart';
+import 'package:med_rent/features/admin_doctor/data/data_sources/admin_doctors_data_source.dart';
 import 'package:med_rent/features/admin_doctor/presentation/view/admin_doctor.dart';
+import 'package:med_rent/features/admin_users/data/data_sources/admin_users_data_source.dart';
 import 'package:med_rent/features/admin_users/presentation/view/admin_user.dart';
 import 'package:med_rent/features/auth/data/cubit/auth_cubit.dart';
 import 'package:med_rent/features/auth/presentation/view/login_screen.dart';
 import 'package:med_rent/features/auth/presentation/view/register_screen.dart';
 import 'package:med_rent/features/booking/data/cubit/booking_cubit.dart';
 import 'package:med_rent/features/booking/presentation/view/booking_tab.dart';
+import 'package:med_rent/features/booking_payment/data/cubit/booking_payment_cubit.dart';
+import 'package:med_rent/features/booking_payment/data/data_sources/booking_payment_data_source.dart';
 import 'package:med_rent/features/booking_payment/presentation/view/booking_payment.dart';
 import 'package:med_rent/features/booking_reservation/data/cubit/booking_reservation_cubit.dart';
 import 'package:med_rent/features/booking_reservation/data/data_sources/admin_reservation_data_source.dart';
@@ -59,6 +66,7 @@ import 'package:med_rent/features/update_profile/data/cubit/update_profile_cubit
 import 'package:med_rent/features/update_profile/data/data_sources/update_profile_data_source.dart';
 import 'package:med_rent/features/update_profile/presentation/view/personal_information.dart';
 
+import '../../features/admin_users/data/cubit/admin_user_cubit.dart';
 import '../../features/contact_us/data/data_sources/contact_us_data_source.dart';
 import '../../features/hospital_details/data/cubit/hospital_details_cubit.dart';
 
@@ -150,16 +158,33 @@ abstract class RoutesManager {
         }
       case AppRoutes.adminDoctor:
         {
-          return CupertinoPageRoute(builder: (context) => AdminDoctor());
+          return CupertinoPageRoute(
+            builder: (context) => BlocProvider(
+              create: (context) =>
+                  AdminDoctorsCubit(AdminDoctorsDataSource(ApiClient()))
+                    ..getDoctors(),
+              child: AdminDoctor(),
+            ),
+          );
         }
       case AppRoutes.adminAddDoctor:
         {
-          return CupertinoPageRoute(builder: (context) => AdminAddDoctor());
+          return CupertinoPageRoute(
+            builder: (context) => BlocProvider(
+              create: (context) =>
+                  AddDoctorCubit(AdminAddDoctorDataSource(ApiClient())),
+              child: AdminAddDoctor(),
+            ),
+          );
         }
       case AppRoutes.adminUser:
-        {
-          return CupertinoPageRoute(builder: (context) => AdminUser());
-        }
+        return CupertinoPageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) =>
+                AdminUsersCubit(AdminUsersDataSource(ApiClient())),
+            child: const AdminUser(),
+          ),
+        );
       case AppRoutes.myNotification:
         {
           final args = settings.arguments;
@@ -246,7 +271,16 @@ abstract class RoutesManager {
         }
       case AppRoutes.bookingPayment:
         {
-          return CupertinoPageRoute(builder: (context) => BookingPayment());
+          final args = settings.arguments;
+          final bookingId = args is int ? args : 0;
+          return CupertinoPageRoute(
+            builder: (context) => BlocProvider(
+              create: (_) => BookingPaymentCubit(
+                dataSource: BookingPaymentDataSource(apiClient: ApiClient()),
+              ),
+              child: BookingPayment(bookingId: bookingId),
+            ),
+          );
         }
       case AppRoutes.booking:
         {

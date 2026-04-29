@@ -48,4 +48,24 @@ class BookingCubit extends Cubit<BookingState> {
       date: date,
     );
   }
+
+  Future<void> bookAppointment({
+    required int doctorId,
+    required DateTime date,
+    required String time,
+  }) async {
+    emit(BookingCreating());
+    try {
+      final formattedDate =
+          '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+      final bookingId = await _bookingData.createBooking(
+        doctorId: doctorId,
+        date: formattedDate,
+        time: time,
+      );
+      emit(BookingCreated(bookingId: bookingId));
+    } catch (e) {
+      emit(BookingError(message: e.toString()));
+    }
+  }
 }
