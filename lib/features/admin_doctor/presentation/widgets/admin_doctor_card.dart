@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
@@ -36,13 +37,21 @@ class AdminDoctorCard extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 35.r,
-            backgroundColor: ColorManager.white,
-            backgroundImage: model.imageURL.isNotEmpty
-                ? NetworkImage(model.imageURL)
-                : null,
-            child: model.imageURL.isEmpty
-                ? Icon(Icons.person, size: 30.sp, color: ColorManager.secondary)
-                : null,
+            backgroundColor: ColorManager.secondary2,
+            child: ClipOval(
+              child: CachedNetworkImage(
+                imageUrl: model.imageURL,
+                fit: BoxFit.cover,
+                width: 70.r,
+                height: 70.r,
+                placeholder: (context, url) => CircularProgressIndicator(strokeWidth: 2),
+                errorWidget: (context, url, error) => Icon(
+                  Icons.person,
+                  size: 30.sp,
+                  color: ColorManager.secondary,
+                ),
+              ),
+            ),
           ),
           SizedBox(height: 8.h),
           Text(

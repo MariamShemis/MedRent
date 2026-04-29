@@ -164,6 +164,7 @@ class _AdminDoctorState extends State<AdminDoctor> {
                                   },
                                 ),
                         ),
+                        SizedBox(height: 20.h,),
                       ],
                     );
                   }

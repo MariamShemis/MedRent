@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,10 +6,16 @@ import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
 
 class CardAddImage extends StatelessWidget {
-  const CardAddImage({super.key, required this.text, required this.onTap});
+  const CardAddImage({
+    super.key,
+    required this.text,
+    required this.onTap,
+    this.image,
+  });
 
   final String text;
   final VoidCallback onTap;
+  final File? image;
 
   @override
   Widget build(BuildContext context) {
@@ -29,47 +36,61 @@ class CardAddImage extends StatelessWidget {
               ).textTheme.titleMedium!.copyWith(fontSize: 14.sp),
             ),
             SizedBox(height: 16.h),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: GestureDetector(
-                onTap: onTap,
-                child: SizedBox(
-                  height: 100.h,
-                  width: 100.w,
-                  child: CustomPaint(
-                    painter: _DashedRectPainter(
-                      color: Color(0xFF4086AD),
-                      strokeWidth: 3,
-                      gap: 5,
-                    ),
-                    child: Container(
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      decoration: BoxDecoration(
-                        color: Color(0xFF4086AD).withOpacity(0.05),
-                        borderRadius: BorderRadius.circular(20.r),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: onTap,
+                  child: SizedBox(
+                    height: 100.h,
+                    width: 100.w,
+                    child: CustomPaint(
+                      painter: _DashedRectPainter(
+                        color: Color(0xFF4086AD),
+                        strokeWidth: 3,
+                        gap: 5,
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.camera_alt_outlined,
-                            color: Color(0xFF4086AD),
-                            size: 28.sp,
-                          ),
-                          SizedBox(height: 8.h),
-                          Text(
-                            appLocalizations.addImage,
-                            style: TextStyle(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Color(0xFF4086AD).withOpacity(0.05),
+                          borderRadius: BorderRadius.circular(20.r),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.camera_alt_outlined,
                               color: Color(0xFF4086AD),
-                              fontSize: 12.sp,
+                              size: 28.sp,
                             ),
-                          ),
-                        ],
+                            SizedBox(height: 8.h),
+                            Text(
+                              appLocalizations.addImage,
+                              style: TextStyle(
+                                color: Color(0xFF4086AD),
+                                fontSize: 12.sp,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
+                SizedBox(width: 12.w),
+                if (image != null)
+                  Container(
+                    height: 100.h,
+                    width: 100.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.r),
+                      border: Border.all(color: Colors.grey),
+                      image: DecorationImage(
+                        image: FileImage(image!),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ],
         ),
