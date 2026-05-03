@@ -21,6 +21,8 @@ class AdminUser extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back_ios),
         ),
+        titleSpacing: 0,
+        centerTitle: false,
         title: Text(appLocalizations.users),
       ),
       body: SafeArea(

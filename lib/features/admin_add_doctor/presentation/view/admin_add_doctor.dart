@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
-import 'package:med_rent/features/admin_add_doctor/cubit/add_doctor_cubit.dart';
-import 'package:med_rent/features/admin_add_doctor/cubit/add_doctor_state.dart';
+import 'package:med_rent/features/admin_add_doctor/data/cubit/add_doctor_cubit.dart';
+import 'package:med_rent/features/admin_add_doctor/data/cubit/add_doctor_state.dart';
 import 'package:med_rent/features/admin_add_doctor/data/models/add_doctor_model.dart';
 import 'package:med_rent/features/admin_add_doctor/presentation/widgets/card_add_image.dart';
 import 'package:med_rent/features/admin_add_doctor/presentation/widgets/custom_add_text_form_field.dart';
@@ -71,23 +71,30 @@ class _AdminAddDoctorState extends State<AdminAddDoctor> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back_ios),
         ),
+        titleSpacing: 0,
+        centerTitle: false,
         title: Text(appLocalizations.addDoctor),
       ),
       body: BlocConsumer<AddDoctorCubit, AddDoctorState>(
         listener: (context, state) {
           if (state is HospitalsLoaded && state.hospitals.isNotEmpty) {
             setState(() {
-              selectedHospitalName = state.hospitals.first.name ;
+              selectedHospitalName = state.hospitals.first.name;
               selectedHospitalId = state.hospitals.first.hospitalId;
+              selectedDepartmentName = "";
             });
-            context.read<AddDoctorCubit>().getDepartments(
-              state.hospitals.first.hospitalId,
-            );
+            context.read<AddDoctorCubit>().getDepartments(state.hospitals.first.hospitalId);
           }
-          if (state is DepartmentsLoaded && state.departments.isNotEmpty) {
+
+          if (state is DepartmentsLoaded) {
             setState(() {
-              selectedDepartmentName = state.departments.first.name ;
-              selectedDepartmentId = state.departments.first.departmentId;
+              if (state.departments.isNotEmpty) {
+                selectedDepartmentName = state.departments.first.name;
+                selectedDepartmentId = state.departments.first.departmentId;
+              } else {
+                selectedDepartmentName = "";
+                selectedDepartmentId = null;
+              }
             });
           }
           if (state is AddDoctorSuccess) {
@@ -185,17 +192,17 @@ class _AdminAddDoctorState extends State<AdminAddDoctor> {
                             PersonalProfileGenderText(
                               isGender: false,
                               selectedLabel: selectedHospitalName,
-                              menuItems: cubit.hospitals
-                                  .map((e) => e.name )
-                                  .toList(),
+                              menuItems: cubit.hospitals.map((e) => e.name).toList(),
                               onChange: (value) {
-                                if (value != null) {
+                                if (value != null && value != selectedHospitalName) {
                                   final selected = cubit.hospitals.firstWhere(
-                                    (e) => e.name == value,
+                                        (e) => e.name == value,
                                   );
                                   setState(() {
                                     selectedHospitalName = value;
                                     selectedHospitalId = selected.hospitalId;
+                                    selectedDepartmentName = "";
+                                    selectedDepartmentId = null;
                                   });
                                   cubit.getDepartments(selected.hospitalId);
                                 }
@@ -213,27 +220,38 @@ class _AdminAddDoctorState extends State<AdminAddDoctor> {
                             PersonalProfileGenderText(
                               isGender: false,
                               selectedLabel: selectedDepartmentName,
-                              menuItems: cubit.departments
-                                  .map((e) => e.name )
-                                  .toList(),
+                              menuItems: cubit.departments.map((e) => e.name).toList(),
                               onChange: (value) {
                                 if (value != null) {
                                   final selected = cubit.departments.firstWhere(
-                                    (e) => e.name == value,
+                                        (e) => e.name == value,
                                   );
                                   setState(() {
                                     selectedDepartmentName = value;
-                                    selectedDepartmentId =
-                                        selected.departmentId;
+                                    selectedDepartmentId = selected.departmentId;
                                   });
                                 }
                               },
+                            )
+                          else
+                            Container(
+                              width: double.infinity,
+                              padding: REdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: ColorManager.white,
+                                border: Border.all(color: ColorManager.lightGrey),
+                                borderRadius: BorderRadius.circular(16.r),
+                              ),
+                              child: Text(
+                                state is AddDoctorLoading ? "Loading..." : "No Departments Available",
+                                style: TextStyle(color: Colors.grey),
+                              ),
                             ),
                           SizedBox(height: 12.h),
                           CustomAddTextFormField(
                             controller: priceController,
                             hintText:
-                                appLocalizations.enter_price_of_consutation,
+                            appLocalizations.enter_price_of_consutation,
                             keyboardType: TextInputType.number,
                             labelName: appLocalizations.price,
                           ),
@@ -263,44 +281,39 @@ class _AdminAddDoctorState extends State<AdminAddDoctor> {
                       onPressed: (state is AddDoctorLoading)
                           ? null
                           : () {
-                              if (_validateFields()) {
-                                final doctor = AddDoctorModel(
-                                  name: nameController.text,
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                  specialization: specializationController.text,
-                                  experienceYears: int.parse(
-                                    experienceYearController.text,
-                                  ),
-                                  consultationPrice: double.parse(
-                                    priceController.text,
-                                  ),
-                                  startTime: startTimeController.text,
-                                  endTime: endTimeController.text,
-                                  departmentId: selectedDepartmentId!,
-                                  image: selectedImage?.path ?? "doctor.png",
-                                );
-                                cubit.addDoctor(doctor);
-                              }
-                            },
+                        if (_validateFields()) {
+                          final doctor = AddDoctorModel(
+                            name: nameController.text,
+                            email: emailController.text,
+                            password: passwordController.text,
+                            specialization: specializationController.text,
+                            experienceYears: int.parse(
+                              experienceYearController.text,
+                            ),
+                            consultationPrice: double.parse(
+                              priceController.text,
+                            ),
+                            startTime: startTimeController.text,
+                            endTime: endTimeController.text,
+                            departmentId: selectedDepartmentId!,
+                            image: selectedImage!.path,
+                          );
+                          cubit.addDoctor(doctor);
+                        }
+                      },
                       child: state is AddDoctorLoading
                           ? const CircularProgressIndicator(color: Colors.white)
                           : Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  appLocalizations.addDoctor,
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                                SizedBox(width: 10.w),
-                                const Icon(
-                                  Icons.arrow_upward,
-                                  color: Colors.white,
-                                ),
-                              ],
-                            ),
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(appLocalizations.addDoctor),
+                          SizedBox(width: 10.w),
+                          Icon(Icons.upload, color: ColorManager.white),
+                        ],
+                      ),
                     ),
                   ),
+                  SizedBox(height: 10.h),
                 ],
               ),
             ),
@@ -309,15 +322,15 @@ class _AdminAddDoctorState extends State<AdminAddDoctor> {
       ),
     );
   }
-
   bool _validateFields() {
     if (nameController.text.isEmpty ||
         emailController.text.isEmpty ||
-        selectedDepartmentId == null) {
+        selectedDepartmentId == null ||
+        selectedImage == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
-            "Please fill all required fields and select department",
+            "Please fill all fields and select a doctor image",
           ),
         ),
       );
@@ -369,7 +382,7 @@ class _AdminAddDoctorState extends State<AdminAddDoctor> {
     final picked = await ImagePicker().pickImage(source: source);
     if (picked != null) {
       setState(() => selectedImage = File(picked.path));
-      Navigator.pop(context);
+      if (mounted) Navigator.pop(context);
     }
   }
 }

@@ -49,6 +49,7 @@ class CustomMyNotificationCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: REdgeInsets.symmetric(horizontal: 10, vertical: 15),
+        margin: REdgeInsets.symmetric(horizontal: 4 , vertical: 4),
         decoration: BoxDecoration(
           color: !isRead ? ColorManager.lightBlue : Colors.transparent,
           borderRadius: BorderRadius.circular(16.r),

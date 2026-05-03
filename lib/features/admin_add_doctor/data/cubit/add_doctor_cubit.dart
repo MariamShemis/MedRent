@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:med_rent/features/admin_add_doctor/data/data_sources/admin_add_doctor_data_source.dart';
 import 'package:med_rent/features/admin_add_doctor/data/models/add_doctor_department_model.dart';
@@ -24,6 +27,7 @@ class AddDoctorCubit extends Cubit<AddDoctorState> {
   }
 
   Future<void> getDepartments(int hospitalId) async {
+    departments = [];
     emit(AddDoctorLoading());
     try {
       departments = await _dataSource.getDepartments(hospitalId);
@@ -36,10 +40,20 @@ class AddDoctorCubit extends Cubit<AddDoctorState> {
   Future<void> addDoctor(AddDoctorModel doctor) async {
     emit(AddDoctorLoading());
     try {
-      final msg = await _dataSource.addDoctor(doctor);
+      final Map<String, dynamic> doctorMap = doctor.toJson();
+      if (doctor.image.isNotEmpty && File(doctor.image).existsSync()) {
+        doctorMap['Image'] = await MultipartFile.fromFile(
+          doctor.image,
+          filename: doctor.image.split('/').last,
+        );
+      }
+      final formData = FormData.fromMap(doctorMap);
+
+      final msg = await _dataSource.addDoctor(formData);
       emit(AddDoctorSuccess(msg));
     } catch (e) {
-      emit(AddDoctorError("Error adding doctor"));
+      print("Add Doctor Error: ${e.toString()}");
+      emit(AddDoctorError("Failed to add doctor. Check your connection or data."));
     }
   }
 }

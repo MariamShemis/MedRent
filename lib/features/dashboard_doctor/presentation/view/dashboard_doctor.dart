@@ -34,6 +34,8 @@ class _DashboardState extends State<Dashboard> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back_ios),
         ),
+        titleSpacing: 0,
+        centerTitle: false,
         title: Text(appLocalizations.dashboard),
       ),
       body: BlocBuilder<DoctorDashboardCubit, DoctorDashboardState>(

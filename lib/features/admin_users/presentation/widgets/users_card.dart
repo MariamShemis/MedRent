@@ -76,24 +76,24 @@ class UsersCard extends StatelessWidget {
                   fontSize: 14.sp,
                 ),
               ),
-              InkWell(
-                onTap: onBlockTap,
-                child: Container(
-                  padding: REdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: statusColor,
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  child: Text(
-                    buttonText,
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      color: statusTextColor,
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              )
+              // InkWell(
+              //   onTap: onBlockTap,
+              //   child: Container(
+              //     padding: REdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              //     decoration: BoxDecoration(
+              //       color: statusColor,
+              //       borderRadius: BorderRadius.circular(10.r),
+              //     ),
+              //     child: Text(
+              //       buttonText,
+              //       style: Theme.of(context).textTheme.titleSmall!.copyWith(
+              //         color: statusTextColor,
+              //         fontSize: 13.sp,
+              //         fontWeight: FontWeight.bold,
+              //       ),
+              //     ),
+              //   ),
+              // )
             ],
           ),
         ],

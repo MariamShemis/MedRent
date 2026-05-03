@@ -1032,5 +1032,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get regular => 'Regular';
 
   @override
+  String get all => 'All';
+
+  @override
+  String get booked => 'Booked';
+
+  @override
+  String get pendingPayment => 'PendingPayment';
+
+  @override
+  String get pending => 'Pending';
+
+  @override
+  String get completed => 'Completed';
+
+  @override
+  String get confirmed => 'Confirmed';
+
+  @override
+  String get pickupRequested => 'PickupRequested';
+
+  @override
+  String get owner => 'Owner';
+
+  @override
+  String get rentals => 'Rentals';
+
+  @override
   String get please_fill_in_all_required_fields => 'Please fill in all required fields';
 }

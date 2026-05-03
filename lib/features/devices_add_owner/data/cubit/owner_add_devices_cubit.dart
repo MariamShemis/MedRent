@@ -17,7 +17,7 @@ class OwnerAddDevicesCubit extends Cubit<OwnerAddDevicesState> {
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(
       source: sources,
-    ); // نستخدم الـ source اللي جاي من الـ UI
+    );
 
     if (image != null) {
       pickedImagePath = image.path;
@@ -29,7 +29,7 @@ class OwnerAddDevicesCubit extends Cubit<OwnerAddDevicesState> {
     required String name,
     required String description,
     required double price,
-    required String token, // توكن المستخدم
+    required String token,
   }) async {
     if (pickedImagePath == null) {
       emit(OwnerAddDevicesFailure("Please select a device image first"));

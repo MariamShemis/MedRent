@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:med_rent/core/network/api_client.dart';
 import 'package:med_rent/core/routes/app_routes.dart';
-import 'package:med_rent/features/admin_add_doctor/cubit/add_doctor_cubit.dart';
+import 'package:med_rent/features/admin_add_doctor/data/cubit/add_doctor_cubit.dart';
 import 'package:med_rent/features/admin_add_doctor/data/data_sources/admin_add_doctor_data_source.dart';
 import 'package:med_rent/features/admin_add_doctor/presentation/view/admin_add_doctor.dart';
 import 'package:med_rent/features/admin_doctor/data/cubit/admin_doctors_cubit.dart';

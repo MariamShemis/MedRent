@@ -34,11 +34,10 @@ class AdminAddDoctorDataSource {
         .map((e) => AddDoctorDepartmentModel.fromJson(e))
         .toList();
   }
-
-  Future<String> addDoctor(AddDoctorModel doctor) async {
+  Future<String> addDoctor(dynamic data) async {
     final response = await _apiClient.post(
       "/Admin/add-doctor",
-      data: doctor.toJson(),
+      data: data,
       options: await _getHeaders(),
     );
     return response.data.toString();

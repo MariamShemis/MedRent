@@ -71,10 +71,20 @@ class _ProfileTabState extends State<ProfileTab> {
                     ProfileMenuItem(
                       icon: Iconsax.user_edit4,
                       text: appLocalizations.personalInformation,
-                      onPressed: () => Navigator.pushNamed(
-                        context,
-                        AppRoutes.personalInformation,
-                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes.personalInformation,
+                        ).then((value) {
+                          if (value is Map && value['updated'] == true) {
+                            setState(() {
+                              profileImageUrl = value['newUrl'];
+                            });
+                            final profileCubit = context.read<ProfileCubit>();
+                            profileCubit.getProfileData();
+                          }
+                        });
+                      },
                     ),
                   );
                   if (role == 'Admin') {
@@ -116,20 +126,14 @@ class _ProfileTabState extends State<ProfileTab> {
                         icon: Iconsax.health,
                         text: appLocalizations.doctor,
                         onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            AppRoutes.adminDoctor,
-                          );
+                          Navigator.pushNamed(context, AppRoutes.adminDoctor);
                         },
                       ),
                       ProfileMenuItem(
                         icon: Iconsax.profile_2user4,
                         text: appLocalizations.users,
                         onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            AppRoutes.adminUser,
-                          );
+                          Navigator.pushNamed(context, AppRoutes.adminUser);
                         },
                       ),
                     ]);
@@ -285,50 +289,67 @@ class _ProfileTabState extends State<ProfileTab> {
                             style: Theme.of(context).textTheme.headlineLarge!
                                 .copyWith(fontSize: 24.sp),
                           ),
-                          if (role != 'Admin')
-                            IconButton(
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  AppRoutes.myNotification,
-                                  arguments: role,
-                                );
-                              },
-                              icon: Icon(
-                                Iconsax.notification4,
-                                color: Theme.of(context).primaryColor,
-                                size: 25,
-                              ),
-                            )
-                          else
-                            SizedBox(width: 50.w),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutes.myNotification,
+                                arguments: role,
+                              );
+                            },
+                            icon: Icon(
+                              Iconsax.notification4,
+                              color: Theme.of(context).primaryColor,
+                              size: 25,
+                            ),
+                          ),
                         ],
                       ),
                       SizedBox(height: 15.h),
                       UserImageProfile(
-                        widgetUserImageProfile: CircleAvatar(
-                          radius: 46.r,
-                          backgroundImage:
-                              (profileImageUrl != null &&
-                                  profileImageUrl!.isNotEmpty)
-                              ? NetworkImage(profileImageUrl!)
-                              : null,
-                          onBackgroundImageError:
-                              (profileImageUrl != null &&
-                                  profileImageUrl!.isNotEmpty)
-                              ? (exception, stackTrace) {
-                                  debugPrint("Image Load Error: $exception");
-                                }
-                              : null,
-                          child:
-                              (profileImageUrl == null ||
-                                  profileImageUrl!.isEmpty)
-                              ? Icon(
+                        widgetUserImageProfile: ClipRRect(
+                          borderRadius: BorderRadius.circular(46.r),
+                          child: profileImageUrl == null || profileImageUrl!.isEmpty
+                              ? CircleAvatar(
+                            radius: 46.r,
+                            child: Icon(
+                              Icons.person,
+                              size: 40.sp,
+                              color: ColorManager.white,
+                            ),
+                          )
+                              : Image.network(
+                            profileImageUrl!,
+                            key: ValueKey(profileImageUrl),
+                            width: 92.r,
+                            height: 92.r,
+                            fit: BoxFit.cover,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return CircleAvatar(
+                                radius: 46.r,
+                                backgroundColor: ColorManager.lightGrey,
+                                child: CircularProgressIndicator(
+                                  color: ColorManager.lightGrey,
+                                  value: loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return CircleAvatar(
+                                radius: 46.r,
+                                backgroundColor: ColorManager.lightGrey,
+                                child: Icon(
                                   Icons.person,
                                   size: 40.sp,
-                                  color: Colors.white,
-                                )
-                              : null,
+                                  color: ColorManager.darkBlue,
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                       SizedBox(height: 18.h),
@@ -354,8 +375,13 @@ class _ProfileTabState extends State<ProfileTab> {
                               context,
                               AppRoutes.personalInformation,
                             ).then((value) {
-                              if (value == true) {
-                                context.read<ProfileCubit>().getProfileData();
+                              if (value is Map && value['updated'] == true) {
+                                setState(() {
+                                  profileImageUrl = value['newUrl'];
+                                });
+                                final profileCubit = context
+                                    .read<ProfileCubit>();
+                                profileCubit.getProfileData();
                               }
                             });
                           },

@@ -341,5 +341,14 @@
   "enter_Your_email" : "Enter Your email",
   "bookingType" : "Booking Type",
   "regular" : "Regular",
+  "all" : "All",
+  "booked" : "Booked",
+  "pendingPayment" : "PendingPayment",
+  "pending" : "Pending",
+  "completed" : "Completed",
+  "confirmed" : "Confirmed",
+  "pickupRequested" : "PickupRequested",
+  "owner" : "Owner",
+  "rentals" : "Rentals",
   "please_fill_in_all_required_fields" : "Please fill in all required fields"
 }

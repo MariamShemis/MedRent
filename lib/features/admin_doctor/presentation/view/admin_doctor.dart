@@ -52,9 +52,10 @@ class _AdminDoctorState extends State<AdminDoctor> {
   @override
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
-
     return Scaffold(
       appBar: AppBar(
+        titleSpacing: 0,
+        centerTitle: false,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back_ios),

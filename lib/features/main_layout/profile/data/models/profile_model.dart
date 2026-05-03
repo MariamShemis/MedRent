@@ -29,6 +29,8 @@ class ProfileModel {
         finalImageUrl = '$baseUrl$cleanPath';
       }
     }
+    print("📥 Raw Image Path from API: ${json['imageUrl']}");
+    print("📸 User Image URL: $finalImageUrl");
 
     return ProfileModel(
       userId: json['userId'] ?? 0,

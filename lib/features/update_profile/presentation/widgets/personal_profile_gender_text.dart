@@ -31,7 +31,7 @@ class PersonalProfileGenderText extends StatelessWidget {
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           isExpanded: true,
-          value: selectedLabel,
+          value: menuItems.contains(selectedLabel) ? selectedLabel : null,
           selectedItemBuilder: (BuildContext context) {
             return menuItems.map((String item) {
               return Container(

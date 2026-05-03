@@ -2141,6 +2141,60 @@ abstract class AppLocalizations {
   /// **'Regular'**
   String get regular;
 
+  /// No description provided for @all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
+
+  /// No description provided for @booked.
+  ///
+  /// In en, this message translates to:
+  /// **'Booked'**
+  String get booked;
+
+  /// No description provided for @pendingPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'PendingPayment'**
+  String get pendingPayment;
+
+  /// No description provided for @pending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get pending;
+
+  /// No description provided for @completed.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get completed;
+
+  /// No description provided for @confirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed'**
+  String get confirmed;
+
+  /// No description provided for @pickupRequested.
+  ///
+  /// In en, this message translates to:
+  /// **'PickupRequested'**
+  String get pickupRequested;
+
+  /// No description provided for @owner.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner'**
+  String get owner;
+
+  /// No description provided for @rentals.
+  ///
+  /// In en, this message translates to:
+  /// **'Rentals'**
+  String get rentals;
+
   /// No description provided for @please_fill_in_all_required_fields.
   ///
   /// In en, this message translates to:

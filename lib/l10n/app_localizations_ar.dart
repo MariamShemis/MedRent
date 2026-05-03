@@ -1032,5 +1032,32 @@ class AppLocalizationsAr extends AppLocalizations {
   String get regular => 'عادي';
 
   @override
+  String get all => 'الكل';
+
+  @override
+  String get booked => 'محجوز';
+
+  @override
+  String get pendingPayment => 'في انتظار الدفع';
+
+  @override
+  String get pending => 'قيد الانتظار';
+
+  @override
+  String get completed => 'مكتمل';
+
+  @override
+  String get confirmed => 'مؤكد';
+
+  @override
+  String get pickupRequested => 'تم طلب الاستلام';
+
+  @override
+  String get owner => 'مالك';
+
+  @override
+  String get rentals => 'الإيجارات';
+
+  @override
   String get please_fill_in_all_required_fields => 'يرجى ملء جميع الحقول المطلوبة';
 }

@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -99,9 +100,14 @@ class _PersonalInformationState extends State<PersonalInformation> {
         appBar: AppBar(
           title: Text(appLocalizations.personalInformation),
           leading: IconButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(context, {
+              'updated': true,
+              'newUrl': profileImageUrl
+            }),
             icon: const Icon(Icons.arrow_back_ios),
           ),
+          titleSpacing: 0,
+          centerTitle: false,
         ),
         body: Center(child: CircularProgressIndicator()),
       );
@@ -109,9 +115,14 @@ class _PersonalInformationState extends State<PersonalInformation> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.pop(context, {
+            'updated': true,
+            'newUrl': profileImageUrl
+          }),
           icon: const Icon(Icons.arrow_back_ios),
         ),
+        centerTitle: false,
+        titleSpacing: 0,
         title: Text(appLocalizations.personalInformation),
       ),
       body: BlocListener<UpdateProfileCubit, UpdateProfileState>(

@@ -2,35 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/features/devices_admin/data/models/devices_model.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
 
 class DeviceAdminCard extends StatelessWidget {
   final DevicesModel device;
 
-  const DeviceAdminCard({super.key , required this.device});
+  const DeviceAdminCard({super.key, required this.device});
 
- Color getStatusColor(String status) {
-  final String statusLower = status.trim().toLowerCase();
+  Color getStatusColor(String status) {
+    final String statusLower = status.trim().toLowerCase();
 
-  if (statusLower.contains('avaliable') || statusLower.contains('available')) {
-    return const Color(0Xff8BE2EA); 
-  } else if (statusLower.contains('active')) {
-    return const Color(0Xff8BEA95);
-  } else if (statusLower.contains('maintainace') || statusLower.contains('maintenance')) {
-    return const Color(0XffECB26A);  
-  } else if (statusLower.contains('booked')) {
-    return Colors.blue; 
-  } else {
-    return const Color(0Xff30D9C9); 
+    if (statusLower.contains('avaliable') ||
+        statusLower.contains('available')) {
+      return const Color(0Xff8BE2EA);
+    } else if (statusLower.contains('active')) {
+      return const Color(0Xff8BEA95);
+    } else if (statusLower.contains('maintainace') ||
+        statusLower.contains('maintenance')) {
+      return const Color(0XffECB26A);
+    } else if (statusLower.contains('booked')) {
+      return Colors.blue;
+    } else {
+      return const Color(0Xff30D9C9);
+    }
   }
-}
+
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Card(
-      margin: const EdgeInsets.only(bottom: 15),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      margin: REdgeInsets.only(bottom: 15, left: 2, top: 2),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
       color: ColorManager.white,
       elevation: 5,
-      
       child: Padding(
         padding: REdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
         child: Column(
@@ -45,88 +49,78 @@ class DeviceAdminCard extends StatelessWidget {
                       Flexible(
                         child: Text(
                           device.name,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                            fontSize: 15.sp,
                             color: ColorManager.black,
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      const SizedBox(width: 6),
+                      SizedBox(width: 6.w),
                       Container(
-                       
-                        padding: const EdgeInsets.symmetric(horizontal: 5 , vertical: 5),
-                  decoration: BoxDecoration(
-                    color: const Color(0XffBDEFF9),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                        child: const Icon(
-                          
+                        padding: REdgeInsets.symmetric(
+                          horizontal: 5,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0XffBDEFF9),
+                          borderRadius: BorderRadius.circular(16.r),
+                        ),
+                        child: Icon(
                           Icons.monitor_outlined,
-                          size: 16,
+                          size: 16.sp,
                           color: Colors.black,
                         ),
                       ),
                     ],
                   ),
                 ),
-        
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
-                  ),
+                  padding: REdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
-                    color: getStatusColor(device.status).withOpacity(
-                      0.1,
-                    ),  
-                    borderRadius: BorderRadius.circular(12),
+                    color: getStatusColor(device.status).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Text(
                     device.status,
                     style: TextStyle(
                       color: getStatusColor(device.status),
-                      fontSize: 10,
+                      fontSize: 10.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ],
             ),
-        
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             Text(
-              "Owner: ${device.ownerName} → ${device.totalRentals} Rentals",
-              style: const TextStyle( color :ColorManager.greyText, fontSize: 12),
+              "${appLocalizations.owner}: ${device.ownerName} → ${device.totalRentals} ${appLocalizations.rentals}",
+              style: TextStyle(color: ColorManager.greyText, fontSize: 12.sp),
             ),
-        
-            const SizedBox(height: 12),
-        
+            SizedBox(height: 12.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                 Text(
-                  "From \$${device.pricePerDay}/day",
+                Text(
+                  "${appLocalizations.from} \$${device.pricePerDay}/${appLocalizations.day}",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 12,
+                    fontSize: 12.sp,
                     color: ColorManager.black,
-                    
                   ),
                 ),
-                // Revenue Badge
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  padding: REdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   decoration: BoxDecoration(
                     color: const Color(0xFFFFF9E6),
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.circular(4.r),
                   ),
                   child: Text(
-                    "Revenues: ${device.totalRevenue}",
-                    style: const TextStyle(
+                    "${appLocalizations.revenue}: ${device.totalRevenue}",
+                    style: TextStyle(
                       color: Color(0XffFFC107),
-                      fontSize: 10,
+                      fontSize: 10.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

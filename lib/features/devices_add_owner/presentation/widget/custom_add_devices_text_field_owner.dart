@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:med_rent/core/constants/color_manager.dart';
 
 class CustomAddDevicesTextFieldOwner extends StatelessWidget {
   const CustomAddDevicesTextFieldOwner({
@@ -46,7 +47,7 @@ class CustomAddDevicesTextFieldOwner extends StatelessWidget {
             filled: true,
             fillColor: Colors.transparent,
             hintText: hintText,
-            hintStyle: TextStyle(fontSize: 12.sp, color: Colors.grey),
+            hintStyle: TextStyle(fontSize: 12.sp, color: ColorManager.greyText , fontWeight: FontWeight.w500),
             contentPadding: REdgeInsets.symmetric(horizontal: 16, vertical: 12),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,10 +7,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/core/network/api_client.dart';
 import 'package:med_rent/core/service/session_service.dart';
+import 'package:med_rent/features/admin_add_doctor/presentation/widgets/card_add_image.dart';
 import 'package:med_rent/features/devices-add_admin/data/cubit/add_devices_cubit.dart';
 import 'package:med_rent/features/devices-add_admin/data/data_source/add_devices_data.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
 
-import '../widget/device_image_card.dart';
 import '../widget/custom_add_devices_text_field.dart';
 
 class AddDevicesScreen extends StatefulWidget {
@@ -53,6 +56,7 @@ class _AddDevicesScreenState extends State<AddDevicesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return BlocProvider(
       create: (context) => AddDevicesCubit(AddDevicesData(ApiClient())),
       child: Scaffold(
@@ -66,11 +70,11 @@ class _AddDevicesScreenState extends State<AddDevicesScreen> {
             ),
           ),
           titleSpacing: 0,
-          title: const Text(
-            " Add New Devices",
+          title: Text(
+            appLocalizations.addNewDevice,
             style: TextStyle(
               color: ColorManager.darkBlue,
-              fontSize: 24,
+              fontSize: 24.sp,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -96,7 +100,7 @@ class _AddDevicesScreenState extends State<AddDevicesScreen> {
                         : state.errMessage,
                   ),
                   backgroundColor: Colors.red,
-                  duration: const Duration(seconds: 3), // عشان يلحق يظهر
+                  duration: const Duration(seconds: 3),
                 ),
               );
             }
@@ -110,36 +114,20 @@ class _AddDevicesScreenState extends State<AddDevicesScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // قسم صورة الجهاز
-                    DeviceImageCard(
-                      text: "Device Image",
+                    CardAddImage(
+                      text: appLocalizations.deviceImage,
                       onTap: () => _showBottomSheetImage(context, cubit),
+                      image: cubit.pickedImagePath != null
+                          ? File(cubit.pickedImagePath!)
+                          : null,
                     ),
-
-                    // إشعار بسيط لو الصورة تم اختيارها
-                    if (cubit.pickedImagePath != null)
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 8.h,
-                          horizontal: 8.w,
-                        ),
-                        child: Text(
-                          "Image selected: ${cubit.pickedImagePath!.split('/').last}",
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontSize: 12.sp,
-                          ),
-                        ),
-                      ),
-                    SizedBox(height: 20.h),
-
+                    SizedBox(height: 14.h),
                     Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16.r),
                       ),
                       color: ColorManager.white,
                       elevation: 5,
-
                       child: Padding(
                         padding: REdgeInsets.symmetric(
                           vertical: 20.0,
@@ -149,7 +137,7 @@ class _AddDevicesScreenState extends State<AddDevicesScreen> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
-                              "Device Information",
+                              appLocalizations.deviceInformation,
                               style: Theme.of(context).textTheme.titleMedium!
                                   .copyWith(
                                     fontSize: 16.sp,
@@ -157,29 +145,26 @@ class _AddDevicesScreenState extends State<AddDevicesScreen> {
                                   ),
                             ),
                             SizedBox(height: 20.h),
-
                             CustomAddDevicesTextField(
                               controller: nameController,
-                              hintText: "Enter name of device",
+                              hintText: appLocalizations.enter_name_of_device,
                               keyboardType: TextInputType.text,
-                              labelName: "Name",
+                              labelName: appLocalizations.name,
                             ),
                             SizedBox(height: 12.h),
-
                             CustomAddDevicesTextField(
                               controller: priceController,
-                              hintText: "Enter price of device",
+                              hintText: appLocalizations.enter_price_of_device,
                               keyboardType: TextInputType.number,
-                              labelName: "Price",
+                              labelName: appLocalizations.price,
                             ),
                             SizedBox(height: 12.h),
-
                             CustomAddDevicesTextField(
                               controller: descriptionController,
-                              hintText:
-                                  "Enter a detailed description of the device...",
+                              hintText: appLocalizations
+                                  .enter_a_detailed_description_of_the_device,
                               keyboardType: TextInputType.multiline,
-                              labelName: "Description",
+                              labelName: appLocalizations.description,
                               maxLines: 5,
                             ),
                           ],
@@ -194,48 +179,35 @@ class _AddDevicesScreenState extends State<AddDevicesScreen> {
                             ),
                           )
                         : ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(
-                                0xFF031B4E,
-                              ), // لون Figma
-                              minimumSize: Size(double.infinity, 50.h),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.r),
+                      onPressed: () async {
+                        final userData = await SessionService.getUserData();
+                        final token = await SessionService.getAuthToken();
+                        if (token != null && userData != null) {
+                          cubit.addDevice(
+                            name: nameController.text,
+                            description: descriptionController.text,
+                            price: double.tryParse(priceController.text) ?? 0.0,
+                            token: token,
+                            ownerName: userData['name'] ?? "Unknown",
+                            ownerEmail: userData['email'] ?? "",
+                            ownerPhone: userData['phone'] ?? "",
+                            ownerPassword: "stored_session_password",
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                "Session expired. Please login again.",
                               ),
                             ),
-                            onPressed: () async {
-                              String? token =
-                                  await SessionService.getAuthToken();
-
-                              if (token != null && token.isNotEmpty) {
-                                cubit.addDevice(
-                                  name: nameController.text,
-                                  description: descriptionController.text,
-                                  price:
-                                      double.tryParse(priceController.text) ??
-                                      0.0,
-                                  token: token,
-
-                                  ownerName: "Asila Graduation",
-                                  ownerEmail: "asila_graduation@test.com",
-                                  ownerPassword: "123456",
-                                  ownerPhone: "01234567890",
-                                );
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      "Session expired. Please login again.",
-                                    ),
-                                  ),
-                                );
-                              }
-                            },
+                          );
+                        }
+                      },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text(
-                                  "Add Device",
+                                Text(
+                                  appLocalizations.addDevice,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600,
@@ -257,6 +229,7 @@ class _AddDevicesScreenState extends State<AddDevicesScreen> {
   }
 
   void _showBottomSheetImage(BuildContext context, AddDevicesCubit cubit) {
+     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -269,14 +242,14 @@ class _AddDevicesScreenState extends State<AddDevicesScreen> {
           children: [
             InkWell(
               onTap: () {
-                Navigator.pop(context); // إغلاق القائمة
-                cubit.pickImage(source: ImageSource.camera); // اختيار كاميرا
+                Navigator.pop(context);
+                cubit.pickImage(source: ImageSource.camera);
               },
               child: Row(
                 children: [
                   const Icon(Icons.photo_camera_outlined),
                   SizedBox(width: 10.w),
-                  const Text("Take a photo"),
+                  Text(appLocalizations.take_a_photo),
                 ],
               ),
             ),
@@ -284,13 +257,13 @@ class _AddDevicesScreenState extends State<AddDevicesScreen> {
             InkWell(
               onTap: () {
                 Navigator.pop(context);
-                cubit.pickImage(source: ImageSource.gallery); // اختيار معرض
+                cubit.pickImage(source: ImageSource.gallery);
               },
               child: Row(
                 children: [
                   const Icon(Icons.photo_library_outlined),
                   SizedBox(width: 10.w),
-                  const Text("Choose from gallery"),
+                  Text(appLocalizations.choose_from_gallery),
                 ],
               ),
             ),

@@ -341,5 +341,14 @@
   "enter_Your_email": "أدخل بريدك الإلكتروني",
   "bookingType": "نوع الحجز",
   "regular": "عادي",
+  "all": "الكل",
+  "booked": "محجوز",
+  "pendingPayment": "في انتظار الدفع",
+  "pending": "قيد الانتظار",
+  "completed": "مكتمل",
+  "confirmed": "مؤكد",
+  "pickupRequested": "تم طلب الاستلام"  ,
+  "owner" : "مالك",
+  "rentals" : "الإيجارات",
   "please_fill_in_all_required_fields": "يرجى ملء جميع الحقول المطلوبة"
 }
