@@ -5,7 +5,7 @@ import 'network_config.dart';
 class ApiClient {
   final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: NetworkConfig.baseUrl,
+      baseUrl: NetworkConfig.baseUrl2,
       connectTimeout: NetworkConfig.timeout,
       receiveTimeout: NetworkConfig.timeout,
     ),
