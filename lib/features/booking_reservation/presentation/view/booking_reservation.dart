@@ -24,19 +24,32 @@ class _BookingReservationState extends State<BookingReservation> {
   String selectedFilter = 'All';
 
   List<String> getFiltersForRole(String role) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     if (role == 'Admin') {
       return [
-        'All',
-        'Booked',
-        'PendingPayment',
-        'Pending',
-        'Completed',
-        'Confirmed',
-        'PickupRequested',
+        appLocalizations.all,
+        appLocalizations.booked,
+        appLocalizations.pendingPayment,
+        appLocalizations.pending,
+        appLocalizations.completed,
+        appLocalizations.confirmed,
+        appLocalizations.pickupRequested,
       ];
     }
-    if (role == 'Doctor') return ['All', 'Pending', 'Confirmed', 'Completed'];
-    return ['All', 'Booked', 'PendingPayment', 'PickupRequested'];
+    if (role == 'Doctor') {
+      return [
+        appLocalizations.all,
+        appLocalizations.pending,
+        appLocalizations.confirmed,
+        appLocalizations.completed,
+      ];
+    }
+    return [
+      appLocalizations.all,
+      appLocalizations.booked,
+      appLocalizations.pendingPayment,
+      appLocalizations.pickupRequested,
+    ];
   }
 
   @override
@@ -56,6 +69,8 @@ class _BookingReservationState extends State<BookingReservation> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back_ios),
         ),
+        titleSpacing: 0,
+        centerTitle: false,
         title: Text(appLocalizations.reservation),
       ),
       body: BlocListener<BookingReservationCubit, BookingReservationState>(
@@ -170,25 +185,24 @@ class _BookingReservationState extends State<BookingReservation> {
         child: Text(
           title,
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 16.sp , color: isSelected
-              ? ColorManager.secondary
-              : ColorManager.greyText,),
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+            fontSize: 16.sp,
+            color: isSelected ? ColorManager.secondary : ColorManager.greyText,
+          ),
         ),
       ),
     );
   }
 
   void _openDetailsDialog(
-      BuildContext context,
-      ReservationDetailsModel details,
-      String role,
-      ) {
+    BuildContext context,
+    ReservationDetailsModel details,
+    String role,
+  ) {
     showDialog(
       context: context,
-      builder: (context) => ReservationDetailsDialog(
-        details: details,
-        role: role,
-      ),
+      builder: (context) =>
+          ReservationDetailsDialog(details: details, role: role),
     );
   }
 }

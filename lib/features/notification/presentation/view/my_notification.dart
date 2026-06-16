@@ -26,11 +26,10 @@ class _MyNotificationState extends State<MyNotification> {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     final String role =
         ModalRoute.of(context)!.settings.arguments as String? ?? 'Patient';
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: REdgeInsets.all(16.0),
+          padding: REdgeInsets.all(12.0),
           child: BlocBuilder<NotificationCubit, NotificationState>(
             builder: (context, state) {
               return Column(
@@ -67,11 +66,8 @@ class _MyNotificationState extends State<MyNotification> {
                   Divider(thickness: 1, color: ColorManager.lightGrey),
                   SizedBox(height: 10.h),
                   SizedBox(
-                    height: 300.h,
-                    child: Padding(
-                      padding: REdgeInsets.all(9.0),
-                      child: _buildBody(state, role, appLocalizations),
-                    ),
+                    height: 400.h,
+                    child: _buildBody(state, role, appLocalizations),
                   ),
                   Padding(
                     padding: REdgeInsets.symmetric(vertical: 20.h),
@@ -122,8 +118,10 @@ class _MyNotificationState extends State<MyNotification> {
       return ListView.separated(
         itemCount: state.notifications.length,
         separatorBuilder: (context, index) => Divider(
-          height: 25.h,
-          color: ColorManager.lightGrey.withOpacity(0.5),
+          height: 15.h,
+          color: ColorManager.greyText.withOpacity(0.5),
+          endIndent: 15.w,
+          indent: 15.w,
         ),
         itemBuilder: (context, index) {
           final notification = state.notifications[index];
@@ -134,7 +132,6 @@ class _MyNotificationState extends State<MyNotification> {
           );
           return Card(
             elevation: 5,
-            margin: EdgeInsets.zero,
             color: ColorManager.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadiusGeometry.circular(16.r),

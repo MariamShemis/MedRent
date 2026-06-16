@@ -9,6 +9,7 @@ import 'package:med_rent/features/booking_payment/presentation/model/booking_mod
 import 'package:med_rent/features/booking_payment/presentation/widgets/booking_summary_card.dart';
 import 'package:med_rent/features/booking_payment/presentation/widgets/patient_info_section.dart';
 import 'package:med_rent/features/rent_payment/presentation/widgets/payment_section.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
 
 class BookingPayment extends StatefulWidget {
   final int bookingId;
@@ -53,6 +54,7 @@ class _BookingPaymentState extends State<BookingPayment> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -63,7 +65,7 @@ class _BookingPaymentState extends State<BookingPayment> {
         ),
         centerTitle: true,
         title: Text(
-          "Payment",
+          appLocalizations.payment,
           style: Theme.of(context).textTheme.labelLarge!.copyWith(
                 fontSize: 20.sp,
                 color: const Color(0Xff031B4E),
@@ -113,19 +115,15 @@ class _BookingPaymentState extends State<BookingPayment> {
                           .read<BookingPaymentCubit>()
                           .loadSummary(widget.bookingId);
                     },
-                    child: Text('Retry', style: TextStyle(fontSize: 14.sp)),
+                    child: Text(appLocalizations.retry, style: TextStyle(fontSize: 14.sp)),
                   ),
                 ],
               ),
             );
           }
-
-          // Get summary from various states
           final summary = _getSummaryFromState(state);
           if (summary == null) return const SizedBox();
-
           final isProcessing = state is BookingPaymentProcessing;
-
           final bookingModel = BookingModel(
             doctorName: summary.doctorName,
             departmentName: summary.departmentName,
@@ -134,7 +132,6 @@ class _BookingPaymentState extends State<BookingPayment> {
             time: _formatTime(summary.time),
             price: summary.price,
           );
-
           return Stack(
             children: [
               SingleChildScrollView(
@@ -146,8 +143,6 @@ class _BookingPaymentState extends State<BookingPayment> {
                       SizedBox(height: 10.h),
                       Center(child: BookingSummaryCard(model: bookingModel)),
                       SizedBox(height: 24.h),
-
-                      // Patient Information section
                       PatientInfoSection(
                         nameController: _nameController,
                         emailController: _emailController,
@@ -160,12 +155,8 @@ class _BookingPaymentState extends State<BookingPayment> {
                         },
                       ),
                       SizedBox(height: 24.h),
-
-                      // Payment Method section (reuse from rent_payment)
                       const PaymentSection(),
                       SizedBox(height: 30.h),
-
-                      // Confirm & Pay Button
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
@@ -187,7 +178,7 @@ class _BookingPaymentState extends State<BookingPayment> {
                                   ),
                                 )
                               : Text(
-                                  "Confirm & Pay",
+                                  appLocalizations.confirm_Pay,
                                   style: TextStyle(
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.bold,
@@ -197,14 +188,30 @@ class _BookingPaymentState extends State<BookingPayment> {
                         ),
                       ),
                       SizedBox(height: 12.h),
-
                       Center(
-                        child: Text(
-                          'By Clicking "Confirm & Pay", You agree to our\nTerms of Service and Privacy Policy.',
+                        child: RichText(
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 11.sp,
-                            color: Colors.grey.shade600,
+                          text: TextSpan(
+                            style: TextStyle(
+                              fontSize: 13.sp,
+                              color: ColorManager.greyText,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            children: [
+                              TextSpan(
+                                text:
+                                "${appLocalizations.byClicking_ConfirmRental_You_agree_to_our}\n",
+                              ),
+                              TextSpan(
+                                text: "${appLocalizations.termsOfService} ",
+                                style: TextStyle(color: ColorManager.secondary),
+                              ),
+                              TextSpan(text: "${appLocalizations.and} "),
+                              TextSpan(
+                                text: appLocalizations.privacyPolicy,
+                                style: TextStyle(color: ColorManager.secondary),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -237,15 +244,16 @@ class _BookingPaymentState extends State<BookingPayment> {
   }
 
   void _onConfirmPayment() {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     final name = _nameController.text.trim();
     final email = _emailController.text.trim();
     final phone = _phoneController.text.trim();
 
     if (name.isEmpty || email.isEmpty || phone.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           backgroundColor: Colors.orange,
-          content: Text('Please fill in all required fields'),
+          content: Text(appLocalizations.please_fill_in_all_required_fields),
         ),
       );
       return;
@@ -288,6 +296,7 @@ class _BookingPaymentState extends State<BookingPayment> {
   }
 
   void _showSuccessDialog(BuildContext context, String message) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -305,7 +314,7 @@ class _BookingPaymentState extends State<BookingPayment> {
             ),
             SizedBox(height: 16.h),
             Text(
-              'Payment Successful!',
+              '${appLocalizations.paymentSuccessful}!',
               style: TextStyle(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
@@ -314,7 +323,7 @@ class _BookingPaymentState extends State<BookingPayment> {
             ),
             SizedBox(height: 8.h),
             Text(
-              'Your appointment has been confirmed.',
+              '${appLocalizations.your_appointment_has_been_confirmed}.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14.sp,
@@ -337,8 +346,8 @@ class _BookingPaymentState extends State<BookingPayment> {
                 Navigator.of(ctx).pop();
                 Navigator.of(context).pop();
               },
-              child: const Text(
-                'Done',
+              child: Text(
+                appLocalizations.done,
                 style: TextStyle(color: Colors.white),
               ),
             ),

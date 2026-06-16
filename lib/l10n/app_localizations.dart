@@ -1094,7 +1094,7 @@ abstract class AppLocalizations {
   /// No description provided for @and.
   ///
   /// In en, this message translates to:
-  /// **'And'**
+  /// **'and'**
   String get and;
 
   /// No description provided for @oxygen.
@@ -2074,6 +2074,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close'**
   String get close;
+
+  /// No description provided for @secure_payment_via_Stripe.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure payment via Stripe'**
+  String get secure_payment_via_Stripe;
+
+  /// No description provided for @city.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get city;
+
+  /// No description provided for @enter_your_city.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your city'**
+  String get enter_your_city;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @paymentSuccessful.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Successful'**
+  String get paymentSuccessful;
+
+  /// No description provided for @your_rental_has_been_confirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Your rental has been confirmed'**
+  String get your_rental_has_been_confirmed;
+
+  /// No description provided for @done.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
+
+  /// No description provided for @your_appointment_has_been_confirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Your appointment has been confirmed'**
+  String get your_appointment_has_been_confirmed;
+
+  /// No description provided for @enter_Your_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Your email'**
+  String get enter_Your_email;
+
+  /// No description provided for @bookingType.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Type'**
+  String get bookingType;
+
+  /// No description provided for @regular.
+  ///
+  /// In en, this message translates to:
+  /// **'Regular'**
+  String get regular;
+
+  /// No description provided for @all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
+
+  /// No description provided for @booked.
+  ///
+  /// In en, this message translates to:
+  /// **'Booked'**
+  String get booked;
+
+  /// No description provided for @pendingPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'PendingPayment'**
+  String get pendingPayment;
+
+  /// No description provided for @pending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get pending;
+
+  /// No description provided for @completed.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get completed;
+
+  /// No description provided for @confirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed'**
+  String get confirmed;
+
+  /// No description provided for @pickupRequested.
+  ///
+  /// In en, this message translates to:
+  /// **'PickupRequested'**
+  String get pickupRequested;
+
+  /// No description provided for @owner.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner'**
+  String get owner;
+
+  /// No description provided for @rentals.
+  ///
+  /// In en, this message translates to:
+  /// **'Rentals'**
+  String get rentals;
+
+  /// No description provided for @please_fill_in_all_required_fields.
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill in all required fields'**
+  String get please_fill_in_all_required_fields;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

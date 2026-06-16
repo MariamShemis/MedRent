@@ -507,7 +507,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get this_tool_provides_general_guidance_and_does_not_replace_professional_medical_diagnosis => 'This tool provides general guidance and does not replace professional medical diagnosis.';
 
   @override
-  String get and => 'And';
+  String get and => 'and';
 
   @override
   String get oxygen => 'Oxygen';
@@ -997,4 +997,67 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get close => 'Close';
+
+  @override
+  String get secure_payment_via_Stripe => 'Secure payment via Stripe';
+
+  @override
+  String get city => 'City';
+
+  @override
+  String get enter_your_city => 'Enter your city';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get paymentSuccessful => 'Payment Successful';
+
+  @override
+  String get your_rental_has_been_confirmed => 'Your rental has been confirmed';
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String get your_appointment_has_been_confirmed => 'Your appointment has been confirmed';
+
+  @override
+  String get enter_Your_email => 'Enter Your email';
+
+  @override
+  String get bookingType => 'Booking Type';
+
+  @override
+  String get regular => 'Regular';
+
+  @override
+  String get all => 'All';
+
+  @override
+  String get booked => 'Booked';
+
+  @override
+  String get pendingPayment => 'PendingPayment';
+
+  @override
+  String get pending => 'Pending';
+
+  @override
+  String get completed => 'Completed';
+
+  @override
+  String get confirmed => 'Confirmed';
+
+  @override
+  String get pickupRequested => 'PickupRequested';
+
+  @override
+  String get owner => 'Owner';
+
+  @override
+  String get rentals => 'Rentals';
+
+  @override
+  String get please_fill_in_all_required_fields => 'Please fill in all required fields';
 }

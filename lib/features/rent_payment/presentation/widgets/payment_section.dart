@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
 
 class PaymentSection extends StatelessWidget {
   const PaymentSection({super.key});
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Payment Method",
+          appLocalizations.paymentMethod,
           style: TextStyle(
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
@@ -36,7 +38,7 @@ class PaymentSection extends StatelessWidget {
               SizedBox(width: 12.w),
               Expanded(
                 child: Text(
-                  "Secure payment via Stripe",
+                  appLocalizations.secure_payment_via_Stripe,
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w500,
@@ -64,7 +66,7 @@ class PaymentSection extends StatelessWidget {
               ),
               SizedBox(width: 4.w),
               Text(
-                "SSL Secured Payment",
+                appLocalizations.sSL_SecuredPayment,
                 style: TextStyle(
                   fontSize: 12.sp,
                   color: Colors.grey.shade600,

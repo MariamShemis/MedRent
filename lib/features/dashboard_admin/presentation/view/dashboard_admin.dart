@@ -28,13 +28,14 @@ class _DashboardAdminState extends State<DashboardAdmin> {
   @override
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back_ios),
         ),
+        titleSpacing: 0,
+        centerTitle: false,
         title: Text(appLocalizations.dashboard),
       ),
       body: BlocBuilder<AdminDashboardCubit, AdminDashboardState>(

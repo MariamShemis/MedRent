@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
+import 'package:med_rent/l10n/app_localizations.dart';
 import '../model/booking_model.dart';
 
 class BookingSummaryCard extends StatelessWidget {
@@ -10,12 +11,12 @@ class BookingSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Doctor Info
         Text(
-          "Appointment Summary",
+          appLocalizations.appointmentSummary,
           style: TextStyle(
             fontSize: 18.sp,
             fontWeight: FontWeight.w500,
@@ -23,8 +24,6 @@ class BookingSummaryCard extends StatelessWidget {
           ),
         ),
         SizedBox(height: 16.h),
-
-        // Doctor avatar + name + department
         Row(
           children: [
             CircleAvatar(
@@ -69,33 +68,23 @@ class BookingSummaryCard extends StatelessWidget {
 
         SizedBox(height: 12.h),
         const Divider(),
-
         // Hospital
         // _buildDetailRow("Hospital", model.hospitalName),
-
-        // Date
-        _buildDetailRow("Date", model.date),
-
-        // Time
-        _buildDetailRow("Time", model.time),
-
+        _buildDetailRow(appLocalizations.date, model.date),
+        _buildDetailRow(appLocalizations.time, model.time),
         // const Divider(),
-
-        // Consultation Fee
         _buildDetailRow(
-          "Consultation Fee",
-          "${model.price.toStringAsFixed(2)} LE",
+          appLocalizations.consultationFee,
+          "${model.price.toStringAsFixed(2)} ${appLocalizations.lE}",
         ),
         SizedBox(height: 8.h),
         Divider(thickness: 1.h, color: Color(0xffc8c8c8)),
         SizedBox(height: 16.h),
-
-        // Total
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Total",
+              appLocalizations.total,
               style: TextStyle(
                 fontSize: 20.sp,
                 fontWeight: FontWeight.w500,
@@ -103,7 +92,7 @@ class BookingSummaryCard extends StatelessWidget {
               ),
             ),
             Text(
-              "${model.price.toStringAsFixed(2)} LE",
+              "${model.price.toStringAsFixed(2)} ${appLocalizations.lE}",
               style: TextStyle(
                 fontSize: 20.sp,
                 fontWeight: FontWeight.w500,

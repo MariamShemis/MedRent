@@ -28,13 +28,14 @@ class _LanguageProfileState extends State<LanguageProfile> {
     final appLocalizations = AppLocalizations.of(context)!;
     final currentLang =
         context.watch<AppLocalizationCubit>().state.languageCode;
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back_ios),
         ),
+        titleSpacing: 0,
+        centerTitle: false,
         title: Text(appLocalizations.selectLanguage),
       ),
       body: Padding(
