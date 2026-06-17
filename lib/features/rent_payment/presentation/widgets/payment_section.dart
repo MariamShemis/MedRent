@@ -12,9 +12,9 @@ class PaymentSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          appLocalizations.paymentMethod,
+          "1. ${appLocalizations.paymentMethod}",
           style: TextStyle(
-            fontSize: 18.sp,
+            fontSize: 19.sp,
             fontWeight: FontWeight.bold,
             color: const Color(0xFF031B4E),
           ),

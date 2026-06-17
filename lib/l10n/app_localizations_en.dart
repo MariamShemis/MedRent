@@ -1059,5 +1059,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rentals => 'Rentals';
 
   @override
+  String get please_upload_your_National_ID_Card => 'Please upload your National ID Card';
+
+  @override
+  String get nationalIDCard => 'National ID Card';
+
+  @override
+  String get uploadNationalIDCard => 'Upload National ID Card';
+
+  @override
+  String get drag_and_drop_or_click_to_upload => 'Drag and drop or click to upload';
+
+  @override
   String get please_fill_in_all_required_fields => 'Please fill in all required fields';
 }

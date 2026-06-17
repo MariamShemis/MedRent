@@ -53,12 +53,15 @@ class AppValidators {
 
   static String? validateUsername(BuildContext context, String? val) {
     final t = AppLocalizations.of(context)!;
-    RegExp usernameRegex = RegExp(r'^[a-zA-Z0-9,.-]+$');
+
+    RegExp usernameRegex = RegExp(r'^[a-zA-Z0-9,.\- ]+$');
+
     if (val == null || val.isEmpty) {
       return t.this_field_is_required;
     } else if (!usernameRegex.hasMatch(val)) {
       return t.enter_valid_username;
     }
+
     return null;
   }
 

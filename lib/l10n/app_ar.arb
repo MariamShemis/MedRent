@@ -350,5 +350,9 @@
   "pickupRequested": "تم طلب الاستلام"  ,
   "owner" : "مالك",
   "rentals" : "الإيجارات",
+  "please_upload_your_National_ID_Card" : "يرجى تحميل بطاقة الرقم القومي",
+  "nationalIDCard" : "بطاقة الرقم القومي",
+  "uploadNationalIDCard" : "تحميل بطاقة الرقم القومي",
+  "drag_and_drop_or_click_to_upload" : "اسحب وأفلت أو انقر للتحميل" ,
   "please_fill_in_all_required_fields": "يرجى ملء جميع الحقول المطلوبة"
 }

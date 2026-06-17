@@ -350,5 +350,9 @@
   "pickupRequested" : "PickupRequested",
   "owner" : "Owner",
   "rentals" : "Rentals",
+  "please_upload_your_National_ID_Card" : "Please upload your National ID Card",
+  "nationalIDCard" : "National ID Card",
+  "uploadNationalIDCard" : "Upload National ID Card",
+  "drag_and_drop_or_click_to_upload" : "Drag and drop or click to upload",
   "please_fill_in_all_required_fields" : "Please fill in all required fields"
 }

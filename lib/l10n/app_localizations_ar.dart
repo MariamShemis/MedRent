@@ -1059,5 +1059,17 @@ class AppLocalizationsAr extends AppLocalizations {
   String get rentals => 'الإيجارات';
 
   @override
+  String get please_upload_your_National_ID_Card => 'يرجى تحميل بطاقة الرقم القومي';
+
+  @override
+  String get nationalIDCard => 'بطاقة الرقم القومي';
+
+  @override
+  String get uploadNationalIDCard => 'تحميل بطاقة الرقم القومي';
+
+  @override
+  String get drag_and_drop_or_click_to_upload => 'اسحب وأفلت أو انقر للتحميل';
+
+  @override
   String get please_fill_in_all_required_fields => 'يرجى ملء جميع الحقول المطلوبة';
 }

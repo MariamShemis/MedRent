@@ -27,9 +27,9 @@ class DeliveryAddressSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          appLocalizations.deliveryAddress,
+          "3. ${appLocalizations.deliveryAddress}",
           style: TextStyle(
-            fontSize: 18.sp,
+            fontSize: 19.sp,
             fontWeight: FontWeight.bold,
             color: const Color(0xFF031B4E),
           ),

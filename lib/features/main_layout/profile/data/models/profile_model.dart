@@ -18,7 +18,7 @@ class ProfileModel {
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
-    const String baseUrl = 'http://GraduationProject.somee.com/';
+    const String baseUrl = 'http://medrent.somee.com/';
     String imagePath = json['imageUrl'] ?? "";
     String finalImageUrl = "";
     if (imagePath.isNotEmpty) {

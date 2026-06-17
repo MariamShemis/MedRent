@@ -1,11 +1,14 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:med_rent/core/constants/color_manager.dart';
 import 'package:med_rent/features/rent_payment/data/cubit/rent_payment_cubit.dart';
 import 'package:med_rent/features/rent_payment/data/cubit/rent_payment_state.dart';
 import 'package:med_rent/features/rent_payment/presentation/model/rental_model.dart';
 import 'package:med_rent/features/rent_payment/presentation/widgets/delivery_address_section.dart';
+import 'package:med_rent/features/rent_payment/presentation/widgets/national_id_card.dart';
 import 'package:med_rent/features/rent_payment/presentation/widgets/payment_section.dart';
 import 'package:med_rent/features/rent_payment/presentation/widgets/rental_summary_card.dart';
 import 'package:med_rent/l10n/app_localizations.dart';
@@ -25,6 +28,8 @@ class _RentPaymentState extends State<RentPayment> {
   final _streetController = TextEditingController();
   final _apartmentController = TextEditingController();
   final _cityController = TextEditingController();
+
+  List<File> selectedImages = [];
 
   @override
   void initState() {
@@ -129,7 +134,7 @@ class _RentPaymentState extends State<RentPayment> {
                       Text(
                         appLocalizations.rentalSummary,
                         style: TextStyle(
-                          fontSize: 18.sp,
+                          fontSize: 19.sp,
                           fontWeight: FontWeight.bold,
                           color: const Color(0Xff020A19),
                         ),
@@ -138,6 +143,16 @@ class _RentPaymentState extends State<RentPayment> {
                       Center(child: RentalSummaryCard(model: rentalModel)),
                       SizedBox(height: 24.h),
                       const PaymentSection(),
+                      SizedBox(height: 24.h),
+                      NationalIdCard(
+                        images: selectedImages,
+                        onTap: _showBottomSheetImage,
+                        onRemoveImage: (index) {
+                          setState(() {
+                            selectedImages.removeAt(index);
+                          });
+                        },
+                      ),
                       SizedBox(height: 24.h),
                       DeliveryAddressSection(
                         nameController: _nameController,
@@ -162,21 +177,21 @@ class _RentPaymentState extends State<RentPayment> {
                           onPressed: isProcessing ? null : _onConfirmRental,
                           child: isProcessing
                               ? SizedBox(
-                                  height: 20.h,
-                                  width: 20.w,
-                                  child: const CircularProgressIndicator(
-                                    color: Colors.white,
-                                    strokeWidth: 2,
-                                  ),
-                                )
+                            height: 20.h,
+                            width: 20.w,
+                            child: const CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          )
                               : Text(
-                                  appLocalizations.confirmRental,
-                                  style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                            appLocalizations.confirmRental,
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
                       SizedBox(height: 12.h),
@@ -192,7 +207,7 @@ class _RentPaymentState extends State<RentPayment> {
                             children: [
                               TextSpan(
                                 text:
-                                    "${appLocalizations.byClicking_ConfirmRental_You_agree_to_our}\n",
+                                "${appLocalizations.byClicking_ConfirmRental_You_agree_to_our}\n",
                               ),
                               TextSpan(
                                 text: "${appLocalizations.termsOfService} ",
@@ -242,16 +257,19 @@ class _RentPaymentState extends State<RentPayment> {
     final street = _streetController.text.trim();
     final city = _cityController.text.trim();
 
-    if (name.isEmpty || phone.isEmpty || street.isEmpty || city.isEmpty) {
+    if (name.isEmpty || phone.isEmpty || street.isEmpty || city.isEmpty || selectedImages.isEmpty) {
+      String errorMessage = appLocalizations.please_fill_in_all_required_fields;
+      if (selectedImages.isEmpty && name.isNotEmpty && phone.isNotEmpty && street.isNotEmpty && city.isNotEmpty) {
+        errorMessage = appLocalizations.please_upload_your_National_ID_Card;
+      }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.orange,
-          content: Text(appLocalizations.please_fill_in_all_required_fields),
+          content: Text(errorMessage),
         ),
       );
       return;
     }
-
     context.read<RentPaymentCubit>().processPayment(
       rentalId: widget.rentalId,
       fullName: name,
@@ -335,5 +353,54 @@ class _RentPaymentState extends State<RentPayment> {
         ],
       ),
     );
+  }
+
+  void _showBottomSheetImage() {
+    final appLocalizations = AppLocalizations.of(context)!;
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+      ),
+      builder: (context) => Padding(
+        padding: REdgeInsets.all(30),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            InkWell(
+              onTap: () => _pickImage(ImageSource.camera),
+              child: Row(
+                children: [
+                  const Icon(Icons.photo_camera_outlined),
+                  SizedBox(width: 10.w),
+                  Text(appLocalizations.take_a_photo),
+                ],
+              ),
+            ),
+            SizedBox(height: 20.h),
+            InkWell(
+              onTap: () => _pickImage(ImageSource.gallery),
+              child: Row(
+                children: [
+                  const Icon(Icons.photo_library_outlined),
+                  SizedBox(width: 10.w),
+                  Text(appLocalizations.choose_from_gallery),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
+    final picked = await ImagePicker().pickImage(source: source);
+    if (picked != null) {
+      setState(() {
+        selectedImages.add(File(picked.path));
+      });
+      if (mounted) Navigator.pop(context);
+    }
   }
 }

@@ -2195,6 +2195,30 @@ abstract class AppLocalizations {
   /// **'Rentals'**
   String get rentals;
 
+  /// No description provided for @please_upload_your_National_ID_Card.
+  ///
+  /// In en, this message translates to:
+  /// **'Please upload your National ID Card'**
+  String get please_upload_your_National_ID_Card;
+
+  /// No description provided for @nationalIDCard.
+  ///
+  /// In en, this message translates to:
+  /// **'National ID Card'**
+  String get nationalIDCard;
+
+  /// No description provided for @uploadNationalIDCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload National ID Card'**
+  String get uploadNationalIDCard;
+
+  /// No description provided for @drag_and_drop_or_click_to_upload.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag and drop or click to upload'**
+  String get drag_and_drop_or_click_to_upload;
+
   /// No description provided for @please_fill_in_all_required_fields.
   ///
   /// In en, this message translates to:
